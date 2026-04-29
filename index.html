@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ATLANTIS INTERNATIONAL PROJECTS | Arquitectos de la Certeza</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&amp;family=Public+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b1cadf",
+                        "secondary": "#C1A85D",
+                        "on-secondary": "#101D33",
+                        "background": "#101D33",
+                        "surface": "#101D33",
+                        "surface-bright": "#1a2c42",
+                        "surface-variant": "#1d2e4a",
+                        "on-surface": "#FDFBF6",
+                        "on-background": "#FDFBF6",
+                        "outline": "#8d9196",
+                        "outline-variant": "#C1A85D33",
+                        "surface-container-lowest": "#081221",
+                        "surface-container-low": "#0c1729",
+                        "surface-container": "#3A3A3A",
+                        "surface-container-high": "#1a2c42",
+                        "surface-container-highest": "#1d2e4a",
+                    },
+                    fontFamily: {
+                        "h1": ["Noto Serif", "serif"],
+                        "h2": ["Noto Serif", "serif"],
+                        "h3": ["Noto Serif", "serif"],
+                        "display-xl": ["Noto Serif", "serif"],
+                        "body-md": ["Public Sans", "sans-serif"],
+                        "body-lg": ["Public Sans", "sans-serif"],
+                        "ui-label": ["Public Sans", "sans-serif"],
+                        "caption": ["Public Sans", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .luxury-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(16, 29, 51, 0.75);
+        }
+
+        .trinity-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            min-height: 100vh;
+            transition: grid-template-columns 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .trinity-grid.orbit-3-collapsed {
+            grid-template-columns: 1fr 80px;
+        }
+
+        #sidebar.rail-mode .hide-on-rail {
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            overflow: hidden;
+        }
+
+        #sidebar {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .news-ticker {
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: #C1A85D;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .bento-item {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .bento-item:hover {
+            border-color: rgba(233, 195, 73, 0.4);
+            background: rgba(233, 195, 73, 0.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(16, 29, 51, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(193, 168, 93, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(193, 168, 93, 0.4);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md selection:bg-secondary selection:text-on-secondary overflow-x-hidden">
+    <!-- Header: Fixed Luxury Blur -->
+    <header class="fixed top-0 left-0 w-full z-50 luxury-blur border-b border-surface-variant px-8 h-20 flex items-center justify-between">
+        <div class="flex items-center gap-8">
+            <div class="flex items-center gap-3">
+                <div class="size-8 text-secondary">
+                    <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h1 class="font-h2 text-xl uppercase tracking-[0.2em] text-white">ATLANTIS INTERNATIONAL PROJECTS</h1>
+            </div>
+            <nav class="hidden md:flex items-center gap-8 ml-12">
+                <a class="nav-link text-ui-label text-xs tracking-widest hover:text-secondary transition-colors" href="#">NOTICIAS</a>
+                <a class="nav-link text-ui-label text-xs tracking-widest hover:text-secondary transition-colors" href="#">INSTITUCIÓN</a>
+                <a class="nav-link text-ui-label text-xs tracking-widest hover:text-secondary transition-colors" href="#">SERVICIOS</a>
+                <a class="nav-link text-ui-label text-xs tracking-widest hover:text-secondary transition-colors" href="#">COMPLIANCE & KYC</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-6">
+            <!-- Refined Language Dropdown -->
+            <div class="relative group cursor-pointer flex items-center gap-2 px-3 py-1 border border-outline-variant rounded-full hover:border-secondary transition-colors">
+                <span class="material-symbols-outlined text-sm">language</span>
+                <span class="text-xs font-ui-label tracking-tighter">ES/EN</span>
+                <span class="material-symbols-outlined text-sm group-hover:rotate-180 transition-transform">expand_more</span>
+                <div class="absolute top-full right-0 mt-2 w-24 luxury-blur border border-secondary/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                    <a class="block px-4 py-2 text-[10px] font-ui-label text-on-surface/70 hover:text-secondary hover:bg-secondary/10 transition-colors uppercase" href="#">ES</a>
+                    <a class="block px-4 py-2 text-[10px] font-ui-label text-on-surface/70 hover:text-secondary hover:bg-secondary/10 transition-colors uppercase" href="#">EN</a>
+                </div>
+            </div>
+            <button onclick="hydrateAccessForm()" class="bg-secondary text-on-secondary-container px-6 py-2.5 rounded-sm text-ui-label text-xs tracking-widest font-bold hover:brightness-110 transition-all shadow-lg shadow-secondary/10 uppercase">
+                SOLICITAR ACCESO
+            </button>
+        </div>
+    </header>
+
+    <main class="trinity-grid pt-20" id="trinity-layout">
+        <!-- Orbit 2: Immersive Content -->
+        <section class="relative overflow-y-auto flex flex-col px-12 lg:px-16 border-r border-surface-variant pb-24">
+            <!-- Hero Section -->
+            <div class="min-h-[80vh] flex flex-col justify-center relative py-20">
+                <div class="absolute inset-0 -z-10 bg-cover bg-center grayscale opacity-30" style="background-image: linear-gradient(to right, rgba(0,21,36,1) 0%, rgba(0,21,36,0.2) 50%, rgba(0,21,36,1) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuDL-TXtN4X_6yH79eJpprAQPCZBjPJqOevpChrQnvTnPV2Pk0HIpU8JR76wpcWs6kpwd5FMKTX-JAwu_LqaggTq_Ott6iLd8uICDPHH8XAJe2DIAEtMKLBghVTf_P9MJcq-BM919Ecg3cqv3Qkmjq3GqF95IBMXru8Q6hOXb7wc2pvTl-m_je20Qd6J6Xu8sMCTCA2KWOYAuzsVpFdRoR3Ac5SOkpx7JVE97JDz50rQqxQptEMpP_I64P2hgo7epWMS21I3exCXznnY');">
+                </div>
+                <div class="max-w-3xl space-y-8">
+                    <div class="inline-flex items-center gap-4 text-secondary/60">
+                        <div class="h-[1px] w-12 bg-secondary/40"></div>
+                        <span class="text-ui-label text-[10px] tracking-[0.4em] uppercase">Nodo Fiduciario desde Luxemburgo</span>
+                    </div>
+                    <h1 class="text-display-xl font-light text-white leading-tight tracking-[-0.02em]">
+                        Arquitectos de la <span class="italic font-normal text-secondary">Certeza</span>
+                    </h1>
+                    <p class="text-body-lg text-on-background/70 max-w-xl font-light leading-relaxed italic">
+                        Atlantis International Projects orquesta marcos fiduciarios de alta complejidad, asegurando permanencia y discreción en un entorno global en evolución.
+                    </p>
+                    <div class="pt-10 flex gap-6">
+                        <button class="px-8 py-4 border border-secondary text-secondary text-ui-label text-xs tracking-[0.2em] hover:bg-secondary/10 transition-all uppercase">Explorar Portafolio</button>
+                        <button class="px-8 py-4 text-white text-ui-label text-xs tracking-[0.2em] flex items-center gap-3 hover:text-secondary transition-all uppercase">
+                            <span class="material-symbols-outlined">play_circle</span>
+                            Ver Filosofía
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bento Grid (From Legacy index_v2) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-12">
+                <div class="md:col-span-2 glass-card bento-item relative group overflow-hidden h-[400px]">
+                    <img alt="Commercial Architecture" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3bgw4MyrqVT6SVpZoftPM9n2NC8bf-OgvMRzagPbrE124qlC1u5SstaFFV588FjXOfFSD6WVuPQCoziVRHwvtmsOWAjtFVctAD3-sNyq3U7zUETlWGJAwpTVnpWNULWf9sSCQYxFon3aW-ZsMwb_hnkRtYm_bTsC7vA8P0PhD3R9QR1IDXh7KFf_U3ac_3R-VIOhQzB8Ed6LgoQQpEuECUl7rhTI0-z-Ie87agBQLGIud11Xtd8uQVxmeiJBhfOs8CbL3Ykw2zMSI" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 space-y-2">
+                        <h3 class="font-h3 text-2xl text-secondary uppercase tracking-widest">Real Estate</h3>
+                        <p class="font-body-md text-outline">Tier-1 commercial developments in emerging global hubs.</p>
+                    </div>
+                </div>
+                <div class="glass-card bento-item flex flex-col justify-center items-center p-8 text-center group">
+                    <span class="material-symbols-outlined text-secondary text-5xl mb-4 group-hover:scale-110 transition-transform">currency_exchange</span>
+                    <h3 class="font-h3 text-xl text-on-surface uppercase mb-2">Private Equity</h3>
+                    <p class="font-caption text-xs text-outline italic">Direct Institutional Access</p>
+                </div>
+                <div class="glass-card bento-item relative p-8 group">
+                    <div class="absolute top-4 right-4">
+                        <span class="material-symbols-outlined text-secondary/30">north_east</span>
+                    </div>
+                    <h3 class="font-h2 text-3xl text-on-surface mb-4">03.</h3>
+                    <p class="font-ui-label text-xs text-secondary tracking-widest uppercase mb-4">Infrastructure</p>
+                    <p class="font-caption text-xs text-outline leading-relaxed">Critical systems powering the future of global logistics and energy.</p>
+                </div>
+                <div class="md:col-span-2 glass-card bento-item flex items-center p-12 gap-8 relative overflow-hidden">
+                    <div class="relative z-10 space-y-4">
+                        <h3 class="font-h2 text-3xl text-on-surface">Sustainable Legacy</h3>
+                        <p class="font-body-md text-outline max-w-md">Our projects are designed with a 100-year horizon, ensuring that capital preservation meets environmental stewardship.</p>
+                    </div>
+                    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-secondary/5 rounded-full blur-3xl"></div>
+                </div>
+            </div>
+
+            <!-- News Ticker -->
+            <div class="absolute bottom-0 left-0 w-full h-16 bg-surface-container-lowest border-t border-surface-variant flex items-center">
+                <div class="px-6 border-r border-surface-variant flex items-center gap-2 h-full bg-surface-container-low shrink-0">
+                    <span class="material-symbols-outlined text-secondary text-sm">rss_feed</span>
+                    <span class="text-ui-label text-[10px] tracking-widest text-secondary uppercase">Mercados</span>
+                </div>
+                <div class="news-ticker w-full">
+                    <div class="ticker-content flex gap-12 text-[10px] font-light tracking-wide text-on-surface-variant italic uppercase">
+                        <span>IBEX 35: +1.24% — LOS SERVICIOS FINANCIEROS LIDERAN EL REPUNTE</span>
+                        <span>ORO SPOT: $2,145 — MÁXIMOS HISTÓRICOS IMPULSADOS POR DEMANDA INSTITUCIONAL</span>
+                        <span>MiFID III — AUREUM COMPLETA INTEGRACIÓN REGULATORIA Q3</span>
+                        <span>Sovereign Wealth: Shift towards sustainable infrastructure in Mediterranean corridors.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orbit 3: Sidebar Container -->
+        <aside class="relative bg-surface-container-lowest flex flex-col border-l border-surface-variant" id="sidebar">
+            <div class="flex-1 flex flex-col" id="orbit-3-content">
+                <!-- Initial State: Institutional Credentials -->
+                <div class="h-16 flex items-center justify-between px-8 border-b border-surface-variant">
+                    <h3 class="text-ui-label text-[10px] tracking-[0.3em] text-on-surface-variant uppercase hide-on-rail transition-opacity duration-300">Credenciales</h3>
+                    <button onclick="toggleSidebar()" class="text-on-surface-variant hover:text-secondary transition-colors">
+                        <span class="material-symbols-outlined transition-transform duration-500">chevron_right</span>
+                    </button>
+                </div>
+                <div class="p-8 space-y-12 overflow-y-auto hide-on-rail transition-opacity duration-300">
+                    <div class="space-y-6">
+                        <h3 class="font-ui-label text-secondary uppercase tracking-[0.2em] text-[10px] mb-4">Estado del Nodo</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
+                                <span class="text-[9px] uppercase text-outline">Latencia</span>
+                                <span class="font-ui-label text-[10px] text-on-surface">12ms</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
+                                <span class="text-[9px] uppercase text-outline">Ubicación</span>
+                                <span class="font-ui-label text-[10px] text-on-surface">ZURICH NODE 7</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="space-y-8">
+                        <div class="space-y-2">
+                            <span class="font-ui-label text-[10px] text-secondary tracking-[0.25em] uppercase">Active Deployments</span>
+                            <div class="h-px w-full bg-secondary/20"></div>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
+                                <div>
+                                    <p class="font-ui-label text-xs text-on-surface uppercase">Geneva Node</p>
+                                    <p class="font-caption text-[10px] text-outline">Project: ARCHON</p>
+                                </div>
+                                <div class="size-2 bg-secondary animate-pulse"></div>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
+                                <div>
+                                    <p class="font-ui-label text-xs text-on-surface uppercase">Singapore Hub</p>
+                                    <p class="font-caption text-[10px] text-outline">Project: VERTEX</p>
+                                </div>
+                                <div class="size-2 bg-secondary"></div>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
+                                <div>
+                                    <p class="font-ui-label text-xs text-on-surface uppercase">London Central</p>
+                                    <p class="font-caption text-[10px] text-outline">Project: MERIDIAN</p>
+                                </div>
+                                <div class="size-2 bg-outline/20"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-6 space-y-4">
+                        <span class="font-ui-label text-[10px] text-secondary tracking-widest uppercase">Global Indices</span>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="font-caption text-[10px] text-outline">ATP-G</p>
+                                <p class="font-ui-label text-xs text-on-surface font-bold">+12.4%</p>
+                            </div>
+                            <div>
+                                <p class="font-caption text-[10px] text-outline">AIP-S</p>
+                                <p class="font-ui-label text-xs text-secondary font-bold">+0.8%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative h-40 w-full border border-secondary/10 overflow-hidden group">
+                        <img alt="Abstract Blue" class="w-full h-full object-cover grayscale opacity-20 group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjN2ULvLKs0Yhvv0iovbQSS0gld3u17eyL8q7fbX_Ee3iOsFhTWiKtSeXpfpPT5hKWTE_4WP25am3CmIQM6aWHBiUMN40OXoU6AWaR0b-Meue3st8jizpa0X1gRTotrArQaZUVp-i5hntKRBeuJXP-jkAqq-ZeTR9fjMdADrXcaRGnsbiKDg_8ckYpt--4nroThV7_oxnydAWZiLnXyfx99IEvF7lQPun1-2FwMfFSwCjAAyNRRxHrBrvQ_nDcBCZpaPJgatpV3nht" />
+                        <div class="absolute inset-0 flex items-center justify-center bg-background/60">
+                            <span class="font-ui-label text-[10px] text-secondary uppercase tracking-[0.5em]">Credentials</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rail Footer (Minimal Status) -->
+            <div class="h-16 px-8 flex items-center gap-4 border-t border-surface-variant">
+                <div class="size-1.5 bg-secondary shadow-[0_0_8px_rgba(197,160,89,0.8)]"></div>
+                <span class="text-[9px] font-ui-label tracking-[0.2em] text-on-surface-variant uppercase">Sistema Operativo</span>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Background Atmospheric Glows -->
+    <div class="fixed top-[-20%] left-[-10%] w-[60%] h-[60%] bg-surface-bright/20 blur-[120px] -z-20 pointer-events-none rounded-full"></div>
+    <div class="fixed bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-secondary/5 blur-[100px] -z-20 pointer-events-none rounded-full"></div>
+
+    <script>
+        // Store original content to allow seamless reset
+        const originalOrbit3 = `
+                <div class="h-16 flex items-center justify-between px-8 border-b border-surface-variant">
+                    <h3 class="text-ui-label text-[10px] tracking-[0.3em] text-on-surface-variant uppercase hide-on-rail transition-opacity duration-300">Credenciales</h3>
+                    <button onclick="toggleSidebar()" class="text-on-surface-variant hover:text-secondary transition-colors">
+                        <span class="material-symbols-outlined transition-transform duration-500">chevron_right</span>
+                    </button>
+                </div>
+                <div class="p-8 space-y-12 overflow-y-auto hide-on-rail transition-opacity duration-300">
+                    <div class="space-y-6">
+                        <h3 class="font-ui-label text-secondary uppercase tracking-[0.2em] text-[10px] mb-4">Estado del Nodo</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
+                                <span class="text-[9px] uppercase text-outline">Latencia</span>
+                                <span class="font-ui-label text-[10px] text-on-surface">12ms</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
+                                <span class="text-[9px] uppercase text-outline">Ubicación</span>
+                                <span class="font-ui-label text-[10px] text-on-surface">ZURICH NODE 7</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="space-y-8">
+                        <div class="space-y-2">
+                            <span class="font-ui-label text-[10px] text-secondary tracking-[0.25em] uppercase">Active Deployments</span>
+                            <div class="h-px w-full bg-secondary/20"></div>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
+                                <div>
+                                    <p class="font-ui-label text-xs text-on-surface uppercase">Geneva Node</p>
+                                    <p class="font-caption text-[10px] text-outline">Project: ARCHON</p>
+                                </div>
+                                <div class="size-2 bg-secondary animate-pulse"></div>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
+                                <div>
+                                    <p class="font-ui-label text-xs text-on-surface uppercase">Singapore Hub</p>
+                                    <p class="font-caption text-[10px] text-outline">Project: VERTEX</p>
+                                </div>
+                                <div class="size-2 bg-secondary"></div>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
+                                <div>
+                                    <p class="font-ui-label text-xs text-on-surface uppercase">London Central</p>
+                                    <p class="font-caption text-[10px] text-outline">Project: MERIDIAN</p>
+                                </div>
+                                <div class="size-2 bg-outline/20"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-6 space-y-4">
+                        <span class="font-ui-label text-[10px] text-secondary tracking-widest uppercase">Global Indices</span>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="font-caption text-[10px] text-outline">ATP-G</p>
+                                <p class="font-ui-label text-xs text-on-surface font-bold">+12.4%</p>
+                            </div>
+                            <div>
+                                <p class="font-caption text-[10px] text-outline">AIP-S</p>
+                                <p class="font-ui-label text-xs text-secondary font-bold">+0.8%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative h-40 w-full border border-secondary/10 overflow-hidden group">
+                        <img alt="Abstract Blue" class="w-full h-full object-cover grayscale opacity-20 group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjN2ULvLKs0Yhvv0iovbQSS0gld3u17eyL8q7fbX_Ee3iOsFhTWiKtSeXpfpPT5hKWTE_4WP25am3CmIQM6aWHBiUMN40OXoU6AWaR0b-Meue3st8jizpa0X1gRTotrArQaZUVp-i5hntKRBeuJXP-jkAqq-ZeTR9fjMdADrXcaRGnsbiKDg_8ckYpt--4nroThV7_oxnydAWZiLnXyfx99IEvF7lQPun1-2FwMfFSwCjAAyNRRxHrBrvQ_nDcBCZpaPJgatpV3nht" />
+                        <div class="absolute inset-0 flex items-center justify-center bg-background/60">
+                            <span class="font-ui-label text-[10px] text-secondary uppercase tracking-[0.5em]">Credentials</span>
+                        </div>
+                    </div>
+                </div>
+        `;
+
+        function toggleSidebar() {
+            const layout = document.getElementById('trinity-layout');
+            const sidebar = document.getElementById('sidebar');
+            if (!layout || !sidebar) return;
+
+            layout.classList.toggle('orbit-3-collapsed');
+            sidebar.classList.toggle('rail-mode');
+            
+            const icon = sidebar.querySelector('button span');
+            if (icon) {
+                icon.style.transform = layout.classList.contains('orbit-3-collapsed') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+
+        function resetOrbit3() {
+            const content = document.getElementById('orbit-3-content');
+            content.classList.add('opacity-0');
+            setTimeout(() => {
+                content.innerHTML = originalOrbit3;
+                content.classList.remove('opacity-0');
+            }, 300);
+        }
+
+        function hydrateAccessForm() {
+            const content = document.getElementById('orbit-3-content');
+            content.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                content.innerHTML = `
+                    <div class="h-16 flex items-center justify-between px-8 border-b border-secondary/20 animate-fade-in shrink-0">
+                        <h3 class="text-ui-label text-[10px] tracking-[0.3em] text-secondary uppercase font-bold">Protocolo de Acceso</h3>
+                        <button onclick="resetOrbit3()" class="size-8 flex items-center justify-center text-on-surface-variant hover:text-secondary hover:bg-secondary/10 transition-all rounded-full">
+                            <span class="material-symbols-outlined text-lg">close</span>
+                        </button>
+                    </div>
+                    <div class="flex-1 overflow-y-auto px-10 py-8 space-y-8 animate-fade-in custom-scrollbar">
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-[9px] font-ui-label tracking-[0.2em] text-secondary/60 uppercase">
+                                <span>Paso 01 / 03</span>
+                                <span>Identificación Institucional</span>
+                            </div>
+                            <div class="h-[1px] w-full bg-surface-variant">
+                                <div class="h-full bg-secondary w-1/3 transition-all duration-1000"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <h4 class="font-h3 text-lg text-white font-light leading-snug">Inicie su protocolo de acceso fiduciario</h4>
+                            
+                            <div class="space-y-5">
+                                <div class="space-y-1.5">
+                                    <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Nombre Completo (Legal)</label>
+                                    <input class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors" placeholder="Nombre y Apellidos" type="text" />
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="space-y-1.5">
+                                        <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Email Corporativo</label>
+                                        <input class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors" placeholder="user@institution.com" type="email" />
+                                    </div>
+                                    <div class="space-y-1.5">
+                                        <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Teléfono Directo</label>
+                                        <input class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors" placeholder="+00 000 000 000" type="tel" />
+                                    </div>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Jurisdicción de Origen / Nodo</label>
+                                    <input class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors" placeholder="País o ID de Entidad" type="text" />
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Declaración de Intención</label>
+                                    <textarea class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors min-h-[100px] resize-none" placeholder="Especifique el objeto de su consulta..."></textarea>
+                                    <p class="text-[8px] text-on-surface-variant leading-tight italic opacity-70">Este párrafo constituye una pre-cualificación institucional. Un texto insuficiente o genérico activará revisión manual adicional.</p>
+                                </div>
+                            </div>
+
+                            <button onclick="window.location.href='secure-gate.html'" class="w-full py-3.5 bg-secondary text-on-secondary text-[10px] tracking-[0.2em] font-bold hover:brightness-110 transition-all uppercase shadow-lg shadow-secondary/5">
+                                Continuar Protocolo
+                            </button>
+                        </div>
+
+                        <div class="relative py-4">
+                            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-surface-variant"></div></div>
+                            <div class="relative flex justify-center">
+                                <span class="bg-surface-container-lowest px-4 text-[8px] text-on-surface-variant font-ui-label tracking-[0.2em] font-bold uppercase">Verificación Delegada</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-3 pb-8 w-full animate-fade-in">
+                            <!-- Google Access -->
+                            <button onclick="window.location.href='secure-gate.html'" 
+                                    class="flex items-center justify-center gap-4 w-full py-4 px-6 border border-secondary/10 bg-background/20 luxury-blur hover:border-secondary/40 hover:bg-secondary/5 transition-all group active:scale-[0.98]">
+                                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" alt="Google">
+                                <span class="font-ui-label text-[10px] uppercase tracking-[0.3em] text-on-surface/60 group-hover:text-secondary transition-colors">Continuar con Google</span>
+                            </button>
+                            
+                            <!-- Microsoft Access -->
+                            <button onclick="window.location.href='secure-gate.html'" 
+                                    class="flex items-center justify-center gap-4 w-full py-4 px-6 border border-secondary/10 bg-background/20 luxury-blur hover:border-secondary/40 hover:bg-secondary/5 transition-all group active:scale-[0.98]">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" alt="Microsoft">
+                                <span class="font-ui-label text-[10px] uppercase tracking-[0.3em] text-on-surface/60 group-hover:text-secondary transition-colors">Continuar con Microsoft</span>
+                            </button>
+                            
+                            <!-- Apple Access -->
+                            <button onclick="window.location.href='secure-gate.html'" 
+                                    class="flex items-center justify-center gap-4 w-full py-4 px-6 border border-secondary/10 bg-background/20 luxury-blur hover:border-secondary/40 hover:bg-secondary/5 transition-all group active:scale-[0.98]">
+                                <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 transition-opacity text-on-surface" style="font-variation-settings: 'FILL' 1;">apple</span>
+                                <span class="font-ui-label text-[10px] uppercase tracking-[0.3em] text-on-surface/60 group-hover:text-secondary transition-colors">Continuar con Apple</span>
+                            </button>
+                            
+                            <!-- LinkedIn Access -->
+                            <button onclick="window.location.href='secure-gate.html'" 
+                                    class="flex items-center justify-center gap-4 w-full py-4 px-6 border border-secondary/10 bg-background/20 luxury-blur hover:border-secondary/40 hover:bg-secondary/5 transition-all group active:scale-[0.98]">
+                                <svg class="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity fill-current text-on-surface" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                                <span class="font-ui-label text-[10px] uppercase tracking-[0.3em] text-on-surface/60 group-hover:text-secondary transition-colors">Continuar con LinkedIn</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                content.classList.remove('opacity-0');
+            }, 300);
+        }
+    </script>
+</body>
+
+</html>

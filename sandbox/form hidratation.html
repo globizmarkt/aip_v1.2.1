@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;900&amp;family=Public+Sans:wght@400;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#133850",
+                        "on-surface": "#cbe6ff",
+                        "secondary": "#e9c349",
+                        "error-container": "#93000a",
+                        "surface-container": "#002236",
+                        "on-background": "#cbe6ff",
+                        "tertiary-fixed-dim": "#c8c6c2",
+                        "primary-fixed": "#cce6fc",
+                        "surface-bright": "#183c55",
+                        "inverse-on-surface": "#0d334c",
+                        "secondary-fixed": "#ffe088",
+                        "inverse-primary": "#496174",
+                        "on-secondary-fixed": "#241a00",
+                        "on-primary-fixed": "#021e2e",
+                        "primary-fixed-dim": "#b1cadf",
+                        "on-secondary-container": "#342800",
+                        "tertiary": "#c8c6c2",
+                        "on-primary": "#1a3344",
+                        "background": "#001524",
+                        "surface-container-low": "#001e30",
+                        "error": "#ffb4ab",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#001524",
+                        "surface-container-highest": "#133850",
+                        "on-tertiary": "#31302d",
+                        "on-secondary": "#3c2f00",
+                        "tertiary-container": "#191916",
+                        "secondary-container": "#af8d11",
+                        "surface-container-high": "#032d45",
+                        "on-primary-fixed-variant": "#31495b",
+                        "tertiary-fixed": "#e5e2dd",
+                        "surface-dim": "#001524",
+                        "outline-variant": "#43474c",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#83827e",
+                        "outline": "#8d9196",
+                        "secondary-fixed-dim": "#e9c349",
+                        "primary": "#b1cadf",
+                        "on-primary-container": "#6c8598",
+                        "primary-container": "#001b2b",
+                        "surface-container-lowest": "#00101c",
+                        "on-surface-variant": "#c3c7cc",
+                        "on-tertiary-fixed-variant": "#474743",
+                        "inverse-surface": "#cbe6ff",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-tertiary-fixed": "#1c1c19",
+                        "surface-tint": "#b1cadf"
+                    },
+                    "fontFamily": {
+                        "h1": ["Noto Serif"],
+                        "h2": ["Noto Serif"],
+                        "h3": ["Noto Serif"],
+                        "display-xl": ["Noto Serif"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "caption": ["Public Sans"],
+                        "ui-label": ["Public Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-panel {
+            background: rgba(0, 27, 43, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .trinity-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background font-body-md min-h-screen flex flex-col items-center justify-center overflow-x-hidden">
+    <!-- Top Navigation Anchor (Simulated based on Shared Components) -->
+    <header
+        class="fixed top-0 left-0 w-full h-24 flex justify-between items-center px-12 z-50 bg-[#001B2B]/80 backdrop-blur-2xl border-b border-[#D4AF37]/30">
+        <div class="text-2xl font-bold tracking-[0.2em] text-[#D4AF37] font-h1" data-i18n="ORBIT 3">ORBIT 3</div>
+        <div class="hidden md:flex gap-8">
+            <span
+                class="text-slate-400 hover:text-white tracking-widest text-xs uppercase cursor-pointer transition-all duration-500 font-ui-label"
+                data-i18n="Portfolio">Portfolio</span>
+            <span
+                class="text-slate-400 hover:text-white tracking-widest text-xs uppercase cursor-pointer transition-all duration-500 font-ui-label"
+                data-i18n="Intelligence">Intelligence</span>
+            <span
+                class="text-slate-400 hover:text-white tracking-widest text-xs uppercase cursor-pointer transition-all duration-500 font-ui-label"
+                data-i18n="Vault">Vault</span>
+            <span
+                class="text-slate-400 hover:text-white tracking-widest text-xs uppercase cursor-pointer transition-all duration-500 font-ui-label"
+                data-i18n="Transfers">Transfers</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <span class="material-symbols-outlined text-[#D4AF37] cursor-pointer"
+                data-icon="notifications">notifications</span>
+            <span class="material-symbols-outlined text-[#D4AF37] cursor-pointer"
+                data-icon="account_balance_wallet">account_balance_wallet</span>
+        </div>
+    </header>
+    <main class="w-full max-w-container-max px-6 md:px-12 pt-32 pb-20">
+        <div class="trinity-grid items-start">
+            <!-- Primary Column: OAuth Entry and Stepper -->
+            <section class="space-y-12">
+                <div class="space-y-4">
+                    <p class="text-secondary font-ui-label tracking-[0.3em] uppercase opacity-70"
+                        data-i18n="Paso 01 / 03">Paso 01 / 03</p>
+                    <h1 class="font-h1 text-display-xl text-primary leading-none" data-i18n="Solicitud de Acceso">
+                        Solicitud de Acceso</h1>
+                    <div class="w-24 h-1 bg-secondary"></div>
+                </div>
+                <div class="glass-panel p-10 space-y-8 max-w-xl">
+                    <p class="text-on-surface-variant font-body-lg"
+                        data-i18n="Seleccione su método de autenticación institucional para proceder.">Seleccione su
+                        método de autenticación institucional para proceder.</p>
+                    <div class="flex flex-col gap-4">
+                        <!-- OAuth Buttons (Institutional Gold/Glass Style) -->
+                        <button
+                            class="w-full py-5 px-6 flex items-center justify-between border border-secondary/40 hover:border-secondary hover:bg-white/5 transition-all duration-300 group">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined text-secondary" data-icon="key">key</span>
+                                <span class="font-ui-label text-on-surface tracking-widest uppercase"
+                                    data-i18n="ORBIT Vault Auth">ORBIT Vault Auth</span>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity"
+                                data-icon="chevron_right">chevron_right</span>
+                        </button>
+                        <button
+                            class="w-full py-5 px-6 flex items-center justify-between border border-secondary/20 hover:border-secondary hover:bg-white/5 transition-all duration-300 group">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="corporate_fare">corporate_fare</span>
+                                <span class="font-ui-label text-on-surface tracking-widest uppercase"
+                                    data-i18n="Single Sign-On (SSO)">Single Sign-On (SSO)</span>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity"
+                                data-icon="chevron_right">chevron_right</span>
+                        </button>
+                        <button
+                            class="w-full py-5 px-6 flex items-center justify-between border border-secondary/20 hover:border-secondary hover:bg-white/5 transition-all duration-300 group">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="security">security</span>
+                                <span class="font-ui-label text-on-surface tracking-widest uppercase"
+                                    data-i18n="Certificado Digital">Certificado Digital</span>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity"
+                                data-icon="chevron_right">chevron_right</span>
+                        </button>
+                        <button
+                            class="w-full py-5 px-6 flex items-center justify-between border border-secondary/20 hover:border-secondary hover:bg-white/5 transition-all duration-300 group">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="fingerprint">fingerprint</span>
+                                <span class="font-ui-label text-on-surface tracking-widest uppercase"
+                                    data-i18n="Biometría de Red">Biometría de Red</span>
+                            </div>
+                            <span
+                                class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity"
+                                data-icon="chevron_right">chevron_right</span>
+                        </button>
+                    </div>
+                    <div class="pt-4 flex items-center gap-2 text-caption text-on-surface-variant italic">
+                        <span class="material-symbols-outlined text-xs" data-icon="lock">lock</span>
+                        <span data-i18n="Cifrado AES-256 de grado militar activo">Cifrado AES-256 de grado militar
+                            activo</span>
+                    </div>
+                </div>
+            </section>
+            <!-- Secondary Column: Institutional Credentials & Status -->
+            <aside class="hidden lg:flex flex-col gap-8 sticky top-32">
+                <div class="border border-secondary/30 p-8 space-y-6 bg-surface-container-lowest/50">
+                    <h3 class="font-h3 text-secondary uppercase tracking-widest text-sm" data-i18n="ESTADO DEL NODO">
+                        ESTADO DEL NODO</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
+                            <span class="text-caption uppercase text-slate-500" data-i18n="CONEXIÓN">CONEXIÓN</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-secondary shadow-[0_0_8px_#e9c349]"></div>
+                                <span class="font-ui-label text-xs text-secondary" data-i18n="ESTABLE">ESTABLE</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
+                            <span class="text-caption uppercase text-slate-500" data-i18n="LATENCIA">LATENCIA</span>
+                            <span class="font-ui-label text-xs text-on-surface" data-i18n="12ms">12ms</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
+                            <span class="text-caption uppercase text-slate-500" data-i18n="UBICACIÓN">UBICACIÓN</span>
+                            <span class="font-ui-label text-xs text-on-surface" data-i18n="ZURICH NODE 7">ZURICH NODE
+                                7</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group overflow-hidden border border-secondary/20 h-64">
+                    <img class="w-full h-full object-cover grayscale opacity-40 group-hover:scale-110 transition-transform duration-700"
+                        data-alt="A macro close-up of a precision-engineered watch movement with gold gears and polished steel components. The lighting is dramatic and moody, reflecting off the metallic surfaces within a dark, deep blue atmosphere. The visual style is high-end luxury, emphasizing structural permanence and intricate technology. The background is a velvety deep ocean blue, suggesting institutional stability and exclusivity."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-5wOm3nyKXzTQaeIOn5__awRyVaG9hLWgT9l8WwB7zoQDwqhl4qF9cLYlk9FxgXLPhlB8lqXxhoOVxZT-W2HYzrm0KMYCja7J-osSJ5qq3Awor8saK-Rm-NYAPjz3wwDb9pa00jPIbCiLbN214V99aPRuvMW4WEz7XB0O3aqSyB6ZhfRzJdmcvypzadugumfbAXdVEVghfrkdE2UXhBSimkftlAmt3kUDIk7-Pu_5Wo51UKUXDgKfYv0TZxn1yxm5nfaO68sJfyCy" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-background to-transparent flex items-end p-6">
+                        <p class="font-ui-label text-[10px] text-secondary tracking-[0.2em] uppercase"
+                            data-i18n="PRECISIÓN INSTITUCIONAL">PRECISIÓN INSTITUCIONAL</p>
+                    </div>
+                </div>
+                <div class="p-4 space-y-2">
+                    <p class="text-caption text-slate-500 italic leading-relaxed"
+                        data-i18n="Al continuar, usted acepta los protocolos de auditoría interna de ORBIT 3.">Al
+                        continuar, usted acepta los protocolos de auditoría interna de ORBIT 3.</p>
+                    <a class="text-caption text-secondary underline tracking-widest uppercase hover:text-white transition-colors"
+                        data-i18n="Ver Términos" href="#">Ver Términos</a>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <!-- Footer Decorator -->
+    <footer class="w-full px-12 py-8 flex justify-between items-center border-t border-secondary/10 mt-auto">
+        <div class="flex gap-8">
+            <span class="text-[10px] text-slate-500 tracking-widest uppercase" data-i18n="© 2024 ORBIT 3 CAPITAL">© 2024
+                ORBIT 3 CAPITAL</span>
+            <span class="text-[10px] text-slate-500 tracking-widest uppercase" data-i18n="Privacy Policy">Privacy
+                Policy</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <span class="text-[10px] text-slate-600 tracking-widest uppercase" data-i18n="Servidor">Servidor</span>
+                <span class="font-ui-label text-[10px] text-on-surface" data-i18n="—">—</span>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
