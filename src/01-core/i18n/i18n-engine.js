@@ -36,6 +36,34 @@ export const i18nEngine = {
         document.dispatchEvent(event);
         
         console.log(`[i18nEngine] Soberanía lingüística actualizada a: ${lang.toUpperCase()}`);
+
+        // Carga dinámica del diccionario tras cambio de locale
+        this.loadDictionary(lang);
+    },
+
+    /**
+     * Carga el diccionario JSON de la vertical activa y aplica hidratación al DOM.
+     * Ruta dinámica: /src/verticals/${vertical}/locales/${lang}.json (COG-64)
+     * @param {string} lang - Código de idioma ('en', 'es')
+     */
+    async loadDictionary(lang) {
+        const vertical = window.Skeleton?.ENV?.vertical || '_base';
+        const url = `/src/verticals/${vertical}/locales/${lang}.json`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`[i18nEngine] Diccionario no encontrado: ${url}`);
+            const dict = await response.json();
+            const sealed = this.seal(dict);
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                const value = key.split('.').reduce((o, k) => o?.[k], sealed);
+                if (value !== undefined) el.textContent = value;
+            });
+            console.log(`[i18nEngine] Diccionario '${lang}' cargado desde ${url} — ${Object.keys(dict).length} namespaces activos.`);
+            return sealed;
+        } catch (error) {
+            console.error(`[i18nEngine] Error cargando diccionario:`, error);
+        }
     },
 
     /**
