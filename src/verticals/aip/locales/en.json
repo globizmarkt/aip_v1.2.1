@@ -1,1 +1,100 @@
-{}
+{
+  "meta": { "title": "AIP Financial & Commodities — Institutional Access" },
+  "header": { "brand": "AIP Financial & Commodities" },
+  "nav": {
+    "market": "Markets",
+    "news": "Intelligence",
+    "legislation": "Regulatory",
+    "request_access": "Request Access",
+    "about": "About AIP",
+    "services": "Our Services"
+  },
+  "hero": {
+    "title": "Architects of Financial Sovereignty",
+    "subtitle": "Institutional-grade asset intermediation. UK-based, globally connected. Admission by qualification only.",
+    "cta_onboarding": "Begin Admission Process"
+  },
+  "archetype": {
+    "title": "Define your investor profile",
+    "q1_text": "What best describes your primary objective?",
+    "q1_optA": "Capital preservation and yield",
+    "q1_optB": "Asset-backed financing structures",
+    "q1_optC": "Commodity trade and off-take",
+    "q1_optD": "Private mandate management",
+    "q_tie1_text": "What is your typical transaction size?",
+    "q_tie1_optA": "€1M – €10M",
+    "q_tie1_optB": "€10M and above"
+  },
+  "feed": {
+    "market": "Market Intelligence",
+    "ticker_xau": "XAU/USD",
+    "ticker_sofr": "SOFR Rate",
+    "news_q3": "Q3 2026: Institutional demand for physical gold surges amid Basel III recalibration",
+    "news_kyc": "FATF updated guidance: enhanced due diligence requirements for cross-border mandates",
+    "legislation": "Regulatory Framework",
+    "basel_desc": "Basel III final rules — impact on SBLC monetisation and Tier 1 capital allocation",
+    "directives_link": "Access full regulatory library"
+  },
+  "crm": {
+    "breadcrumb": "Active Operations",
+    "title": "Fiduciary Dashboard",
+    "filter": {
+      "all": "All",
+      "due_diligence": "Due Diligence",
+      "pending": "Pending"
+    },
+    "table": {
+      "aria": "Active operations table",
+      "col_id": "Operation ID",
+      "col_asset": "Asset",
+      "col_status": "Status",
+      "col_kyc": "KYC Level",
+      "col_action": "Action"
+    },
+    "detail": {
+      "title": "Operation Detail",
+      "country": "Jurisdiction",
+      "ticket": "Ticket Size",
+      "roi": "Projected Yield",
+      "timeline": "Compliance Timeline",
+      "blocked_kyc2": "Access restricted — KYC Level 2 required"
+    },
+    "action": { "request_kyc2": "Initiate Level 2 Verification" }
+  },
+  "landing": {
+    "card1": "Direct access to off-market assets under strict Swiss confidentiality protocols. Vetted counterparties only.",
+    "card2": "Structured mandate management for family offices and institutional investors. Full fiduciary oversight.",
+    "btn_access": "Request Institutional Access",
+    "aimon_alert": "AIMON Fiduciary Intelligence — real-time compliance monitoring active",
+    "role": "Select access profile"
+  },
+  "gatekeeper": {
+    "idle": {
+      "status_live": "System Active",
+      "title": "Restricted Access",
+      "subtitle": "Identity verification and AML compliance required to proceed."
+    },
+    "manual": { "title": "Institutional Onboarding" },
+    "close": { "label": "Close access panel" },
+    "form": {
+      "title": "AIMON — Fiduciary Intelligence",
+      "quick_access": "Corporate Quick Access",
+      "oauth_google": "Continue with Google",
+      "oauth_microsoft": "Continue with Microsoft",
+      "role_investor": "Private Investor",
+      "role_agent": "Fiduciary Agent",
+      "client_type_label": "Client Type Represented",
+      "client_type_placeholder": "Select type...",
+      "client_type_fund": "Institutional Fund",
+      "client_type_family": "Family Office",
+      "client_type_hnwi": "HNWI",
+      "email_label": "Fiduciary Email",
+      "company_label": "Legal Entity Name",
+      "intent_label": "Statement of Intent",
+      "gdpr_label": "I consent to data processing under GDPR",
+      "submit": "REQUEST CLEARANCE",
+      "cancel": "CANCEL"
+    }
+  },
+  "footer": { "copyright": "© 2026 Atlantis International Projects, LTD. All rights reserved." }
+}
