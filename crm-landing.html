@@ -6,6 +6,7 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Public+Sans:wght@400;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="src/logic/config.js"></script>
 <script id="tailwind-config">
         tailwind.config = {
           darkMode: "class",
@@ -81,8 +82,12 @@
     </style>
 </head>
 <body class="bg-background text-on-surface font-body-md selection:bg-secondary selection:text-on-secondary">
+<!-- Validation Banner -->
+<div id="validation-banner" class="hidden w-full bg-secondary text-on-secondary text-center py-1.5 text-[10px] font-bold tracking-[0.2em] uppercase z-[100] relative">
+    Modo validación activo — acceso sin restricciones
+</div>
 <!-- TopNavBar -->
-<header class="fixed top-0 w-full z-50 h-20 bg-[#101D33]/80 backdrop-blur-[20px] border-b border-secondary/30 flex justify-between items-center px-12 w-full mx-auto">
+<header class="fixed top-0 w-full z-50 h-20 bg-[#101D33]/80 backdrop-blur-[20px] border-b border-secondary/30 flex justify-between items-center px-12 mx-auto" id="top-header">
 <div class="text-xl font-h2 tracking-widest text-secondary uppercase">ATLANTIS INTERNATIONAL PROJECTS</div>
 <nav class="hidden md:flex items-center gap-10">
 <a class="font-ui-label text-secondary border-b border-secondary pb-1 tracking-[0.2em] uppercase text-xs font-medium" href="index.html">INICIO</a>
@@ -277,4 +282,59 @@
 </div>
 </aside>
 </main>
+<!-- KYC Overlay -->
+<div id="kyc-overlay" class="fixed inset-0 z-40 hidden items-center justify-center pointer-events-none">
+    <div class="pointer-events-auto bg-surface border border-accent p-8 text-center max-w-md luxury-glass">
+        <span class="material-symbols-outlined text-accent text-4xl mb-4">lock</span>
+        <h2 class="font-h2 text-accent text-xl mb-2 uppercase tracking-widest">Acceso Restringido</h2>
+        <p class="text-xs text-slate-400 mb-6 tracking-wider">El estado fiduciario requiere validación KYC. Funcionalidad del CRM limitada.</p>
+        <a href="gatekeeper.html" class="inline-block w-full py-3 bg-accent/10 border border-accent text-accent font-bold text-[10px] tracking-[0.3em] hover:bg-accent hover:text-surface transition-all uppercase">
+            Iniciar Protocolo KYC
+        </a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Handle header offset if banner is active
+        const banner = document.getElementById('validation-banner');
+        const header = document.getElementById('top-header');
+        const main = document.querySelector('main');
+        
+        const isValidationMode = window.AIP_CONFIG && window.AIP_CONFIG.VALIDATION_MODE;
+        
+        if (isValidationMode) {
+            banner.classList.remove('hidden');
+            // Adjust header to sit below banner
+            header.style.top = banner.offsetHeight + 'px';
+            main.style.paddingTop = (80 + banner.offsetHeight) + 'px';
+        } else {
+            main.style.paddingTop = '80px';
+        }
+
+        let sessionState = { kyc: false };
+        try {
+            const raw = localStorage.getItem('aip_session_state');
+            if (raw === 'seed') {
+                sessionState = { kyc: false };
+            } else if (raw) {
+                sessionState = JSON.parse(raw);
+            }
+        } catch (e) {
+            console.warn("Error parsing session state", e);
+        }
+
+        if (!sessionState.kyc && !isValidationMode) {
+            // Apply blur
+            
+            // We can blur the entire main content except the header
+            main.classList.add('filter', 'blur-sm', 'pointer-events-none', 'select-none');
+            
+            // Show overlay
+            const overlay = document.getElementById('kyc-overlay');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+        }
+    });
+</script>
 </body></html>

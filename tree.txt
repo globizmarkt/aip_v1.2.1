@@ -1,0 +1,45 @@
+﻿# 🗺️ MAPA DEL ESPACIO DE TRABAJO — AIP v1.2.1
+
+Este es el árbol de directorios simplificado para el equipo humano. Aquí reside la inteligencia, la estética y el motor del proyecto.
+
+---
+
+## 🏛️ RAÍZ (Puertas de Entrada)
+- index.html                → Puerta Principal (Landing Institucional).
+- crm_aip_index.html        → Workspace del Agente (Panel de Control).
+- crm-landing.html          → Landing secundaria de captación CRM.
+- asset-explorer.html       → Explorador de activos (Legacy/Boceto).
+- tree.txt                  → Este mapa de navegación.
+
+---
+
+## 📥 00_INBOX (Bóveda de Planos y Conocimiento)
+Aquí se guardan las directivas y la arquitectura de cada fase.
+- fase 10 a 17/            → Documentación histórica y blue prints de cada hito.
+- fase 17 arquitectura.../  → 📍 Fase Actual: Roadmap, Copy, Eventos y Diseño DOM.
+- indexación industrial/    → Guías de trazabilidad y procesos operativos.
+- ARCHITECTURE_DIAGRAMS.md  → Diagramas lógicos del sistema.
+- CONCIENCIA_POLIGONO.md    → Notas de integridad y estado sistémico.
+
+---
+
+## ⚙️ SRC (El Motor Activo)
+Aquí vive el código que hace que todo funcione.
+
+### 🌐 LOCALES (Idiomas)
+- en.json / es.json         → Diccionarios de texto (R4 Strict). Prohibido hardcode.
+
+### 🧠 LOGIC (El Cerebro)
+- main.js                   → Orquestador de arranque.
+- ArchetypeDetector.js      → Detector de arquetipos (UHNWI, Agent, etc).
+- ui-binder.js              → 🔌 El Conector: Une el código con lo que ves en pantalla.
+- scene-manager.js          → Gestor de estados y visibilidad de órbitas.
+- store.js                  → Persistencia de datos en la sesión.
+- config.js / i18n.js       → Configuración global y motor de traducción.
+- mock-data.js              → Datos de prueba fiduciarios (Proyectos/Métricas).
+
+### 🎨 STYLES (Estética)
+- theme-landing.css         → El "Manifiesto Stitch": Vidrio, Oro y Carbono.
+
+---
+Última actualización: 2026-05-09 · Core Architect (Antigravity)

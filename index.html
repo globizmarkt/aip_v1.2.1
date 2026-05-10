@@ -1,564 +1,425 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html lang="es">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>ATLANTIS INTERNATIONAL PROJECTS | Arquitectos de la Certeza</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&amp;family=Public+Sans:wght@300;400;600;700&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-    <script id="tailwind-config">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="meta.title">—</title>
+    <script type="importmap">
+    {
+      "imports": {
+        "core/": "/src/01-core/",
+        "infra/": "/src/02-infra/",
+        "ui/": "/src/03-interface/",
+        "shared/": "/src/03-interface/shared/"
+      }
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/theme-landing.css">
+    <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+    <script>
         tailwind.config = {
-            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#b1cadf",
-                        "secondary": "#C1A85D",
-                        "on-secondary": "#101D33",
-                        "background": "#101D33",
-                        "surface": "#101D33",
-                        "surface-bright": "#1a2c42",
-                        "surface-variant": "#1d2e4a",
-                        "on-surface": "#FDFBF6",
-                        "on-background": "#FDFBF6",
-                        "outline": "#8d9196",
-                        "outline-variant": "#C1A85D33",
-                        "surface-container-lowest": "#081221",
-                        "surface-container-low": "#0c1729",
-                        "surface-container": "#3A3A3A",
-                        "surface-container-high": "#1a2c42",
-                        "surface-container-highest": "#1d2e4a",
+                        background: 'var(--theme-deep-ocean)',
+                        surface: 'var(--theme-surface)',
+                        'surface-alt': 'var(--theme-surface-alt)',
+                        secondary: 'var(--theme-accent)',
+                        'secondary-hover': 'var(--theme-accent-hover)',
+                        'on-background': 'var(--theme-foreground)',
+                        'on-surface': 'var(--theme-foreground)',
+                        'on-surface-variant': 'var(--theme-foreground-alt)',
+                        'outline-variant': 'var(--theme-border)',
+                        error: 'var(--theme-error)'
                     },
                     fontFamily: {
-                        "h1": ["Noto Serif", "serif"],
-                        "h2": ["Noto Serif", "serif"],
-                        "h3": ["Noto Serif", "serif"],
-                        "display-xl": ["Noto Serif", "serif"],
-                        "body-md": ["Public Sans", "sans-serif"],
-                        "body-lg": ["Public Sans", "sans-serif"],
-                        "ui-label": ["Public Sans", "sans-serif"],
-                        "caption": ["Public Sans", "sans-serif"],
+                        serif: ["Noto Serif", "serif"],
+                        sans: ["Public Sans", "sans-serif"]
                     }
                 }
             }
         }
     </script>
-    <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-        }
-
-        .luxury-blur {
-            backdrop-filter: blur(20px);
-            background: rgba(16, 29, 51, 0.75);
-        }
-
-        .trinity-grid {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            min-height: 100vh;
-            transition: grid-template-columns 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .trinity-grid.orbit-3-collapsed {
-            grid-template-columns: 1fr 80px;
-        }
-
-        #sidebar.rail-mode .hide-on-rail {
-            opacity: 0;
-            pointer-events: none;
-            width: 0;
-            overflow: hidden;
-        }
-
-        #sidebar {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .news-ticker {
-            white-space: nowrap;
-            overflow: hidden;
-            display: inline-block;
-        }
-
-        .ticker-content {
-            display: inline-block;
-            animation: ticker 30s linear infinite;
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(197, 160, 89, 0.1);
-        }
-
-        .nav-link {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: #C1A85D;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .bento-item {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .bento-item:hover {
-            border-color: rgba(233, 195, 73, 0.4);
-            background: rgba(233, 195, 73, 0.05);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(16, 29, 51, 0.1);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(193, 168, 93, 0.2);
-            border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(193, 168, 93, 0.4);
-        }
-    </style>
+    <script src="src/logic/mock-data.js"></script>
 </head>
 
-<body class="bg-background text-on-background font-body-md selection:bg-secondary selection:text-on-secondary overflow-x-hidden">
-    <!-- Header: Fixed Luxury Blur -->
-    <header class="fixed top-0 left-0 w-full z-50 luxury-blur border-b border-surface-variant px-8 h-20 flex items-center justify-between">
-        <div class="flex items-center gap-8">
-            <div class="flex items-center gap-3">
-                <div class="size-8 text-secondary">
-                    <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
-                    </svg>
+<body class="m-0 p-0 h-screen overflow-hidden bg-background text-on-background font-sans flex flex-col min-w-[1200px] overflow-x-auto">
+    <header
+        class="flex-none z-50 flex justify-between items-center px-8 py-5 border-b border-outline-variant bg-background/60 backdrop-blur-xl">
+        <span class="font-serif text-2xl tracking-[0.25em] uppercase text-secondary" data-i18n="header.brand">—</span>
+        <nav class="flex items-center gap-6">
+            <button type="button" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300">Quiénes somos</button>
+            <button type="button" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300">Qué hacemos</button>
+            <button type="button"
+                class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
+                data-action="TabMarketClick" data-i18n="nav.market">—</button>
+            <button type="button"
+                class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
+                data-action="TabNewsClick" data-i18n="nav.news">—</button>
+            <button type="button"
+                class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
+                data-action="TabLegislationClick" data-i18n="nav.legislation">—</button>
+            
+            <button type="button"
+                class="ml-4 px-5 py-2.5 text-[10px] uppercase tracking-[0.3em] border border-[var(--stitch-gold)]/50 text-[var(--stitch-gold)] hover:bg-[var(--stitch-gold)] hover:text-background transition-all duration-500"
+                data-action="GateWake" data-i18n="nav.request_access">—</button>
+
+            <!-- SELECTOR DE IDIOMA UNÍVOCO -->
+            <details class="relative ml-2 group">
+                <summary class="cursor-pointer text-[10px] uppercase tracking-[0.2em] font-mono text-white/70 hover:text-[var(--stitch-gold)] list-none flex items-center gap-1 transition-colors">
+                    ES <span class="text-[8px]">▼</span>
+                </summary>
+                <div class="absolute right-0 top-full mt-4 w-20 stitch-panel border border-[var(--stitch-border)] rounded-sm flex flex-col py-2 opacity-0 invisible group-open:opacity-100 group-open:visible transition-all">
+                    <button type="button" class="text-[10px] uppercase font-mono tracking-widest text-[var(--stitch-gold)] py-1.5 px-4 text-left hover:bg-white/5" data-lang="es">ES</button>
+                    <button type="button" class="text-[10px] uppercase font-mono tracking-widest text-white/50 py-1.5 px-4 text-left hover:bg-white/5 hover:text-[var(--stitch-gold)]" data-lang="en">EN</button>
                 </div>
-                <h1 class="font-h2 text-xl uppercase tracking-[0.2em] text-white">ATLANTIS INTERNATIONAL PROJECTS</h1>
-            </div>
-            <nav class="hidden md:flex items-center gap-8 ml-12">
-                <a class="nav-link text-ui-label text-xs tracking-widest hover:text-secondary transition-colors" href="#">NOTICIAS</a>
-                <a class="nav-link text-ui-label text-xs tracking-widest hover:text-secondary transition-colors" href="#">INSTITUCIÓN</a>
-                <a class="nav-link text-ui-label text-xs tracking-widest hover:text-secondary transition-colors" href="#">SERVICIOS</a>
-                <a class="nav-link text-ui-label text-xs tracking-widest hover:text-secondary transition-colors" href="#">COMPLIANCE & KYC</a>
-            </nav>
-        </div>
-        <div class="flex items-center gap-6">
-            <!-- Refined Language Dropdown -->
-            <div class="relative group cursor-pointer flex items-center gap-2 px-3 py-1 border border-outline-variant rounded-full hover:border-secondary transition-colors">
-                <span class="material-symbols-outlined text-sm">language</span>
-                <span class="text-xs font-ui-label tracking-tighter">ES/EN</span>
-                <span class="material-symbols-outlined text-sm group-hover:rotate-180 transition-transform">expand_more</span>
-                <div class="absolute top-full right-0 mt-2 w-24 luxury-blur border border-secondary/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                    <a class="block px-4 py-2 text-[10px] font-ui-label text-on-surface/70 hover:text-secondary hover:bg-secondary/10 transition-colors uppercase" href="#">ES</a>
-                    <a class="block px-4 py-2 text-[10px] font-ui-label text-on-surface/70 hover:text-secondary hover:bg-secondary/10 transition-colors uppercase" href="#">EN</a>
-                </div>
-            </div>
-            <button onclick="hydrateAccessForm()" class="bg-secondary text-on-secondary-container px-6 py-2.5 rounded-sm text-ui-label text-xs tracking-widest font-bold hover:brightness-110 transition-all shadow-lg shadow-secondary/10 uppercase">
-                SOLICITAR ACCESO
-            </button>
-        </div>
+            </details>
+        </nav>
     </header>
 
-    <main class="trinity-grid pt-20" id="trinity-layout">
-        <!-- Orbit 2: Immersive Content -->
-        <section class="relative overflow-y-auto flex flex-col px-12 lg:px-16 border-r border-surface-variant pb-24">
-            <!-- Hero Section -->
-            <div class="min-h-[80vh] flex flex-col justify-center relative py-20">
-                <div class="absolute inset-0 -z-10 bg-cover bg-center grayscale opacity-30" style="background-image: linear-gradient(to right, rgba(0,21,36,1) 0%, rgba(0,21,36,0.2) 50%, rgba(0,21,36,1) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuDL-TXtN4X_6yH79eJpprAQPCZBjPJqOevpChrQnvTnPV2Pk0HIpU8JR76wpcWs6kpwd5FMKTX-JAwu_LqaggTq_Ott6iLd8uICDPHH8XAJe2DIAEtMKLBghVTf_P9MJcq-BM919Ecg3cqv3Qkmjq3GqF95IBMXru8Q6hOXb7wc2pvTl-m_je20Qd6J6Xu8sMCTCA2KWOYAuzsVpFdRoR3Ac5SOkpx7JVE97JDz50rQqxQptEMpP_I64P2hgo7epWMS21I3exCXznnY');">
-                </div>
-                <div class="max-w-3xl space-y-8">
-                    <div class="inline-flex items-center gap-4 text-secondary/60">
-                        <div class="h-[1px] w-12 bg-secondary/40"></div>
-                        <span class="text-ui-label text-[10px] tracking-[0.4em] uppercase">Nodo Fiduciario desde Holanda</span>
-                    </div>
-                    <h1 class="text-display-xl font-light text-white leading-tight tracking-[-0.02em]">
-                        Arquitectos de la <span class="italic font-normal text-secondary">Certeza</span>
-                    </h1>
-                    <p class="text-body-lg text-on-background/70 max-w-xl font-light leading-relaxed italic">
-                        Atlantis International Projects orquesta marcos fiduciarios de alta complejidad, asegurando permanencia y discreción en un entorno global en evolución.
-                    </p>
-                    <div class="pt-10 flex gap-6">
-                        <button class="px-8 py-4 border border-secondary text-secondary text-ui-label text-xs tracking-[0.2em] hover:bg-secondary/10 transition-all uppercase">Explorar Portafolio</button>
-                        <button class="px-8 py-4 text-white text-ui-label text-xs tracking-[0.2em] flex items-center gap-3 hover:text-secondary transition-all uppercase">
-                            <span class="material-symbols-outlined">play_circle</span>
-                            Ver Filosofía
-                        </button>
-                    </div>
-                </div>
+    <main class="aip-chassis flex-1">
+        <section id="orbit-2" class="orbit-2 overflow-y-auto p-8 md:p-12 border-r border-outline-variant scroll-smooth">
+            <div class="hero-container mb-16 pt-8 pb-12 border-b border-outline-variant">
+                <h1 class="font-serif text-5xl md:text-6xl font-light tracking-[0.08em] text-on-background mb-6 leading-tight"
+                    data-i18n="hero.title">—</h1>
+                <p class="text-sm md:text-base text-on-surface-variant tracking-wide leading-relaxed mb-8 max-w-2xl"
+                    data-i18n="hero.subtitle">—</p>
+                <button type="button"
+                    class="px-8 py-4 bg-secondary/10 border border-secondary text-secondary text-[11px] uppercase tracking-[0.4em] hover:bg-secondary hover:text-background transition-all duration-500"
+                    data-action="GateWake" data-i18n="hero.cta_onboarding">—</button>
             </div>
 
-            <!-- Bento Grid (From Legacy index_v2) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-12">
-                <div class="md:col-span-2 glass-card bento-item relative group overflow-hidden h-[400px]">
-                    <img alt="Commercial Architecture" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3bgw4MyrqVT6SVpZoftPM9n2NC8bf-OgvMRzagPbrE124qlC1u5SstaFFV588FjXOfFSD6WVuPQCoziVRHwvtmsOWAjtFVctAD3-sNyq3U7zUETlWGJAwpTVnpWNULWf9sSCQYxFon3aW-ZsMwb_hnkRtYm_bTsC7vA8P0PhD3R9QR1IDXh7KFf_U3ac_3R-VIOhQzB8Ed6LgoQQpEuECUl7rhTI0-z-Ie87agBQLGIud11Xtd8uQVxmeiJBhfOs8CbL3Ykw2zMSI" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
-                    <div class="absolute bottom-8 left-8 space-y-2">
-                        <h3 class="font-h3 text-2xl text-secondary uppercase tracking-widest">Real Estate</h3>
-                        <p class="font-body-md text-outline">Tier-1 commercial developments in emerging global hubs.</p>
+            <!-- FASE 17.4: Cuestionario de Arquetipos (R29) -->
+            <section id="archetype-questionnaire" class="mb-16 pb-8 border-b border-outline-variant">
+                <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6" data-i18n="archetype.title">—</h2>
+                
+                <div class="space-y-8">
+                    <!-- Pregunta 1 -->
+                    <div class="question-block">
+                        <p class="text-sm text-on-surface-variant mb-4" data-i18n="archetype.q1_text">—</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                <input type="radio" name="decisionStructure" value="opt_solo" class="accent-secondary">
+                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q1_optA">—</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                <input type="radio" name="decisionStructure" value="opt_comite" class="accent-secondary">
+                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q1_optB">—</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                <input type="radio" name="decisionStructure" value="opt_refiere" class="accent-secondary">
+                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q1_optC">—</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                <input type="radio" name="decisionStructure" value="opt_no_sabe" class="accent-secondary">
+                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q1_optD">—</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="glass-card bento-item flex flex-col justify-center items-center p-8 text-center group">
-                    <span class="material-symbols-outlined text-secondary text-5xl mb-4 group-hover:scale-110 transition-transform">currency_exchange</span>
-                    <h3 class="font-h3 text-xl text-on-surface uppercase mb-2">Private Equity</h3>
-                    <p class="font-caption text-xs text-outline italic">Direct Institutional Access</p>
-                </div>
-                <div class="glass-card bento-item relative p-8 group">
-                    <div class="absolute top-4 right-4">
-                        <span class="material-symbols-outlined text-secondary/30">north_east</span>
-                    </div>
-                    <h3 class="font-h2 text-3xl text-on-surface mb-4">03.</h3>
-                    <p class="font-ui-label text-xs text-secondary tracking-widest uppercase mb-4">Infrastructure</p>
-                    <p class="font-caption text-xs text-outline leading-relaxed">Critical systems powering the future of global logistics and energy.</p>
-                </div>
-                <div class="md:col-span-2 glass-card bento-item flex items-center p-12 gap-8 relative overflow-hidden">
-                    <div class="relative z-10 space-y-4">
-                        <h3 class="font-h2 text-3xl text-on-surface">Sustainable Legacy</h3>
-                        <p class="font-body-md text-outline max-w-md">Our projects are designed with a 100-year horizon, ensuring that capital preservation meets environmental stewardship.</p>
-                    </div>
-                    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-secondary/5 rounded-full blur-3xl"></div>
-                </div>
-            </div>
 
-            <!-- News Ticker -->
-            <div class="absolute bottom-0 left-0 w-full h-16 bg-surface-container-lowest border-t border-surface-variant flex items-center">
-                <div class="px-6 border-r border-surface-variant flex items-center gap-2 h-full bg-surface-container-low shrink-0">
-                    <span class="material-symbols-outlined text-secondary text-sm">rss_feed</span>
-                    <span class="text-ui-label text-[10px] tracking-widest text-secondary uppercase">Mercados</span>
-                </div>
-                <div class="news-ticker w-full">
-                    <div class="ticker-content flex gap-12 text-[10px] font-light tracking-wide text-on-surface-variant italic uppercase">
-                        <span>IBEX 35: +1.24% — LOS SERVICIOS FINANCIEROS LIDERAN EL REPUNTE</span>
-                        <span>ORO SPOT: $2,145 — MÁXIMOS HISTÓRICOS IMPULSADOS POR DEMANDA INSTITUCIONAL</span>
-                        <span>MiFID III — AUREUM COMPLETA INTEGRACIÓN REGULATORIA Q3</span>
-                        <span>Sovereign Wealth: Shift towards sustainable infrastructure in Mediterranean corridors.</span>
+                    <!-- Tiebreaker (oculto por defecto) -->
+                    <div id="tiebreaker-container" class="hidden space-y-4">
+                        <p class="text-sm text-on-surface-variant mb-4" data-i18n="archetype.q_tie1_text">—</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                <input type="radio" name="tiebreaker_executor" value="tb1_opt_yo" class="accent-secondary tiebreaker-question">
+                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q_tie1_optA">—</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                <input type="radio" name="tiebreaker_executor" value="tb1_opt_comite" class="accent-secondary tiebreaker-question">
+                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q_tie1_optB">—</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
+            </section>
+
+            <section class="feed-container mb-16 pb-8 border-b border-outline-variant">
+                <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6"
+                    data-i18n="feed.market">—</h2>
+                <div class="flex gap-8 mb-6 text-sm font-mono text-on-surface-variant tracking-wider">
+                    <span data-i18n="feed.ticker_xau">—</span>
+                    <span data-i18n="feed.ticker_sofr">—</span>
+                </div>
+                <article
+                    class="p-5 mb-4 border-l-2 border-secondary bg-surface/30 backdrop-blur-sm hover:bg-surface/50 transition-all duration-300 cursor-default"
+                    data-i18n="feed.news_q3">—</article>
+                <article
+                    class="p-5 mb-4 border-l-2 border-secondary bg-surface/30 backdrop-blur-sm hover:bg-surface/50 transition-all duration-300 cursor-default"
+                    data-i18n="feed.news_kyc">—</article>
+            </section>
+
+            <section class="legislation-container pb-8">
+                <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6"
+                    data-i18n="feed.legislation">—</h2>
+                <p class="text-sm text-on-surface-variant leading-relaxed mb-6 max-w-xl" data-i18n="feed.basel_desc">—
+                </p>
+                <button type="button"
+                    class="text-xs uppercase tracking-[0.2em] text-secondary hover:text-secondary-hover transition-colors duration-300 border-b border-secondary/30 pb-0.5 hover:border-secondary"
+                    data-action="DirectivesView" data-i18n="feed.directives_link">—</button>
+            </section>
+
+            <!-- ÓRBITA 2: DASHBOARD CRM (Kimi) -->
+            <div id="crm-dashboard" class="hidden w-full h-full flex flex-col p-8 p-12 bg-background overflow-y-auto">
+              <header class="mb-10 pb-6 border-b border-outline-variant">
+                <div class="flex flex-row items-end justify-between gap-6">
+                  <div>
+                    <p class="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-2 font-mono" data-i18n="crm.breadcrumb">—</p>
+                    <h1 class="font-serif text-5xl font-light tracking-[0.06em] text-on-background" data-i18n="crm.title">—</h1>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button type="button" class="px-4 py-2 text-[10px] uppercase tracking-[0.2em] border border-accent/50 bg-accent/10 text-accent transition-all duration-300" data-action="CRMFilter" data-filter="all" data-i18n="crm.filter.all">—</button>
+                    <button type="button" class="px-4 py-2 text-[10px] uppercase tracking-[0.2em] border border-outline-variant text-on-surface-variant hover:border-accent/30 hover:text-accent transition-all duration-300" data-action="CRMFilter" data-filter="Due Diligence" data-i18n="crm.filter.due_diligence">—</button>
+                    <button type="button" class="px-4 py-2 text-[10px] uppercase tracking-[0.2em] border border-outline-variant text-on-surface-variant hover:border-accent/30 hover:text-accent transition-all duration-300" data-action="CRMFilter" data-filter="Firma Pendiente" data-i18n="crm.filter.pending">—</button>
+                  </div>
+                </div>
+              </header>
+
+              <section class="mb-12 border-0 bg-transparent backdrop-blur-none" aria-labelledby="expedientes-heading">
+                <h2 id="expedientes-heading" class="sr-only" data-i18n="crm.table.aria">—</h2>
+                <div class="hidden md:grid grid-cols-[120px_1fr_140px_120px_140px] gap-4 px-6 pb-3 mb-2 border-b border-outline-variant/30 bg-transparent">
+                  <span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-mono" data-i18n="crm.table.col_id">—</span>
+                  <span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-mono" data-i18n="crm.table.col_asset">—</span>
+                  <span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-mono text-center" data-i18n="crm.table.col_status">—</span>
+                  <span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-mono text-center" data-i18n="crm.table.col_kyc">—</span>
+                  <span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-mono text-right" data-i18n="crm.table.col_action">—</span>
+                </div>
+                <!-- El cuerpo de la tabla se puebla dinámicamente vía UIBinder.populateCRMTable() -->
+                <div id="crm-table-body"></div>
+              </section>
+
+              <section id="expediente-detail" class="hidden border border-outline-variant bg-surface/20 backdrop-blur-sm" aria-labelledby="detail-heading">
+                <div class="px-8 py-6 border-b border-outline-variant flex items-center justify-between">
+                  <h2 id="detail-heading" class="font-serif text-2xl font-light tracking-wide text-on-background" data-i18n="crm.detail.title">—</h2>
+                  <span class="font-mono text-xs text-accent tracking-wider">AIP-2026-001</span>
+                </div>
+                <div class="p-8">
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 pb-8 border-b border-outline-variant">
+                    <div class="space-y-2">
+                      <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-mono" data-i18n="crm.detail.country">—</p>
+                      <p class="text-lg text-on-background tracking-wide" id="detail-pais">Países Bajos</p>
+                    </div>
+                    <div class="space-y-2">
+                      <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-mono" data-i18n="crm.detail.ticket">—</p>
+                      <p class="text-lg text-on-background tracking-wide font-mono" id="detail-ticket">€ 250,000</p>
+                    </div>
+                    <div class="space-y-2">
+                      <p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-mono" data-i18n="crm.detail.roi">—</p>
+                      <p class="text-lg text-accent tracking-wide font-mono" id="detail-roi">+12.4%</p>
+                    </div>
+                  </div>
+                  <div class="space-y-6">
+                    <h3 class="text-xs uppercase tracking-[0.25em] text-on-surface-variant mb-6" data-i18n="crm.detail.timeline">—</h3>
+                    <div class="flex items-start gap-4">
+                      <div class="shrink-0 w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-accent text-lg">check_circle</span>
+                      </div>
+                      <div class="flex-1 pt-1">
+                        <p class="text-sm text-on-background tracking-wide">KYC Nivel 1 — Identidad Verificada</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-wider mt-1">Completado · 2026-03-15</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                      <div class="shrink-0 w-8 h-8 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-accent text-lg">lock_open</span>
+                      </div>
+                      <div class="flex-1 pt-1">
+                        <p class="text-sm text-on-background tracking-wide">Acuerdo de Confidencialidad (NCNDA)</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-wider mt-1">Completado · 2026-03-22</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start gap-4 opacity-40 skeleton-blur">
+                      <div class="shrink-0 w-8 h-8 rounded-full bg-surface/30 border border-outline-variant flex items-center justify-center">
+                        <span class="material-symbols-outlined text-on-surface-variant text-lg">lock</span>
+                      </div>
+                      <div class="flex-1 pt-1">
+                        <p class="text-sm text-on-surface-variant tracking-wide">Due Diligence Financiera Extendida</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase tracking-wider mt-1" data-i18n="crm.detail.blocked_kyc2">—</p>
+                      </div>
+                      <button type="button" class="shrink-0 px-4 py-2 text-[10px] uppercase tracking-[0.2em] border border-outline-variant text-on-surface-variant hover:border-accent/30 hover:text-accent transition-all duration-300" data-action="KYC2Request" data-i18n="crm.action.request_kyc2">—</button>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
         </section>
 
-        <!-- Orbit 3: Sidebar Container -->
-        <aside class="relative bg-surface-container-lowest flex flex-col border-l border-surface-variant" id="sidebar">
-            <div class="flex-1 flex flex-col" id="orbit-3-content">
-                <!-- Initial State: Institutional Credentials -->
-                <div class="h-16 flex items-center justify-between px-8 border-b border-surface-variant">
-                    <h3 class="text-ui-label text-[10px] tracking-[0.3em] text-on-surface-variant uppercase hide-on-rail transition-opacity duration-300">Credenciales</h3>
-                    <button onclick="toggleSidebar()" class="text-on-surface-variant hover:text-secondary transition-colors">
-                        <span class="material-symbols-outlined transition-transform duration-500">chevron_right</span>
-                    </button>
-                </div>
-                <div class="p-8 space-y-12 overflow-y-auto hide-on-rail transition-opacity duration-300">
-                    <div class="space-y-6">
-                        <h3 class="font-ui-label text-secondary uppercase tracking-[0.2em] text-[10px] mb-4">Estado del Nodo</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
-                                <span class="text-[9px] uppercase text-outline">Latencia</span>
-                                <span class="font-ui-label text-[10px] text-on-surface">12ms</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
-                                <span class="text-[9px] uppercase text-outline">Ubicación</span>
-                                <span class="font-ui-label text-[10px] text-on-surface">ZURICH NODE 7</span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="space-y-8">
-                        <div class="space-y-2">
-                            <span class="font-ui-label text-[10px] text-secondary tracking-[0.25em] uppercase">Active Deployments</span>
-                            <div class="h-px w-full bg-secondary/20"></div>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
-                                <div>
-                                    <p class="font-ui-label text-xs text-on-surface uppercase">Geneva Node</p>
-                                    <p class="font-caption text-[10px] text-outline">Project: ARCHON</p>
-                                </div>
-                                <div class="size-2 bg-secondary animate-pulse"></div>
-                            </div>
-                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
-                                <div>
-                                    <p class="font-ui-label text-xs text-on-surface uppercase">Singapore Hub</p>
-                                    <p class="font-caption text-[10px] text-outline">Project: VERTEX</p>
-                                </div>
-                                <div class="size-2 bg-secondary"></div>
-                            </div>
-                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
-                                <div>
-                                    <p class="font-ui-label text-xs text-on-surface uppercase">London Central</p>
-                                    <p class="font-caption text-[10px] text-outline">Project: MERIDIAN</p>
-                                </div>
-                                <div class="size-2 bg-outline/20"></div>
-                            </div>
-                        </div>
-                    </div>
+        <aside id="orbit-3"
+            class="orbit-3 relative flex flex-shrink-0 w-[400px] border-l border-[var(--stitch-border)] bg-[var(--stitch-bg-dark)] transition-all duration-700 translate-x-full">
+            
+            <!-- Panel Escroleable O3 -->
+            <div id="orbit-3-panel" class="flex-1 overflow-y-auto stitch-panel m-2 p-4">
+                
+                <div id="handoff-container" class="w-full flex flex-col skeleton-blur opacity-0 pointer-events-none transition-opacity duration-300 min-h-full relative">
                     
-                    <div class="glass-card p-6 space-y-4">
-                        <span class="font-ui-label text-[10px] text-secondary tracking-widest uppercase">Global Indices</span>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="font-caption text-[10px] text-outline">ATP-G</p>
-                                <p class="font-ui-label text-xs text-on-surface font-bold">+12.4%</p>
+                    <!-- CARA A: Seducción Fiduciaria -->
+                    <div id="orbit-3-idle" class="flex flex-col flex-1 transition-opacity duration-500 pb-8">
+                        <header class="mb-8 pb-6 border-b border-[var(--stitch-border)]">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="relative flex h-3 w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--theme-success)] opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-[var(--theme-success)]"></span>
+                                </span>
+                                <p class="text-[10px] uppercase tracking-[0.3em] text-[var(--theme-success)] font-mono" data-i18n="gatekeeper.idle.status_live">—</p>
                             </div>
-                            <div>
-                                <p class="font-caption text-[10px] text-outline">AIP-S</p>
-                                <p class="font-ui-label text-xs text-secondary font-bold">+0.8%</p>
+                            <h1 class="font-serif text-3xl md:text-4xl font-light tracking-[0.08em] text-white" data-i18n="gatekeeper.idle.title">—</h1>
+                            <p class="text-xs text-white/60 tracking-wide mt-2 max-w-sm" data-i18n="gatekeeper.idle.subtitle">—</p>
+                        </header>
+
+                        <!-- MÓDULOS DE SEDUCCIÓN -->
+                        <section class="space-y-4">
+                            <!-- Tarjeta 1: Caso de Éxito -->
+                            <div class="stitch-drawer p-5 rounded-sm">
+                                <h3 class="text-xs uppercase tracking-[0.2em] text-[var(--stitch-gold)] font-mono mb-3" data-i18n="landing.card1">Caso de Éxito / Preservación</h3>
+                                <p class="text-sm text-white/70 leading-relaxed font-serif italic">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                            </div>
+                            
+                            <!-- Tarjeta 2: Métricas de Volumen -->
+                            <div class="stitch-drawer p-5 rounded-sm">
+                                <h3 class="text-xs uppercase tracking-[0.2em] text-[var(--stitch-gold)] font-mono mb-3" data-i18n="landing.card2">Métricas de Volumen</h3>
+                                <p class="text-sm text-white/70 leading-relaxed font-serif italic">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+                            </div>
+
+                            <button type="button" class="w-full mt-6 py-4 stitch-btn-gold text-[11px] uppercase tracking-[0.35em] font-bold" data-action="AuthToggle" data-i18n="landing.btn_access">SOLICITAR ACCESO AL CLUB</button>
+                        </section>
+
+                        <!-- EL TEASER DE AIMON -->
+                        <div class="mt-8 stitch-panel p-5 rounded-sm border border-[var(--stitch-border)] group">
+                            <h3 class="text-xs uppercase tracking-[0.2em] text-white/60 font-mono mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[16px]">psychology</span>
+                                AIMON - Inteligencia Fiduciaria
+                            </h3>
+                            <input type="text" class="w-full px-4 py-3 text-sm text-white/50 readonly cursor-not-allowed bg-black/50 border border-[var(--stitch-border)] rounded-sm focus:outline-none" readonly placeholder=">_ Esperando input..." />
+                            <div class="h-6 mt-2 overflow-hidden">
+                                <p class="text-[10px] text-error tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-i18n="landing.aimon_alert">Módulo restringido. Solicite clearance fiduciario para operar.</p>
                             </div>
                         </div>
+
                     </div>
 
-                    <div class="relative h-40 w-full border border-secondary/10 overflow-hidden group">
-                        <img alt="Abstract Blue" class="w-full h-full object-cover grayscale opacity-20 group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjN2ULvLKs0Yhvv0iovbQSS0gld3u17eyL8q7fbX_Ee3iOsFhTWiKtSeXpfpPT5hKWTE_4WP25am3CmIQM6aWHBiUMN40OXoU6AWaR0b-Meue3st8jizpa0X1gRTotrArQaZUVp-i5hntKRBeuJXP-jkAqq-ZeTR9fjMdADrXcaRGnsbiKDg_8ckYpt--4nroThV7_oxnydAWZiLnXyfx99IEvF7lQPun1-2FwMfFSwCjAAyNRRxHrBrvQ_nDcBCZpaPJgatpV3nht" />
-                        <div class="absolute inset-0 flex items-center justify-center bg-background/60">
-                            <span class="font-ui-label text-[10px] text-secondary uppercase tracking-[0.5em]">Credentials</span>
+                    <!-- CARA B: Gatekeeper Panel (Se mantiene estructuralmente, adaptado a su contenedor) -->
+                    <div id="gatekeeper-panel" class="hidden w-full flex flex-col absolute inset-0 bg-[var(--stitch-bg-dark)] z-10 pb-8">
+                        <button type="button" class="absolute top-2 right-2 text-on-surface-variant hover:text-accent transition-colors" data-action="GateIdle" aria-label="—" data-i18n-aria="gatekeeper.close.label">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+
+                        <section class="mb-8 w-full mt-10">
+                            <details class="w-full mt-4 group">
+                                <summary class="cursor-pointer text-sm text-[var(--stitch-gold)] text-center list-none opacity-80 hover:opacity-100 transition-opacity">Acceso Rápido Corporativo</summary>
+                                <div class="grid grid-cols-2 gap-3 pt-4">
+                                    <button type="button" class="flex items-center justify-center gap-3 px-4 py-3 border border-[var(--stitch-border)] hover:bg-white/5 hover:border-[var(--stitch-gold)] transition-all duration-300 rounded-sm" data-action="OAuthSuccess" data-provider="google">
+                                        <span class="material-symbols-outlined text-white/50 text-lg">account_circle</span>
+                                        <span class="text-[10px] uppercase tracking-wider text-white/50">Google</span>
+                                    </button>
+                                    <button type="button" class="flex items-center justify-center gap-3 px-4 py-3 border border-[var(--stitch-border)] hover:bg-white/5 hover:border-[var(--stitch-gold)] transition-all duration-300 rounded-sm" data-action="OAuthSuccess" data-provider="microsoft">
+                                        <span class="material-symbols-outlined text-white/50 text-lg">business_center</span>
+                                        <span class="text-[10px] uppercase tracking-wider text-white/50">Microsoft</span>
+                                    </button>
+                                </div>
+                            </details>
+                        </section>
+
+                        <section class="mb-8 w-full">
+                            <h3 class="text-xs uppercase tracking-[0.25em] text-white/60 mb-6 border-b border-[var(--stitch-border)] pb-2" data-i18n="gatekeeper.manual.title">—</h3>
+                            <form id="onboarding-form" class="space-y-6 stitch-panel p-6 rounded-sm border border-[var(--stitch-gold)]/40" novalidate>
+                                
+                                <!-- SELECTOR DE CARRIL -->
+                                <div class="flex flex-col gap-4 pb-6 border-b border-[var(--stitch-border)]/50">
+                                    <h4 class="text-[10px] uppercase tracking-widest text-[var(--stitch-gold)]" data-i18n="landing.role">Inversor / Agente</h4>
+                                    <label class="flex items-center gap-3 cursor-pointer group">
+                                        <input type="radio" name="user_type" value="investor" class="w-4 h-4 accent-[var(--stitch-gold)] bg-black/30 border-[var(--stitch-border)]" data-action="AgentRoleToggle" checked>
+                                        <span class="text-xs uppercase tracking-[0.2em] text-white/70 group-hover:text-[var(--stitch-gold)] transition-colors">Inversor Privado</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 cursor-pointer group">
+                                        <input type="radio" name="user_type" value="agent" class="w-4 h-4 accent-[var(--stitch-gold)] bg-black/30 border-[var(--stitch-border)]" data-action="AgentRoleToggle">
+                                        <span class="text-xs uppercase tracking-[0.2em] text-white/70 group-hover:text-[var(--stitch-gold)] transition-colors">Agente Fiduciario</span>
+                                    </label>
+                                </div>
+
+                                <!-- TIPO DE CLIENTE (Hidden by default) -->
+                                <div id="agent-client-type" class="hidden space-y-2">
+                                    <label class="text-[10px] uppercase tracking-[0.2em] text-[var(--stitch-gold)]">Tipo de Cliente Representado *</label>
+                                    <select id="client-representation-type" class="w-full px-4 py-3 border border-[var(--stitch-border)] bg-black/30 text-sm focus:border-[var(--stitch-gold)] focus:outline-none transition-colors rounded-sm text-white">
+                                        <option value="">Seleccione tipo de cliente...</option>
+                                        <option value="institucional">Fondo Institucional</option>
+                                        <option value="family_office">Family Office</option>
+                                        <option value="hnwi">HNWI (High Net Worth Individual)</option>
+                                    </select>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] uppercase tracking-[0.2em] text-white/50">Email Fiduciario *</label>
+                                        <input type="email" class="w-full px-4 py-3 border border-[var(--stitch-border)] bg-black/30 text-sm focus:border-[var(--stitch-gold)] focus:outline-none transition-colors rounded-sm text-white" placeholder="correo@dominio.com">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] uppercase tracking-[0.2em] text-white/50">Razón Social</label>
+                                        <input type="text" class="w-full px-4 py-3 border border-[var(--stitch-border)] bg-black/30 text-sm focus:border-[var(--stitch-gold)] focus:outline-none transition-colors rounded-sm text-white" placeholder="Empresa o entidad">
+                                    </div>
+                                    <div class="space-y-2 pt-2">
+                                        <label class="text-[10px] uppercase tracking-[0.2em] text-[var(--stitch-gold)] font-medium">Declaración de Intención *</label>
+                                        <textarea class="w-full px-4 py-3 border border-[var(--stitch-border)] bg-black/30 text-sm focus:border-[var(--stitch-gold)] focus:outline-none transition-colors rounded-sm resize-none text-white" rows="3" placeholder="Motivo de su solicitud..."></textarea>
+                                    </div>
+                                    <label class="flex items-start gap-3 cursor-pointer group mt-4">
+                                        <input type="checkbox" required class="mt-0.5 w-4 h-4 border border-[var(--stitch-border)] bg-black/30 accent-[var(--stitch-gold)] rounded-sm cursor-pointer" data-action="ConsentToggle" data-consent="gdpr">
+                                        <span class="text-[10px] text-white/60 leading-relaxed group-hover:text-[var(--stitch-gold)] transition-colors">Acepto el tratamiento de datos (RGPD) *</span>
+                                    </label>
+                                </div>
+                            </form>
+                        </section>
+
+                        <div class="mt-auto pt-6 flex items-center justify-between gap-4 border-t border-[var(--stitch-border)] w-full">
+                            <button type="button" class="px-6 py-4 stitch-btn-gold text-[10px] uppercase tracking-[0.3em] font-bold rounded-sm flex-1" data-action="AuthSubmit">SOLICITAR CLEARANCE</button>
+                            <button type="button" class="px-4 py-3 text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-error transition-colors duration-300" data-action="GateClosed">CANCELAR</button>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Raíl Fijo Derecho O3 -->
+            <div id="orbit-3-rail" class="w-16 flex-shrink-0 flex flex-col items-center py-4 border-l border-[var(--stitch-border)]">
+                <!-- Chevron Colapso -->
+                <button type="button" class="flex items-center justify-center w-8 h-8 rounded-sm bg-surface/50 border border-outline-variant text-on-surface-variant hover:text-accent hover:border-accent/50 transition-all duration-300" data-action="toggleOrbit3">
+                    <span class="material-symbols-outlined text-lg">chevron_right</span>
+                </button>
             </div>
             
-            <!-- Rail Footer (Minimal Status) -->
-            <div class="h-16 px-8 flex items-center gap-4 border-t border-surface-variant">
-                <div class="size-1.5 bg-secondary shadow-[0_0_8px_rgba(197,160,89,0.8)]"></div>
-                <span class="text-[9px] font-ui-label tracking-[0.2em] text-on-surface-variant uppercase">Sistema Operativo</span>
-            </div>
         </aside>
     </main>
 
-    <!-- Background Atmospheric Glows -->
-    <div class="fixed top-[-20%] left-[-10%] w-[60%] h-[60%] bg-surface-bright/20 blur-[120px] -z-20 pointer-events-none rounded-full"></div>
-    <div class="fixed bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-secondary/5 blur-[100px] -z-20 pointer-events-none rounded-full"></div>
+    <footer class="flex-none z-40 flex flex-col lg:flex-row justify-between gap-4 items-center px-8 py-3 text-[10px] uppercase tracking-[0.2em] border-t border-[var(--stitch-border)] bg-[var(--stitch-bg-dark)]/90 backdrop-blur-md">
+        <!-- Espacio izquierdo (Copyright) -->
+        <div class="hidden lg:block lg:w-1/3">
+            <p class="text-white/30 whitespace-nowrap" data-i18n="footer.copyright">—</p>
+        </div>
 
-    <script>
-        // Store original content to allow seamless reset
-        const originalOrbit3 = `
-                <div class="h-16 flex items-center justify-between px-8 border-b border-surface-variant">
-                    <h3 class="text-ui-label text-[10px] tracking-[0.3em] text-on-surface-variant uppercase hide-on-rail transition-opacity duration-300">Credenciales</h3>
-                    <button onclick="toggleSidebar()" class="text-on-surface-variant hover:text-secondary transition-colors">
-                        <span class="material-symbols-outlined transition-transform duration-500">chevron_right</span>
-                    </button>
-                </div>
-                <div class="p-8 space-y-12 overflow-y-auto hide-on-rail transition-opacity duration-300">
-                    <div class="space-y-6">
-                        <h3 class="font-ui-label text-secondary uppercase tracking-[0.2em] text-[10px] mb-4">Estado del Nodo</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
-                                <span class="text-[9px] uppercase text-outline">Latencia</span>
-                                <span class="font-ui-label text-[10px] text-on-surface">12ms</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b border-secondary/10 pb-2">
-                                <span class="text-[9px] uppercase text-outline">Ubicación</span>
-                                <span class="font-ui-label text-[10px] text-on-surface">ZURICH NODE 7</span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="space-y-8">
-                        <div class="space-y-2">
-                            <span class="font-ui-label text-[10px] text-secondary tracking-[0.25em] uppercase">Active Deployments</span>
-                            <div class="h-px w-full bg-secondary/20"></div>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
-                                <div>
-                                    <p class="font-ui-label text-xs text-on-surface uppercase">Geneva Node</p>
-                                    <p class="font-caption text-[10px] text-outline">Project: ARCHON</p>
-                                </div>
-                                <div class="size-2 bg-secondary animate-pulse"></div>
-                            </div>
-                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
-                                <div>
-                                    <p class="font-ui-label text-xs text-on-surface uppercase">Singapore Hub</p>
-                                    <p class="font-caption text-[10px] text-outline">Project: VERTEX</p>
-                                </div>
-                                <div class="size-2 bg-secondary"></div>
-                            </div>
-                            <div class="flex justify-between items-end border-b border-secondary/10 pb-4 group cursor-pointer hover:border-secondary transition-colors">
-                                <div>
-                                    <p class="font-ui-label text-xs text-on-surface uppercase">London Central</p>
-                                    <p class="font-caption text-[10px] text-outline">Project: MERIDIAN</p>
-                                </div>
-                                <div class="size-2 bg-outline/20"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-6 space-y-4">
-                        <span class="font-ui-label text-[10px] text-secondary tracking-widest uppercase">Global Indices</span>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="font-caption text-[10px] text-outline">ATP-G</p>
-                                <p class="font-ui-label text-xs text-on-surface font-bold">+12.4%</p>
-                            </div>
-                            <div>
-                                <p class="font-caption text-[10px] text-outline">AIP-S</p>
-                                <p class="font-ui-label text-xs text-secondary font-bold">+0.8%</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="relative h-40 w-full border border-secondary/10 overflow-hidden group">
-                        <img alt="Abstract Blue" class="w-full h-full object-cover grayscale opacity-20 group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjN2ULvLKs0Yhvv0iovbQSS0gld3u17eyL8q7fbX_Ee3iOsFhTWiKtSeXpfpPT5hKWTE_4WP25am3CmIQM6aWHBiUMN40OXoU6AWaR0b-Meue3st8jizpa0X1gRTotrArQaZUVp-i5hntKRBeuJXP-jkAqq-ZeTR9fjMdADrXcaRGnsbiKDg_8ckYpt--4nroThV7_oxnydAWZiLnXyfx99IEvF7lQPun1-2FwMfFSwCjAAyNRRxHrBrvQ_nDcBCZpaPJgatpV3nht" />
-                        <div class="absolute inset-0 flex items-center justify-center bg-background/60">
-                            <span class="font-ui-label text-[10px] text-secondary uppercase tracking-[0.5em]">Credentials</span>
-                        </div>
+        <!-- TICKER DE MERCADO CON PROFUNDIDAD (3D Tunnel) -->
+        <div class="w-full lg:w-1/3 flex justify-center">
+            <div class="relative w-full max-w-sm stitch-drawer rounded-sm border border-[var(--stitch-border)]/50 overflow-hidden">
+                <!-- Sombras de Túnel -->
+                <div class="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#0C121A] to-transparent z-10"></div>
+                <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#0C121A] to-transparent z-10"></div>
+                
+                <!-- Ticker Content -->
+                <div class="py-2 flex items-center justify-center ticker-wrap w-full overflow-hidden whitespace-nowrap">
+                    <div class="ticker-content text-[var(--stitch-gold)] font-mono text-[10px] tracking-wider opacity-90">
+                        XAU/USD $2,340 (+0.4%) &nbsp;&bull;&nbsp; BTC/USD $64,200 (-1.2%) &nbsp;&bull;&nbsp; EUR/CHF 0.98 (+0.1%)
                     </div>
                 </div>
-        `;
+            </div>
+        </div>
 
-        function toggleSidebar() {
-            const layout = document.getElementById('trinity-layout');
-            const sidebar = document.getElementById('sidebar');
-            if (!layout || !sidebar) return;
+        <!-- ENLACES INSTITUCIONALES -->
+        <div class="flex items-center justify-end gap-6 w-full lg:w-1/3">
+            <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity" data-action="OpenPage" data-page="faq">FAQ</button>
+            <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity" data-action="OpenPage" data-page="contact">Contacto</button>
+        </div>
+    </footer>
 
-            layout.classList.toggle('orbit-3-collapsed');
-            sidebar.classList.toggle('rail-mode');
-            
-            const icon = sidebar.querySelector('button span');
-            if (icon) {
-                icon.style.transform = layout.classList.contains('orbit-3-collapsed') ? 'rotate(180deg)' : 'rotate(0deg)';
-            }
-        }
 
-        function resetOrbit3() {
-            const content = document.getElementById('orbit-3-content');
-            content.classList.add('opacity-0');
-            setTimeout(() => {
-                content.innerHTML = originalOrbit3;
-                content.classList.remove('opacity-0');
-            }, 300);
-        }
-
-        function hydrateAccessForm() {
-            const content = document.getElementById('orbit-3-content');
-            content.classList.add('opacity-0');
-            
-            setTimeout(() => {
-                content.innerHTML = `
-                    <div class="h-16 flex items-center justify-between px-8 border-b border-secondary/20 animate-fade-in shrink-0">
-                        <h3 class="text-ui-label text-[10px] tracking-[0.3em] text-secondary uppercase font-bold">Protocolo de Acceso</h3>
-                        <button onclick="resetOrbit3()" class="size-8 flex items-center justify-center text-on-surface-variant hover:text-secondary hover:bg-secondary/10 transition-all rounded-full">
-                            <span class="material-symbols-outlined text-lg">close</span>
-                        </button>
-                    </div>
-                    <div class="flex-1 overflow-y-auto px-10 py-8 space-y-8 animate-fade-in custom-scrollbar">
-                        <div class="space-y-3">
-                            <div class="flex justify-between text-[9px] font-ui-label tracking-[0.2em] text-secondary/60 uppercase">
-                                <span>Paso 01 / 03</span>
-                                <span>Identificación Institucional</span>
-                            </div>
-                            <div class="h-[1px] w-full bg-surface-variant">
-                                <div class="h-full bg-secondary w-1/3 transition-all duration-1000"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-6">
-                            <h4 class="font-h3 text-lg text-white font-light leading-snug">Inicie su protocolo de acceso fiduciario</h4>
-                            
-                            <div class="space-y-5">
-                                <div class="space-y-1.5">
-                                    <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Nombre Completo (Legal)</label>
-                                    <input class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors" placeholder="Nombre y Apellidos" type="text" />
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-1.5">
-                                        <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Email Corporativo</label>
-                                        <input class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors" placeholder="user@institution.com" type="email" />
-                                    </div>
-                                    <div class="space-y-1.5">
-                                        <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Teléfono Directo</label>
-                                        <input class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors" placeholder="+00 000 000 000" type="tel" />
-                                    </div>
-                                </div>
-                                <div class="space-y-1.5">
-                                    <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Jurisdicción de Origen / Nodo</label>
-                                    <input class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors" placeholder="País o ID de Entidad" type="text" />
-                                </div>
-                                <div class="space-y-1.5">
-                                    <label class="text-[9px] font-bold tracking-[0.1em] text-secondary uppercase">Declaración de Intención</label>
-                                    <textarea class="w-full bg-surface-container-low border border-secondary/10 focus:border-secondary focus:ring-0 text-white px-4 py-2 text-xs transition-colors min-h-[100px] resize-none" placeholder="Especifique el objeto de su consulta..."></textarea>
-                                    <p class="text-[8px] text-on-surface-variant leading-tight italic opacity-70">Este párrafo constituye una pre-cualificación institucional. Un texto insuficiente o genérico activará revisión manual adicional.</p>
-                                </div>
-                            </div>
-
-                            <button onclick="window.location.href='secure-gate.html'" class="w-full py-3.5 bg-secondary text-on-secondary text-[10px] tracking-[0.2em] font-bold hover:brightness-110 transition-all uppercase shadow-lg shadow-secondary/5">
-                                Continuar Protocolo
-                            </button>
-                        </div>
-
-                        <div class="relative py-4">
-                            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-surface-variant"></div></div>
-                            <div class="relative flex justify-center">
-                                <span class="bg-surface-container-lowest px-4 text-[8px] text-on-surface-variant font-ui-label tracking-[0.2em] font-bold uppercase">Verificación Delegada</span>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col gap-3 pb-8 w-full animate-fade-in">
-                            <!-- Google Access -->
-                            <button onclick="window.location.href='secure-gate.html'" 
-                                    class="flex items-center justify-center gap-4 w-full py-4 px-6 border border-secondary/10 bg-background/20 luxury-blur hover:border-secondary/40 hover:bg-secondary/5 transition-all group active:scale-[0.98]">
-                                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" alt="Google">
-                                <span class="font-ui-label text-[10px] uppercase tracking-[0.3em] text-on-surface/60 group-hover:text-secondary transition-colors">Continuar con Google</span>
-                            </button>
-                            
-                            <!-- Microsoft Access -->
-                            <button onclick="window.location.href='secure-gate.html'" 
-                                    class="flex items-center justify-center gap-4 w-full py-4 px-6 border border-secondary/10 bg-background/20 luxury-blur hover:border-secondary/40 hover:bg-secondary/5 transition-all group active:scale-[0.98]">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" alt="Microsoft">
-                                <span class="font-ui-label text-[10px] uppercase tracking-[0.3em] text-on-surface/60 group-hover:text-secondary transition-colors">Continuar con Microsoft</span>
-                            </button>
-                            
-                            <!-- Apple Access -->
-                            <button onclick="window.location.href='secure-gate.html'" 
-                                    class="flex items-center justify-center gap-4 w-full py-4 px-6 border border-secondary/10 bg-background/20 luxury-blur hover:border-secondary/40 hover:bg-secondary/5 transition-all group active:scale-[0.98]">
-                                <span class="material-symbols-outlined text-lg opacity-40 group-hover:opacity-100 transition-opacity text-on-surface" style="font-variation-settings: 'FILL' 1;">apple</span>
-                                <span class="font-ui-label text-[10px] uppercase tracking-[0.3em] text-on-surface/60 group-hover:text-secondary transition-colors">Continuar con Apple</span>
-                            </button>
-                            
-                            <!-- LinkedIn Access -->
-                            <button onclick="window.location.href='secure-gate.html'" 
-                                    class="flex items-center justify-center gap-4 w-full py-4 px-6 border border-secondary/10 bg-background/20 luxury-blur hover:border-secondary/40 hover:bg-secondary/5 transition-all group active:scale-[0.98]">
-                                <svg class="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity fill-current text-on-surface" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                                </svg>
-                                <span class="font-ui-label text-[10px] uppercase tracking-[0.3em] text-on-surface/60 group-hover:text-secondary transition-colors">Continuar con LinkedIn</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                content.classList.remove('opacity-0');
-            }, 300);
-        }
-    </script>
+    <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

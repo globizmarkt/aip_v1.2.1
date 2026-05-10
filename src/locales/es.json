@@ -1,0 +1,158 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "schema": "AIP-i18n-v1",
+    "jurisdiction": "Netherlands/AFM_DNB",
+    "namespace": "Skeleton"
+  },
+  "meta": {
+    "title": "AIP Firm — Landing Institucional"
+  },
+  "header": {
+    "brand": "ATLANTIS INTERNATIONAL PROJECTS"
+  },
+  "nav": {
+    "market": "Mercados",
+    "news": "Noticias",
+    "legislation": "Legislación",
+    "request_access": "Solicitar Acceso"
+  },
+  "hero": {
+    "title": "Inteligencia Fiduciaria",
+    "subtitle": "Estructuración independiente de activos. Cumplimiento institucional. Preservación de patrimonio soberano bajo marco de custodia neerlandés.",
+    "cta_onboarding": "Iniciar Onboarding"
+  },
+  "feed": {
+    "market": "Pulso del Mercado",
+    "ticker_xau": "XAU/USD: 2.345,20",
+    "ticker_sofr": "SOFR: 5,33%",
+    "news_q3": "T3 2026 — Estructura STAK finalizada bajo supervisión AFM. AIP Firm alcanza estatus operativo completo.",
+    "news_kyc": "Marco KYC/AML v2.4 promulgado. Onboarding institucional requiere diligencia debida reforzada.",
+    "legislation": "Horizonte Regulatorio",
+    "basel_desc": "Cronograma de implementación de Basel III Final acelerado. Marco de riesgo de contraparte actualizado.",
+    "directives_link": "Ver directivas →"
+  },
+  "footer": {
+    "ticker": "AIP Firm | Registrada en Países Bajos | Supervisada AFM/DNB | Estructura fiduciaria STAK",
+    "copyright": "© 2026 Atlantis International Projects. Todos los derechos reservados."
+  },
+  "gatekeeper": {
+    "idle": {
+      "status_live": "SISTEMA ACTIVO",
+      "title": "Integridad del Sistema",
+      "subtitle": "Terminal de acceso fiduciario operando bajo protocolos de encriptación militar y supervisión regulatoria neerlandesa.",
+      "telemetry_aria": "Datos de Telemetría del Sistema",
+      "metric_latency": "Latencia del Núcleo",
+      "latency_status": "ÓPTIMA",
+      "metric_nodes": "Nodos de Red Activos",
+      "metric_encryption": "Protocolo de Seguridad",
+      "quantum_ready": "LISTO PARA COMPUTACIÓN CUÁNTICA",
+      "metric_session": "Estado de la Sesión",
+      "session_desc": "Conexión anónima cifrada de punto a punto.",
+      "cta_access": "Solicitar Acceso Fiduciario",
+      "cta_disclaimer": "El acceso requiere validación de identidad KYC Nivel 1."
+    },
+    "onboarding": {
+      "name_label": "Nombre legal completo",
+      "name_placeholder": "Tal como figura en el pasaporte",
+      "email_label": "Dirección de correo electrónico",
+      "email_placeholder": "dominio institucional preferente",
+      "phone_label": "Teléfono de contacto directo",
+      "phone_placeholder": "+34 XXX XXX XXX",
+      "country_label": "Jurisdicción de residencia",
+      "country_placeholder": "Seleccione país",
+      "ambassador_label": "Embajador introductor (si procede)",
+      "ambassador_placeholder": "Nombre del representante AIP que le refiere",
+      "privacy_notice": "Al continuar, reconoce nuestra Política de Privacidad y consiente el tratamiento de sus datos personales para fines KYC/AML conforme a los requisitos de AFM/DNB.",
+      "rgpd_consent": "Confirmo que he leído y comprendido la Nota de Tratamiento Justo (Art 13/14 RGPD).",
+      "data_retention": "Su información se conservará durante la vigencia de nuestra relación fiduciaria y durante 7 años después, según lo exige el marco regulatorio financiero neerlandés."
+    },
+    "aimon": {
+      "label": "AIMON · Sistema de Acceso Fiduciario",
+      "welcome": "Puerta de acceso segura. AIP opera bajo estructura STAK neerlandesa, supervisada por AFM/DNB. Su interacción está sujeta a confidencialidad fiduciaria.",
+      "intent": "Describa su objetivo de asignación institucional en no menos de 12 palabras. La especificidad calibra el umbral de integridad de acceso.",
+      "intent_label": "Declaración de Intención Fiduciaria",
+      "intent_placeholder": "Describa su objetivo de asignación institucional en no menos de 12 palabras...",
+      "elevate_btn": "Elevar Consulta →",
+      "elevation": {
+        "queued": "Elevando consulta a la mesa de estrategia de cartera",
+        "coordinating": "Coordinando con el equipo de gestión de activos — ventana de respuesta estándar: 2-4 horas hábiles",
+        "supervised": "Respuesta tutelada en proceso. Se le notificará a través de canal seguro."
+      },
+      "fallback": "—"
+    },
+    "oauth": {
+      "title": "Acceso Institucional Rápido",
+      "google": "Continuar con Google",
+      "microsoft": "Continuar con Microsoft",
+      "apple": "Continuar con Apple",
+      "linkedin": "Continuar con LinkedIn"
+    },
+    "manual": {
+      "title": "Formulario de Onboarding Manual"
+    },
+    "consent": {
+      "gdpr": "Confirmo que he leído y comprendido la Nota de Tratamiento Justo (Art 13/14 RGPD) y consiento el tratamiento de mis datos para fines KYC/AML.",
+      "retention": "Comprendo que mis datos se conservarán durante la vigencia de la relación fiduciaria y 7 años posteriores conforme al marco regulatorio neerlandés."
+    },
+    "vip": {
+      "title": "Acceso Privilegiado VIP",
+      "key_label": "Clave de Acceso VIP",
+      "key_placeholder": "••••••••••••"
+    },
+    "action": {
+      "primary": "Solicitar Acceso Fiduciario",
+      "secondary": "Cerrar Panel"
+    },
+    "close": {
+      "label": "Cerrar panel y volver a telemetría"
+    }
+  },
+  "crm": {
+      "breadcrumb": "Portafolio Institucional",
+      "title": "Mis Expedientes",
+      "filter": {
+        "all": "Todos",
+        "due_diligence": "Due Diligence",
+        "pending": "Firma Pendiente"
+      },
+      "table": {
+        "aria": "Tabla de Proyectos CRM",
+        "col_id": "ID",
+        "col_asset": "Activo Fiduciario",
+        "col_status": "Estado",
+        "col_kyc": "Nivel KYC",
+        "col_action": "Acción"
+      },
+      "action": {
+        "open": "Abrir Expediente",
+        "request_kyc2": "Solicitar KYC Nivel 2"
+      },
+      "detail": {
+        "title": "Detalle de Expediente",
+        "country": "Jurisdicción",
+        "ticket": "Ticket Mínimo",
+        "roi": "ROI Objetivo",
+        "timeline": "Trazabilidad Documental",
+        "blocked_kyc2": "Requiere Clearance Nivel 2"
+      }
+    },
+  "archetype": {
+    "title": "Perfil Fiduciario",
+    "q1_text": "¿Cómo describiría su estructura de decisión de inversión?",
+    "q1_optA": "Las decisiones las tomo yo solo",
+    "q1_optB": "Involucran a un comité o beneficiarios",
+    "q1_optC": "Refiero oportunidades a terceros",
+    "q1_optD": "Aún no lo tengo claro",
+    "q_tie1_text": "En la práctica, ¿quién ejecuta la orden final?",
+    "q_tie1_optA": "Yo directamente",
+    "q_tie1_optB": "Requiere aprobación",
+    "fallback_msg": "Evaluación en proceso. Proceda a la Aduana."
+  },
+  "archetypes": {
+    "uhnwi": { "hero_subtitle": "Preservación Patrimonial Soberana" },
+    "family_office": { "hero_subtitle": "Gobernanza Institucional y Fiduciaria" },
+    "agent": { "hero_subtitle": "Infraestructura para Agentes Fiduciarios" },
+    "neutral": { "hero_subtitle": "Infraestructura Tecnológica Fiduciaria" }
+  }
+}

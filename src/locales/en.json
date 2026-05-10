@@ -1,0 +1,159 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "schema": "AIP-i18n-v1",
+    "jurisdiction": "Netherlands/AFM_DNB",
+    "namespace": "Skeleton"
+  },
+  "meta": {
+    "title": "AIP Firm — Institutional Landing"
+  },
+  "header": {
+    "brand": "ATLANTIS INTERNATIONAL PROJECTS"
+  },
+  "nav": {
+    "market": "Market",
+    "news": "News",
+    "legislation": "Legislation",
+    "request_access": "Request Access"
+  },
+  "hero": {
+    "title": "Fiduciary Intelligence",
+    "subtitle": "Independent asset structuring. Institutional-grade compliance. Sovereign wealth preservation under Dutch custody framework.",
+    "cta_onboarding": "Begin Onboarding"
+  },
+  "feed": {
+    "market": "Market Pulse",
+    "ticker_xau": "XAU/USD: 2,345.20",
+    "ticker_sofr": "SOFR: 5.33%",
+    "news_q3": "Q3 2026 — STAK structure finalized under AFM supervision. AIP Firm achieves full operational status.",
+    "news_kyc": "KYC/AML Framework v2.4 enacted. Institutional onboarding now requires enhanced due diligence.",
+    "legislation": "Regulatory Horizon",
+    "basel_desc": "Basel III Endgame implementation timeline accelerated. Counterparty credit risk framework updated.",
+    "directives_link": "View directives →"
+  },
+  "footer": {
+    "ticker": "AIP Firm | Registered in the Netherlands | AFM/DNB supervised | STAK fiduciary structure",
+    "copyright": "© 2026 Atlantis International Projects. All rights reserved."
+  },
+  "gatekeeper": {
+    "idle": {
+      "status_live": "SYSTEM LIVE",
+      "title": "System Integrity",
+      "subtitle": "Fiduciary access terminal operating under military-grade encryption and Dutch regulatory oversight.",
+      "telemetry_aria": "System Telemetry Data",
+      "metric_latency": "Core Latency",
+      "latency_status": "OPTIMAL",
+      "metric_nodes": "Active Network Nodes",
+      "metric_encryption": "Security Protocol",
+      "quantum_ready": "QUANTUM COMPUTING READY",
+      "metric_session": "Session Status",
+      "session_desc": "Anonymous end-to-end encrypted connection.",
+      "cta_access": "Request Fiduciary Access",
+      "cta_disclaimer": "Access requires KYC Level 1 identity validation."
+    },
+    "onboarding": {
+      "name_label": "Full legal name",
+      "name_placeholder": "As appears on passport",
+      "email_label": "Email address",
+      "email_placeholder": "institutional domain preferred",
+      "phone_label": "Direct contact number",
+      "phone_placeholder": "+44 (0) XXXX XXX XXX",
+      "country_label": "Jurisdiction of residence",
+      "country_placeholder": "Select country",
+      "ambassador_label": "Introducing ambassador (if applicable)",
+      "ambassador_placeholder": "Name of referring AIP representative",
+      "privacy_notice": "By proceeding, you acknowledge our Privacy Notice and consent to the processing of your personal data for KYC/AML purposes in accordance with AFM/DNB requirements.",
+      "rgpd_consent": "I confirm I have read and understood the Fair Processing Notice (Art 13/14 GDPR).",
+      "data_retention": "Your information will be retained for the duration of our fiduciary relationship and for 7 years thereafter as required by Dutch financial regulatory framework."
+    },
+    "aimon": {
+      "label": "AIMON · Fiduciary Access System",
+      "welcome": "Secure admission gateway. AIP operates under Dutch STAK structure, supervised by AFM/DNB. Your interaction is subject to fiduciary confidentiality.",
+      "intent": "Describe your institutional allocation objective in no fewer than 12 words. Specificity calibrates access integrity threshold.",
+      "intent_label": "Fiduciary Intent Declaration",
+      "intent_placeholder": "Describe your institutional allocation objective in no fewer than 12 words...",
+      "elevate_btn": "Elevate Inquiry →",
+      "elevation": {
+        "queued": "Elevating consultation to portfolio strategy desk",
+        "coordinating": "Coordinating with asset management team — standard response window: 2-4 business hours",
+        "supervised": "Supervised response in preparation. You will be notified via secure channel."
+      },
+      "fallback": "—"
+    },
+    "oauth": {
+      "title": "Fast Institutional Access",
+      "google": "Continue with Google",
+      "microsoft": "Continue with Microsoft",
+      "apple": "Continue with Apple",
+      "linkedin": "Continue with LinkedIn"
+    },
+    "manual": {
+      "title": "Manual Onboarding Form"
+    },
+    "consent": {
+      "gdpr": "I confirm I have read and understood the Fair Processing Notice (Art 13/14 GDPR) and consent to the processing of my data for KYC/AML purposes.",
+      "retention": "I understand my data will be retained for the duration of the fiduciary relationship and for 7 years thereafter as required under Dutch financial regulatory framework."
+    },
+    "vip": {
+      "title": "VIP Privileged Access",
+      "key_label": "VIP Access Key",
+      "key_placeholder": "••••••••••••"
+    },
+    "action": {
+      "primary": "Request Fiduciary Access",
+      "secondary": "Close Panel"
+    },
+    "close": {
+      "label": "Close panel and return to telemetry"
+    }
+  },
+  "crm": {
+      "breadcrumb": "Institutional Portfolio",
+      "title": "My Dossiers",
+      "filter": {
+        "all": "All",
+        "due_diligence": "Due Diligence",
+        "pending": "Pending Signature"
+      },
+      "table": {
+        "aria": "CRM Project Table",
+        "col_id": "ID",
+        "col_asset": "Fiduciary Asset",
+        "col_status": "Status",
+        "col_kyc": "KYC Level",
+        "col_action": "Action"
+      },
+      "action": {
+        "open": "Open Dossier",
+        "request_kyc2": "Request KYC Level 2"
+      },
+      "detail": {
+        "title": "Dossier Detail",
+        "country": "Jurisdiction",
+        "ticket": "Minimum Ticket",
+        "roi": "Target ROI",
+        "timeline": "Documentary Traceability",
+        "blocked_kyc2": "Requires Clearance Level 2"
+      }
+    }
+  },
+  "archetype": {
+    "title": "Fiduciary Profile",
+    "q1_text": "How would you describe your investment decision structure?",
+    "q1_optA": "I make decisions solely by myself",
+    "q1_optB": "They involve a committee or beneficiaries",
+    "q1_optC": "I refer opportunities to third parties",
+    "q1_optD": "I'm not sure yet",
+    "q_tie1_text": "In practice, who executes the final order?",
+    "q_tie1_optA": "I do it directly",
+    "q_tie1_optB": "It requires approval",
+    "fallback_msg": "Assessment in progress. Please proceed to Customs."
+  },
+  "archetypes": {
+    "uhnwi": { "hero_subtitle": "Sovereign Wealth Preservation" },
+    "family_office": { "hero_subtitle": "Institutional & Fiduciary Governance" },
+    "agent": { "hero_subtitle": "Infrastructure for Fiduciary Agents" },
+    "neutral": { "hero_subtitle": "Fiduciary Technology Infrastructure" }
+  }
+}

@@ -1,0 +1,350 @@
+/* 
+ * AIP FINANCIAL & COMMODITIES — THEME CORE (v1.0)
+ * DOCTRINA R3: UNICA FUENTE PERMITIDA DE VALORES HEXADECIMALES
+ */
+
+:root {
+    /* --- PALETA INSTITUCIONAL (AIP FIRM) --- */
+    --theme-deep-ocean: #101D33;     /* Fondo abisal base */
+    --theme-surface: #162641;        /* Paneles de cristal y superficies secundarias */
+    --theme-surface-alt: #0D1726;    /* Fondo de Órbita 3 (Aduana / Inspector) */
+    --theme-foreground: #F8F9FA;     /* Tipografía principal (Off-White) */
+    --theme-foreground-alt: #94A3B8; /* Tipografía secundaria (Slate) */
+    --theme-accent: #C1A85D;         /* UK Gold (Dorado Institucional) */
+    --theme-accent-hover: #D4B96E;   /* UK Gold Refinado */
+
+    /* --- PALETA CRM & VAULT (Zero-Hex) --- */
+    --theme-vault-bg: #0B1A2A;       /* Bóveda KYC Compliance */
+    --theme-vault-dark: #08121D;     /* Bóveda KYC Profunda (Sidebar) */
+    --theme-crm-panel: #181611;      /* Paneles de Navegación CRM (Órbita 1/3) */
+    --theme-crm-panel-alt: #1A1813;  /* Cabeceras de Órbita 3 */
+    --theme-crm-input: #1C1A17;      /* Inputs de Telemetría */
+    --theme-crm-light-bg: #F8F6F0;   /* Fondo Órbita 2 (Light Theme) */
+    --theme-crm-dark-bg: #101D33;    /* Chasis Principal */
+    --theme-crm-header: #0D1726;     /* Header Superior Workspace */
+
+    /* --- SEMÁNTICA DE ESTADO --- */
+    --theme-success: #10B981;        /* Esclusa Abierta */
+    --theme-error: #EF4444;          /* Custodia Fiduciaria / Bloqueo */
+    --theme-warning: #F59E0B;        /* Alerta de Integridad */
+    --theme-border: rgba(193, 168, 93, 0.15); /* Bordes fiduciarios sutiles */
+
+    /* --- GLASSMORPHISM TOKENS --- */
+    --glass-bg: rgba(22, 38, 65, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-blur: blur(12px);
+
+    /* --- LUXURY TOKENS (STITCH DNA) --- */
+    --luxury-blur: blur(12px);
+    --luxury-shadow-deep: 0 24px 64px rgba(0, 0, 0, 0.6);
+    --luxury-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.3);
+    --luxury-glow-accent: 0 0 15px rgba(193, 168, 93, 0.4);
+    --luxury-glow-pulse: 0 0 0 6px rgba(193, 168, 93, 0.08);
+    --luxury-border-gradient: linear-gradient(135deg, rgba(193, 168, 93, 0.3) 0%, rgba(26, 51, 86, 0.5) 100%);
+    --luxury-surface-gradient: linear-gradient(135deg, #162641 0%, #0D1726 100%);
+
+    /* --- TIPOGRAFÍA (AIP ARCHITECTURE) --- */
+    --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-display: 'Outfit', 'Inter', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+
+    /* ============================================================
+       APP SHELL — MARCO INAMOVIBLE
+       ============================================================ */
+    --header-h: 72px;   /* py-5 (20px*2) + línea border + contenido ~32px */
+    --footer-h: 48px;   /* py-3 (12px*2) + texto 10px + línea border */
+
+    /* ============================================================
+       FASE 17.2 — STITCH DESIGN TOKENS (MT-1.1 · CANÓNICO)
+       ============================================================ */
+    --stitch-bg-dark:    #0B1A2A;                    /* Azul marino profundo */
+    --stitch-glass:      rgba(255, 255, 255, 0.03);  /* Cristal base */
+    --stitch-glass-strong: rgba(0, 0, 0, 0.4);       /* Cristal oscuro para velos */
+    --stitch-gold:       #D4B96E;                    /* Oro fiduciario */
+    --stitch-gold-glow:  rgba(212, 185, 110, 0.25);  /* Brillo de emisión */
+    --stitch-border:     rgba(255, 255, 255, 0.08);  /* Frontera hiper-fina */
+}
+
+/* RESET BASE PARA EL CHASIS TRINITY */
+body {
+    background-color: var(--theme-deep-ocean);
+    /* Fondo Arquitectónico (Stitch Placeholder) */
+    background-image: linear-gradient(to bottom, rgba(16,29,51,0.92), rgba(16,29,51,0.98)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--theme-foreground);
+    font-family: var(--font-primary);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+::selection {
+    background-color: var(--theme-accent);
+    color: var(--theme-deep-ocean);
+}
+
+/* --- GEOMETRÍA DEL CHASIS (Sutura de Fricción) --- */
+.aip-chassis {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Layout Binario (Órbita 2 | Órbita 3) */
+    width: 100%;
+    /* App Shell: Altura estricta para ocupar el flex-1 del body */
+    height: 100%;
+    overflow: hidden;
+    transition: grid-template-columns 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Soporte para futura Órbita 1 (Panel Izquierdo) */
+.aip-chassis.with-orbit-1 {
+    grid-template-columns: auto 2fr 1fr;
+}
+
+/* Blindaje de Órbita 3 */
+.orbit-3 {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .aip-chassis {
+        grid-template-columns: 1fr; /* Colapso a flujo vertical en móvil */
+    }
+    
+    .orbit-3 {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60vh;
+        z-index: 60;
+        transform: translateY(100%);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        border-t: 1px solid var(--theme-border);
+    }
+    
+    .orbit-3.active {
+        transform: translateY(0);
+    }
+}
+
+/* --- SCROLLBAR FIDUCIARIO ULTRA DELGADO (Fase 15.6) --- */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--theme-accent); border-radius: 1px; }
+::-webkit-scrollbar-thumb:hover { background: var(--theme-accent-hover); }
+
+/* --- MARQUEE ANIMADO (Footer) --- */
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+}
+
+.ticker-content {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 25s linear infinite;
+}
+
+@keyframes marquee {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+/* ----------------------------------------------------------------------- */
+/* FASE 16.2 — BLINDAJE DE INPUTS FIDUCIARIOS (Blanco No Luminoso)         */
+/* ----------------------------------------------------------------------- */
+#gatekeeper-panel input,
+#gatekeeper-panel textarea,
+#gatekeeper-panel select {
+    background-color: #F8F6F0 !important;
+    color: #1A1A1A !important;
+    border-color: rgba(193, 168, 93, 0.4) !important;
+    -webkit-text-fill-color: #1A1A1A !important;
+}
+
+#gatekeeper-panel input::placeholder,
+#gatekeeper-panel textarea::placeholder {
+    color: #8C96A6 !important;
+}
+
+#gatekeeper-panel input:-webkit-autofill,
+#gatekeeper-panel input:-webkit-autofill:hover,
+#gatekeeper-panel input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px #F8F6F0 inset !important;
+    -webkit-text-fill-color: #1A1A1A !important;
+    caret-color: #1A1A1A;
+}
+
+#gatekeeper-panel input:focus,
+#gatekeeper-panel textarea:focus,
+#gatekeeper-panel select:focus {
+    background-color: #FFFFFF !important;
+    border-color: #C1A85D !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(193, 168, 93, 0.2) !important;
+}
+
+/* --- RAÍL DINÁMICO — Transición suave Órbita 3 (Fase 15.4) --- */
+#orbit-3 {
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform;
+    /* El slide sale del borde derecho del viewport sin generar scrollbar */
+    overflow: hidden;
+}
+
+/* ----------------------------------------------------------------------- */
+/* FASE 15.5 — TRANSFUSIÓN ESTÉTICA (STITCH DNA)                           */
+/* Transformación a componentes de lujo (CRM y AIMON)                      */
+/* ----------------------------------------------------------------------- */
+
+.crm-luxury-row {
+    background: var(--luxury-surface-gradient);
+    backdrop-filter: var(--luxury-blur);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 1px solid transparent;
+    /* Fake border gradient using pseudo-element since border-image doesn't play well with border-radius */
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, background 0.4s ease !important;
+    position: relative;
+    border-radius: 0.75rem; /* xl */
+    z-index: 1;
+}
+
+.crm-luxury-row::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    padding: 1px; /* border width */
+    background: var(--luxury-border-gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.crm-luxury-row:hover {
+    transform: translateY(-2px) scale(1.005);
+    box-shadow: var(--luxury-shadow-hover);
+    background: linear-gradient(135deg, #1A2D4D 0%, #101D33 100%);
+    z-index: 10;
+}
+
+.aimon-luxury-glow {
+    box-shadow: var(--luxury-glow-accent);
+    animation: aimon-pulse 3s infinite alternate;
+    border: 1px solid rgba(193, 168, 93, 0.3) !important;
+}
+
+/* ============================================================
+   APP SHELL — MARCO INAMOVIBLE (Directiva Director, Sprint 15.6)
+   Header (--header-h) y Footer (--footer-h) son inamovibles.
+   Las Órbitas hacen scroll interno aislado.
+   ============================================================ */
+
+
+/* El chasis ocupa exactamente el espacio entre header y footer */
+.aip-chassis {
+    height: calc(100vh - var(--header-h) - var(--footer-h));
+    margin-top: var(--header-h);
+    overflow: hidden;
+}
+
+/* Cada órbita hace scroll de forma aislada */
+#orbit-2,
+#orbit-3 {
+    height: 100%;
+    overflow-y: auto;
+}
+
+#orbit-3.active {
+    transform: translateX(0);
+}
+
+/* Barra de scroll fiduciaria — discreta, dorada al hover */
+#orbit-2::-webkit-scrollbar,
+#orbit-3::-webkit-scrollbar      { width: 4px; }
+#orbit-2::-webkit-scrollbar-track,
+#orbit-3::-webkit-scrollbar-track { background: transparent; }
+#orbit-2::-webkit-scrollbar-thumb,
+#orbit-3::-webkit-scrollbar-thumb {
+    background: rgba(193, 168, 93, 0.15);
+    border-radius: 2px;
+    transition: background 0.3s;
+}
+#orbit-2::-webkit-scrollbar-thumb:hover,
+#orbit-3::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-accent);
+}
+
+/* ============================================================
+   RAÍL COLAPSABLE (ÓRBITA 3) — FASE 16.2 Misión Alfa
+   ============================================================ */
+.aip-chassis:has(.orbit-3-collapsed) {
+    grid-template-columns: 1fr 80px;
+}
+
+.orbit-3-collapsed #handoff-container {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden;
+}
+
+/* ============================================================
+   FASE 17.2 — CLASES UTILITARIAS STITCH (MT-1.1)
+   Base visual del MUD_box. Aplicar en HTML según mandatos posteriores.
+   ============================================================ */
+
+/* a) Panel de cristal esmerilado — glassmorphism base */
+.stitch-panel {
+    background:        var(--stitch-glass);
+    backdrop-filter:   blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border:            1px solid var(--stitch-border);
+    border-radius:     1rem;
+}
+
+/* b) Cajón hundido — efecto de relieve invertido (Bóveda / MUD_box) */
+.stitch-drawer {
+    background:        var(--stitch-bg-dark);
+    border-radius:     0.75rem;
+    box-shadow:        inset 0 2px 8px rgba(0, 0, 0, 0.6);
+    border-top:        1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* c) Botón CTA dorado — visible en reposo, brillo en hover */
+.stitch-btn-gold {
+    background:        linear-gradient(135deg, var(--stitch-gold) 0%, #B89A4A 100%);
+    color:             #0B1A2A;
+    font-weight:       600;
+    box-shadow:        0 0 12px var(--stitch-gold-glow);
+    transition:        all 0.3s ease-in-out;
+    border-radius:     0.5rem;
+    padding:           0.625rem 1.25rem;
+    border:            none;
+    cursor:            pointer;
+}
+
+.stitch-btn-gold:hover {
+    box-shadow:        0 0 20px rgba(212, 185, 110, 0.45);
+    transform:         translateY(-1px);
+}
+
+/* ----------------------------------------------------------------------- */
+/* FASE 17.2 — MT-3.3: GOD MODE (OVERRIDE VISUAL)                          */
+/* ----------------------------------------------------------------------- */
+
+body.god-mode-active .skeleton-blur {
+    backdrop-filter: none !important;
+    filter: blur(0) !important;
+    opacity: 1 !important;
+}
+
+body.god-mode-active .pointer-events-none {
+    pointer-events: auto !important;
+}

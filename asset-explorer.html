@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIP Firm | Asset Explorer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Public+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="src/styles/theme-landing.css">
+    <script src="src/logic/i18n.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        surface: 'var(--surface-primary)',
+                        elevated: 'var(--surface-elevated)',
+                        variant: 'var(--surface-variant)',
+                        accent: 'var(--accent-primary)',
+                        'accent-hover': 'var(--accent-hover)',
+                        'on-primary': 'var(--on-primary)',
+                        muted: 'var(--text-muted)'
+                    },
+                    fontFamily: {
+                        sans: ['Public Sans', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .orbit-transition { transition: var(--transition-smooth); }
+        .glass { backdrop-filter: blur(12px); background: rgba(16, 29, 51, 0.8); }
+        .explorer-tab.active { color: var(--accent-primary); border-color: var(--accent-primary); }
+        .asset-card { 
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+            border: 1px solid var(--surface-variant);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .asset-card:hover { 
+            border-color: var(--accent-primary); 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px -20px rgba(184, 158, 101, 0.2);
+            background: rgba(184, 158, 101, 0.02);
+        }
+        .score-track { height: 2px; background: rgba(255,255,255,0.05); }
+        .score-progress { height: 100%; background: var(--accent-primary); transition: width 1.5s ease-in-out; }
+        .status-badge { 
+            font-size: 7px; 
+            padding: 2px 8px; 
+            border: 1px solid currentColor; 
+            letter-spacing: 2px;
+            background: rgba(255,255,255,0.02);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-primary font-sans overflow-hidden">
+
+    <div class="trinity-layout transition-all duration-1000 h-screen grid grid-cols-[250px_1fr_320px]">
+        
+        <!-- ÓRBITA 1: Sidebar -->
+        <aside class="orbit-1 p-8 border-r border-variant bg-elevated/50 flex flex-col h-full">
+            <div class="mb-12">
+                <h1 class="text-3xl font-serif text-accent tracking-[0.2em] uppercase">AIP</h1>
+                <p class="text-[9px] text-muted tracking-[0.3em] uppercase mt-2">Firm Sovereign</p>
+            </div>
+            
+            <nav class="flex-1 space-y-8">
+                <div>
+                    <h4 class="text-[10px] text-muted tracking-[0.3em] uppercase mb-4">Mandatos</h4>
+                    <div class="space-y-4">
+                        <a href="#" class="flex items-center gap-4 text-on-primary hover:text-accent transition-all group">
+                            <span class="material-symbols-outlined text-accent group-hover:scale-110 transition-transform">account_balance_wallet</span>
+                            <span class="text-xs tracking-widest uppercase">Financial Eng.</span>
+                        </a>
+                        <a href="#" class="flex items-center gap-4 text-muted hover:text-on-primary transition-all group">
+                            <span class="material-symbols-outlined group-hover:text-accent transition-colors">diamond</span>
+                            <span class="text-xs tracking-widest uppercase">Commodities</span>
+                        </a>
+                        <a href="#" class="flex items-center gap-4 text-muted hover:text-on-primary transition-all group">
+                            <span class="material-symbols-outlined group-hover:text-accent transition-colors">real_estate_agent</span>
+                            <span class="text-xs tracking-widest uppercase">Real Estate</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-[10px] text-muted tracking-[0.3em] uppercase mb-4">Sistema</h4>
+                    <div class="space-y-4">
+                        <a href="#" class="flex items-center gap-4 text-muted hover:text-on-primary transition-all group">
+                            <span class="material-symbols-outlined group-hover:text-accent transition-colors">history_edu</span>
+                            <span class="text-xs tracking-widest uppercase">Audit Trail</span>
+                        </a>
+                        <a href="#" class="flex items-center gap-4 text-muted hover:text-on-primary transition-all group">
+                            <span class="material-symbols-outlined group-hover:text-accent transition-colors">policy</span>
+                            <span class="text-xs tracking-widest uppercase">Compliance Desk</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="mt-auto border-t border-variant pt-8">
+                <div class="flex items-center gap-4">
+                    <div class="size-10 rounded-full border border-accent/30 p-1">
+                        <div class="w-full h-full bg-variant rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-accent text-sm">shield_person</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-bold tracking-widest uppercase">Agent Desk</p>
+                        <p class="text-[9px] text-accent tracking-widest uppercase">Estatus: Validado</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ÓRBITA 2: Canvas -->
+        <main class="orbit-2 flex flex-col h-full">
+            <header class="h-20 border-b border-variant px-12 flex items-center justify-between shrink-0">
+                <h2 class="text-xl font-serif tracking-widest uppercase">Command Center</h2>
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-2 text-[10px] text-muted tracking-widest uppercase">
+                        <span class="size-2 rounded-full bg-accent animate-pulse"></span>
+                        UK Operative Hub
+                    </div>
+                    <div class="h-6 w-px bg-variant"></div>
+                    <div class="flex items-center gap-4">
+                        <button class="material-symbols-outlined text-muted hover:text-accent transition-colors">notifications</button>
+                        <button class="material-symbols-outlined text-muted hover:text-accent transition-colors">search</button>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="flex-1 p-12 overflow-y-auto" id="canvas-container">
+                <!-- GADGET: Onboarding -->
+                <div id="onboarding-gadget" class="max-w-4xl mx-auto space-y-12 transition-all duration-1000">
+                    <div class="text-center space-y-4">
+                        <h3 class="text-3xl font-serif tracking-[0.3em] uppercase text-accent">Establecer Estatus Fiduciario</h3>
+                        <p class="text-[10px] text-muted tracking-[0.4em] uppercase">Protocolo de Calificación Cualitativa</p>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-12">
+                        <div class="col-span-4 space-y-8">
+                            <div class="p-6 border-l border-accent/30 bg-accent/5">
+                                <h4 class="text-[10px] font-bold text-accent uppercase tracking-widest mb-2">Soberanía de Acceso</h4>
+                                <p class="text-[9px] text-muted leading-relaxed uppercase tracking-widest">
+                                    AIP Firm requiere una validación preliminar de jurisdicción e intención.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-span-8 bg-elevated/30 border border-variant p-10 space-y-10">
+                            <div class="space-y-6">
+                                <label class="text-[10px] text-muted tracking-[0.3em] uppercase">Jurisdicción de Residencia</label>
+                                <select class="w-full bg-surface border border-variant p-4 text-xs tracking-widest uppercase focus:border-accent outline-none transition-colors">
+                                    <option>Seleccione...</option>
+                                    <option>Suiza (CH)</option>
+                                    <option>Reino Unido (UK)</option>
+                                    <option>Emiratos Árabes (UAE)</option>
+                                </select>
+                            </div>
+                            <div class="space-y-6">
+                                <label class="text-[10px] text-muted tracking-[0.3em] uppercase">Tipo de Entidad</label>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <button class="p-4 border border-variant hover:border-accent text-[9px] tracking-widest uppercase transition-all">Individual</button>
+                                    <button class="p-4 border border-variant hover:border-accent text-[9px] tracking-widest uppercase transition-all">Family Office</button>
+                                    <button class="p-4 border border-variant hover:border-accent text-[9px] tracking-widest uppercase transition-all">Institucional</button>
+                                </div>
+                            </div>
+                            <button id="submit-onboarding" class="w-full py-5 bg-accent text-surface font-bold text-[11px] uppercase tracking-[0.5em] hover:tracking-[0.7em] transition-all">
+                                Solicitar Estatus Fiduciario
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GADGET: Asset Explorer -->
+                <div id="asset-explorer" class="hidden space-y-10 animate-fade-in transition-all duration-700">
+                    <div class="flex items-center justify-between border-b border-variant pb-8">
+                        <div class="flex gap-10">
+                            <button onclick="explorer.filter('all', event)" class="explorer-tab active text-[10px] tracking-[0.4em] uppercase text-accent border-b border-accent pb-2">Todos</button>
+                            <button onclick="explorer.filter('commodities', event)" class="explorer-tab text-[10px] tracking-[0.4em] uppercase text-muted hover:text-accent pb-2">Commodities</button>
+                            <button onclick="explorer.filter('finance', event)" class="explorer-tab text-[10px] tracking-[0.4em] uppercase text-muted hover:text-accent pb-2">Finanzas</button>
+                        </div>
+                    </div>
+                    <div id="asset-grid" class="grid grid-cols-12 gap-8"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ÓRBITA 3: Inspector -->
+        <aside class="orbit-3 p-8 border-l border-variant bg-elevated/50 flex flex-col h-full">
+            <div class="flex items-center gap-3 mb-10 pb-4 border-b border-variant">
+                <span class="material-symbols-outlined text-accent text-lg">psychology_alt</span>
+                <h3 class="text-sm font-serif tracking-widest uppercase">AIMON Inspector</h3>
+            </div>
+            
+            <div class="flex-1 flex flex-col gap-6 overflow-y-auto pr-2">
+                <div id="aimon-message" class="bg-surface p-6 border border-variant relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-accent"></div>
+                    <p class="text-xs text-on-primary leading-relaxed mb-4 italic" id="aimon-text">
+                        "El sistema ha detectado una sesión institucional."
+                    </p>
+                </div>
+                
+                <div class="space-y-4">
+                    <h4 class="text-[10px] text-muted tracking-[0.3em] uppercase">Governance Status</h4>
+                    <div class="flex justify-between items-center text-[10px] uppercase tracking-widest">
+                        <span class="text-muted">Integrity Score</span>
+                        <span class="text-accent">88/100</span>
+                    </div>
+                    <div class="h-1 w-full bg-variant">
+                        <div class="h-full bg-accent w-[88%]"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <button class="w-full py-3 bg-accent text-surface font-bold text-[10px] uppercase tracking-[0.3em] hover:brightness-110 transition-all">
+                    Establecer Diálogo Fiduciario
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const onboarding = {
+            async submit() {
+                const btn = document.getElementById('submit-onboarding');
+                btn.disabled = true;
+                btn.innerText = 'CALCULANDO...';
+                await new Promise(r => setTimeout(r, 1500));
+                
+                document.getElementById('onboarding-gadget').classList.add('hidden');
+                document.getElementById('aimon-text').innerText = "Estatus: PENDIENTE DE REVISIÓN.";
+                explorer.init();
+            }
+        };
+
+        const explorer = {
+            assets: [
+                { id: 'XAU-MINE-01', name: 'GOLD MINE ASSET (999.9)', category: 'commodities', location: 'SWITZERLAND', score: 98, status: 'VERIFIED' },
+                { id: 'SBLC-MT760-01', name: 'SBLC / BG (100M+)', category: 'finance', provider: 'BARCLAYS UK', score: 95, status: 'PRIVATE' },
+                { id: 'RE-EST-BOR-01', name: 'VINEYARD ESTATE (BORDEAUX)', category: 'realestate', location: 'FRANCE', score: 88, status: 'AVAILABLE' }
+            ],
+            init() {
+                document.getElementById('asset-explorer').classList.remove('hidden');
+                this.render();
+            },
+            render(filter = 'all') {
+                const grid = document.getElementById('asset-grid');
+                const filtered = filter === 'all' ? this.assets : this.assets.filter(a => a.category === filter);
+                grid.innerHTML = filtered.map(asset => `
+                    <div class="col-span-12 md:col-span-6 lg:col-span-4 asset-card p-8 space-y-6">
+                        <div class="flex justify-between items-start">
+                            <span class="text-[8px] text-muted tracking-widest font-mono uppercase">${asset.id}</span>
+                            <span class="status-badge text-accent border border-accent/30 uppercase">${asset.status}</span>
+                        </div>
+                        <h4 class="text-[11px] font-serif tracking-[0.2em] uppercase text-on-primary">${asset.name}</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-[7px] tracking-[0.3em] uppercase">
+                                <span class="text-muted">Integrity</span>
+                                <span class="text-accent">${asset.score}%</span>
+                            </div>
+                            <div class="score-track"><div class="score-progress" style="width: ${asset.score}%"></div></div>
+                        </div>
+                    </div>
+                `).join('');
+            },
+            filter(category, event) {
+                document.querySelectorAll('.explorer-tab').forEach(t => t.classList.remove('active', 'text-accent', 'border-accent'));
+                event.target.classList.add('active', 'text-accent', 'border-accent');
+                this.render(category);
+            }
+        };
+
+        document.getElementById('submit-onboarding').addEventListener('click', () => onboarding.submit());
+    </script>
+</body>
+</html>

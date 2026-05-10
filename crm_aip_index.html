@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIP Workspace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/theme-landing.css">
+    <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'var(--theme-deep-ocean)',
+                        surface: 'var(--theme-surface)',
+                        'surface-alt': 'var(--theme-surface-alt)',
+                        accent: 'var(--theme-accent)',
+                        'accent-hover': 'var(--theme-accent-hover)',
+                        'on-background': 'var(--theme-foreground)',
+                        'on-surface-variant': 'var(--theme-foreground-alt)',
+                        'outline-variant': 'var(--theme-border)',
+                        error: 'var(--theme-error)',
+                        // CRM & VAULT
+                        'vault-bg': 'var(--theme-vault-bg)',
+                        'vault-dark': 'var(--theme-vault-dark)',
+                        'crm-panel': 'var(--theme-crm-panel)',
+                        'crm-panel-alt': 'var(--theme-crm-panel-alt)',
+                        'crm-input': 'var(--theme-crm-input)',
+                        'crm-light': 'var(--theme-crm-light-bg)',
+                        'crm-dark': 'var(--theme-crm-dark-bg)',
+                        'crm-header': 'var(--theme-crm-header)'
+                    },
+                    fontFamily: {
+                        mono: ["DM Mono", "monospace"],
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<!-- ============================================================
+     TRINITY LAYOUT v2.0 — CHASIS CANÓNICO (MT-1.2 · FASE 17.2)
+     AXIOMA A: trinity_layout
+     Header fijo + Footer fijo + 3 Órbitas (Raíl Fijo + Panel Colapsable)
+     ============================================================ -->
+<body class="h-screen w-full flex flex-col overflow-hidden bg-[var(--stitch-bg-dark)] text-white font-sans">
+
+    <!-- ═══════════════════════════════════════════════════════
+         HEADER TRANSVERSAL — Anclaje Superior Inamovible
+         ═══════════════════════════════════════════════════════ -->
+    <header id="crm-header"
+            class="h-16 flex-shrink-0 flex items-center justify-between px-4
+                   border-b border-[var(--stitch-border)]
+                   bg-[var(--stitch-bg-dark)]">
+        <span class="text-[10px] font-mono tracking-[0.3em] uppercase text-white/30">
+            AIP WORKSPACE
+        </span>
+        <div class="flex items-center gap-4">
+            <!-- Badge de Estado Cíclico KYC (MT-3.2) -->
+            <div class="flex items-center gap-2 bg-black/30 border border-[var(--stitch-border)] px-3 py-1.5 rounded-sm">
+                <span id="kyc-status-badge" class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                <span id="kyc-status-text" class="text-xs uppercase tracking-wider text-[#10b981] opacity-80 font-mono">Clearance: Activo</span>
+            </div>
+            <!-- Perfil Fiduciario -->
+            <div class="w-8 h-8 rounded-sm bg-white/5 border border-[var(--stitch-border)] flex items-center justify-center">
+                <span class="material-symbols-outlined text-[16px] text-[var(--stitch-gold)]">shield_person</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHASIS TRINITY — Las 3 Órbitas
+         flex-1 garantiza que ocupa exactamente el espacio
+         entre Header y Footer sin desbordamiento.
+         ═══════════════════════════════════════════════════════ -->
+    <main class="flex-1 flex overflow-hidden relative">
+
+        <!-- ───────────────────────────────────────────────────
+             ÓRBITA 1 — Izquierda (Árbol de Navegación)
+             Estructura: [Raíl Fijo Exterior | Panel Interior]
+             ─────────────────────────────────────────────────── -->
+        <aside id="orbit-1"
+               class="w-72 flex flex-shrink-0
+                      border-r border-[var(--stitch-border)]
+                      bg-[var(--stitch-bg-dark)]">
+
+            <!-- Raíl Fijo Exterior O1 — pegado al borde izquierdo, inamovible -->
+            <div id="orbit-1-rail"
+                 class="w-16 flex-shrink-0 flex flex-col items-center pt-4 pb-4 gap-6
+                        border-r border-white/5">
+
+                <!-- Chevron de Colapso O1 -->
+                <button id="btn-collapse-orbit1"
+                        data-event="Skeleton:CollapseOrbit1"
+                        title="Colapsar panel"
+                        class="w-9 h-9 flex items-center justify-center rounded-lg
+                               text-white/30 hover:text-[var(--stitch-gold)] hover:bg-white/5
+                               transition-all duration-300">
+                    <span id="icon-collapse-o1" class="material-symbols-outlined text-[20px]">chevron_left</span>
+                </button>
+
+                <!-- Separador -->
+                <div class="w-6 h-px bg-white/10"></div>
+
+                <!-- Pestaña: Workspace -->
+                <button title="Workspace"
+                        class="w-9 h-9 flex flex-col items-center justify-center gap-0.5 rounded-lg
+                               text-[var(--stitch-gold)] hover:bg-white/5 transition-all duration-200 group">
+                    <span class="material-symbols-outlined text-[18px]">dashboard</span>
+                    <span class="text-[7px] font-mono tracking-wider uppercase text-white/40">Work</span>
+                </button>
+
+                <!-- Pestaña: Bóveda -->
+                <button title="Bóveda KYC"
+                        class="w-9 h-9 flex flex-col items-center justify-center gap-0.5 rounded-lg
+                               text-white/25 hover:text-white/60 hover:bg-white/5 transition-all duration-200 group">
+                    <span class="material-symbols-outlined text-[18px]">lock</span>
+                    <span class="text-[7px] font-mono tracking-wider uppercase text-white/30">Bóveda</span>
+                </button>
+
+            </div>
+
+            <!-- Panel Interior O1 — scroll independiente, se colapsa -->
+            <div id="orbit-1-panel"
+                 class="flex-1 overflow-y-auto stitch-panel m-2 p-6">
+                 
+                <!-- MT-4.1: Árbol de Navegación Institucional -->
+                <nav class="flex flex-col gap-2">
+                    <!-- Nodo 1: Dashboard Central (Activo) -->
+                    <button type="button" class="flex items-center gap-3 px-4 py-3 rounded-sm bg-white/5 border border-white/10 text-base text-[var(--stitch-gold)] w-full text-left transition-colors" data-i18n="crm.node1">
+                        <span class="material-symbols-outlined text-[18px]">dashboard</span>
+                        Dashboard Central
+                    </button>
+                    
+                    <!-- Nodo 2: Expedientes -->
+                    <button type="button" class="flex items-center gap-3 px-4 py-3 rounded-sm text-base text-white/70 hover:text-white hover:bg-white/5 transition-colors w-full text-left" data-i18n="crm.node2">
+                        <span class="material-symbols-outlined text-[18px]">folder_open</span>
+                        Expedientes y Contratos
+                    </button>
+
+                    <!-- Nodo 3: Acordeón de Procedimientos -->
+                    <details class="group mt-2" open>
+                        <summary class="flex items-center justify-between px-4 py-3 rounded-sm text-base text-white/70 hover:text-white hover:bg-white/5 transition-colors cursor-pointer list-none">
+                            <div class="flex items-center gap-3" data-i18n="crm.node3">
+                                <span class="material-symbols-outlined text-[18px]">menu_book</span>
+                                Manuales y Procedimientos
+                            </div>
+                            <span class="material-symbols-outlined text-sm transition-transform duration-300 group-open:rotate-180">expand_more</span>
+                        </summary>
+                        <div class="pl-11 pr-4 py-3 flex flex-col gap-4 border-l border-white/10 ml-6 mt-1">
+                            <!-- Verticales Operativas (Bloqueadas por defecto) -->
+                            <button type="button" class="skeleton-blur flex items-center justify-between w-full text-left text-[13px] text-white/60 hover:text-[var(--stitch-gold)] transition-colors">
+                                Commodities (Metales / Energía)
+                                <span class="material-symbols-outlined text-[14px] text-white/30">lock</span>
+                            </button>
+                            <button type="button" class="skeleton-blur flex items-center justify-between w-full text-left text-[13px] text-white/60 hover:text-[var(--stitch-gold)] transition-colors">
+                                Realty (Real Estate Tier-1)
+                                <span class="material-symbols-outlined text-[14px] text-white/30">lock</span>
+                            </button>
+                            <button type="button" class="skeleton-blur flex items-center justify-between w-full text-left text-[13px] text-white/60 hover:text-[var(--stitch-gold)] transition-colors">
+                                Smart Contracts (Infraestructura Web3)
+                                <span class="material-symbols-outlined text-[14px] text-white/30">lock</span>
+                            </button>
+                        </div>
+                    </details>
+                </nav>
+            </div>
+
+        </aside>
+
+        <!-- ───────────────────────────────────────────────────
+             ÓRBITA 2 — Centro (Data Room · Light Theme)
+             flex-1: ocupa todo el espacio restante.
+             shadow inset: efecto de "hundimiento" entre órbitas.
+             ─────────────────────────────────────────────────── -->
+        <section id="orbit-2"
+                 class="flex-1 overflow-y-auto z-0 p-6
+                        bg-[#F8F6F0] text-gray-900
+                        shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]">
+            <span class="text-xs text-gray-400 font-mono">
+                Órbita 2 Central — Data Room
+            </span>
+        </section>
+
+        <!-- ───────────────────────────────────────────────────
+             ÓRBITA 3 — Derecha (Inteligencia · AIMON)
+             Estructura: [Panel Interior | Raíl Fijo Exterior]
+             (Invertida: raíl en el borde derecho de pantalla)
+             ─────────────────────────────────────────────────── -->
+        <aside id="orbit-3"
+               class="w-80 flex flex-shrink-0
+                      border-l border-[var(--stitch-border)]
+                      bg-[var(--stitch-bg-dark)]">
+
+            <!-- Panel Interior O3 — scroll independiente, se colapsa -->
+            <div id="orbit-3-panel"
+                 class="flex-1 overflow-y-auto stitch-panel m-2 p-4">
+                <span class="text-[10px] text-white/30 font-mono tracking-wider">
+                    Panel O3
+                </span>
+            </div>
+
+            <!-- Raíl Fijo Exterior O3 — pegado al borde derecho, inamovible -->
+            <div id="orbit-3-rail"
+                 class="w-16 flex-shrink-0 flex flex-col items-center pt-4 pb-4 gap-6
+                        border-l border-white/5">
+
+                <!-- Chevron de Colapso O3 -->
+                <button id="btn-collapse-orbit3"
+                        data-event="Skeleton:CollapseOrbit3"
+                        title="Colapsar panel"
+                        class="w-9 h-9 flex items-center justify-center rounded-lg
+                               text-white/30 hover:text-[var(--stitch-gold)] hover:bg-white/5
+                               transition-all duration-300">
+                    <span id="icon-collapse-o3" class="material-symbols-outlined text-[20px]">chevron_right</span>
+                </button>
+
+                <!-- Separador -->
+                <div class="w-6 h-px bg-white/10"></div>
+
+                <!-- Pestaña: Sistema -->
+                <button title="Sistema / Telemetría"
+                        class="w-9 h-9 flex flex-col items-center justify-center gap-0.5 rounded-lg
+                               text-[var(--stitch-gold)] hover:bg-white/5 transition-all duration-200">
+                    <span class="material-symbols-outlined text-[18px]">radar</span>
+                    <span class="text-[7px] font-mono tracking-wider uppercase text-white/40">Sistema</span>
+                </button>
+
+                <!-- Pestaña: Acceso -->
+                <button title="Acceso / Gatekeeper"
+                        class="w-9 h-9 flex flex-col items-center justify-center gap-0.5 rounded-lg
+                               text-white/25 hover:text-white/60 hover:bg-white/5 transition-all duration-200">
+                    <span class="material-symbols-outlined text-[18px]">key</span>
+                    <span class="text-[7px] font-mono tracking-wider uppercase text-white/30">Acceso</span>
+                </button>
+
+            </div>
+
+
+        </aside>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════
+         FOOTER TRANSVERSAL — Anclaje Inferior Inamovible
+         ═══════════════════════════════════════════════════════ -->
+    <footer id="crm-footer"
+            class="h-12 flex-shrink-0 flex items-center px-4
+                   border-t border-[var(--stitch-border)]
+                   bg-[var(--stitch-bg-dark)]">
+        <span class="text-[10px] font-mono tracking-[0.3em] uppercase text-white/30">
+            FOOTER MOCK / TICKER
+        </span>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════
+         BÓVEDA KYC — Reservado, oculto por defecto.
+         Preservado íntegro para no romper la lógica del script.
+         ═══════════════════════════════════════════════════════ -->
+    <div id="kyc-vault" class="fixed inset-0 z-50 flex hidden bg-[var(--stitch-bg-dark)] text-white">
+        <!-- Botón Cerrar -->
+        <button id="btn-close-kyc" class="absolute top-8 left-8 text-[var(--stitch-gold)] hover:text-white transition-colors font-medium flex items-center gap-2 text-xs uppercase tracking-widest z-50" data-event="Skeleton:VaultClose" data-i18n="vault.btn_return">
+            <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            Retornar al Workspace
+        </button>
+
+        <!-- Columna Izquierda: Pasos y Servicios -->
+        <aside class="w-80 border-r border-[var(--stitch-border)] bg-black/20 p-10 pt-24 flex flex-col justify-start">
+            <h3 class="text-[10px] uppercase tracking-[0.2em] text-[var(--stitch-gold)] mb-10 border-b border-white/10 pb-4">Proceso de Onboarding</h3>
+            <ul class="space-y-8 relative before:absolute before:inset-y-0 before:left-[11px] before:w-[2px] before:bg-white/5">
+                <li id="kyc-step-1" class="flex items-center gap-4 relative">
+                    <div id="kyc-step-1-icon" class="w-6 h-6 rounded-full bg-[var(--stitch-gold)] text-black flex items-center justify-center font-bold text-xs shrink-0 z-10 shadow-[0_0_10px_rgba(193,168,93,0.3)] transition-colors">1</div>
+                    <span id="kyc-step-1-text" class="text-sm font-bold text-white tracking-wide transition-colors">Identidad (KYC)</span>
+                </li>
+                <li id="kyc-step-2" class="flex items-center gap-4 relative">
+                    <div id="kyc-step-2-icon" class="w-6 h-6 rounded-full bg-white/5 text-white/40 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0 z-10 transition-colors">2</div>
+                    <span id="kyc-step-2-text" class="text-sm text-white/40 tracking-wide transition-colors">Residencia Fiscal</span>
+                </li>
+                <li class="flex items-center gap-4 relative">
+                    <div class="w-6 h-6 rounded-full bg-white/5 text-white/40 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0 z-10">3</div>
+                    <span class="text-sm text-white/40 tracking-wide">Origen de Fondos (KYW)</span>
+                </li>
+                <li class="flex items-center gap-4 relative">
+                    <div class="w-6 h-6 rounded-full bg-white/5 text-white/40 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0 z-10">4</div>
+                    <span class="text-sm text-white/40 tracking-wide">Firma Contrato Fiduciario</span>
+                </li>
+            </ul>
+
+            <!-- EXPANSIÓN DEL ÁRBOL DE LA BÓVEDA (MT-4.2) -->
+            <h3 class="text-[10px] uppercase tracking-[0.2em] text-[var(--stitch-gold)] mb-6 border-b border-white/10 pb-4 mt-16">Servicios de Bóveda</h3>
+            <div class="flex flex-col gap-4">
+                <button type="button" class="skeleton-blur flex items-center justify-between w-full text-left text-sm text-white/50 hover:text-[var(--stitch-gold)] transition-colors">
+                    <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">account_balance_wallet</span> Billeteras Fiduciarias</span>
+                    <span class="material-symbols-outlined text-[14px]">lock</span>
+                </button>
+                <button type="button" class="skeleton-blur flex items-center justify-between w-full text-left text-sm text-white/50 hover:text-[var(--stitch-gold)] transition-colors">
+                    <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">contract</span> Contratos Inteligentes</span>
+                    <span class="material-symbols-outlined text-[14px]">lock</span>
+                </button>
+                <button type="button" class="skeleton-blur flex items-center justify-between w-full text-left text-sm text-white/50 hover:text-[var(--stitch-gold)] transition-colors">
+                    <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">enhanced_encryption</span> Mensajería Encriptada</span>
+                    <span class="material-symbols-outlined text-[14px]">lock</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Columna Central: Cajones de Escritorio (MT-4.2) -->
+        <main class="flex-1 overflow-y-auto bg-black/40 relative flex flex-col justify-center">
+            <div class="flex flex-col gap-6 w-full max-w-3xl mx-auto py-8">
+                
+                <!-- CAJÓN 1: Identidad (KYC) - Activo -->
+                <div class="stitch-drawer p-6 flex flex-col gap-4 border border-[var(--stitch-border)]">
+                    <div class="flex items-center justify-between border-b border-white/5 pb-4">
+                        <h2 class="text-lg font-serif text-[var(--stitch-gold)]" data-i18n="vault.drawer1">Identidad (KYC)</h2>
+                        <span class="text-xs font-mono text-[var(--stitch-gold)]/60 uppercase tracking-widest">Activo</span>
+                    </div>
+                    
+                    <div id="kyc-dropzone" class="w-full aspect-[21/9] border border-dashed border-[var(--stitch-gold)]/40 rounded-sm flex flex-col items-center justify-center bg-black/30 hover:bg-black/50 transition-colors cursor-pointer group mt-2">
+                        <span id="kyc-dropzone-icon" class="material-symbols-outlined text-4xl text-[var(--stitch-gold)]/50 group-hover:text-[var(--stitch-gold)] transition-colors mb-2">document_scanner</span>
+                        <h3 id="kyc-dropzone-title" class="text-sm font-sans tracking-wide text-white/80 mb-1">Arrastre su documento de identidad aquí</h3>
+                        <p id="kyc-dropzone-subtitle" class="text-xs text-white/40 mb-6">Formatos encriptados soportados (PDF, JPG seguro)</p>
+                        
+                        <button id="btn-simulate-upload" type="button" class="px-6 py-2 stitch-btn-gold text-[#0B1A2A] font-bold text-[10px] uppercase tracking-[0.2em] rounded-sm flex items-center gap-2 relative z-10">
+                            <span class="material-symbols-outlined text-[14px] hidden animate-spin" id="btn-simulate-spinner">autorenew</span>
+                            <span id="btn-simulate-text">Simular Carga Segura</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CAJÓN 2: Residencia Fiscal - Cerrado -->
+                <div class="stitch-drawer p-6 opacity-50 pointer-events-none flex flex-col gap-4 border border-white/5">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-serif text-white/60" data-i18n="vault.drawer2">Residencia Fiscal</h2>
+                        <span class="material-symbols-outlined text-white/30">lock</span>
+                    </div>
+                </div>
+
+                <!-- CAJÓN 3: Origen de Fondos (KYW) - Cerrado -->
+                <div class="stitch-drawer p-6 opacity-50 pointer-events-none flex flex-col gap-4 border border-white/5">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-serif text-white/60" data-i18n="vault.drawer3">Origen de Fondos (KYW)</h2>
+                        <span class="material-symbols-outlined text-white/30">lock</span>
+                    </div>
+                </div>
+
+                <!-- CAJÓN 4: Firma Contrato Fiduciario - Cerrado -->
+                <div class="stitch-drawer p-6 opacity-50 pointer-events-none flex flex-col gap-4 border border-white/5">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-serif text-white/60">Firma Contrato Fiduciario</h2>
+                        <span class="material-symbols-outlined text-white/30">lock</span>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Columna Derecha: Soporte Compliance -->
+        <aside class="w-80 border-l border-white/10 bg-vault-dark p-10 flex flex-col pt-24 space-y-6">
+            <div class="bg-white/5 border border-white/10 rounded-sm p-6">
+                <h4 class="text-xs uppercase tracking-[0.2em] text-accent mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px]">fact_check</span>
+                    Guía de Calidad
+                </h4>
+                <ul class="space-y-3 text-xs text-white/60">
+                    <li class="flex items-start gap-2"><span class="text-accent">•</span> El documento debe estar vigente.</li>
+                    <li class="flex items-start gap-2"><span class="text-accent">•</span> Los 4 bordes deben ser visibles.</li>
+                    <li class="flex items-start gap-2"><span class="text-accent">•</span> Evite reflejos en la zona MRZ.</li>
+                </ul>
+            </div>
+            <div class="bg-surface-alt/50 border border-white/5 rounded-sm p-6">
+                <h4 class="text-xs uppercase tracking-[0.2em] text-white/80 mb-2 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px]">support_agent</span>
+                    ¿Necesita Asistencia?
+                </h4>
+                <p class="text-xs text-white/50 mb-4">Un agente de compliance está disponible para guiarle.</p>
+                <button type="button" class="w-full py-2 border border-white/20 hover:bg-white/10 text-[10px] uppercase tracking-widest text-white transition-colors rounded-sm">Solicitar Contacto</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         LÓGICA localStorage — PRESERVADA ÍNTEGRA (MT-1.2)
+         ═══════════════════════════════════════════════════════ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnOpen = document.getElementById('btn-trigger-kyc');
+            const btnClose = document.getElementById('btn-close-kyc');
+            const vault = document.getElementById('kyc-vault');
+            const orbit2Content = document.getElementById('orbit-2-content');
+            const orbit2Empty = document.getElementById('orbit-2-empty');
+            const btnExit = document.getElementById('btn-exit');
+
+            // --- Bootloader de Estado KYC ---
+            const setStatus = (status) => {
+                if (status === 'red' || status === null) {
+                    if (orbit2Content) orbit2Content.classList.add('hidden');
+                    if (orbit2Empty) orbit2Empty.classList.remove('hidden');
+                    if (btnOpen) {
+                        btnOpen.innerText = 'VALIDAR IDENTIDAD';
+                        btnOpen.className = 'w-full py-3 bg-error/10 hover:bg-error/20 border border-error/50 hover:border-error text-error text-[10px] uppercase tracking-[0.2em] transition-all duration-300 rounded-sm font-bold shadow-[0_0_10px_rgba(239,68,68,0.1)]';
+                    }
+                } else if (status === 'yellow') {
+                    if (orbit2Content) orbit2Content.classList.remove('hidden');
+                    if (orbit2Empty) orbit2Empty.classList.add('hidden');
+                    if (btnOpen) {
+                        btnOpen.innerText = 'KYC: EN PROCESO (AMARILLO)';
+                        btnOpen.className = 'w-full py-3 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/50 hover:border-yellow-500 text-yellow-500 text-[10px] uppercase tracking-[0.2em] transition-all duration-300 rounded-sm font-bold shadow-[0_0_10px_rgba(234,179,8,0.1)]';
+                    }
+                } else if (status === 'green') {
+                    if (orbit2Content) orbit2Content.classList.remove('hidden');
+                    if (orbit2Empty) orbit2Empty.classList.add('hidden');
+                    document.querySelectorAll('.kyc-sensitive-data').forEach(el => {
+                        el.classList.remove('blur-md', 'select-none', 'opacity-40', 'pointer-events-none');
+                    });
+                    document.querySelectorAll('.kyc-lock-overlay').forEach(el => {
+                        el.classList.add('hidden');
+                    });
+                    if (btnOpen) {
+                        btnOpen.innerText = 'CLEARANCE NIVEL 2 (VERDE)';
+                        btnOpen.className = 'w-full py-3 bg-green-500/10 hover:bg-green-500/20 border border-green-500/50 hover:border-green-500 text-green-500 text-[10px] uppercase tracking-[0.2em] transition-all duration-300 rounded-sm font-bold shadow-[0_0_10px_rgba(34,197,94,0.1)]';
+                    }
+                }
+            };
+
+            const currentStatus = localStorage.getItem('AIP_v1.2_kyc_status');
+            setStatus(currentStatus);
+
+            // --- Botón del Pánico (Exit) ---
+            if (btnExit) {
+                btnExit.addEventListener('click', () => {
+                    localStorage.removeItem('AIP_v1.2_kyc_status');
+                    window.location.href = 'index.html';
+                });
+            }
+
+            // --- Puerta de la Bóveda ---
+            if (btnOpen && vault) {
+                btnOpen.addEventListener('click', () => {
+                    vault.classList.remove('hidden');
+                });
+            }
+            if (btnClose && vault) {
+                btnClose.addEventListener('click', () => {
+                    vault.classList.add('hidden');
+                });
+            }
+
+            // --- Lógica de Simulación de Carga ---
+            const btnSimulate = document.getElementById('btn-simulate-upload');
+            if (btnSimulate) {
+                btnSimulate.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    btnSimulate.disabled = true;
+                    btnSimulate.classList.add('opacity-80', 'cursor-not-allowed');
+                    document.getElementById('btn-simulate-text').innerText = 'Analizando OCR y Seguridad...';
+                    document.getElementById('btn-simulate-spinner').classList.remove('hidden');
+
+                    setTimeout(() => {
+                        const dropzone = document.getElementById('kyc-dropzone');
+                        dropzone.classList.remove('border-white/20', 'bg-white/5');
+                        dropzone.classList.add('border-green-500/50', 'bg-green-500/5');
+                        document.getElementById('kyc-dropzone-icon').innerText = 'check_circle';
+                        document.getElementById('kyc-dropzone-icon').classList.remove('text-white/30');
+                        document.getElementById('kyc-dropzone-icon').classList.add('text-green-500');
+                        document.getElementById('kyc-dropzone-title').innerText = 'Documento Verificado';
+                        document.getElementById('kyc-dropzone-title').classList.add('text-green-400');
+                        document.getElementById('kyc-dropzone-subtitle').innerText = 'Extracción OCR completada con éxito';
+                        btnSimulate.classList.add('hidden');
+
+                        document.getElementById('kyc-step-1-icon').innerHTML = '<span class="material-symbols-outlined text-[14px]">check</span>';
+                        document.getElementById('kyc-step-1-icon').classList.replace('bg-accent', 'bg-green-500');
+                        document.getElementById('kyc-step-1-icon').classList.replace('text-vault-bg', 'text-white');
+                        document.getElementById('kyc-step-2-icon').classList.replace('bg-surface-alt', 'bg-accent');
+                        document.getElementById('kyc-step-2-icon').classList.replace('text-white/40', 'text-vault-bg');
+                        document.getElementById('kyc-step-2-text').classList.replace('text-white/40', 'text-white');
+                        document.getElementById('kyc-step-2-text').classList.add('font-bold');
+
+                        localStorage.setItem('AIP_v1.2_kyc_status', 'yellow');
+                        setStatus('yellow');
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
