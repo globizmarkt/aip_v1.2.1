@@ -9,7 +9,11 @@ import { StorageAdapter } from 'infra/storage/StorageAdapter.js';
 import { i18nEngine } from 'core/i18n/i18n-engine.js';
 import { PassportEngine } from 'core/passport/PassportEngine.js';
 import { UIBinder } from 'shared/UIBinder.js';
-import { gateEnforcer } from 'ui/orbit-3-gatekeeper/gateEnforcer.js';
+import { enforceProjectGate } from 'ui/orbit-3-gatekeeper/gateEnforcer.js';
+const gateEnforcer = {
+    init: () => {},
+    enforce: (identity) => enforceProjectGate({ clearanceRequired: identity?.clearanceLevel || 'BRONZE' })
+};
 import { GoldenGate } from 'ui/orbit-3-gatekeeper/ui-gate/GoldenGate.js';
 
 /**
