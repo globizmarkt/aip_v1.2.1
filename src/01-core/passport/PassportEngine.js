@@ -5,10 +5,9 @@
  * R25 (Zero-DOM) | R18 (ES Modules) | R11 (Fiduciary Bus) | R27 (Immutability)
  */
 
-const STORAGE_PREFIX = 'AIP_LANDING_V0_';
-const KEYS = {
-    IDENTITY: `${STORAGE_PREFIX}skeleton_passport`
-};
+import { StorageAdapter } from 'infra/storage/StorageAdapter.js';
+
+const IDENTITY_KEY = 'skeleton_passport';
 
 /**
  * Niveles de Clearance Fiduciario (R12)
@@ -29,12 +28,7 @@ export const PassportEngine = {
      * Obtiene el estado actual de la identidad desde el SSoT canónico.
      */
     getIdentity() {
-        const raw = sessionStorage.getItem(KEYS.IDENTITY);
-        try {
-            return raw ? JSON.parse(raw) : this.getGuestIdentity();
-        } catch (e) {
-            return this.getGuestIdentity();
-        }
+        return StorageAdapter.get(IDENTITY_KEY, 'session') || this.getGuestIdentity();
     },
 
     getGuestIdentity() {
@@ -74,7 +68,7 @@ export const PassportEngine = {
      * @private
      */
     _save(identity) {
-        sessionStorage.setItem(KEYS.IDENTITY, JSON.stringify(identity));
+        StorageAdapter.set(IDENTITY_KEY, identity, 'session');
         // Despacho a nivel de documento (R11)
         const event = new CustomEvent('Skeleton:IdentityUpdated', { detail: identity });
         document.dispatchEvent(event);
@@ -84,7 +78,7 @@ export const PassportEngine = {
      * Purga total de la identidad (Skeleton:IdentityBurned).
      */
     burn() {
-        sessionStorage.removeItem(KEYS.IDENTITY);
+        StorageAdapter.remove(IDENTITY_KEY, 'session');
         document.dispatchEvent(new CustomEvent('Skeleton:IdentityBurned'));
         console.warn('[PassportEngine] SSoT skeleton_passport purgado.');
     }

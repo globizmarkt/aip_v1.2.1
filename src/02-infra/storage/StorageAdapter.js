@@ -5,13 +5,22 @@
  * Doctrinas: R5 (Zero-Leak) | R10 (Storage Prefix)
  */
 
-const APP_PREFIX = 'AIP_LANDING_V0_';
+let APP_PREFIX = 'SKELETON_DEFAULT_';
 
 /**
  * StorageAdapter: El guardián de los datos persistentes en la Órbita 2.
  * Proporciona una interfaz agnóstica para localStorage y sessionStorage.
  */
 export const StorageAdapter = {
+    
+    /**
+     * Inicializa el adaptador con el prefijo soberano de la vertical.
+     * @param {string} prefix - Prefijo de la vertical (ej. 'AIP_V1_')
+     */
+    init(prefix) {
+        if (prefix) APP_PREFIX = prefix;
+        console.log(`[StorageAdapter] Aislamiento activado bajo el prefijo: ${APP_PREFIX}`);
+    },
     
     /**
      * Almacena un dato de forma segura y serializada.

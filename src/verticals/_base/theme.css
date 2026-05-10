@@ -1,0 +1,10 @@
+/**
+ * theme.css
+ * Sobrescritura de Tokens para la Vertical.
+ * Doctrina: COG-64 | R3 (Zero-Hex).
+ */
+
+:root {
+    /* Los tokens base viven en src/styles/. 
+       Añade aquí las variables --theme-* específicas para esta vertical. */
+}
