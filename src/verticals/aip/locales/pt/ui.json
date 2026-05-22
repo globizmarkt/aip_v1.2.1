@@ -1,0 +1,104 @@
+{
+  "meta": { "title": "AIP Financial & Commodities — Acesso Institucional" },
+  "header": { "brand": "AIP Financial & Commodities" },
+  "nav": {
+    "market": "Mercados",
+    "news": "Inteligência",
+    "legislation": "Regulatório",
+    "request_access": "Solicitar Acesso",
+    "about": "Sobre a AIP",
+    "services": "Nossos Serviços"
+  },
+  "hero": {
+    "title": "Arquitetos da Soberania Financeira",
+    "subtitle": "Intermediação de ativos de grau institucional. Com sede no Reino Unido, conectividade global. Admissão por qualificação exclusiva.",
+    "cta_onboarding": "Iniciar Processo de Admissão"
+  },
+  "archetype": {
+    "title": "Defina o seu perfil de investidor",
+    "q1_text": "O que melhor descreve o seu objetivo principal?",
+    "q1_optA": "Preservação de capital e rendimento",
+    "q1_optB": "Estruturas de financiamento lastreadas em ativos",
+    "q1_optC": "Comércio de commodities e off-take",
+    "q1_optD": "Gestão de mandatos privados",
+    "q_tie1_text": "Qual é o seu tamanho típico de transação?",
+    "q_tie1_optA": "€1M – €10M",
+    "q_tie1_optB": "€10M e acima"
+  },
+  "feed": {
+    "market": "Inteligência de Mercado",
+    "ticker_xau": "XAU/USD",
+    "ticker_sofr": "Taxa SOFR",
+    "news_q3": "T3 2026: A demanda institucional por ouro físico aumenta diante da recalibração de Basileia III",
+    "news_kyc": "Orientação atualizada do GAFI: requisitos reforçados de due diligence para mandatos transfronteiriços",
+    "legislation": "Marco Regulatório",
+    "basel_desc": "Regras finais de Basileia III — impacto na monetização de SBLC e alocação de capital Tier 1",
+    "directives_link": "Aceder à biblioteca regulatória completa"
+  },
+  "crm": {
+    "breadcrumb": "Operações Ativas",
+    "title": "Painel Fiduciário",
+    "filter": {
+      "all": "Todas",
+      "due_diligence": "Due Diligence",
+      "pending": "Pendente"
+    },
+    "table": {
+      "aria": "Tabela de operações ativas",
+      "col_id": "ID da Operação",
+      "col_asset": "Ativo",
+      "col_status": "Estado",
+      "col_kyc": "Nível KYC",
+      "col_action": "Ação"
+    },
+    "detail": {
+      "title": "Detalhe da Operação",
+      "country": "Jurisdição",
+      "ticket": "Tamanho do Ticket",
+      "roi": "Rendimento Projetado",
+      "timeline": "Cronograma de Conformidade",
+      "blocked_kyc2": "Acesso restrito — KYC Nível 2 necessário"
+    },
+    "action": { "request_kyc2": "Iniciar Verificação Nível 2" },
+    "row": {
+      "grade": "Grau Institucional",
+      "verified": "Verificado"
+    }
+  },
+  "landing": {
+    "card1": "Acesso direto a ativos fora do mercado sob protocolos estritos de confidencialidade suíça. Apenas contrapartes verificadas.",
+    "card2": "Gestão estruturada de mandatos para family offices e investidores institucionais. Supervisão fiduciária integral.",
+    "btn_access": "Solicitar Acesso Institucional",
+    "aimon_alert": "AIMON Inteligência Fiduciária — monitoramento de conformidade em tempo real ativo",
+    "role": "Selecione o perfil de acesso"
+  },
+  "gatekeeper": {
+    "idle": {
+      "status_live": "Sistema Ativo",
+      "title": "Acesso Restrito",
+      "subtitle": "Verificação de identidade e conformidade AML necessárias para prosseguir."
+    },
+    "manual": { "title": "Integração Institucional" },
+    "close": { "label": "Fechar painel de acesso" },
+    "form": {
+      "title": "AIMON — Inteligência Fiduciária",
+      "quick_access": "Acesso Rápido Corporativo",
+      "oauth_google": "Continuar com Google",
+      "oauth_microsoft": "Continuar com Microsoft",
+      "role_investor": "Investidor Privado",
+      "role_agent": "Agente Fiduciário",
+      "client_type_label": "Tipo de Cliente Representado",
+      "client_type_placeholder": "Selecione o tipo...",
+      "client_type_fund": "Fundo Institucional",
+      "client_type_family": "Family Office",
+      "client_type_hnwi": "HNWI (Alto Património)",
+      "email_label": "Email Fiduciário",
+      "company_label": "Razão Social",
+      "intent_label": "Declaração de Intenção",
+      "gdpr_label": "Consinto o tratamento de dados ao abrigo do RGPD",
+      "submit": "SOLICITAR CLEARANCE",
+      "cancel": "CANCELAR"
+    }
+  },
+  "footer": { "copyright": "© 2026 Atlantis International Projects, LTD. Todos os direitos reservados." }
+}

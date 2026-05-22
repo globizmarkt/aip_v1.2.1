@@ -5,6 +5,8 @@
  * R25 (Zero-DOM) | R18 (ES Modules) | R11 (Fiduciary Bus) | R27 (Immutability)
  */
 
+import { deepFreeze } from '../utils/deepFreeze.js'; // [E3-GENESIS] E3-T08 — canónico R27
+
 const STORAGE_KEY = 'skeleton_lang';
 const DEFAULT_LANG = 'en';
 
@@ -42,28 +44,42 @@ export const i18nEngine = {
     },
 
     /**
-     * Carga el diccionario JSON de la vertical activa y aplica hidratación al DOM.
-     * Ruta dinámica: /src/verticals/${vertical}/locales/${lang}.json (COG-64)
-     * @param {string} lang - Código de idioma ('en', 'es')
+     * Carga el diccionario JSON de la vertical activa.
+     * Ruta namespaced canónica (R26): /src/verticals/${vertical}/locales/${lang}/ui.json
+     * La hidratación del DOM es responsabilidad de ui-hydrator.js (R25/R28).
+     * @param {string} lang - Código de idioma ('en', 'es', 'fr', 'pt')
      */
     async loadDictionary(lang) {
         const vertical = window.Skeleton?.ENV?.vertical || '_base';
-        const url = `/src/verticals/${vertical}/locales/${lang}.json`;
+        const url = `/src/verticals/${vertical}/locales/${lang}/ui.json`;
         try {
             const response = await fetch(url);
             if (!response.ok) throw new Error(`[i18nEngine] Diccionario no encontrado: ${url}`);
             const dict = await response.json();
-            const sealed = this.seal(dict);
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.dataset.i18n;
-                const value = key.split('.').reduce((o, k) => o?.[k], sealed);
-                if (value !== undefined) el.textContent = value;
-            });
-            console.log(`[i18nEngine] Diccionario '${lang}' cargado desde ${url} — ${Object.keys(dict).length} namespaces activos.`);
-            return sealed;
+            this._dict = Object.freeze(dict); // Sella la fuente de verdad (R27)
+            console.log(`[i18nEngine] Diccionario '${lang}' cargado — Namespaces activos.`);
+
+            // Señal de diccionario listo para que la capa de interfaz consuma (R11/R20)
+            document.dispatchEvent(new CustomEvent('Skeleton:DictionaryReady', {
+                detail: { lang, dict: this._dict }
+            }));
+
+            return this._dict;
         } catch (error) {
             console.error(`[i18nEngine] Error cargando diccionario:`, error);
+            throw error;
         }
+    },
+
+    /**
+     * Resuelve una clave dot-notation sobre el diccionario activo (COG-66).
+     * Fallback: devuelve la propia key como string visible (Fail-Secure, COG-11).
+     * @param {string} key - Clave dot-notation, ej: 'crm.row.grade'
+     * @returns {string}
+     */
+    t(key) {
+        if (!this._dict) return key;
+        return key.split('.').reduce((o, k) => o?.[k], this._dict) ?? key;
     },
 
     /**
@@ -73,27 +89,7 @@ export const i18nEngine = {
      * @returns {Object} Diccionario inmutable.
      */
     seal(obj) {
-        return this._deepFreeze(obj);
-    },
-
-    /**
-     * Implementación recursiva de inmutabilidad profunda (Doctrina R27).
-     * @private
-     */
-    _deepFreeze(obj) {
-        // Recuperar todas las propiedades
-        const propNames = Object.getOwnPropertyNames(obj);
-
-        // Congelar cada propiedad si es un objeto (recursión)
-        for (const name of propNames) {
-            const value = obj[name];
-            if (value && typeof value === "object") {
-                this._deepFreeze(value);
-            }
-        }
-
-        // Sellar el objeto raíz
-        return Object.freeze(obj);
+        return deepFreeze(obj); // [E3-GENESIS] E3-T08 — usa canónico importado
     }
 };
 

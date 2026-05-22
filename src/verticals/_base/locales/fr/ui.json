@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "assets": "Actifs",
+    "compliance": "Conformité",
+    "settings": "Paramètres"
+  },
+  "gate": {
+    "title": "Accès Requis",
+    "request_button": "Demander l'accès",
+    "locked_message": "Actif sous garde fiduciaire"
+  },
+  "errors": {
+    "forbidden": "Accès Refusé",
+    "not_found": "Ressource introuvable"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer"
+  }
+}

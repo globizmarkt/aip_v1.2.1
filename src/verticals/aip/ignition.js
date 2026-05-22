@@ -5,7 +5,12 @@
  * data-i18n: gestionado por 01-core/i18n/ — no duplicar aquí
  */
 
+import { AIPHandler } from './AIPHandler.js';
+
 document.addEventListener('Skeleton:SystemReady', async () => {
+  
+  // 1. Inicializar Handlers de la Vertical
+  AIPHandler.init();
 
   const demoData = {
     assets: [

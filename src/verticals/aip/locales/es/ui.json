@@ -59,7 +59,11 @@
       "timeline": "Cronograma de Cumplimiento",
       "blocked_kyc2": "Acceso restringido — Se requiere KYC Nivel 2"
     },
-    "action": { "request_kyc2": "Iniciar Verificación Nivel 2" }
+    "action": { "request_kyc2": "Iniciar Verificación Nivel 2" },
+    "row": {
+      "grade": "Grado Institucional",
+      "verified": "Verificado"
+    }
   },
   "landing": {
     "card1": "Acceso directo a activos fuera de mercado bajo protocolos estrictos de confidencialidad suiza. Exclusivamente para contrapartes acreditadas.",

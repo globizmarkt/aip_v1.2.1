@@ -1,0 +1,138 @@
+<div class="tab-view w-full max-w-6xl mx-auto" id="tab-regulatory" data-tab="regulatory">
+
+  <!-- Header canónico -->
+  <header class="tab-view__header">
+    <h1 class="tab-view__title" data-i18n="regulatory.hero.title">Regulatory Framework</h1>
+    <p class="tab-view__subtitle" data-i18n="regulatory.hero.subtitle">Compliance as execution engine. AML/KYC/Sanctions with algorithmic gatekeeping.</p>
+  </header>
+
+  <!-- Bloque 1: Compliance Framework -->
+  <section class="mb-12">
+    <h2 class="section-heading" data-i18n="regulatory.framework.title">COMPLIANCE FRAMEWORK</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="fiduciary-card">
+        <span class="micro-badge micro-badge--critical">AML</span>
+        <p class="text-sm mt-3" data-i18n="regulatory.framework.aml">AML — Verificación de origen de fondos y detección de patrones de velocidad/anomalías geográficas.</p>
+      </div>
+      <div class="fiduciary-card">
+        <span class="micro-badge micro-badge--warning">KYC</span>
+        <p class="text-sm mt-3" data-i18n="regulatory.framework.kyc">KYC — Verificación documental asíncrona (Tier 1: email, Tier 2: identidad, Tier 3: patrimonio).</p>
+      </div>
+      <div class="fiduciary-card">
+        <span class="micro-badge micro-badge--critical">SANCIONES</span>
+        <p class="text-sm mt-3" data-i18n="regulatory.framework.sanctions">Sanciones (OFAC/UE) — Filtro automático contra listas de sanciones internacionales. Bloqueo inmediato si positivo.</p>
+      </div>
+      <div class="fiduciary-card">
+        <span class="micro-badge">PRIVILEGIO</span>
+        <p class="text-sm mt-3" data-i18n="regulatory.framework.privilege">Privilegio basado en cumplimiento — El acceso a funcionalidades escala con IntegrityScore y KYC Tier. Sin excepciones manuales.</p>
+      </div>
+    </div>
+    <div class="fiduciary-card mt-4 border-l-4 border-institutional-gold">
+      <p class="text-xs text-institutional-gold/80 font-mono" data-i18n="regulatory.framework.declaration">⛁ El cumplimiento no es un añadido. Es el motor de ejecución. La plataforma no opera si el estado fiduciario del agente no está certificado.</p>
+    </div>
+  </section>
+
+  <div class="fiduciary-border my-12"></div>
+
+  <!-- Bloque 2: Jurisdictional Stance -->
+  <section class="mb-12">
+    <h2 class="section-heading" data-i18n="regulatory.jurisdiction.title">JURISDICTIONAL STANCE</h2>
+    <div class="fiduciary-card">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 text-sm">
+        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+          <span class="micro-badge">JURISDICCIÓN</span>
+          <span data-i18n="regulatory.jurisdiction.primary">Países Bajos (Kingdom of the Netherlands)</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+          <span class="micro-badge">AUTORIDADES</span>
+          <span data-i18n="regulatory.jurisdiction.authorities">AFM + DNB</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+          <span class="micro-badge">ESTRUCTURA</span>
+          <span data-i18n="regulatory.jurisdiction.structure">STAK — Fideicomiso de administración separada</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+          <span class="micro-badge">RÉGIMEN</span>
+          <span data-i18n="regulatory.jurisdiction.mifid">Exención MiFID II (matched principal trading)</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+          <span class="micro-badge">LEY AML</span>
+          <span data-i18n="regulatory.jurisdiction.aml_law">Wwft 2018 (Transacciones)</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+          <span class="micro-badge">REPORTE</span>
+          <span data-i18n="regulatory.jurisdiction.threshold">>10k EUR → FIU-NL</span>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 fiduciary-border-top">
+        <p class="text-xs text-surface-muted/60" data-i18n="regulatory.jurisdiction.disclaimer">⚠️ La presente plataforma no constituye asesoramiento financiero ni ofrece servicios de custodia directa. El usuario opera desde su propia soberanía de activos.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fiduciary-border my-12"></div>
+
+  <!-- Bloque 3: Risk Controls -->
+  <section class="mb-12">
+    <h2 class="section-heading" data-i18n="regulatory.risk_controls.title">RISK CONTROLS</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="fiduciary-card">
+        <h3 class="font-semibold text-sm text-institutional-gold" data-i18n="regulatory.risk_controls.integrity_gate_title">INTEGRITYSCORE HARD GATE</h3>
+        <p class="text-xs text-surface-muted/70 mt-2" data-i18n="regulatory.risk_controls.integrity_gate">Verificación numérica en cada transición de órbita. &lt; 60 → bloqueo absoluto.</p>
+      </div>
+      <div class="fiduciary-card">
+        <h3 class="font-semibold text-sm text-institutional-gold" data-i18n="regulatory.risk_controls.friction_filter_title">FRICCIÓN UX COMO FILTRO</h3>
+        <p class="text-xs text-surface-muted/70 mt-2" data-i18n="regulatory.risk_controls.friction_filter">Latencia fiduciaria deliberada (800-1500ms). Reduce velocidad de operaciones maliciosas.</p>
+      </div>
+    </div>
+    <!-- Dashboard de estado mock -->
+    <div class="fiduciary-card mt-6 border-red-500/20 bg-red-950/10">
+      <h3 class="text-sm font-semibold text-red-400 mb-4" data-i18n="regulatory.risk_controls.dashboard_status">⚠️ IntegrityScore actual: 45/100 (Umbral: 60) — NO SUPERA</h3>
+      <div class="grid grid-cols-3 gap-3">
+        <div class="bg-abisal/40 p-3 rounded text-center">
+          <span class="micro-badge micro-badge--critical">KYC</span>
+          <p class="text-[10px] mt-2 font-bold text-red-500 uppercase" data-i18n="regulatory.badges.failed">ERROR</p>
+        </div>
+        <div class="bg-abisal/40 p-3 rounded text-center">
+          <span class="micro-badge micro-badge--critical">AML</span>
+          <p class="text-[10px] mt-2 font-bold text-red-500 uppercase" data-i18n="regulatory.badges.failed">ERROR</p>
+        </div>
+        <div class="bg-abisal/40 p-3 rounded text-center">
+          <span class="micro-badge micro-badge--info">SANCIONES</span>
+          <p class="text-[10px] mt-2 font-bold text-emerald-500 uppercase" data-i18n="regulatory.badges.passed">LIMPIO</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fiduciary-border my-12"></div>
+
+  <!-- Bloque 4: Data Governance -->
+  <section class="mb-12">
+    <h2 class="section-heading" data-i18n="regulatory.governance.title">DATA GOVERNANCE</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="fiduciary-card">
+        <span class="micro-badge">SOBERANÍA</span>
+        <p class="text-xs mt-3 leading-relaxed" data-i18n="regulatory.governance.sovereignty">El usuario es el único propietario de sus metadatos. La plataforma no retiene PII post-sesión.</p>
+      </div>
+      <div class="fiduciary-card border-red-500/10">
+        <span class="micro-badge micro-badge--critical">ZERO-LEAK (R5)</span>
+        <p class="text-xs mt-3 leading-relaxed" data-i18n="regulatory.governance.zero_leak">Prohibida la fuga de metadatos a terceros. Alertas solo emiten eventos agregados.</p>
+      </div>
+      <div class="fiduciary-card">
+        <span class="micro-badge">TRAZABILIDAD</span>
+        <p class="text-xs mt-3 leading-relaxed" data-i18n="regulatory.governance.traceability">Cada cambio de estado de cumplimiento se registra con timestamp, agente y hash.</p>
+      </div>
+    </div>
+    <!-- GDPR Notice -->
+    <div class="fiduciary-card mt-6 border-institutional-gold/20">
+      <p class="text-xs text-institutional-gold/80 leading-relaxed" data-i18n="regulatory.governance.gdpr_notice">📋 GDPR art. 13 notice — Los datos personales tratados se utilizan exclusivamente para fines de cumplimiento AML/KYC. El usuario tiene derecho de acceso, rectificación y olvido vía compliance@aip.financial.</p>
+    </div>
+  </section>
+
+  <!-- Nota de auditoría final -->
+  <footer class="mt-12 pt-8 border-t border-white/5 text-center">
+    <p class="text-[10px] text-surface-muted/40 uppercase tracking-[0.3em]" data-i18n="regulatory.footer.audit_note">DOCUMENTARY TRACEABILITY ACTIVE (R22) — MMXXIV</p>
+  </footer>
+
+</div>

@@ -1,10 +1,144 @@
 /**
- * theme.css
- * Sobrescritura de Tokens para la Vertical.
+ * theme.css — AIP Financial & Commodities (VERTICAL OVERRIDE)
+ * Sobrescritura canónica sobre theme-landing.css (R3: Zero-Hex estricto).
+ * Los hex SOLO viven en :root. Los componentes consumen variables.
  * Doctrina: COG-64 | R3 (Zero-Hex).
+ *
+ * [E2-EXPRESS] [E3-GENESIS] [Fase 19] [E2-T02] [Claude Code]
  */
 
+/* ============================================================
+   § 1 — FUENTES AIP (Override vs. theme-landing.css base)
+   theme-landing.css declara Inter/Outfit.
+   Todos los Legos AIP usan Noto Serif + Public Sans — rectificamos aquí.
+   Las fuentes también se cargan via <link> en entry.html.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,700;1,400&family=Public+Sans:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap');
+
 :root {
-    /* Los tokens base viven en src/styles/. 
-       Añade aquí las variables --theme-* específicas para esta vertical. */
+    --font-primary:  'Public Sans', system-ui, sans-serif;
+    --font-display:  'Noto Serif', Georgia, serif;
+    --font-mono:     'DM Mono', 'Courier New', monospace;
+
+    /* ============================================================
+       § 2 — SUPERFICIES EXTENDIDAS (Elevadas de legacy hardcodes)
+       Extraídas de crm-landing.html, worktree/index.html,
+       crm_aip_index.html — ahora canónicas en esta vertical.
+       Ausentes en theme-landing.css — necesarias para Legos CRM.
+       ============================================================ */
+    --theme-surface-bright:            #1A2C42;   /* Hover / filas activas CRM */
+    --theme-surface-variant:           #1D2E4A;   /* Cards con borde suave */
+    --theme-surface-container-lowest:  #081221;   /* Bóveda KYC más profunda */
+    --theme-surface-container-low:     #0C1729;   /* Panel O1 izquierdo */
+    --theme-surface-container-high:    #1A2C42;   /* Alias legible de surface-bright */
+    --theme-surface-container:         #3A3A3A;   /* Surface neutral (inputs Lego) */
+
+    /* ============================================================
+       § 3 — PALETA FIDUCIARIA COMPLEMENTARIA
+       Tokens que aparecen en los Legos pero no en theme-landing.css.
+       ============================================================ */
+    --theme-primary:       #B1CADF;              /* Slate-Blue institucional (alt accent) */
+    --theme-on-secondary:  #101D33;              /* Texto sobre fondo dorado */
+    --theme-outline:       #8D9196;              /* Bordes neutros estándar */
+
+    /* ============================================================
+       § 4 — DIMENSIONES DEL WORKSPACE CRM
+       Extraídas de crm_aip_index.html. Usadas por los Legos O1/O2/O3.
+       ============================================================ */
+    --crm-header-h:              64px;    /* header CRM — h-16 Tailwind */
+    --crm-orbit1-w:              288px;   /* Panel nav izquierdo — w-72 */
+    --crm-orbit1-rail-w:         64px;    /* Raíl icónico O1 — w-16 */
+    --crm-orbit3-w:              400px;   /* Panel derecho AIP gate */
+    --crm-orbit3-w-collapsed:    80px;    /* Raíl colapsado */
+
+    /* ============================================================
+       § 5 — GLASSMORPHISM RECONCILIADO
+       theme-landing.css tiene --luxury-blur: blur(12px).
+       Los Legos legacy usaban blur(20px) — override para AIP.
+       ============================================================ */
+    --luxury-blur:             blur(20px);               /* Override: CRM usa 20px */
+    --luxury-glass-bg:         rgba(0, 27, 43, 0.80);    /* Panel CRM oscuro */
+    --luxury-glass-bg-light:   rgba(16, 29, 51, 0.75);   /* Landing / O3 idle */
 }
+
+/* ============================================================
+   § 6 — CLASES UTILITARIAS (Elevadas de inline legacy)
+   Vivían como <style> en 4 HTML distintos. Ahora una sola fuente.
+   ============================================================ */
+
+/* Glassmorphism oscuro — paneles CRM, inspector de deals */
+.luxury-glass {
+    background:              var(--luxury-glass-bg);
+    backdrop-filter:         var(--luxury-blur);
+    -webkit-backdrop-filter: var(--luxury-blur);
+}
+
+/* Glassmorphism claro — landing idle, O3 teaser */
+.luxury-blur {
+    background:              var(--luxury-glass-bg-light);
+    backdrop-filter:         var(--luxury-blur);
+    -webkit-backdrop-filter: var(--luxury-blur);
+}
+
+/* Trinity Grid — Layout CRM workspace (O1 + O2 + O3) */
+.trinity-grid {
+    display: grid;
+    grid-template-columns: var(--crm-orbit1-w) 1fr var(--crm-orbit3-w);
+    min-height: 100vh;
+    transition: grid-template-columns 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trinity-grid.orbit-3-collapsed {
+    grid-template-columns: var(--crm-orbit1-w) 1fr var(--crm-orbit3-w-collapsed);
+}
+
+/* Clases semánticas extendidas (mapeadas desde tokens canónicos R3) */
+.text-success         { color: var(--theme-success); }
+.text-warning         { color: var(--theme-warning); }
+.text-error           { color: var(--theme-error); }
+.text-accent          { color: var(--theme-accent); }
+.bg-accent-subtle     { background-color: rgba(193, 168, 93, 0.10); }
+.border-accent-subtle { border-color:     rgba(193, 168, 93, 0.20); }
+
+/* ============================================================
+   § 7 — CLASES GADGETS CRM (Cosecha CSS — VIBE-AIP-S-REBORN-02)
+   Elevadas de bloques <style> inline de GADGET_2.3.
+   Ahora globales para todos los gadgets de Orbit-2.
+   Fuente original: GADGET_2.3_codigo_our-services.html
+   ============================================================ */
+
+/* Cabecera semántica de gadget — borde inferior fiduciario */
+.tab-view__header {
+    border-bottom: 1px solid var(--theme-border);
+}
+
+/* Card fiduciaria — superficie translúcida con micro-hover auditivo */
+.fiduciary-card {
+    background: rgba(22, 38, 65, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fiduciary-card:hover {
+    border-color: rgba(193, 168, 93, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Micro-badge monoespaciado — indicadores de acceso y clearance */
+.micro-badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: rgba(148, 163, 184, 0.6);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Borde fiduciario — separador sutil dorado (alias de --theme-border) */
+.fiduciary-border {
+    border: 1px solid var(--theme-border);
+}
+
+/* Ocultar scrollbar sin perder funcionalidad de scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

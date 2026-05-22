@@ -1,105 +1,89 @@
-// %[CARRIL-AIP-INTERFACE] - [Fase 18.3]
+// %[CARRIL-AIP-QWEN] - [Sprint 18] - E1-T06
 /**
  * UIBinder.js
- * Puente Fiduciario entre el DOM y el Core.
- * R28 (Decoupling) | R20 (Event-Driven) | R11 (Fiduciary Bus)
+ * Puente Fiduciario entre DOM ciego y Core.
+ * R0 (Zero-Trust) | R11 (PascalCase) | R18 (ES Modules) | R20 (Event-Driven) | R25 (Zero-DOM) | R28 (Desacoplamiento)
  */
 
-/**
- * UIBinder: El sistema nervioso de la interfaz en la Órbita 3.
- * Centraliza la escucha del DOM y la traduce a eventos de sistema.
- */
-export const UIBinder = {
-    
-    _isProcessing: false,
-    _throttleTimeout: 300, // milisegundos de inhibición de doble disparo
+const FIDUCIARY_LATENCY = 1000; // ms (Rango doctrinal 800-1500)
+const UI_LOCK_CLASSES = ['skeleton-blur', 'disabled'];
+
+export class UIBinder {
+    #lockedNodes = new WeakSet();
+    #globalThrottle = false;
 
     /**
-     * Inicializa los sensores de la interfaz (Órbita 3).
+     * Inicializa la delegación de eventos sobre [data-action].
      */
     init() {
-        console.log('[UIBinder] Inicializando puente de eventos UI...');
-        this._setupGlobalListeners();
-        return this;
-    },
-
-    /**
-     * Configura la delegación de eventos global.
-     * Escucha elementos con el atributo 'data-action'.
-     * @private
-     */
-    _setupGlobalListeners() {
-        // Captura de Clicks (Acciones inmediatas)
-        document.addEventListener('click', (e) => {
-            const target = e.target.closest('[data-action]');
-            if (target) {
-                this._handleAction(target, e);
-            }
-        });
-
-        // Captura de Submits (Formularios Gatekeeper/KYC)
-        document.addEventListener('submit', (e) => {
-            const target = e.target.closest('[data-action]');
-            if (target) {
-                e.preventDefault();
-                this._handleAction(target, e);
-            }
-        });
-    },
-
-    /**
-     * Traduce una interacción física en una señal lógica para el Core.
-     * Implementa protección contra doble disparo (Throttle fiduciario).
-     * @param {HTMLElement} element - Nodo que disparó la acción.
-     * @param {Event} originalEvent - Evento nativo del navegador.
-     * @private
-     */
-    _handleAction(element, originalEvent) {
-        if (this._isProcessing) {
-            console.warn(`[UIBinder] Acción bloqueada por throttle: ${element.dataset.action}`);
-            return;
-        }
-
-        const actionName = element.dataset.action;
-        
-        // Purificación del Payload (DNA Extraction)
-        // Extrae todos los data-attributes excepto el propio action.
-        const payload = { ...element.dataset };
-        delete payload.action;
-
-        // Si es un formulario, podemos recolectar sus datos aquí
-        if (originalEvent.type === 'submit' && element.tagName === 'FORM') {
-            const formData = new FormData(element);
-            payload.formData = Object.fromEntries(formData.entries());
-        }
-
-        // Activación de protección
-        this._isProcessing = true;
-        
-        console.log(`[UIBinder] Traduciendo acción DOM: ${actionName}`, payload);
-
-        // Despacho de Evento Canónico Skeleton (R11)
-        this.dispatch(`Skeleton:Action:${actionName}`, payload);
-
-        // Reset de la barrera tras el periodo de inhibición
-        setTimeout(() => {
-            this._isProcessing = false;
-        }, this._throttleTimeout);
-    },
-
-    /**
-     * Emite una señal purificada al Bus Fiduciario (document).
-     * @param {string} eventName - Nombre del evento con prefijo Skeleton:.
-     * @param {Object} detail - Datos asociados a la señal.
-     */
-    dispatch(eventName, detail = {}) {
-        const event = new CustomEvent(eventName, { 
-            detail,
-            bubbles: true,
-            composed: true 
-        });
-        document.dispatchEvent(event);
+        console.log('[UIBinder] Puente fiduciario activo.');
+        document.addEventListener('click', (e) => this.#dispatchInteraction(e, 'click'));
+        document.addEventListener('submit', (e) => this.#dispatchInteraction(e, 'submit'));
     }
-};
 
-export default UIBinder;
+    #dispatchInteraction(e, type) {
+        const trigger = e.target.closest('[data-action]');
+        if (!trigger || this.#isBlocked(trigger)) return;
+        if (type === 'submit') e.preventDefault();
+
+        this.#lockTrigger(trigger);
+        this.#globalThrottle = true;
+
+        // Purificación estricta (R0/R28)
+        const purified = this.#purify(trigger, type);
+
+        // Emisión canónica (R11/R20) - Sintaxis obligatoria
+        document.dispatchEvent(new CustomEvent('Skeleton:RequestGate', {
+            detail: purified,
+            bubbles: true,
+            composed: true
+        }));
+
+        // Liberación post-latencia fiduciaria
+        setTimeout(() => {
+            this.#unlockTrigger(trigger);
+            this.#globalThrottle = false;
+        }, FIDUCIARY_LATENCY);
+    }
+
+    #isBlocked(node) {
+        return this.#lockedNodes.has(node) || this.#globalThrottle;
+    }
+
+    #lockTrigger(node) {
+        node.setAttribute('aria-disabled', 'true');
+        node.classList.add(...UI_LOCK_CLASSES);
+        this.#lockedNodes.add(node);
+    }
+
+    #unlockTrigger(node) {
+        if (!node.isConnected) return;
+        node.removeAttribute('aria-disabled');
+        node.classList.remove(...UI_LOCK_CLASSES);
+        this.#lockedNodes.delete(node);
+    }
+
+    #purify(element, type) {
+        let raw = {};
+        if (type === 'submit' && element.tagName === 'FORM') {
+            const fd = new FormData(element);
+            for (const [k, v] of fd.entries()) raw[k] = v;
+        } else {
+            raw = { ...element.dataset };
+            // 'action' se preserva intencionalmente — Router.js lo consume para traducción Skeleton:Action:*
+        }
+
+        // Saneamiento R0: Trim, coerción segura, eliminación de vacíos
+        const sanitized = {};
+        for (const [key, value] of Object.entries(raw)) {
+            const clean = String(value ?? '').trim();
+            if (clean === '') continue;
+            sanitized[key] = clean;
+        }
+
+        // Inmutabilidad R27/R28
+        return Object.freeze(sanitized);
+    }
+}
+
+export default new UIBinder();

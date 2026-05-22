@@ -59,7 +59,11 @@
       "timeline": "Compliance Timeline",
       "blocked_kyc2": "Access restricted — KYC Level 2 required"
     },
-    "action": { "request_kyc2": "Initiate Level 2 Verification" }
+    "action": { "request_kyc2": "Initiate Level 2 Verification" },
+    "row": {
+      "grade": "Institutional Grade",
+      "verified": "Verified"
+    }
   },
   "landing": {
     "card1": "Direct access to off-market assets under strict Swiss confidentiality protocols. Vetted counterparties only.",

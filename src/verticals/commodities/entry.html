@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="meta.title">Skeleton — Commodities Trading</title>
+
+    <!-- CONTRATO DE VERTICALIZACIÓN (COG-64) -->
+    <script>
+        window.Skeleton = window.Skeleton || {};
+        window.Skeleton.ENV = { vertical: 'commodities' };
+    </script>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "core/": "/src/01-core/",
+        "infra/": "/src/02-infra/",
+        "ui/": "/src/03-interface/",
+        "shared/": "/src/03-interface/shared/",
+        "vertical/": "./"
+      }
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../src/styles/theme-landing.css">
+    <link rel="stylesheet" href="./theme.css">
+    <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'var(--theme-deep-ocean)',
+                        surface: 'var(--theme-surface)',
+                        'surface-alt': 'var(--theme-surface-alt)',
+                        secondary: 'var(--theme-accent)',
+                        'secondary-hover': 'var(--theme-accent-hover)',
+                        'on-background': 'var(--theme-foreground)',
+                        'on-surface': 'var(--theme-foreground)',
+                        'on-surface-variant': 'var(--theme-foreground-alt)',
+                        'outline-variant': 'var(--theme-border)',
+                        error: 'var(--theme-error)'
+                    },
+                    fontFamily: {
+                        serif: ["Noto Serif", "serif"],
+                        sans: ["Public Sans", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="m-0 p-0 h-screen overflow-hidden bg-background text-on-background font-sans flex flex-col min-w-[1200px] overflow-x-auto">
+    <header
+        class="flex-none z-50 flex justify-between items-center px-8 py-5 border-b border-outline-variant bg-background/60 backdrop-blur-xl">
+        <span class="font-serif text-2xl tracking-[0.25em] uppercase text-secondary">Commodities</span>
+    </header>
+
+    <main class="aip-chassis flex-1 flex items-center justify-center">
+        <div class="text-center">
+            <h1 class="font-serif text-4xl mb-4">Commodities Trading Shell</h1>
+            <p class="text-on-surface-variant tracking-widest uppercase text-[10px]">Esperando Inicialización del Chasis...</p>
+        </div>
+    </main>
+
+    <footer class="flex-none z-40 flex justify-center px-8 py-3 text-[10px] uppercase tracking-[0.2em] border-t border-outline-variant bg-background">
+        <p class="opacity-30">Skeleton Sovereign Engine — Commodities Mode</p>
+    </footer>
+
+    <script type="module" src="../../../src/main.js"></script>
+</body>
+
+</html>

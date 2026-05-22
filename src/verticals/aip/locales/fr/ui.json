@@ -1,0 +1,104 @@
+{
+  "meta": { "title": "AIP Financial & Commodities — Accès Institutionnel" },
+  "header": { "brand": "AIP Financial & Commodities" },
+  "nav": {
+    "market": "Marchés",
+    "news": "Intelligence",
+    "legislation": "Réglementation",
+    "request_access": "Demander l'accès",
+    "about": "À propos d'AIP",
+    "services": "Nos Services"
+  },
+  "hero": {
+    "title": "Architectes de la Souveraineté Financière",
+    "subtitle": "Intermédiation d'actifs de grade institutionnel. Basé au Royaume-Uni, connecté mondialement. Admission sur qualification uniquement.",
+    "cta_onboarding": "Démarrer le processus d'admission"
+  },
+  "archetype": {
+    "title": "Définissez votre profil d'investisseur",
+    "q1_text": "Qu'est-ce qui décrit le mieux votre objectif principal ?",
+    "q1_optA": "Préservation du capital et rendement",
+    "q1_optB": "Structures de financement adossées à des actifs",
+    "q1_optC": "Commerce de matières premières et off-take",
+    "q1_optD": "Gestion de mandats privés",
+    "q_tie1_text": "Quelle est votre taille de transaction habituelle ?",
+    "q_tie1_optA": "€1M – €10M",
+    "q_tie1_optB": "€10M et plus"
+  },
+  "feed": {
+    "market": "Intelligence de marché",
+    "ticker_xau": "XAU/USD",
+    "ticker_sofr": "Taux SOFR",
+    "news_q3": "T3 2026 : La demande institutionnelle d'or physique augmente face à la recalibration de Bâle III",
+    "news_kyc": "Mise à jour GAFI : exigences renforcées de vigilance pour les mandats transfrontaliers",
+    "legislation": "Cadre réglementaire",
+    "basel_desc": "Règles finales de Bâle III — impact sur la monétisation des SBLC et l'allocation de capital Tier 1",
+    "directives_link": "Accéder à la bibliothèque réglementaire complète"
+  },
+  "crm": {
+    "breadcrumb": "Opérations actives",
+    "title": "Tableau de bord fiduciaire",
+    "filter": {
+      "all": "Toutes",
+      "due_diligence": "Due Diligence",
+      "pending": "En attente"
+    },
+    "table": {
+      "aria": "Tableau des opérations actives",
+      "col_id": "ID Opération",
+      "col_asset": "Actif",
+      "col_status": "Statut",
+      "col_kyc": "Niveau KYC",
+      "col_action": "Action"
+    },
+    "detail": {
+      "title": "Détail de l'opération",
+      "country": "Juridiction",
+      "ticket": "Taille du ticket",
+      "roi": "Rendement projeté",
+      "timeline": "Calendrier de conformité",
+      "blocked_kyc2": "Accès restreint — KYC Niveau 2 requis"
+    },
+    "action": { "request_kyc2": "Initier la vérification Niveau 2" },
+    "row": {
+      "grade": "Niveau Institutionnel",
+      "verified": "Vérifié"
+    }
+  },
+  "landing": {
+    "card1": "Accès direct à des actifs hors marché sous protocoles stricts de confidentialité suisse. Contreparties vérifiées uniquement.",
+    "card2": "Gestion structurée de mandats pour family offices et investisseurs institutionnels. Supervision fiduciaire complète.",
+    "btn_access": "Demander l'accès institutionnel",
+    "aimon_alert": "AIMON Intelligence Fiduciaire — surveillance de conformité en temps réel active",
+    "role": "Sélectionnez votre profil d'accès"
+  },
+  "gatekeeper": {
+    "idle": {
+      "status_live": "Système actif",
+      "title": "Accès restreint",
+      "subtitle": "Vérification d'identité et conformité AML requises pour continuer."
+    },
+    "manual": { "title": "Intégration institutionnelle" },
+    "close": { "label": "Fermer le panneau d'accès" },
+    "form": {
+      "title": "AIMON — Intelligence Fiduciaire",
+      "quick_access": "Accès rapide entreprise",
+      "oauth_google": "Continuer avec Google",
+      "oauth_microsoft": "Continuer avec Microsoft",
+      "role_investor": "Investisseur privé",
+      "role_agent": "Agent fiduciaire",
+      "client_type_label": "Type de client représenté",
+      "client_type_placeholder": "Sélectionnez le type...",
+      "client_type_fund": "Fonds institutionnel",
+      "client_type_family": "Family Office",
+      "client_type_hnwi": "HNWI",
+      "email_label": "Email fiduciaire",
+      "company_label": "Dénomination sociale",
+      "intent_label": "Déclaration d'intention",
+      "gdpr_label": "Je consens au traitement des données conformément au RGPD",
+      "submit": "DEMANDER L'AUTORISATION",
+      "cancel": "ANNULER"
+    }
+  },
+  "footer": { "copyright": "© 2026 Atlantis International Projects, LTD. Tous droits réservés." }
+}

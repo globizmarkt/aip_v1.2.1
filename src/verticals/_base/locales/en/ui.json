@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "assets": "Assets",
+    "compliance": "Compliance",
+    "settings": "Settings"
+  },
+  "gate": {
+    "title": "Access Required",
+    "request_button": "Request Access",
+    "locked_message": "Asset under fiduciary custody"
+  },
+  "errors": {
+    "forbidden": "Access Denied",
+    "not_found": "Resource not found"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  }
+}

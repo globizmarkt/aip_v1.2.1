@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "dashboard": "Painel",
+    "assets": "Ativos",
+    "compliance": "Conformidade",
+    "settings": "Configurações"
+  },
+  "gate": {
+    "title": "Acesso Necessário",
+    "request_button": "Solicitar Acesso",
+    "locked_message": "Ativo sob custódia fiduciária"
+  },
+  "errors": {
+    "forbidden": "Acesso Negado",
+    "not_found": "Recurso não encontrado"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "dashboard": "Panel",
+    "assets": "Activos",
+    "compliance": "Cumplimiento",
+    "settings": "Configuración"
+  },
+  "gate": {
+    "title": "Acceso Requerido",
+    "request_button": "Solicitar Acceso",
+    "locked_message": "Activo bajo custodia fiduciaria"
+  },
+  "errors": {
+    "forbidden": "Acceso Denegado",
+    "not_found": "Recurso no encontrado"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+  }
+}

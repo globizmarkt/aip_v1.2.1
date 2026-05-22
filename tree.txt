@@ -1,45 +1,768 @@
-﻿# 🗺️ MAPA DEL ESPACIO DE TRABAJO — AIP v1.2.1
-
-Este es el árbol de directorios simplificado para el equipo humano. Aquí reside la inteligencia, la estética y el motor del proyecto.
-
----
-
-## 🏛️ RAÍZ (Puertas de Entrada)
-- index.html                → Puerta Principal (Landing Institucional).
-- crm_aip_index.html        → Workspace del Agente (Panel de Control).
-- crm-landing.html          → Landing secundaria de captación CRM.
-- asset-explorer.html       → Explorador de activos (Legacy/Boceto).
-- tree.txt                  → Este mapa de navegación.
-
----
-
-## 📥 00_INBOX (Bóveda de Planos y Conocimiento)
-Aquí se guardan las directivas y la arquitectura de cada fase.
-- fase 10 a 17/            → Documentación histórica y blue prints de cada hito.
-- fase 17 arquitectura.../  → 📍 Fase Actual: Roadmap, Copy, Eventos y Diseño DOM.
-- indexación industrial/    → Guías de trazabilidad y procesos operativos.
-- ARCHITECTURE_DIAGRAMS.md  → Diagramas lógicos del sistema.
-- CONCIENCIA_POLIGONO.md    → Notas de integridad y estado sistémico.
-
----
-
-## ⚙️ SRC (El Motor Activo)
-Aquí vive el código que hace que todo funcione.
-
-### 🌐 LOCALES (Idiomas)
-- en.json / es.json         → Diccionarios de texto (R4 Strict). Prohibido hardcode.
-
-### 🧠 LOGIC (El Cerebro)
-- main.js                   → Orquestador de arranque.
-- ArchetypeDetector.js      → Detector de arquetipos (UHNWI, Agent, etc).
-- ui-binder.js              → 🔌 El Conector: Une el código con lo que ves en pantalla.
-- scene-manager.js          → Gestor de estados y visibilidad de órbitas.
-- store.js                  → Persistencia de datos en la sesión.
-- config.js / i18n.js       → Configuración global y motor de traducción.
-- mock-data.js              → Datos de prueba fiduciarios (Proyectos/Métricas).
-
-### 🎨 STYLES (Estética)
-- theme-landing.css         → El "Manifiesto Stitch": Vidrio, Oro y Carbono.
-
----
-Última actualización: 2026-05-09 · Core Architect (Antigravity)
+Listado de rutas de carpetas para el volumen Windows-SSD
+El n�mero de serie del volumen es 000000B2 1EA7:4366
+C:.
+|   .gitignore
+|   aip_demo_seductora.html
+|   asset-explorer.html
+|   crm-landing.html
+|   crm_aip_index.html
+|   index.html
+|   tree.txt
+|   
++---.aip_inbox
+|   |   AIMON_INTEGRATION_MAP.md
+|   |   ARCHITECTURE_DIAGRAMS.md
+|   |   CONCIENCIA_POLIGONO.md
+|   |   INDEXACION_FIDUCIARIA.md
+|   |   PROTOCOLO DE DESTILACI�N ARQUEOL�GICA.md
+|   |   PROTOCOLO_SOVEREIGN_BOOTLOAD.md
+|   |   RECOVERY_MAP.md
+|   |   SFS_AUDIT_Trinity_Doctrine_v1.md
+|   |   
+|   +---fase 10 arquitectura KYC
+|   |       Arquitectura KYC-01.md
+|   |       
+|   +---fase 11 fiduciarios e identidad AIP
+|   |       CONTENIDOS_FIDUCIARIOS_AIP_V1.1.md
+|   |       EXTRACCION_ESTRATEGICA_V1.1_V1.2.md
+|   |       VISUAL_IDENTITY_AIP_V1.1.md
+|   |       
+|   +---fase 12 arqueologia
+|   |       CIFI_AIP_BUSINESS_BLUEPRINT.md
+|   |       
+|   +---fase 14 golden_gate_arch
+|   |   |   00_FUENTES_EXTERNAS_INDEX.md
+|   |   |   aip.config.js
+|   |   |   gatekeeper_v1.1.html
+|   |   |   register.html
+|   |   |   
+|   |   \---reference_copies
+|   |           LEGACY_gatekeeper.js.txt
+|   |           LEGACY_GATEKEEPER_DECISION_TABLES.md.txt
+|   |           LEGACY_golden-gate.js.txt
+|   |           PROD_access-form.html.txt
+|   |           PROD_i18n.js.txt
+|   |           PROD_update-i18n.js.txt
+|   |           
+|   +---fase 16 arquitectura y semaforo
+|   |       01_estudio_perplexity_arquitectura_crm_2026-05-06.md
+|   |       02_verdad_base_semaforo_y_mas.md
+|   |       
+|   +---fase 17 arquitectura y copy
+|   |       00_indice_maestro.md
+|   |       01_verdad_base_caja_fuerte.md
+|   |       02_sintesis_3_agentes_17.md
+|   |       03_Architect_Execution_Roadmap_17.md
+|   |       04.1_Generate Fiduciary Firm Copy.md
+|   |       04.2_arquitectura.md
+|   |       04.3_Plan Archetype Content Routing.md
+|   |       04.4_Build Archetype Decision Tree.md
+|   |       05.1_mapa_maestro_copy_fiduciary.md
+|   |       05.2_diccionarios_i18n.md
+|   |       05.3_Argumentarios_Verticales.md
+|   |       05.4_NARRATIVA_BOVEDA.md
+|   |       05.5_SUBPAGINAS_CORPORATIVAS.md
+|   |       05.6_Glosario_Fiduciario.md
+|   |       05.7_CTAS_FIDUCIARIOS.md
+|   |       05.8_Manual_Agente_Interno.md
+|   |       06.1_BLUEPRINT_DOM_ZONES.md
+|   |       06.2_ESPECIFICACION_RAIL_MODE.md
+|   |       06.3_Eventos_Canonicos.md
+|   |       07.1_DECISION_TREE_DIAGRAM.md
+|   |       07.2_QUESTION_BANK_JSON.md
+|   |       07.3_ARCHETYPEDETECTOR_PSEUDOCODE.md
+|   |       08.1_HTML_Estructura_Base.md
+|   |       08.2_CSS_Tokens_Stitch.md
+|   |       
+|   +---fase 6 vangaurdia
+|   |       MISSION_BUNDLE_6.2_VANGUARDIA.md
+|   |       
+|   +---fase 8 OAuth AIP
+|   |   |   arquitectura crm_roadmap.md
+|   |   |   arquitectura CRM_Stack Research Plan.md
+|   |   |   
+|   |   \---AIP_OAUTH_RESCUE
+|   |           2026-03-22 lead architec_convestation_index.txt
+|   |           2026-04-10 VIBE-CPII-20 memory dump.txt
+|   |           at-admin-gate.js
+|   |           firebase-config.js
+|   |           golden-gate.html
+|   |           passport-engine.js
+|   |           Perplexity-VIBE-CPII-15 el manual ya funciona.txt
+|   |           
+|   +---fase 9 fork genesis
+|   |       2026-04-27_arquitectura_multi_agente-monorepo.md
+|   |       2026-04-27_BLUEPRINT_FORK_GENESIS.md
+|   |       2026-04-27_CONVERSATION_INDEX_DUMP.md
+|   |       2026-04-28 preguntas de impa.md
+|   |       2026-04-28 propuesta de IMPA para genesis.md
+|   |       DOGFOOD_FASE_9_DISTILLATE.md
+|   |       dogfood_triaje_reglas.md
+|   |       topic_2026-04-28_fase_9_amnesia_ia.md
+|   |       topic_2026-04-28_fase_9_identidad_fiduciaria.md
+|   |       
+|   \---fase_18 to the moon
++---.claude
+|   \---worktrees
++---.git
+|   |   COMMIT_EDITMSG
+|   |   config
+|   |   description
+|   |   FETCH_HEAD
+|   |   HEAD
+|   |   index
+|   |   
+|   +---hooks
+|   |       applypatch-msg.sample
+|   |       commit-msg.sample
+|   |       fsmonitor-watchman.sample
+|   |       post-update.sample
+|   |       pre-applypatch.sample
+|   |       pre-commit.sample
+|   |       pre-merge-commit.sample
+|   |       pre-push.sample
+|   |       pre-rebase.sample
+|   |       pre-receive.sample
+|   |       prepare-commit-msg.sample
+|   |       push-to-checkout.sample
+|   |       sendemail-validate.sample
+|   |       update.sample
+|   |       
+|   +---info
+|   |       exclude
+|   |       
+|   +---logs
+|   |   |   HEAD
+|   |   |   
+|   |   \---refs
+|   |       +---heads
+|   |       |       main
+|   |       |       
+|   |       \---remotes
+|   |           \---origin
+|   |                   HEAD
+|   |                   main
+|   |                   
+|   +---objects
+|   |   +---00
+|   |   |       0ca3bb42be6df1b7440b758913c6b59ecccf6c
+|   |   |       d85a0d0f3cc7da11957cf7c1827200efe8ad58
+|   |   |       
+|   |   +---01
+|   |   |       32fa19eb40eab64ee0057f357dcf1ee5bc6665
+|   |   |       69b118be670e7cd11d8211df6f235b1a25cd44
+|   |   |       
+|   |   +---03
+|   |   |       fca744d33dd2234ae85e16c3ff26fdee8adc54
+|   |   |       
+|   |   +---04
+|   |   |       251971a627344a8a468017be61ac6d18cdca39
+|   |   |       
+|   |   +---08
+|   |   |       514eda160b7ecd7c4917daafdd1a56686ce0a2
+|   |   |       
+|   |   +---09
+|   |   |       67ef424bce6791893e9a57bb952f80fd536e93
+|   |   |       8a8c5ad8db409988c43bf359bd51575a4fdd8a
+|   |   |       
+|   |   +---0b
+|   |   |       624704646b29e1540a3e500a5dbba90df5658d
+|   |   |       
+|   |   +---10
+|   |   |       2c34baec4e68fb39fcd56a548980e4acabcee3
+|   |   |       
+|   |   +---11
+|   |   |       82423d67450a44ea67f3e2683e3d3290fe5e84
+|   |   |       dd5520b4d8728450ef0c0db14b8d8b34ed9a2a
+|   |   |       
+|   |   +---12
+|   |   |       2125919b0705612b46ae8a30d1da7dc98d3827
+|   |   |       
+|   |   +---13
+|   |   |       cace84ff450f29b0c0eba2ad16a974e05e99be
+|   |   |       
+|   |   +---19
+|   |   |       31d61a12bab8d93b24ee91d9d30014f0b307e3
+|   |   |       
+|   |   +---1a
+|   |   |       10c35fc22653fda179ec8204eb9bb21d98e2a7
+|   |   |       
+|   |   +---1c
+|   |   |       6e8d557c0dab6662ff1ea9bdb377c32093410d
+|   |   |       
+|   |   +---1e
+|   |   |       24fa045775795f56ca056d41275175152294ae
+|   |   |       
+|   |   +---1f
+|   |   |       7e38d37bf5e931ba371695a890485a81e5ce4b
+|   |   |       
+|   |   +---20
+|   |   |       31986dd272966f36623e39276a36359cc57801
+|   |   |       857ccfb2b5d44c5a2b2a6f1b2e7faddb88dc3c
+|   |   |       
+|   |   +---22
+|   |   |       ef8362d6cd5490c2991bb5ad1df4a75c7dc68f
+|   |   |       
+|   |   +---23
+|   |   |       a71a8de75ae2794bd6e54e41fafc16505f8695
+|   |   |       
+|   |   +---24
+|   |   |       4a0168e14d1cf7c916eb167780117aae95a277
+|   |   |       548687ecabdd1145c7e871bd3a3b0281797c29
+|   |   |       c0169060452d95611434f826a3266f75d1cc19
+|   |   |       
+|   |   +---26
+|   |   |       944b5154ccba915676520ea17ab1f174f83b63
+|   |   |       d588e806504cece435f06e1f64a2b2e5cf3df5
+|   |   |       
+|   |   +---27
+|   |   |       964ecff17a9254ef5427f087febe57c2e39ea9
+|   |   |       
+|   |   +---29
+|   |   |       2482aa1746626aba7a8b1d7d7a5dd7963a3c06
+|   |   |       
+|   |   +---2a
+|   |   |       36a57c5de3e2dbfb31b05c29ca5ad014b280c6
+|   |   |       
+|   |   +---2c
+|   |   |       75bb218bdbf5928b98c7c86cb05350d4c0f1da
+|   |   |       
+|   |   +---2d
+|   |   |       60972be030cc90949a30e3ba0bf58646fa3bbd
+|   |   |       
+|   |   +---2e
+|   |   |       3906fb707fb74cca837c818bceb7e7f835cd9b
+|   |   |       
+|   |   +---31
+|   |   |       153bf36815eec7890003a62098013d1e8be7ad
+|   |   |       
+|   |   +---32
+|   |   |       72bab02374f6c3cc602e417381727165ce447d
+|   |   |       
+|   |   +---33
+|   |   |       fdacad11aa2bf12d9e933e0ffbaa7915230e9f
+|   |   |       
+|   |   +---36
+|   |   |       527080531719d7b794ff1c994eae20080188df
+|   |   |       65e2bc224b645b80ef6be4e4a93c1f2f5d0a46
+|   |   |       
+|   |   +---38
+|   |   |       d1738733f1c27f8b3e9d4c506e7ae927853721
+|   |   |       
+|   |   +---39
+|   |   |       0ab993a62e7af13d1bb1b9277213b95964cc75
+|   |   |       fa86f5fb78d79c1919ffe27dc12b94ffeb9ada
+|   |   |       
+|   |   +---3b
+|   |   |       31805976eba77f2fd0e02c6e4bd5fb1139c035
+|   |   |       
+|   |   +---3c
+|   |   |       ef85b4f51ee00d73314e25e549aabdc40d05a0
+|   |   |       
+|   |   +---3d
+|   |   |       d0ab3ec1448c64f55a2b890e6465c85679e7b6
+|   |   |       
+|   |   +---42
+|   |   |       43b5a5e836190368bf81abd5d6bbfee22a4fe2
+|   |   |       
+|   |   +---43
+|   |   |       22afb6a91f4f3c7b5077670c930cb8e6f44b10
+|   |   |       
+|   |   +---44
+|   |   |       c693f73cd3414bdf7e1f7fb2cb5f6931566a78
+|   |   |       dcf4fbdf325e470f41c7a98d35545b4b4f2839
+|   |   |       
+|   |   +---46
+|   |   |       3698126f0b61501c278440fe7fdefe494f8751
+|   |   |       bef75ef33b1bb09715dfe9cad23fefe5d9bea8
+|   |   |       
+|   |   +---47
+|   |   |       c7aca91bbfc557938d676c98aa73555cc92b3a
+|   |   |       
+|   |   +---49
+|   |   |       0dce9a72c9cb87450e040bb86acb26d102d45a
+|   |   |       
+|   |   +---4a
+|   |   |       c8971ba68dec47d7acf9903ae9076967311dfc
+|   |   |       f157b367e74a2f6263ecd4bef412a96e1c96cf
+|   |   |       
+|   |   +---4c
+|   |   |       2c6469502981a43fb5f054ec4b06ba4577468d
+|   |   |       
+|   |   +---4e
+|   |   |       b0e012c391c271af37520755eb4dd358c169f3
+|   |   |       
+|   |   +---50
+|   |   |       7acbb8ee8762d07b4e03b895d47761e0d79f80
+|   |   |       f3befb41709f0acd469ed3c8a26d92ce35e2bc
+|   |   |       
+|   |   +---52
+|   |   |       c61fc5b9194b15ce4037d7a34cd0ffdd154ad3
+|   |   |       d0075d1640a882781a6a878f23501fc50f0f65
+|   |   |       
+|   |   +---53
+|   |   |       a72818caeaf910183714ac7f5cb4c009b4d430
+|   |   |       
+|   |   +---54
+|   |   |       1611dbfa9ada4a4bf4bfdc849dd0dd50c24d53
+|   |   |       6c3a91b92aed89947160c1bfb007413169fdf0
+|   |   |       
+|   |   +---58
+|   |   |       fc3f0c5f59248ada96fa6f4f89caea4467b455
+|   |   |       
+|   |   +---59
+|   |   |       05e784527e03c9f40a1e966faa21986cd038a5
+|   |   |       40d59fc4a063ff526c2ecfcc92902881a364ce
+|   |   |       56d2ba21a129d0a1eeb8619e5a57cc35dd75a8
+|   |   |       
+|   |   +---5e
+|   |   |       0cedcf3ca09bf45beba05e88bf8b13bc2ff2c6
+|   |   |       f5877a730a429cb8ce073612cabe652688c320
+|   |   |       
+|   |   +---5f
+|   |   |       ce7bc80deaafc63b4b15ff3156c213b55f9235
+|   |   |       
+|   |   +---62
+|   |   |       10abd52cf3678cef6b22417ca7c0340ce13398
+|   |   |       
+|   |   +---63
+|   |   |       a76fbc861ab3a13379c14bb6d04cae9cb1e18a
+|   |   |       
+|   |   +---65
+|   |   |       9b8f65958ad94d0b095136c2119b8b0560dee4
+|   |   |       
+|   |   +---68
+|   |   |       0a6e2505ecf590e9109041e7b77ea3f01b3240
+|   |   |       c8390f8190a9ca03189186f65020e57cdaa253
+|   |   |       
+|   |   +---69
+|   |   |       0abad7517149d7bf6ea49b76780a11eb512678
+|   |   |       9e8fb9971de9184661d91725c887b871c36f26
+|   |   |       
+|   |   +---6b
+|   |   |       7e2385ea5cae2d36b6eccce0a62109e373ef1f
+|   |   |       
+|   |   +---6e
+|   |   |       163d33a34f96eaf307e9579a13fb9a3b5a54f2
+|   |   |       
+|   |   +---72
+|   |   |       552e7829436dbfd9a909ab16ce06a2d1a1d51c
+|   |   |       a4a16eea7e0ca52c521b93f86194fbde23537d
+|   |   |       
+|   |   +---73
+|   |   |       ab69bc7da0cd74955b0c7685f51f13a138e2f4
+|   |   |       
+|   |   +---74
+|   |   |       d333cb17b3b2f795a48a3e8a52f9bed094bac4
+|   |   |       
+|   |   +---75
+|   |   |       482acff106537f2aa2b94d739c76273977c69c
+|   |   |       
+|   |   +---79
+|   |   |       30e53b72a7b4aa4c053ae306ff7afd9d1e0621
+|   |   |       
+|   |   +---7e
+|   |   |       4bdf7a17073f49c569e6f05dcea6549b176767
+|   |   |       5f73a1a7a0eaab830e7dd1c7c7c701e88167f9
+|   |   |       
+|   |   +---7f
+|   |   |       4237199b3c23ac9e35a7aa11cfda873b483e23
+|   |   |       
+|   |   +---80
+|   |   |       3038eba04e1e5de454d1c3d28378f28ee17a16
+|   |   |       3264c530197218df01f8ee9ac7769b5cf8dac4
+|   |   |       
+|   |   +---84
+|   |   |       a4e3bcda83d19a8beef7e0dbe83be57a3e05bb
+|   |   |       
+|   |   +---85
+|   |   |       58d5d3256b8c6e46c561112056c54f4b7d85b3
+|   |   |       c65df33b664a830f8f6b0fa873e4a254c47da7
+|   |   |       
+|   |   +---86
+|   |   |       9c950362778b1c8b9acd7d4a373a34149d39a5
+|   |   |       ac23539974a849faa8a72b8e1a934b98fa6635
+|   |   |       
+|   |   +---87
+|   |   |       162e4ee8e1e456c4bc7118b47ca88b8740ed99
+|   |   |       f766f2d452a86442b3a66988b44302261ccc2c
+|   |   |       
+|   |   +---88
+|   |   |       c79619a2572d6f23dd9f5f6652027353b97d50
+|   |   |       d110be2bdf832c28ec081194a955ba556a52fb
+|   |   |       
+|   |   +---8a
+|   |   |       65c39cfe317f30e3b52c5baf7297ebb7a0452f
+|   |   |       
+|   |   +---8c
+|   |   |       09b04452837419c602a2b93614c50a279cc486
+|   |   |       c39f14c46aac02819ff8230a4de0396b764c23
+|   |   |       
+|   |   +---8e
+|   |   |       aa3c0310349c6d694e190289a6122e155fc632
+|   |   |       
+|   |   +---8f
+|   |   |       dba1b91ea9ce60dff81602268eb2e27f4245ce
+|   |   |       
+|   |   +---90
+|   |   |       250aa1f12c17877a0a6b589a61bf61b554f564
+|   |   |       9e12ab7003ad5055051e4e3dccade108191dfe
+|   |   |       c045568e58f531691195cc6274006f976af003
+|   |   |       
+|   |   +---91
+|   |   |       ea4cfc398cd7895c9caba302dc0a5b9380b45f
+|   |   |       
+|   |   +---92
+|   |   |       0815e18ebfbe2d63a59ce771ba91db96aca1ac
+|   |   |       1a7a8d1aca3859fdc01523c9805632ad9e5c6f
+|   |   |       
+|   |   +---98
+|   |   |       122a804a623e19d0e13dbcce2865b02939617b
+|   |   |       4e8fc777a374feaa7a8af576f2b170f10d05cb
+|   |   |       f3bc00c18ff355f2995b26323e15e190f1d833
+|   |   |       fb3ff3888b8272f3c0a2062a0900c431568594
+|   |   |       
+|   |   +---99
+|   |   |       4d52784b4d1cc467f7e7cfaae35b2b11a2b4db
+|   |   |       82553d6a948ff03cab39aa1cce317ab12fa56b
+|   |   |       bfabf62673b17316cd06b9603215b1b20a1b56
+|   |   |       
+|   |   +---9b
+|   |   |       1cf2353aee66126fc8fc85d057ddbe0c62a397
+|   |   |       59e619dd069105ec7b4a4180d9d7e47a0d4cb9
+|   |   |       
+|   |   +---9c
+|   |   |       9ee34b14bb26eff40bd3c1be8eed6dd4944624
+|   |   |       
+|   |   +---9e
+|   |   |       26cb60e3aba502b767fcd5c477ac82af3ffd85
+|   |   |       
+|   |   +---a1
+|   |   |       56aed4d0bfcad7cb13035e3d55446f05280755
+|   |   |       60c253fecae7e906852d781b51d43e46572989
+|   |   |       69424eccee49b4f65fa8e25689e26fac8f427d
+|   |   |       86cb78c46852f95461c88ce1c1eca839caf237
+|   |   |       cf1ad5d619ba6d1fd7c1f68887a61b29b32e9b
+|   |   |       dcfd89f611c116fd0378d701894db40efcb63a
+|   |   |       
+|   |   +---a3
+|   |   |       9185479d30674ff0ce38f6cea6896bc1e750a1
+|   |   |       
+|   |   +---a4
+|   |   |       67a7ed7ea5da3e7c70d8df2f22b7ede8031ce7
+|   |   |       
+|   |   +---a5
+|   |   |       8b53545cd5d15faf63c15f1c21922926c63310
+|   |   |       
+|   |   +---a7
+|   |   |       4a7db87dcc5f084cb1f2a65d52690b7b138be2
+|   |   |       
+|   |   +---a8
+|   |   |       02b884eab26ca254067043189526c18d20c2b9
+|   |   |       02e819da0da62eb000c08fcd5a42629547c4b1
+|   |   |       
+|   |   +---ac
+|   |   |       e52105d03bf13e77b102e36fadc0b4a05c7edb
+|   |   |       
+|   |   +---ae
+|   |   |       870d3340e13889bc3c9c91ddd479da64a13c3b
+|   |   |       c399fbf17095c84d39d93cff8c002217695a7f
+|   |   |       d47c7989ba0634ab34de2011b2914c74ae840c
+|   |   |       
+|   |   +---af
+|   |   |       48cbdb2615f7e677b684884674dc49ba70f829
+|   |   |       4acbce493de21439b048d1553834e2744893ff
+|   |   |       
+|   |   +---b3
+|   |   |       cb0da1b3c36230c4351366b3b8c1f1a5213ded
+|   |   |       
+|   |   +---b4
+|   |   |       8fba6c7d35d84de84a9a108e382185fb33abea
+|   |   |       
+|   |   +---b5
+|   |   |       0594528a8dcbe86280b04cca4443f843e58e91
+|   |   |       
+|   |   +---b6
+|   |   |       733986b0e120e4fd31fe62c044426c8789ef7c
+|   |   |       
+|   |   +---b8
+|   |   |       2649773e602540446027e32a7dc52a20531078
+|   |   |       
+|   |   +---b9
+|   |   |       5dcbeece0dc3f2cf07de702a5103b2bc04d796
+|   |   |       
+|   |   +---ba
+|   |   |       29ff666aa5ceacd67b1370b738b01071356380
+|   |   |       
+|   |   +---bc
+|   |   |       0f8572bd706cdcced7f2d24541f5b08736e4ac
+|   |   |       
+|   |   +---be
+|   |   |       672c149a8c6e86ed2fe2ec33dfaf1ba1b128ad
+|   |   |       
+|   |   +---bf
+|   |   |       f498f981c809ad244b76c74f9127cb984f24cd
+|   |   |       
+|   |   +---c1
+|   |   |       e54597fefee93cf5df9512df37135b0c83c406
+|   |   |       
+|   |   +---c2
+|   |   |       5e3de87231d9276de1cec71019f24698c2a010
+|   |   |       d5577b12450d12626e12ce74f71ded41ff6fc8
+|   |   |       
+|   |   +---c4
+|   |   |       af541f09d3ba3d01af329a28122af49f155add
+|   |   |       
+|   |   +---c5
+|   |   |       d7ceb4698f5ba3143408503e4d45fda3ce6962
+|   |   |       
+|   |   +---c6
+|   |   |       6b732783b12eedefce918201b87fc512bc73d2
+|   |   |       9dfb20e0ca0791819a35e4df6e373932738ae7
+|   |   |       bd5b901d5e9616d015403937009ccaa7cc888b
+|   |   |       
+|   |   +---c8
+|   |   |       5265856f5037534622633f132a8500bca141d1
+|   |   |       
+|   |   +---cb
+|   |   |       f5405ef37b4d8f6d0f05ec9cbc825623463b5f
+|   |   |       f716b2d436e189f754f675817fef2c42f0b25b
+|   |   |       
+|   |   +---cf
+|   |   |       347c1b9af6214f36120c1e7d89f10bc90c18d8
+|   |   |       39f28185f5bdb3824b790bdc7876302e341e50
+|   |   |       ffe67800b9ebea2a062b426b33950ea2788a36
+|   |   |       
+|   |   +---d0
+|   |   |       817edb32d8cd6a2a299b18b21250dee0f515f3
+|   |   |       
+|   |   +---d2
+|   |   |       72f87ee2e9f34132cf86c287fa953648533976
+|   |   |       7fff367b4cee181e3f2b78b1cbba2b909b764e
+|   |   |       
+|   |   +---d4
+|   |   |       afb4a6462c1a4e0677e812d81fd201e8d18545
+|   |   |       
+|   |   +---d5
+|   |   |       0837a4bfe55c7c492269f88fd66fd9a6a81971
+|   |   |       4b45d0220e229b42e6011ab5e14b9013719546
+|   |   |       
+|   |   +---d6
+|   |   |       f87a1eced555029571cbd68b055154140e89e2
+|   |   |       
+|   |   +---d9
+|   |   |       385202cd175ffc021a965ca3f75ef1c6573815
+|   |   |       
+|   |   +---da
+|   |   |       e32e9c5e6b5d3f16423ca011c40ee498526e25
+|   |   |       
+|   |   +---dd
+|   |   |       50a070c5ea418350ebf179da010c280a1a2e00
+|   |   |       543a310572c64484c60df2f250eea2a42743a8
+|   |   |       
+|   |   +---de
+|   |   |       39ffa33edd391883edda7802c540d220fb99f4
+|   |   |       
+|   |   +---df
+|   |   |       5a822a7fcd3f256e0a3792edb39321a3a2538a
+|   |   |       a3ec6960b560be02da7b7dd754765863f1edc8
+|   |   |       
+|   |   +---e0
+|   |   |       fe137d8af67a1ebee5139f36cafa18a231ea19
+|   |   |       
+|   |   +---e3
+|   |   |       08ee909248520335fd706d995361e135dd2aba
+|   |   |       
+|   |   +---e6
+|   |   |       4360e846d3f89d03de50242061e0292fccf8c3
+|   |   |       b1543c4eef4351ac6e1cac649f8fab31089eea
+|   |   |       
+|   |   +---ea
+|   |   |       88ae448ca6c991f5520cdab0883eed443d12b3
+|   |   |       
+|   |   +---ed
+|   |   |       ce9b0fb0dcbedc8d4877acab0a72fb08d22643
+|   |   |       
+|   |   +---ee
+|   |   |       b679ce9fbf1bcbff21eb9ad4ef5aafcd482190
+|   |   |       
+|   |   +---ef
+|   |   |       25257be4ebfaf49d29c61aa0ffc8fcb2ca0cd9
+|   |   |       
+|   |   +---f1
+|   |   |       672878439a9fd0d9f20f22cca91701a39e9025
+|   |   |       
+|   |   +---f2
+|   |   |       242d82013c69336a17d2a647927520a6cfeca0
+|   |   |       
+|   |   +---f3
+|   |   |       90b3ea175a81b8aea8e6c7ba9681b96be7ec0c
+|   |   |       
+|   |   +---f5
+|   |   |       d690e3f8a050d84552f4628d3d097acd9ca85c
+|   |   |       
+|   |   +---f7
+|   |   |       32863461e8f89f42904b61a1d3ddf5bc249ee3
+|   |   |       
+|   |   +---f8
+|   |   |       1ee3f6ffe3be87f3d86604c30db5c6b0645d1f
+|   |   |       2e1294ea637fc383758131d91af141a4cd1f63
+|   |   |       
+|   |   +---fa
+|   |   |       c606b52e6964dec433f100decf26753537772e
+|   |   |       
+|   |   +---fb
+|   |   |       0eaab1617f479d071efff7d5e5e1f0382bff3b
+|   |   |       46a5cfe3116d47e84e1b3954be769a66ffc1f9
+|   |   |       
+|   |   +---ff
+|   |   |       8b4c56321a3362fc00224b01800f62466f9a1f
+|   |   |       
+|   |   +---info
+|   |   \---pack
+|   +---refs
+|   |   +---heads
+|   |   |       main
+|   |   |       
+|   |   +---remotes
+|   |   |   \---origin
+|   |   |           HEAD
+|   |   |           main
+|   |   |           
+|   |   \---tags
+|   \---worktrees
++---src
+|   |   main.js
+|   |   
+|   +---01-core
+|   |   +---archetype
+|   |   +---i18n
+|   |   |       i18n-engine.js
+|   |   |       
+|   |   +---integrity
+|   |   |       IntegrityEngine.js
+|   |   |       
+|   |   +---passport
+|   |   |       PassportEngine.js
+|   |   |       
+|   |   \---utils
+|   |           deepFreeze.js
+|   |           
+|   +---02-infra
+|   |   +---config
+|   |   +---firebase
+|   |   |       FirebaseConnector.js
+|   |   |       
+|   |   +---storage
+|   |   |       StorageAdapter.js
+|   |   |       
+|   |   \---telegram
+|   +---03-interface
+|   |   |   ui-hydrator.js
+|   |   |   
+|   |   +---orbit-2-market
+|   |   +---orbit-3-gatekeeper
+|   |   |   |   gateEnforcer.js
+|   |   |   |   
+|   |   |   \---ui-gate
+|   |   |           GoldenGate.js
+|   |   |           
+|   |   +---orchestrator
+|   |   +---scene
+|   |   \---shared
+|   |           UIBinder.js
+|   |           
+|   +---blueprints
+|   |       main-blueprint.js
+|   |       passport-engine-blueprint.js
+|   |       scene-manager-blueprint.js
+|   |       storage-adapter-blueprint.js
+|   |       ui-binder-blueprint.js
+|   |       
+|   +---locales
+|   |       en.json
+|   |       es.json
+|   |       
+|   +---styles
+|   |       theme-landing.css
+|   |       
+|   \---verticals
+|       +---aip
+|       |   |   AIPHandler.js
+|       |   |   entry.html
+|       |   |   ignition.js
+|       |   |   theme.css
+|       |   |   vertical.config.js
+|       |   |   
+|       |   +---locales
+|       |   |   +---en
+|       |   |   |       ui.json
+|       |   |   |       
+|       |   |   +---es
+|       |   |   |       ui.json
+|       |   |   |       
+|       |   |   +---fr
+|       |   |   |       ui.json
+|       |   |   |       
+|       |   |   \---pt
+|       |   |           ui.json
+|       |   |           
+|       |   \---schemas
+|       |           offeringSchema.js
+|       |           
+|       +---commodities
+|       |   |   entry.html
+|       |   |   theme.css
+|       |   |   vertical.config.js
+|       |   |   
+|       |   +---locales
+|       |   |   +---en
+|       |   |   |       ui.json
+|       |   |   |       
+|       |   |   +---es
+|       |   |   |       ui.json
+|       |   |   |       
+|       |   |   +---fr
+|       |   |   |       ui.json
+|       |   |   |       
+|       |   |   \---pt
+|       |   |           ui.json
+|       |   |           
+|       |   \---schemas
+|       |           offeringSchema.js
+|       |           
+|       \---_base
+|           |   entry.html
+|           |   theme.css
+|           |   vertical.config.js
+|           |   
+|           +---locales
+|           |   +---en
+|           |   |       ui.json
+|           |   |       
+|           |   +---es
+|           |   |       ui.json
+|           |   |       
+|           |   +---fr
+|           |   |       ui.json
+|           |   |       
+|           |   \---pt
+|           |           ui.json
+|           |           
+|           \---schemas
+|                   offeringSchema.js
+|                   
+\---_archive
+    +---audits
+    |   \---auditoria tolopologia
+    |           00_instrucciones.md
+    |           2026-05-10.1_aip_v1.2.1.md
+    |           2026-05-10.2_aip_v1.2.1.md
+    |           2026-05-10.3_aip_v1.2.1.md
+    |           
+    +---historical
+    +---processed
+    +---quarantine
+    |       ui-binder.js
+    |       
+    \---visual

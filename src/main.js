@@ -15,12 +15,15 @@ const gateEnforcer = {
     enforce: (identity) => enforceProjectGate({ clearanceRequired: identity?.clearanceLevel || 'BRONZE' })
 };
 import { GoldenGate } from 'ui/orbit-3-gatekeeper/ui-gate/GoldenGate.js';
+import { UIHydrator } from './03-interface/ui-hydrator.js'; // [E3-GENESIS] PV-04 sutura
+import { deepFreeze } from 'core/utils/deepFreeze.js'; // [E3-GENESIS] E3-T08 — canónico R27
+import { Router } from './03-interface/orchestrator/Router.js'; // [REBORN-02] Orquestador de bus R20
 
 /**
  * Whitelist de Verticales Autorizadas (COG-64)
  * Solo las verticales listadas aquí pueden ser cargadas dinámicamente.
  */
-const ALLOWED_VERTICALS = ['aip', '_base'];
+const ALLOWED_VERTICALS = ['aip', '_base', 'commodities'];
 
 /**
  * Secuencia de Arranque (Bootload)
@@ -51,6 +54,30 @@ async function boot() {
         window.Skeleton.CONFIG = config;
         console.log('0. [Contract] Configuración inyectada y sellada (R27).');
 
+        // Carga y Fusión de Schemas (Modelo Híbrido Estricto - SCHEMA-01)
+        console.log('0. [Schema] Cargando y fusionando contrato de schemas...');
+        const baseSchemaModule = await import(`./verticals/_base/schemas/offeringSchema.js`);
+        const baseSchema = baseSchemaModule.offeringSchema || baseSchemaModule.default;
+        const vertSchemaModule = await import(`./verticals/${vertical}/schemas/offeringSchema.js`);
+        const vertSchema = vertSchemaModule.offeringSchema || vertSchemaModule.default;
+
+        // Fusión runtime: Chasis Base + ADN Vertical
+        const mergedSchema = {
+            ...vertSchema,
+            vertical: vertSchema.vertical || vertical.toUpperCase(),
+            itemFamilies: vertSchema.itemFamilies || [],
+            gatekeeper_extensions: {
+                ...vertSchema.gatekeeper_extensions,
+                ...baseSchema.gatekeeper_extensions
+            },
+            MIN_INTEGRITY: 60 // Hard override inmutable (R15)
+        };
+
+        // R27: Inmutabilidad recursiva — deepFreeze canónico importado (E3-T08)
+        deepFreeze(mergedSchema);
+        window.Skeleton.offeringSchema = mergedSchema;
+        console.log('0. [Schema] Fusión híbrida de schemas inyectada y sellada.');
+
         // 1. Inicialización de Infraestructura (Órbita 2)
         StorageAdapter.init(config.APP_PREFIX);
         console.log('1. [Infra] StorageAdapter inicializado.');
@@ -71,6 +98,7 @@ async function boot() {
         // 5. Hidratación Lingüística (Ley II)
         const currentLang = i18nEngine.getLocale();
         i18nEngine.setLocale(currentLang);
+        window.Skeleton.i18n = i18nEngine; // Exposición canónica (COG-66)
         console.log('5. [i18n] Hidratación inicial ejecutada para:', currentLang.toUpperCase());
 
         // 6. Aplicación de Vigilancia Inicial y señal de sistema listo
@@ -80,6 +108,13 @@ async function boot() {
             bubbles: true,
         }));
         console.log('6. [Compliance] Vigilancia aplicada. 🟢 Skeleton:SystemReady emitido.');
+
+        // 7. Activación del Bus de Enrutamiento (inmediatamente tras SystemReady)
+        Router.init();
+        console.log('7. [Router] Enrutador de bus activo.');
+
+        // Nota: el handler de vertical (ej. AIPHandler.js) es inicializado por ignition.js
+        // al recibir Skeleton:SystemReady — evitar doble init aquí (R28).
 
     } catch (error) {
         console.error('[SKELETON-BOOTLOADER] Fallo crítico en la cascada:', error);

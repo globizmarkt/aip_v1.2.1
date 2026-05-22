@@ -1,0 +1,122 @@
+<div class="tab-view w-full max-w-6xl mx-auto" id="tab-markets" data-tab="markets">
+
+  <!-- Header con clase canónica -->
+  <header class="tab-view__header">
+    <h1 class="tab-view__title" data-i18n="markets.hero.title">Markets</h1>
+    <p class="tab-view__subtitle" data-i18n="markets.hero.subtitle">Cobertura institucional con gatekeeping algorítmico y jurisdicción soberana.</p>
+  </header>
+
+  <!-- Bloque 1: Market Coverage -->
+  <section class="markets-section mb-16">
+    <h2 class="section-heading" data-i18n="markets.coverage.title">Market Coverage</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="fiduciary-card">
+        <div class="flex justify-between items-start">
+          <h3 class="text-gold-institutional font-semibold" data-i18n="markets.coverage.metals">Commodities Metálicos — Cobre, Aluminio, Zinc, Oro institucional</h3>
+          <span class="micro-badge" data-i18n="markets.badges.high">High</span>
+        </div>
+        <p class="text-sm text-surface-muted/70 mt-4" data-i18n="markets.coverage.note_metals">El acceso a energía requiere IntegrityScore ≥ 70</p>
+      </div>
+      <div class="fiduciary-card">
+        <div class="flex justify-between items-start">
+          <h3 class="text-gold-institutional font-semibold" data-i18n="markets.coverage.energy">Commodities Energéticos — Petróleo WTI/Brent, Gas natural LNG</h3>
+          <span class="micro-badge micro-badge--critical" data-i18n="markets.badges.critical">Critical</span>
+        </div>
+        <p class="text-sm text-surface-muted/70 mt-4" data-i18n="markets.coverage.note_energy">Acceso ≥70</p>
+      </div>
+      <div class="fiduciary-card">
+        <div class="flex justify-between items-start">
+          <h3 class="text-gold-institutional font-semibold" data-i18n="markets.coverage.financial">Servicios Financieros — STAK structures, Trust certificates, Private placement</h3>
+          <span class="micro-badge" data-i18n="markets.badges.high">High</span>
+        </div>
+      </div>
+      <div class="fiduciary-card">
+        <div class="flex justify-between items-start">
+          <h3 class="text-gold-institutional font-semibold" data-i18n="markets.coverage.institutional">Mercados Institucionales — Liquidity aggregation, OTC derivatives, Settlement nets</h3>
+          <span class="micro-badge micro-badge--warning" data-i18n="markets.badges.very_high">Very High</span>
+        </div>
+        <p class="text-sm text-surface-muted/70 mt-4" data-i18n="markets.coverage.note_derivatives">Requiere ≥80 + Aprobación de Gatekeeper</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fiduciary-border my-8"></div>
+
+  <!-- Bloque 2: Target Audiences -->
+  <section class="markets-section mb-16">
+    <h2 class="section-heading" data-i18n="markets.audiences.title">Target Audiences</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="fiduciary-card">
+        <span class="micro-badge micro-badge--info mb-4 inline-block">Visión Macro</span>
+        <h3 class="font-semibold text-lg" data-i18n="markets.audiences.investor">Inversor / Prospecto — Macro (precios, tendencias generales)</h3>
+        <p class="text-xs text-surface-muted/60 mt-4">Actualización diaria</p>
+      </div>
+      <div class="fiduciary-card">
+        <span class="micro-badge micro-badge--warning mb-4 inline-block">Visión de Riesgo</span>
+        <h3 class="font-semibold text-lg" data-i18n="markets.audiences.compliance">Operador Compliance — Riesgo (alertas AML, flujos sospechosos)</h3>
+        <p class="text-xs text-surface-muted/60 mt-4" data-i18n="markets.badges.realtime">Tiempo real (15s)</p>
+      </div>
+      <div class="fiduciary-card">
+        <span class="micro-badge mb-4 inline-block">Visión Total</span>
+        <h3 class="font-semibold text-lg" data-i18n="markets.audiences.gatekeeper">Gatekeeper / Interno — Total (auditoría completa, trazabilidad)</h3>
+        <p class="text-xs text-surface-muted/60 mt-4" data-i18n="markets.badges.streaming">Streaming continuo</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fiduciary-border my-8"></div>
+
+  <!-- Bloque 3: Jurisdiction & Structure -->
+  <section class="markets-section mb-16">
+    <h2 class="section-heading" data-i18n="markets.jurisdiction.title">Jurisdiction & Structure</h2>
+    <div class="fiduciary-card">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <p class="text-[10px] uppercase tracking-widest text-surface-muted/60 mb-1">Autoridad</p>
+          <p class="font-mono text-sm text-gold-institutional" data-i18n="markets.jurisdiction.country">Países Bajos (AFM/DNB)</p>
+        </div>
+        <div>
+          <p class="text-[10px] uppercase tracking-widest text-surface-muted/60 mb-1">Vehículo Legal</p>
+          <p class="font-mono text-sm" data-i18n="markets.jurisdiction.structure">STAK — Fideicomiso de administración separada</p>
+        </div>
+        <div>
+          <p class="text-[10px] uppercase tracking-widest text-surface-muted/60 mb-1">Custodia</p>
+          <p class="font-mono text-sm" data-i18n="markets.jurisdiction.custody">Bancos corresponsales Tiers 1-2, segregación operativa</p>
+        </div>
+        <div>
+          <p class="text-[10px] uppercase tracking-widest text-surface-muted/60 mb-1">Umbral de Reporte</p>
+          <p class="font-mono text-sm" data-i18n="markets.jurisdiction.reporting">Transacciones >10k EUR reportadas automáticamente a FIU-NL</p>
+        </div>
+      </div>
+      <div class="mt-8 pt-6 fiduciary-border-top space-y-2">
+        <p class="text-[10px] text-surface-muted/50 uppercase tracking-widest" data-i18n="markets.jurisdiction.exemption">Exención de MiFID II — Matched principal trading (art. 2(1)(d))</p>
+        <p class="text-[10px] text-surface-muted/50 uppercase tracking-widest" data-i18n="markets.jurisdiction.aml_law">Cumplimiento de la Wwft 2018 — Ley neerlandesa de supervisión de transacciones</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fiduciary-border my-8"></div>
+
+  <!-- Bloque 4: Market Narratives -->
+  <section class="markets-section mb-16">
+    <h2 class="section-heading" data-i18n="markets.narratives.title">Market Narratives</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="fiduciary-card text-center flex flex-col items-center">
+        <div class="text-gold-institutional text-4xl mb-4">⛁</div>
+        <h3 class="font-semibold text-sm uppercase tracking-widest mb-3" data-i18n="markets.narratives.exclusivity">Exclusividad de la Admisión</h3>
+        <p class="text-xs text-surface-muted/70 leading-relaxed" data-i18n="markets.narratives.exclusivity_desc">No accede quien quiere, accede quien acredita. El IntegrityScore es la llave maestra.</p>
+      </div>
+      <div class="fiduciary-card text-center flex flex-col items-center">
+        <div class="text-gold-institutional text-4xl mb-4">⚙️</div>
+        <h3 class="font-semibold text-sm uppercase tracking-widest mb-3" data-i18n="markets.narratives.sovereignty">Control Soberano</h3>
+        <p class="text-xs text-surface-muted/70 leading-relaxed" data-i18n="markets.narratives.sovereignty_desc">La plataforma no retiene fondos. El código ejecuta los gates de cumplimiento sin fricción.</p>
+      </div>
+      <div class="fiduciary-card text-center flex flex-col items-center">
+        <div class="text-gold-institutional text-4xl mb-4">📋</div>
+        <h3 class="font-semibold text-sm uppercase tracking-widest mb-3" data-i18n="markets.narratives.clarity">Claridad Operativa</h3>
+        <p class="text-xs text-surface-muted/70 leading-relaxed" data-i18n="markets.narratives.clarity_desc">Trazabilidad total. Metadata purgada. Zero-Leak hacia terceros. La verdad reside en el core.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
