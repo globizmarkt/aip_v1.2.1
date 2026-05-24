@@ -11,7 +11,7 @@
    § 1 — FUENTES AIP (Override vs. theme-landing.css base)
    theme-landing.css declara Inter/Outfit.
    Todos los Legos AIP usan Noto Serif + Public Sans — rectificamos aquí.
-   Las fuentes también se cargan via <link> en entry.html.
+   Las fuentes también se cargan via <link> en index.html (raíz). [entry.html archivado — DE-07 Opción A · 2026-05-24]
    ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,700;1,400&family=Public+Sans:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap');
 

@@ -8,7 +8,7 @@
 import { StorageAdapter } from 'infra/storage/StorageAdapter.js';
 import { i18nEngine } from 'core/i18n/i18n-engine.js';
 import { PassportEngine } from 'core/passport/PassportEngine.js';
-import { UIBinder } from 'shared/UIBinder.js';
+import UIBinder from 'shared/UIBinder.js'; // default export = singleton new UIBinder() — init() es método de instancia, no estático
 import { enforceProjectGate } from 'ui/orbit-3-gatekeeper/gateEnforcer.js';
 const gateEnforcer = {
     init: () => {},
@@ -18,6 +18,10 @@ import { GoldenGate } from 'ui/orbit-3-gatekeeper/ui-gate/GoldenGate.js';
 import { UIHydrator } from './03-interface/ui-hydrator.js'; // [E3-GENESIS] PV-04 sutura
 import { deepFreeze } from 'core/utils/deepFreeze.js'; // [E3-GENESIS] E3-T08 — canónico R27
 import { Router } from './03-interface/orchestrator/Router.js'; // [REBORN-02] Orquestador de bus R20
+import { TabLoader } from './03-interface/TabLoader.js';        // [TAB-INJ-01] Inyección de gadgets de landing
+import sessionGC from 'core/sessionGC.js';                      // [E3-T03] Recolector de Basura Fiduciaria
+import { GenesisWizard } from './03-interface/wizards/GenesisWizard.js'; // [E3-T01] Esclusa del Golden Gate
+import { LegalModal } from './03-interface/wizards/LegalModal.js';    // [E3-T02] Guardián legal fluido
 
 /**
  * Whitelist de Verticales Autorizadas (COG-64)
@@ -33,6 +37,11 @@ async function boot() {
     console.group('[SKELETON-BOOTLOADER] Cascada de Encendido Iniciada');
     
     try {
+        // [E3-T03] SessionGC — Recolector de Basura Fiduciaria
+        // Ejecutar ANTES de cualquier lectura de storage. Purga legacy + valida TTL AnonProjectState.
+        sessionGC.init();
+        console.log('[SessionGC] Recolector fiduciario activo. Residuos legacy purgados.');
+
         // 0. Identificación y Carga del Contrato de Vertical (COG-64)
         const vertical = window.Skeleton?.ENV?.vertical;
         if (!vertical || !ALLOWED_VERTICALS.includes(vertical)) {
@@ -112,6 +121,50 @@ async function boot() {
         // 7. Activación del Bus de Enrutamiento (inmediatamente tras SystemReady)
         Router.init();
         console.log('7. [Router] Enrutador de bus activo.');
+
+        // 8. [TAB-INJ-01] Activación del motor de inyección de gadgets de landing
+        TabLoader.init();
+        console.log('8. [TabLoader] Motor de inyección de tabs activo.');
+
+        // 9. [E3-T01] Esclusa del Golden Gate — Sovereign Confirm + Teatro de Seguridad
+        GenesisWizard.init();
+        console.log('9. [GenesisWizard] Esclusa inicializada. Botón GateWake en espera.');
+
+        // 10. [E3-T02] Guardián legal fluido — atestación institucional post-cruce
+        LegalModal.init();
+        console.log('10. [LegalModal] Guardián legal fluido activo.');
+
+        // [E3-T01] Transición de vista al cruzar el Golden Gate — oculta landing, LegalModal aparece
+        document.addEventListener('Skeleton:Action:GateCrossed', () => {
+            document.getElementById('orbit-3')?.classList.remove('active');
+            document.getElementById('orbit-2-main-content')?.classList.add('hidden');
+            document.getElementById('tab-content-container')?.classList.add('hidden');
+            console.log('[Main] Golden Gate cruzado → Guardián legal fluido activado.');
+        }, { once: true });
+
+        // [E3-T02] Revelación del CRM Dashboard tras atestación legal
+        document.addEventListener('Skeleton:Legal:Accepted', () => {
+            document.body.classList.add('crm-mode');                          // Activa paleta CRM + elimina background-image (Bloque A)
+            document.getElementById('crm-dashboard')?.classList.remove('hidden');
+            console.log('[Main] Atestación legal completada → CRM Dashboard visible. body.crm-mode activado.');
+        }, { once: true });
+
+        // [E3-T02] Sincronización de idioma desde el selector de landing
+        document.addEventListener('Skeleton:Action:LanguageChange', (e) => {
+            const lang = e.detail?.lang;
+            if (!lang) return;
+            i18nEngine.setLocale(lang);
+            const raw = sessionStorage.getItem('AnonProjectState');
+            if (raw) {
+                try {
+                    const state = JSON.parse(raw);
+                    state.locale = lang;
+                    state.last_updated = Date.now();
+                    sessionStorage.setItem('AnonProjectState', JSON.stringify(state));
+                } catch { /* JSON corrupto — sessionGC lo purgará */ }
+            }
+            console.log(`[Main] Idioma sincronizado → ${lang.toUpperCase()}`);
+        });
 
         // Nota: el handler de vertical (ej. AIPHandler.js) es inicializado por ignition.js
         // al recibir Skeleton:SystemReady — evitar doble init aquí (R28).

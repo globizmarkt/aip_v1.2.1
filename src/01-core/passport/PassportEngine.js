@@ -11,12 +11,15 @@ const IDENTITY_KEY = 'skeleton_passport';
 
 /**
  * Niveles de Clearance Fiduciario (R12)
+ * Nomenclatura: DOMAIN_BLUEPRINT_01.md §1.1 (Privilegio Progresivo)
+ * Migrado de FARO/MOCHILA/VELO/ARSENAL → GUEST/BRONZE/SILVER/GOLD/PLATINUM (DT-PASSPORT-01 · 2026-05-24)
  */
 export const CLEARANCE_LEVELS = {
-    FARO: 1,      // Público / Email verificado
-    MOCHILA: 2,   // KYC Básico / Arquetipo Detectado
-    VELO: 3,      // NCNDA Firmado / Due Diligence Inicial
-    ARSENAL: 4    // Full Access / IntegrityScore >= 60
+    GUEST:    0,  // Visitante anónimo / IntegrityScore < 60
+    BRONZE:   1,  // IntegrityScore 60-74 / KYC Tier 1
+    SILVER:   2,  // IntegrityScore 75-79 / Due Diligence Inicial
+    GOLD:     3,  // IntegrityScore 80-89 / Full Access
+    PLATINUM: 4,  // IntegrityScore 90-100 / Máximo Clearance Fiduciario
 };
 
 /**
@@ -34,9 +37,8 @@ export const PassportEngine = {
     getGuestIdentity() {
         return {
             archetype: 'GUEST',
-            clearance: CLEARANCE_LEVELS.FARO,
-            kyc_status: 'NONE',
-            integrity_score: 0
+            clearance: CLEARANCE_LEVELS.GUEST,
+            integrity_score: 0,
         };
     },
 
@@ -46,7 +48,7 @@ export const PassportEngine = {
     setArchetype(archetype) {
         const identity = this.getIdentity();
         identity.archetype = archetype;
-        identity.clearance = Math.max(identity.clearance, CLEARANCE_LEVELS.MOCHILA);
+        identity.clearance = Math.max(identity.clearance, CLEARANCE_LEVELS.BRONZE);
         this._save(identity);
         return identity;
     },
@@ -59,7 +61,12 @@ export const PassportEngine = {
     updateIntegrityScore(score) {
         const identity = this.getIdentity();
         identity.integrity_score = score;
-        if (score >= 60) identity.clearance = CLEARANCE_LEVELS.ARSENAL;
+        // Umbrales DOMAIN_BLUEPRINT_01.md §1.1 — DT-PASSPORT-01
+        if      (score >= 90) identity.clearance = CLEARANCE_LEVELS.PLATINUM;
+        else if (score >= 80) identity.clearance = CLEARANCE_LEVELS.GOLD;
+        else if (score >= 75) identity.clearance = CLEARANCE_LEVELS.SILVER;
+        else if (score >= 60) identity.clearance = CLEARANCE_LEVELS.BRONZE;
+        else                  identity.clearance = CLEARANCE_LEVELS.GUEST;
         this._save(identity);
     },
 

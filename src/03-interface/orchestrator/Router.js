@@ -17,8 +17,16 @@
  * Solo se registran acciones cuyo data-action difiere del nombre del evento canónico destino.
  */
 const SEMANTIC_MAP = Object.freeze({
-    CancelAccess:  'Skeleton:Action:GateClosed',
-    RequestAccess: 'Skeleton:Action:AuthToggle',
+    CancelAccess:        'Skeleton:Action:GateClosed',
+    RequestAccess:       'Skeleton:Action:AuthToggle',
+    // [TAB-INJ-01] Navegación de tabs — traducción semántica canónica
+    TabAboutAipClick:    'Skeleton:Action:TabNavigate',
+    TabOurServicesClick: 'Skeleton:Action:TabNavigate',
+    TabMarketsClick:     'Skeleton:Action:TabNavigate',
+    TabIntelligenceClick:'Skeleton:Action:TabNavigate',
+    TabRegulatoryClick:  'Skeleton:Action:TabNavigate',
+    // [E3-T02] Selector de idioma — traducción semántica canónica
+    ChangeLanguage:      'Skeleton:Action:LanguageChange',
 });
 
 export const Router = {

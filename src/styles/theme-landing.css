@@ -88,12 +88,18 @@ body {
 /* --- GEOMETRÍA DEL CHASIS (Sutura de Fricción) --- */
 .aip-chassis {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Layout Binario (Órbita 2 | Órbita 3) */
+    /* [DT-ORBIT3-01] Orbit-3 colapsada por defecto (0px) — se expande via :has() al activarse */
+    grid-template-columns: 2fr 0px;
     width: 100%;
     /* App Shell: Altura estricta para ocupar el flex-1 del body */
     height: 100%;
     overflow: hidden;
-    transition: grid-template-columns 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: grid-template-columns 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* [DT-ORBIT3-01] Expandir Orbit-3 cuando está activa */
+.aip-chassis:has(#orbit-3.active) {
+    grid-template-columns: 2fr 380px; /* [GADGET_0.2] Paleta Abisal — 380px canónico */
 }
 
 /* Soporte para futura Órbita 1 (Panel Izquierdo) */
@@ -283,6 +289,250 @@ body {
 }
 
 /* ============================================================
+   ÓRBITA 3 — PALETA ABISAL (GADGET_0.2 · Stitch · 2026-05-24)
+   Terminal fiduciaria de alta banca. Reemplaza estética SaaS legacy.
+   ============================================================ */
+
+:root {
+    --orbita-3-width-expanded: 380px;
+    --orbita-3-rail-width: 48px;
+    --keel-width: 2px;
+    --dur-fast: 150ms;
+    --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* Shell Geometry */
+.orbita-3-shell {
+    width: var(--orbita-3-width-expanded);
+    height: 100%;
+    background-color: #070A10;
+    border-left: 1px solid #223044;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+/* Fiduciary Rail */
+.orbita-3-rail {
+    width: var(--orbita-3-rail-width);
+    height: 100%;
+    border-right: 1px solid #223044;
+    display: flex;
+    flex-direction: column;
+    background-color: #05070B;
+}
+
+.rail-node {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color var(--dur-fast);
+    border: none;
+    background: transparent;
+    color: #9AA7B6;
+}
+
+.rail-node:hover {
+    background-color: rgba(14, 22, 36, 0.35);
+    color: #D7DEE7;
+}
+
+.rail-node--active {
+    background-color: #0E1624;
+    color: #D7DEE7;
+}
+
+.rail-node__keel {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: var(--keel-width);
+    background-color: #7FB4FF;
+    opacity: 0;
+}
+
+.rail-node--active .rail-node__keel {
+    opacity: 1;
+}
+
+.rail-node__tooltip {
+    position: absolute;
+    left: 56px;
+    background: #0E1624;
+    border: 1px solid #223044;
+    padding: 4px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 55;
+}
+
+/* Viewport */
+.content-viewport {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Mode Dial */
+.mode-dial {
+    display: flex;
+    height: 40px;
+    border-bottom: 1px solid #223044;
+}
+
+.mode-dial__option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    background: transparent;
+    color: #6E7B8B;
+}
+
+.mode-dial__option--active {
+    color: #7FB4FF;
+}
+
+.mode-dial__keel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #7FB4FF;
+    display: none;
+}
+
+.mode-dial__option--active .mode-dial__keel {
+    display: block;
+}
+
+/* AIMON Console */
+.aimon-console {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+}
+
+.aimon-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.aimon-entry__header {
+    display: flex;
+    gap: 12px;
+    font-size: 9px;
+    color: #6E7B8B;
+}
+
+.severity--info { color: #7FB4FF; }
+.severity--warning { color: #C7A24B; }
+
+.aimon-entry__body {
+    font-size: 11px;
+    line-height: 1.5;
+    color: #D7DEE7;
+}
+
+.aimon-command-line {
+    margin-top: auto;
+    border-top: 1px solid #223044;
+    padding: 12px 0;
+    display: flex;
+    gap: 8px;
+}
+
+.command-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #D7DEE7;
+    font-family: inherit;
+    font-size: 11px;
+    width: 100%;
+}
+
+/* Ticker Tape Abisal */
+.ticker-tape {
+    height: 56px;
+    border-top: 1px solid #223044;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 24px;
+    background-color: #05070B;
+}
+
+.ticker-item {
+    display: flex;
+    gap: 8px;
+    font-size: 10px;
+}
+
+.ticker-symbol { color: #6E7B8B; }
+.ticker-value  { color: #D7DEE7; }
+.delta--positive { color: #2D5A4A; }
+
+/* Vault — Golden Gate Act I */
+.vault-act {
+    border: 1px solid #2B3D58;
+    padding: 16px;
+    background: #0E1624;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.act-header {
+    font-size: 10px;
+    color: #7FB4FF;
+    letter-spacing: 0.2em;
+}
+
+.preflight-checks {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 9px;
+    color: #9AA7B6;
+}
+
+.vault-action-primary {
+    background: #223044;
+    border: 1px solid #7FB4FF;
+    color: #7FB4FF;
+    padding: 10px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all var(--dur-fast);
+}
+
+.vault-action-primary:hover {
+    background: #7FB4FF;
+    color: #05070B;
+}
+
+/* ============================================================
    RAÍL COLAPSABLE (ÓRBITA 3) — FASE 16.2 Misión Alfa
    ============================================================ */
 .aip-chassis:has(.orbit-3-collapsed) {
@@ -347,4 +597,651 @@ body.god-mode-active .skeleton-blur {
 
 body.god-mode-active .pointer-events-none {
     pointer-events: auto !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ÉPICA 4 — CRM MODE: PALETA TRINITY Y LAYOUT DE TRABAJO
+   Source : DOMAIN_BLUEPRINT_03_CRM_MANDATE.md §4.2 + §4.3
+   Activación : body.crm-mode (inyectado por main.js en Skeleton:Legal:Accepted)
+   Doctrina : Dossier Mental Model — densidad, velocidad, acción. Sin ceremonia.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* CRM Palette Tokens — más contraste, menos fricción estética */
+body.crm-mode {
+    --crm-bg-canvas:      #0C0F14;    /* Lienzo base CRM — más oscuro que landing */
+    --crm-bg-surface:     #0F1117;    /* Superficies principales */
+    --crm-bg-elevated:    #1A1D24;    /* Cards y paneles elevados */
+    --crm-text-primary:   #E8EDF5;    /* Texto principal — mayor luminosidad */
+    --crm-text-secondary: #A0AABF;    /* Texto secundario / etiquetas */
+    --crm-text-mono:      #7A9EC4;    /* IDs, métricas, timestamps */
+    --crm-border:         #2A2F3A;    /* Bordes definidos */
+    --crm-border-subtle:  #1E2330;    /* Separadores sutiles */
+    --crm-accent:         var(--stitch-gold); /* Coherencia visual con landing */
+    --crm-success:        #10B981;    /* KYC cleared / Compliance OK */
+    --crm-warning:        #F59E0B;    /* Pending / Requires action */
+    --crm-danger:         #EF4444;    /* Blocked / Flagged / AML */
+    /* Espaciado compacto (densidad de datos > decoración) */
+    --crm-space-xs:  4px;
+    --crm-space-sm:  8px;
+    --crm-space-md:  12px;
+    --crm-space-lg:  16px;
+    --crm-space-xl:  24px;
+    /* Workbench tokens (E4-T03 · Stitch Harvest · 2026-05-24) */
+    --workbench-header-height: 72px;
+    --s-canvas:                #05070B;
+    --s-border-subtle:         #223044;
+    --fid-status-cleared:      #00D4AA;
+    --fid-status-pending:      #FFB020;
+    --fid-status-rejected:     #FF4757;
+    --fid-cat-legal:           #7FB4FF;
+    /* Sin imagen de fondo — velocidad operativa */
+    background-image: none;
+    background-color: var(--crm-bg-canvas);
+    transition: background-color 0.8s ease;
+}
+
+/* ── TRINITY LAYOUT — 3 Columnas Canónicas ────────────────────────────── */
+/* Orbit 1 (220px) | Orbit 2 (fluid) | Orbit 3 (300px)                    */
+
+.crm-trinity {
+    display: flex;          /* Flex en lugar de grid: permite transiciones de ancho suaves */
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ── ORBIT 1: Panel Izquierdo Fijo (Árbol de Mandates) ─────────────────── */
+.crm-orbit-1-panel {
+    width: 220px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--crm-border);
+    background-color: var(--crm-bg-surface);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.crm-panel-header {
+    padding: var(--crm-space-md) var(--crm-space-lg);
+    border-bottom: 1px solid var(--crm-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    gap: var(--crm-space-sm);
+}
+
+.crm-panel-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--crm-text-secondary);
+    white-space: nowrap;
+}
+
+.crm-mandate-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.crm-col-header {
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    gap: 8px;
+    padding: 6px 16px;
+    border-bottom: 1px solid var(--crm-border-subtle);
+    flex-shrink: 0;
+}
+
+/* Filtros compactos en Orbit 1 */
+.crm-filter-btn {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    border: 1px solid var(--crm-border);
+    color: var(--crm-text-secondary);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.crm-filter-btn--active,
+.crm-filter-btn:hover {
+    border-color: var(--crm-accent);
+    color: var(--crm-accent);
+}
+
+/* ── ORBIT 2: Workbench Principal (Lienzo de Trabajo) ───────────────────── */
+.crm-orbit-main {
+    flex: 1;
+    min-width: 0;           /* Evita overflow en flex container */
+    background-color: var(--crm-bg-canvas);
+    overflow-y: auto;
+    padding: var(--crm-space-xl);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Workbench height — #expediente-detail llena el espacio restante en orbit-2 (flex column) */
+#expediente-detail {
+    flex: 1;
+    min-height: 0;      /* Crítico: sin esto flex-child no colapsa correctamente */
+    overflow: hidden;   /* Los paneles internos manejan su propio scroll */
+}
+
+/* Empty state — sin mandate seleccionado */
+.crm-empty-state {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.crm-empty-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--crm-border);
+    text-transform: uppercase;
+}
+
+/* ── ORBIT 3: Panel Derecho AIMON CRM (Contexto e Inteligencia) ─────────── */
+.crm-orbit-3-panel {
+    width: 300px;
+    flex-shrink: 0;
+    border-left: 1px solid var(--crm-border);
+    background-color: var(--crm-bg-surface);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-mono);
+    overflow: hidden;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.crm-aimon-header {
+    padding: var(--crm-space-md) var(--crm-space-lg);
+    border-bottom: 1px solid var(--crm-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--crm-space-xs);
+    flex-shrink: 0;
+}
+
+.crm-aimon-trace {
+    font-size: 9px;
+    color: var(--crm-success);
+    letter-spacing: 0.15em;
+}
+
+.crm-aimon-log {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--crm-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--crm-space-sm);
+}
+
+.crm-aimon-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: var(--crm-space-sm);
+    border-bottom: 1px solid var(--crm-border-subtle);
+}
+
+.crm-aimon-ts {
+    font-size: 8px;
+    color: var(--crm-text-secondary);
+    letter-spacing: 0.1em;
+}
+
+.crm-aimon-msg {
+    font-size: 10px;
+    color: var(--crm-text-primary);
+    line-height: 1.55;
+}
+
+.crm-aimon-prompt {
+    padding: var(--crm-space-md) var(--crm-space-lg);
+    border-top: 1px solid var(--crm-border);
+    flex-shrink: 0;
+}
+
+.crm-prompt-cursor {
+    font-size: 10px;
+    color: var(--crm-accent);
+    letter-spacing: 0.1em;
+    animation: blink 1.2s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   E4-T00.1 — RETRACTABLE RAIL: Órbitas 1 y 3 colapsables
+   Decisión D1-1: rail 48px + chevron + transición suave (2026-05-24)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Botón de colapso compartido */
+.crm-collapse-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--crm-space-sm) var(--crm-space-md);
+    border: none;
+    background: transparent;
+    color: var(--crm-text-secondary);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+    width: 100%;
+}
+.crm-collapse-btn:hover { color: var(--crm-accent); }
+.crm-collapse-btn .crm-chevron {
+    font-family: 'Material Symbols Outlined';
+    font-size: 16px;
+    transition: transform 0.35s ease;
+    line-height: 1;
+}
+
+/* ── Órbita 1 colapsada ─────────────────────────────────────────────── */
+.crm-orbit-1-panel.collapsed {
+    width: 48px;
+}
+.crm-orbit-1-panel.collapsed .crm-mandate-list,
+.crm-orbit-1-panel.collapsed nav,
+.crm-orbit-1-panel.collapsed .crm-panel-label,
+.crm-orbit-1-panel.collapsed .crm-col-header {
+    display: none;
+}
+.crm-orbit-1-panel.collapsed .crm-collapse-btn {
+    justify-content: center;
+}
+.crm-orbit-1-panel.collapsed .crm-collapse-btn .crm-chevron {
+    transform: rotate(180deg);
+}
+
+/* ── Órbita 3 colapsada ─────────────────────────────────────────────── */
+.crm-orbit-3-panel.collapsed {
+    width: 48px;
+}
+.crm-orbit-3-panel.collapsed .crm-aimon-header,
+.crm-orbit-3-panel.collapsed .crm-aimon-log,
+.crm-orbit-3-panel.collapsed .crm-aimon-cursor,
+.crm-orbit-3-panel.collapsed .crm-aimon-prompt,
+.crm-orbit-3-panel.collapsed .crm-panel-label {
+    display: none;
+}
+.crm-orbit-3-panel.collapsed .crm-collapse-btn {
+    justify-content: center;
+}
+.crm-orbit-3-panel.collapsed .crm-collapse-btn .crm-chevron {
+    transform: rotate(180deg);
+}
+
+/* Rail icons — visibles solo en estado colapsado */
+.crm-rail-icon {
+    display: none;
+    width: 48px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    color: var(--crm-text-secondary);
+    font-family: 'Material Symbols Outlined';
+    font-size: 18px;
+    cursor: default;
+}
+.crm-orbit-1-panel.collapsed .crm-rail-icon,
+.crm-orbit-3-panel.collapsed .crm-rail-icon {
+    display: flex;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   E4-T00.2 — DARK / LIGHT THEME
+   Decisión D1-4b: dos estados del sistema (2026-05-24)
+   Dark = default AIP (alta banca) · Light = presentaciones en luz natural
+   Toggle: body.classList.toggle('light-mode') + localStorage
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+body.crm-mode.light-mode {
+    --crm-bg-canvas:      #F5F7FA;
+    --crm-bg-surface:     #FFFFFF;
+    --crm-bg-elevated:    #EDF0F5;
+    --crm-text-primary:   #1A1D24;
+    --crm-text-secondary: #4A5568;
+    --crm-text-mono:      #2B5F8C;
+    --crm-border:         #D1D9E6;
+    --crm-border-subtle:  #E8EDF5;
+    --crm-accent:         var(--stitch-gold);
+    --crm-success:        #059669;
+    --crm-warning:        #D97706;
+    --crm-danger:         #DC2626;
+    background-color: var(--crm-bg-canvas);
+}
+
+/* Dark/Light toggle — widget en Órbita 1 footer */
+.crm-theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--crm-space-sm);
+    padding: var(--crm-space-sm) var(--crm-space-md);
+    border-top: 1px solid var(--crm-border-subtle);
+    flex-shrink: 0;
+}
+.crm-theme-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--crm-text-secondary);
+    white-space: nowrap;
+}
+.crm-theme-switch {
+    position: relative;
+    width: 32px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.crm-theme-switch input { opacity: 0; width: 0; height: 0; }
+.crm-theme-switch-track {
+    position: absolute;
+    inset: 0;
+    background-color: var(--crm-border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+.crm-theme-switch-track::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 12px;
+    height: 12px;
+    background-color: var(--crm-text-secondary);
+    border-radius: 50%;
+    transition: transform 0.25s ease;
+}
+.crm-theme-switch input:checked + .crm-theme-switch-track {
+    background-color: var(--crm-accent);
+}
+.crm-theme-switch input:checked + .crm-theme-switch-track::after {
+    transform: translateX(16px);
+    background-color: #fff;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   [E4-T02] MANDATE TREE — Filas y estado fiduciario
+   [E4-T06] PROGRESSIVE LOCK — Fila bloqueada (locked=true)
+   D1-2 · D1-3 · 2026-05-24
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Fila de mandato — seleccionada ── */
+.crm-mandate-row--active {
+    background-color: var(--crm-bg-surface) !important;
+    border-color: var(--crm-accent) !important;
+    box-shadow: inset 2px 0 0 var(--crm-accent);
+}
+
+/* ── Badge de estado fiduciario ── */
+.crm-state-badge {
+    font-family: var(--font-mono);
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 99px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+/* GESTACIÓN — neutro / inactivo */
+.crm-state-gestacion {
+    background-color: color-mix(in srgb, var(--crm-bg-surface) 80%, transparent);
+    color: var(--crm-text-secondary);
+    border-color: var(--crm-border);
+}
+
+/* EMBRIONARIO — azul institucional */
+.crm-state-embrionario {
+    background-color: rgba(59, 130, 246, 0.10);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.25);
+}
+
+/* MADURACIÓN — ámbar / en progreso */
+.crm-state-maduracion {
+    background-color: rgba(217, 119, 6, 0.10);
+    color: #fbbf24;
+    border-color: rgba(217, 119, 6, 0.30);
+}
+
+/* CUALIFICADO — esmeralda / listo */
+.crm-state-cualificado {
+    background-color: rgba(5, 150, 105, 0.10);
+    color: #34d399;
+    border-color: rgba(5, 150, 105, 0.25);
+}
+
+/* EJECUTADO — dorado / cerrado con éxito */
+.crm-state-ejecutado {
+    background-color: rgba(193, 168, 93, 0.12);
+    color: var(--crm-accent);
+    border-color: rgba(193, 168, 93, 0.30);
+}
+
+/* ── Overrides light-mode para state badges ── */
+body.crm-mode.light-mode .crm-state-gestacion {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border-color: #cbd5e1;
+}
+body.crm-mode.light-mode .crm-state-embrionario {
+    background-color: #eff6ff;
+    color: #2563eb;
+    border-color: #bfdbfe;
+}
+body.crm-mode.light-mode .crm-state-maduracion {
+    background-color: #fffbeb;
+    color: #d97706;
+    border-color: #fde68a;
+}
+body.crm-mode.light-mode .crm-state-cualificado {
+    background-color: #ecfdf5;
+    color: #059669;
+    border-color: #a7f3d0;
+}
+body.crm-mode.light-mode .crm-state-ejecutado {
+    background-color: rgba(193, 168, 93, 0.08);
+    color: #92742e;
+    border-color: rgba(193, 168, 93, 0.40);
+}
+
+/* ============================================================
+   § WORKBENCH CRM — E4-T03 (Stitch Harvest · 2026-05-24)
+   Maqueta: GADGET_1.3_workbench_crm.html
+   Doctrina DT-AIP-05: todo DOM vía createElement+textContent.
+   Fonts: 'DM Mono' (AIP canonical — JetBrains Mono excluida).
+   ============================================================ */
+
+.workbench {
+    display: grid;
+    grid-template-rows: var(--workbench-header-height) 1fr;
+    grid-template-columns: minmax(0, 55fr) minmax(0, 45fr);
+    height: 100%;
+}
+
+.panel-left {
+    grid-column: 1 / 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    padding: 24px 32px 0 24px;
+    border-right: 1px solid var(--s-border-subtle);
+}
+
+.panel-right {
+    grid-column: 2 / 3;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    padding: 24px 32px;
+}
+
+.tearsheet-header {
+    grid-column: 1 / 3;
+    background: var(--s-canvas);
+    border-bottom: 1px solid var(--s-border-subtle);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 20;
+}
+
+.mandate-identity { display: flex; align-items: center; gap: 12px; }
+.mandate-id { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--fid-status-pending); }
+.mandate-name { font-weight: 600; font-size: 14px; letter-spacing: -0.01em; }
+.status-badge { font-size: 9px; font-weight: 700; color: var(--fid-status-cleared); }
+
+.kpi-ribbon { display: flex; gap: 0; }
+.kpi-cell { padding: 0 16px; border-right: 1px solid var(--s-border-subtle); }
+.kpi-cell:last-child { border-right: none; }
+.kpi-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #4A5A75;
+    margin-bottom: 2px;
+}
+.kpi-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFFFFF;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+}
+.kpi-meta,
+.kpi-delta { display: block; font-family: 'DM Mono', monospace; font-size: 10px; color: #6B7A99; }
+
+.counterparty-grid {
+    display: flex;
+    overflow: hidden;
+    border: 1px solid var(--s-border-subtle);
+    margin-top: 16px;
+}
+.grid-frozen {
+    flex-shrink: 0;
+    width: 280px;
+    background: #0E1624;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.4);
+}
+.grid-scrollable {
+    flex: 1;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+.grid-row {
+    display: flex;
+    min-height: 36px;
+    border-bottom: 1px solid var(--s-border-subtle);
+}
+.grid-row.header {
+    background: #111827;
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6E7B8B;
+}
+.grid-row > div {
+    padding: 8px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.col-role   { width: 48px;  text-align: center; }
+.col-entity { width: 176px; text-align: left; }
+.col-status { width: 56px;  text-align: center; }
+.col-kyc    { width: 80px;  text-align: center; }
+.col-docs   { width: 56px;  text-align: center; }
+.col-commit { width: 90px;  text-align: right; }
+.col-juris  { width: 56px;  text-align: center; }
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+.kyc-bar { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; }
+
+.timeline-node {
+    border-left: 3px solid transparent;
+    margin-bottom: 4px;
+    transition: all 200ms ease;
+    overflow: hidden;
+}
+.timeline-node[data-category="LEGAL"]   { border-left-color: var(--fid-cat-legal); }
+.timeline-node[data-category="BLOCKER"] { border-left-color: var(--fid-status-rejected); }
+
+.node-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+.node-symbol    { font-size: 10px; }
+.node-title     { font-size: 12px; font-weight: 600; color: #E8ECF2; }
+.node-timestamp { font-size: 10px; color: #6B7A99; margin-left: auto; }
+.audit-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    background: rgba(0,212,170,0.1);
+    color: #00D4AA;
+    border: 1px solid rgba(0,212,170,0.2);
+    font-weight: 600;
+}
+.node-detail {
+    padding: 12px 16px;
+    background: #111827;
+    font-size: 11px;
+    color: #9AA7B6;
+    border-top: 1px dashed var(--s-border-subtle);
+}
+.evidence-line {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #4A5A75;
+    margin-top: 4px;
+}
+
+.tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+}
+
+@keyframes pulse-text {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+}
+.critical-pulse {
+    animation: pulse-text 2s infinite;
+    color: var(--fid-status-rejected);
 }
