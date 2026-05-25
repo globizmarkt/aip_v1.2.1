@@ -8,6 +8,9 @@
 // [E4-T01] Datos mock CRM — un MANDATE EN590 + 2 stubs locked + ticker
 import { mockState } from './mockState.js';
 
+// [DT-018] Validador Fiduciario SDUI — Sentinel (COG-62) · Electrificado VIBE-AIP-S-REBORN-03.4
+import { PassportValidator } from '../../01-core/passportValidator.js';
+
 export const AIPHandler = {
 
     /**
@@ -21,15 +24,37 @@ export const AIPHandler = {
     init() {
         console.log('[AIPHandler] Inicializando handlers de vertical...');
         this._setupListeners();
-        this._setupCRMControls();   // [E4-T00.1] Retractable Rail + [E4-T00.2] Dark/Light toggle
+        this._setupCRMControls();
+        this._setupAccessForm();
+        this._initGatekeeperSubscribers();  // [DT-018] SDUI — Electrificado VIBE-AIP-S-REBORN-03.4
         return this;
+    },
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // [DT-018] SDUI — Suscriptores del Gatekeeper (Sentinel · COG-62)
+    // Escucha los veredictos de PassportValidator y enruta al CRM o al banner de denegación.
+    // ─────────────────────────────────────────────────────────────────────────
+    _initGatekeeperSubscribers() {
+        document.addEventListener('Skeleton:Gatekeeper:AccessGranted', (e) => {
+            const { wc, raw } = e.detail;
+            console.log('[AIPHandler] AccessGranted. Usuario:', raw?.usr, '| Tier:', raw?.tier, '| WC:', wc?.length);
+            this.showCRM(wc);
+        });
+        document.addEventListener('Skeleton:Gatekeeper:AccessDenied', (e) => {
+            const { reason, raw } = e.detail;
+            console.warn(`[AIPHandler] AccessDenied — ${reason}. Usuario: ${raw?.usr ?? 'unknown'}`);
+            this._showAccessDenied(reason);
+        });
     },
 
     _setupListeners() {
         // --- SENSORES DE ACCIÓN (Vía UIBinder dispatch) ---
 
         // Despertar Gatekeeper (Lateral)
-        document.addEventListener('Skeleton:Action:GateWake', () => this.toggleOrbit3(true));
+        document.addEventListener('Skeleton:Action:GateWake', () => {
+            this.toggleOrbit3(true);
+            this._switchOrbit3Tab('acceso');
+        });
 
         // Cerrar/Colapsar Gatekeeper
         document.addEventListener('Skeleton:Action:GateClosed', () => this.toggleOrbit3(false));
@@ -39,8 +64,19 @@ export const AIPHandler = {
         // Alternar Formulario vs Idle en Órbita 3
         document.addEventListener('Skeleton:Action:AuthToggle', () => this.switchGateMode('gatekeeper'));
 
-        // Éxito en Autenticación (Paso al CRM)
-        document.addEventListener('Skeleton:Action:OAuthSuccess', () => this.showCRM());
+        // Éxito en Autenticación (Paso al CRM) — [DT-018] vía PassportValidator (mock payload)
+        document.addEventListener('Skeleton:Action:OAuthSuccess', () => {
+            const mockPayload = { usr: 'uuid_8f92a', rol: 'inv', tier: 'inst', jur: 'CH', kyc: 'ok', pv: 1, wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'] };
+            PassportValidator.validateAccess(mockPayload);
+        });
+
+        // [GADGET_0.3] Botón INICIO → scroll a tope de Órbita 2
+        document.addEventListener('Skeleton:Action:NavInicio', () => {
+            document.getElementById('orbit-2')?.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // [GADGET_0.3 / FASE 3] Cambio de pestaña SISTEMA / AIMON / ACCESO en Órbita 3
+        document.addEventListener('Skeleton:Action:OrbitTab', (e) => this._switchOrbit3Tab(e.detail.tab));
 
         // Filtrado de CRM
         document.addEventListener('Skeleton:Action:CRMFilter', (e) => this.filterCRM(e.detail.filter));
@@ -100,35 +136,198 @@ export const AIPHandler = {
     },
 
     /**
-     * Transiciona la interfaz de la Landing al Dashboard CRM.
+     * [GADGET_0.3] Alterna entre las 3 pestañas de Órbita 3: SISTEMA, AIMON, ACCESO.
+     * Sincroniza mode-dial buttons y rail icons.
      */
-    showCRM() {
-        console.log('[AIPHandler] Transicionando a vista CRM...');
+    _switchOrbit3Tab(tab) {
+        const tabs = {
+            sistema : document.getElementById('orbit3-tab-sistema'),
+            aimon   : document.getElementById('orbit3-tab-aimon'),
+            acceso  : document.getElementById('orbit3-tab-acceso'),
+        };
+        const buttons  = document.querySelectorAll('.mode-dial__option');
+        const railBtns = document.querySelectorAll('[data-rail-tab]');
 
-        // 1. Ocultar el panel lateral
-        this.toggleOrbit3(false);
-
-        // 2. Ocultar secciones de la landing
-        const landingSections = [
-            '.hero-container',
-            '#archetype-questionnaire',
-            '.feed-container',
-            '.legislation-container'
-        ];
-
-        landingSections.forEach(selector => {
-            const el = document.querySelector(selector);
-            if (el) el.classList.add('hidden');
+        Object.entries(tabs).forEach(([key, el]) => {
+            if (!el) return;
+            if (key === tab) el.classList.remove('hidden');
+            else             el.classList.add('hidden');
         });
 
-        // 3. Mostrar el Dashboard
+        // Sincronizar mode-dial
+        buttons.forEach(btn =>
+            btn.classList.toggle('mode-dial__option--active', btn.dataset.tab === tab)
+        );
+
+        // Sincronizar rail icons
+        railBtns.forEach(btn =>
+            btn.classList.toggle('rail-node--active', btn.dataset.railTab === tab)
+        );
+    },
+
+    /**
+     * [FASE 3] Transiciona la interfaz de la Landing al Dashboard CRM.
+     * APAGÓN ATÓMICO: Oculta TODA la landing. Revela el CRM en viewport completo.
+     */
+    showCRM(wcWhitelist = []) {
+        console.log('[AIPHandler] APAGÓN ATÓMICO — Transicionando a vista CRM...');
+
+        // 1. Ocultar el header de la landing
+        const landingHeader = document.querySelector('body > header');
+        if (landingHeader) landingHeader.classList.add('hidden');
+
+        // 2. Ocultar el footer de la landing
+        const landingFooter = document.querySelector('body > footer');
+        if (landingFooter) landingFooter.classList.add('hidden');
+
+        // 3. Ocultar Órbita 3 de la landing (sidebar lateral)
+        const orbit3Landing = document.getElementById('orbit-3');
+        if (orbit3Landing) orbit3Landing.classList.add('hidden');
+
+        // 4. Colapsar el grid del chasis a una sola columna (CRM ocupa todo)
+        const chassis = document.querySelector('.aip-chassis');
+        if (chassis) chassis.style.gridTemplateColumns = '1fr';
+
+        // 5. Ocultar el contenido de la landing en Órbita 2
+        const landingContent = document.getElementById('orbit-2-main-content');
+        if (landingContent) landingContent.classList.add('hidden');
+
+        // 6. Ocultar el contenedor de inyección de tabs
+        const tabContainer = document.getElementById('tab-content-container');
+        if (tabContainer) tabContainer.classList.add('hidden');
+
+        // 7. Limpiar padding/margin de Órbita 2 para que el CRM ocupe el viewport
+        const orbit2 = document.getElementById('orbit-2');
+        if (orbit2) {
+            orbit2.className = 'overflow-hidden w-full h-full';
+        }
+
+        // 8. Revelar el Dashboard CRM
         const dashboard = document.getElementById('crm-dashboard');
         if (dashboard) {
             dashboard.classList.remove('hidden');
-            // Asegurar que el contenedor padre (orbit-2) no tenga padding extra que rompa el dashboard
-            const orbit2 = document.getElementById('orbit-2');
-            if (orbit2) orbit2.classList.add('p-0');
+            dashboard.style.cssText = 'display:flex;width:100%;height:100%;';
         }
+
+        // 9. Inyectar Barrera KYC Abierta (banner superior persistente)
+        this._injectKYCBanner();
+
+        // 10. [DT-018] Inyección SDUI — montar componentes autorizados por wcWhitelist
+        const dashboard = document.getElementById('crm-dashboard');
+        if (dashboard && Array.isArray(wcWhitelist) && wcWhitelist.length > 0) {
+            wcWhitelist.forEach(tagName => {
+                const el = document.createElement(tagName);
+                el.setAttribute('data-sdui', 'true');
+                dashboard.appendChild(el);
+            });
+        }
+
+        // 11. Emitir el evento legal para que se pueble la tabla CRM
+        document.dispatchEvent(new CustomEvent('Skeleton:Legal:Accepted', { bubbles: true }));
+
+        console.log('[AIPHandler] APAGÓN COMPLETADO — CRM en viewport.');
+    },
+
+    /**
+     * [FASE 4] Inyecta el banner KYC "Barrera Abierta" en el CRM.
+     * No es un modal bloqueante — es una franja superior persistente.
+     */
+    _injectKYCBanner() {
+        const dashboard = document.getElementById('crm-dashboard');
+        if (!dashboard || document.getElementById('kyc-barrier-banner')) return;
+
+        const banner = document.createElement('div');
+        banner.id = 'kyc-barrier-banner';
+        banner.style.cssText = `
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            padding: 10px 24px;
+            background: linear-gradient(135deg, rgba(199, 162, 75, 0.15), rgba(127, 180, 255, 0.08));
+            border-bottom: 1px solid rgba(193, 168, 93, 0.3);
+            backdrop-filter: blur(12px);
+        `;
+
+        const icon = document.createElement('span');
+        icon.className = 'material-symbols-outlined';
+        icon.style.cssText = 'font-size:16px;color:#C7A24B;';
+        icon.textContent = 'shield_lock';
+
+        const text = document.createElement('span');
+        text.style.cssText = 'font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(199,162,75,0.9);';
+        text.textContent = 'ACCESO RESTRINGIDO // KYC TIER 2 REQUERIDO — Complete la validación para operar';
+
+        const btn = document.createElement('button');
+        btn.style.cssText = `
+            margin-left: auto; padding: 4px 16px;
+            border: 1px solid rgba(193, 168, 93, 0.4);
+            color: #C7A24B; font-size: 9px; font-family: var(--font-mono);
+            letter-spacing: 0.15em; text-transform: uppercase;
+            background: transparent; cursor: pointer; transition: all 0.3s;
+        `;
+        btn.textContent = 'VALIDAR KYC';
+        btn.addEventListener('mouseenter', () => { btn.style.background = 'rgba(193,168,93,0.1)'; });
+        btn.addEventListener('mouseleave', () => { btn.style.background = 'transparent'; });
+
+        banner.append(icon, text, btn);
+        document.body.prepend(banner);
+
+        // Offset del dashboard para no solaparse con el banner
+        dashboard.style.marginTop = '40px';
+    },
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // [DT-018] Banner de denegación de acceso — suturado R3 Zero-Hex
+    // Usa tokens CSS del sistema — cero colores hexadecimales hardcodeados.
+    // ─────────────────────────────────────────────────────────────────────────
+    _showAccessDenied(reasonCode) {
+        const gate = document.getElementById('gatekeeper-panel');
+        const idle = document.getElementById('orbit-3-idle');
+
+        if (gate) gate.classList.add('hidden');
+        if (idle) idle.classList.remove('hidden');
+
+        const existingBanner = document.getElementById('gate-denied-banner');
+        if (existingBanner) existingBanner.remove();
+
+        const banner = document.createElement('div');
+        banner.id = 'gate-denied-banner';
+        banner.style.cssText = [
+            'margin-top: 24px;',
+            'padding: 16px;',
+            'border: 1px solid var(--theme-error-border, #ff4d4f);',
+            'background: var(--theme-error-bg, rgba(255, 77, 79, 0.1));',
+        ].join(' ');
+
+        const title = document.createElement('p');
+        title.style.cssText = [
+            'font-family: var(--font-mono);',
+            'font-size: 10px;',
+            'letter-spacing: 0.2em;',
+            'text-transform: uppercase;',
+            'color: var(--theme-error-text, #ff4d4f);',
+            'margin-bottom: 8px;',
+        ].join(' ');
+        title.textContent = 'ACCESO RESTRINGIDO';
+
+        const detail = document.createElement('p');
+        detail.style.cssText = [
+            'font-size: 11px;',
+            'color: var(--theme-text-secondary, #888);',
+            'line-height: 1.5;',
+        ].join(' ');
+
+        const reasonMap = Object.freeze({
+            'ERR_KYC_FIELD_MISSING':          'Estado KYC no encontrado en credenciales.',
+            'ERR_KYC_STATUS_NOT_OK':          'Validación KYC incompleta.',
+            'ERR_WC_ARRAY_MISSING':           'Permisos de componentes no definidos.',
+            'ERR_WC_ARRAY_EMPTY':             'Permisos de componentes vacíos.',
+            'ERR_PAYLOAD_NULL':               'Token de sesión inválido.',
+            'ERR_PAYLOAD_INVALID_STRUCTURE':  'Estructura de credenciales corrupta.',
+        });
+        detail.textContent = reasonMap[reasonCode] ?? 'Bloqueo de seguridad activo.';
+
+        banner.append(title, detail);
+        idle?.appendChild(banner);
     },
 
     /**
@@ -187,100 +386,116 @@ export const AIPHandler = {
 
         container.innerHTML = ''; // Limpieza fiduciaria
 
-        mandates.forEach(mandate => {
-            const isLocked = mandate.locked === true;
+        // Función auxiliar para crear cabeceras de división
+        const createHeader = (title) => {
+            const h = document.createElement('div');
+            h.className = 'text-[10px] uppercase tracking-widest text-[var(--crm-text-secondary)] mt-4 mb-2 mx-3 font-mono flex items-center gap-1';
+            h.innerHTML = `<span class="material-symbols-outlined" style="font-size:14px">folder_open</span> ${title}`;
+            return h;
+        };
 
-            // ── Fila contenedor ──────────────────────────────────────────────
+        // Función auxiliar para crear sub-nodos bloqueados
+        const createLockedNode = (title, state) => {
             const row = document.createElement('div');
-            row.className = [
-                'crm-mandate-row',
-                'px-3 py-2.5 mx-2 my-1 rounded',
-                'border border-[var(--crm-border)]',
-                'transition-colors duration-150 select-none',
-                isLocked
-                    ? 'opacity-40 cursor-not-allowed'
-                    : 'cursor-pointer hover:bg-[var(--crm-bg-surface)] hover:border-[var(--crm-accent)]/40',
-            ].join(' ');
-            row.dataset.mandateId = mandate.mandateId;
-            if (isLocked) row.setAttribute('aria-disabled', 'true');
+            row.className = 'crm-mandate-row px-3 py-2.5 mx-2 my-1 rounded border border-[var(--crm-border)] transition-colors duration-150 select-none opacity-40 cursor-not-allowed';
+            row.setAttribute('aria-disabled', 'true');
 
-            // ── LÍNEA 1: mandateId (izq) + tipo o candado (der) ─────────────
             const line1 = document.createElement('div');
             line1.className = 'flex items-center justify-between mb-1';
+            
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'text-[10px] font-mono text-[var(--crm-text-secondary)] truncate';
+            titleSpan.textContent = title;
+            
+            const lockIcon = document.createElement('span');
+            lockIcon.className = 'material-symbols-outlined text-[var(--crm-text-secondary)]';
+            lockIcon.style.fontSize = '14px';
+            lockIcon.textContent = 'lock';
+            
+            line1.append(titleSpan, lockIcon);
 
-            const idSpan = document.createElement('span');
-            idSpan.className = 'text-[10px] font-mono text-[var(--crm-text-secondary)] tracking-widest';
-            idSpan.textContent = mandate.mandateId;
-
-            if (isLocked) {
-                // [E4-T06] Progressive Lock visual — icono candado
-                const lockIcon = document.createElement('span');
-                lockIcon.className = 'material-symbols-outlined text-[var(--crm-text-secondary)]';
-                lockIcon.style.fontSize = '14px';
-                lockIcon.textContent = 'lock';
-                line1.append(idSpan, lockIcon);
-            } else {
-                // Badge de tipo (Trade / Advisory / Asset)
-                const typeBadge = document.createElement('span');
-                typeBadge.className = [
-                    'text-[8px] uppercase tracking-widest',
-                    'px-1.5 py-0.5 rounded',
-                    'border border-[var(--crm-accent)]/30 text-[var(--crm-accent)]',
-                ].join(' ');
-                typeBadge.textContent = mandate.type;
-                line1.append(idSpan, typeBadge);
-            }
-
-            // ── LÍNEA 2: estado fiduciario (izq) + clase de activo (der) ────
             const line2 = document.createElement('div');
             line2.className = 'flex items-center justify-between';
-
+            
             const stateBadge = document.createElement('span');
-            stateBadge.className = `crm-state-badge crm-state-${this._stateKey(mandate.fiduciaryState)}`;
-            stateBadge.textContent = mandate.fiduciaryState;
+            stateBadge.className = `crm-state-badge crm-state-gestacion`;
+            stateBadge.textContent = state;
+            
+            line2.append(stateBadge);
 
+            const kycCta = document.createElement('div');
+            kycCta.className = 'mt-1.5 flex items-center gap-1 text-[8px] uppercase tracking-widest text-[var(--crm-accent)]/50';
+            const kycIcon = document.createElement('span');
+            kycIcon.className = 'material-symbols-outlined';
+            kycIcon.style.fontSize = '10px';
+            kycIcon.textContent = 'verified_user';
+            const kycLabel = document.createElement('span');
+            kycLabel.textContent = 'KYC requerido';
+            kycCta.append(kycIcon, kycLabel);
+
+            row.append(line1, line2, kycCta);
+            return row;
+        };
+
+        // Buscamos nuestro mandato activo EN590
+        const activeMandate = mandates.find(m => m.mandateId === 'AIP-2026-001');
+
+        // 1. M&A y REAL ESTATE
+        container.appendChild(createHeader('M&A Y REAL ESTATE'));
+        container.appendChild(createLockedNode('Cartera de Activos Off-Market', 'GESTACIÓN'));
+        container.appendChild(createLockedNode('Mandatos de Adquisición', 'GESTACIÓN'));
+
+        // 2. INTELIGENCIA FINANCIERA
+        container.appendChild(createHeader('INTELIGENCIA FINANCIERA'));
+        container.appendChild(createLockedNode('Informes de Soberanía', 'GESTACIÓN'));
+        container.appendChild(createLockedNode('Análisis de Riesgo Geopolítico', 'GESTACIÓN'));
+
+        // 3. COMMODITIES
+        container.appendChild(createHeader('COMMODITIES'));
+
+        if (activeMandate) {
+            const row = document.createElement('div');
+            row.className = 'crm-mandate-row px-3 py-2.5 mx-2 my-1 rounded border border-[var(--crm-border)] transition-colors duration-150 select-none cursor-pointer hover:bg-[var(--crm-bg-surface)] hover:border-[var(--crm-accent)]/40';
+            row.dataset.mandateId = activeMandate.mandateId;
+
+            const line1 = document.createElement('div');
+            line1.className = 'flex items-center justify-between mb-1';
+            
+            const idSpan = document.createElement('span');
+            idSpan.className = 'text-[10px] font-mono text-[var(--crm-text-secondary)] tracking-widest';
+            idSpan.textContent = activeMandate.mandateId;
+            
+            const typeBadge = document.createElement('span');
+            typeBadge.className = 'text-[8px] uppercase tracking-widest px-1.5 py-0.5 rounded border border-[var(--crm-accent)]/30 text-[var(--crm-accent)]';
+            typeBadge.textContent = activeMandate.type;
+            
+            line1.append(idSpan, typeBadge);
+
+            const line2 = document.createElement('div');
+            line2.className = 'flex items-center justify-between';
+            
+            const stateBadge = document.createElement('span');
+            stateBadge.className = `crm-state-badge crm-state-${this._stateKey(activeMandate.fiduciaryState)}`;
+            stateBadge.textContent = activeMandate.fiduciaryState;
+            
             const assetSpan = document.createElement('span');
             assetSpan.className = 'text-[9px] text-[var(--crm-text-secondary)] truncate max-w-[85px]';
-            assetSpan.textContent = mandate.asset?.class ?? '—';
-
+            assetSpan.textContent = activeMandate.asset?.class ?? '—';
+            
             line2.append(stateBadge, assetSpan);
+            row.append(line1, line2);
 
-            // ── [E4-T06] CTA KYC en fila bloqueada ──────────────────────────
-            if (isLocked) {
-                const kycCta = document.createElement('div');
-                kycCta.className = 'mt-1.5 flex items-center gap-1 text-[8px] uppercase tracking-widest text-[var(--crm-accent)]/50';
-                const kycIcon = document.createElement('span');
-                kycIcon.className = 'material-symbols-outlined';
-                kycIcon.style.fontSize = '10px';
-                kycIcon.textContent = 'verified_user';
-                const kycLabel = document.createElement('span');
-                kycLabel.textContent = 'KYC requerido';
-                kycCta.append(kycIcon, kycLabel);
-                row.append(line1, line2, kycCta);
-            } else {
-                row.append(line1, line2);
-            }
-
-            // ── Click — solo mandatos desbloqueados ──────────────────────────
-            if (!isLocked) {
-                row.addEventListener('click', () => {
-                    // Estado activo: resaltar fila seleccionada
-                    container.querySelectorAll('.crm-mandate-row').forEach(r =>
-                        r.classList.remove('crm-mandate-row--active')
-                    );
-                    row.classList.add('crm-mandate-row--active');
-
-                    // [E4-T02] Emisión del evento de selección de mandato
-                    document.dispatchEvent(new CustomEvent('Skeleton:Action:MandateSelect', {
-                        detail: { mandate },
-                        bubbles: true,
-                    }));
-                    console.log(`[AIPHandler] Mandato seleccionado: ${mandate.mandateId}`);
-                });
-            }
+            row.addEventListener('click', () => {
+                container.querySelectorAll('.crm-mandate-row').forEach(r => r.classList.remove('crm-mandate-row--active'));
+                row.classList.add('crm-mandate-row--active');
+                document.dispatchEvent(new CustomEvent('Skeleton:Action:MandateSelect', { detail: { mandate: activeMandate }, bubbles: true }));
+                console.log(`[AIPHandler] Mandato seleccionado: ${activeMandate.mandateId}`);
+            });
 
             container.appendChild(row);
-        });
+        }
+
+        container.appendChild(createLockedNode('Procedimientos Off-Take', 'GESTACIÓN'));
     },
 
     /**
@@ -660,6 +875,80 @@ export const AIPHandler = {
     filterCRM(filter) {
         console.log(`[AIPHandler] Filtrando CRM por: ${filter}`);
         // Aquí iría la lógica de ocultar/mostrar filas
+    },
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // [SEC-15] [GADGET_0.3] FORMULARIO DE ACCESO — Órbita 3 / pestaña ACCESO
+    // Perfil toggle · Word counter 12–45 · Submit → Skeleton:Action:OAuthSuccess
+    // DT-AIP-05 ✅ Ningún valor de formulario se inyecta con innerHTML.
+    // ─────────────────────────────────────────────────────────────────────────
+    _setupAccessForm() {
+        // ── Toggle perfil: Agente → mostrar "Razón Social" ──────────────────
+        document.querySelectorAll('input[name="aip-perfil"]').forEach(input => {
+            input.addEventListener('change', () => {
+                const wrap = document.getElementById('aip-entidad-wrap');
+                if (!wrap) return;
+                wrap.classList.toggle('hidden', !(input.value === 'agente' && input.checked));
+            });
+        });
+
+        // ── Word counter (12–45 palabras) ───────────────────────────────────
+        const motivos      = document.getElementById('aip-motivos');
+        const countDisplay = document.getElementById('aip-motivos-count');
+        const errorMsg     = document.getElementById('aip-motivos-error');
+
+        if (motivos && countDisplay) {
+            motivos.addEventListener('input', () => {
+                const words = motivos.value.trim().split(/\s+/).filter(w => w.length > 0);
+                const count = words.length;
+                countDisplay.textContent = `Palabras: ${count} / 45`;
+                if (count > 45) {
+                    countDisplay.style.color = '#FF4757';
+                } else if (count >= 12) {
+                    countDisplay.style.color = '#00D4AA';
+                } else {
+                    countDisplay.style.color = '#9AA7B6';
+                }
+                if (errorMsg) {
+                    errorMsg.classList.toggle('hidden', count === 0 || (count >= 12 && count <= 45));
+                }
+            });
+        }
+
+        // ── Submit → validación fiduciaria → APAGÓN ATÓMICO ─────────────────
+        const form = document.getElementById('aip-access-form');
+        if (!form) return;
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formError  = document.getElementById('aip-form-error');
+            const motivosVal = document.getElementById('aip-motivos')?.value.trim() ?? '';
+            const wordCount  = motivosVal.split(/\s+/).filter(w => w.length > 0).length;
+
+            if (wordCount < 12 || wordCount > 45) {
+                errorMsg?.classList.remove('hidden');
+                formError?.classList.remove('hidden');
+                return;
+            }
+
+            const nombre = document.getElementById('aip-nombre')?.value.trim();
+            const razon  = document.getElementById('aip-razon')?.value.trim();
+            const email  = document.getElementById('aip-email')?.value.trim();
+            const comms  = document.getElementById('aip-check-comms')?.checked;
+            const data   = document.getElementById('aip-check-data')?.checked;
+
+            if (!nombre || !razon || !email || !comms || !data) {
+                formError?.classList.remove('hidden');
+                return;
+            }
+
+            formError?.classList.add('hidden');
+
+            // [DT-018] Transición atómica SPA vía PassportValidator (mock payload)
+            // Cuando el backend esté activo, sustituir mockPayload por el token real del servidor.
+            const mockPayload = { usr: 'uuid_8f92a', rol: 'inv', tier: 'inst', jur: 'CH', kyc: 'ok', pv: 1, wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'] };
+            PassportValidator.validateAccess(mockPayload);
+        });
     },
 
     // ─────────────────────────────────────────────────────────────────────────

@@ -84,13 +84,18 @@
                 class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
                 data-action="TabRegulatoryClick" data-tab="regulatory" data-i18n="nav.legislation">—</button>
 
+            <!-- INICIO — desplaza el selector de idioma, evita colisión con Órbita 3 -->
+            <button type="button"
+                class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
+                data-action="NavInicio">INICIO</button>
+
             <button type="button"
                 class="ml-4 px-5 py-2.5 text-[10px] uppercase tracking-[0.3em] border border-[var(--stitch-gold)]/50 text-[var(--stitch-gold)] hover:bg-[var(--stitch-gold)] hover:text-background transition-all duration-500"
                 data-action="GateWake" data-i18n="nav.request_access">—</button>
 
             <!-- SELECTOR DE IDIOMA UNÍVOCO -->
             <details class="relative ml-2 group">
-                <summary class="cursor-pointer text-[10px] uppercase tracking-[0.2em] font-mono text-white/70 hover:text-[var(--stitch-gold)] list-none flex items-center gap-1 transition-colors">
+                <summary class="cursor-pointer text-[10px] uppercase tracking-[0.2em] font-mono text-white/70 hover:text-[var(--stitch-gold)] list-none flex items-center gap-1 py-2 transition-colors">
                     ES <span class="text-[8px]">▼</span>
                 </summary>
                 <div class="absolute right-0 top-full mt-4 w-20 stitch-panel border border-[var(--stitch-border)] rounded-sm flex flex-col py-2 opacity-0 invisible group-open:opacity-100 group-open:visible transition-all">
@@ -101,7 +106,7 @@
         </nav>
     </header>
 
-    <main class="aip-chassis flex-1">
+    <main class="aip-chassis">
         <section id="orbit-2" class="orbit-2 overflow-y-auto p-8 md:p-12 border-r border-outline-variant scroll-smooth">
             <!-- [TAB-INJ-01] Contenedor principal de landing -->
             <div id="orbit-2-main-content">
@@ -205,16 +210,18 @@
                     <!-- Rail icon: visible solo cuando colapsado -->
                     <span class="crm-rail-icon material-symbols-outlined" title="Mandate Registry">folder_open</span>
 
-                    <!-- Filtros de estado fiduciario -->
-                    <nav class="px-3 py-3 border-b border-[var(--crm-border)] flex flex-col gap-1" aria-label="Filtros de mandato">
-                        <button type="button" class="crm-filter-btn crm-filter-btn--active" data-action="CRMFilter" data-filter="all" data-i18n="crm.filter.all">—</button>
-                        <button type="button" class="crm-filter-btn" data-action="CRMFilter" data-filter="Due Diligence" data-i18n="crm.filter.due_diligence">—</button>
-                        <button type="button" class="crm-filter-btn" data-action="CRMFilter" data-filter="Firma Pendiente" data-i18n="crm.filter.pending">—</button>
-                    </nav>
+                    <!-- Buscador fiduciario institucional -->
+                    <div class="px-3 py-3 border-b border-[var(--crm-border)]">
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-[var(--crm-text-secondary)] opacity-60" style="font-size:14px">search</span>
+                            <input type="text" placeholder="Buscar servicios o IDs..."
+                                class="w-full bg-[var(--crm-bg-surface)] border border-[var(--crm-border-subtle)] rounded-sm pl-8 pr-3 py-1.5 text-[11px] font-mono text-[var(--crm-text-primary)] placeholder:text-[var(--crm-text-secondary)] focus:outline-none focus:border-[var(--crm-accent)] transition-colors">
+                        </div>
+                    </div>
 
                     <!-- Cabecera de columna ID -->
                     <div class="px-4 py-2 border-b border-[var(--crm-border-subtle)]">
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-[var(--crm-text-secondary)] font-mono" data-i18n="crm.table.col_id">—</span>
+                        <span class="text-[9px] uppercase tracking-[0.25em] text-[var(--crm-text-secondary)] font-mono">CATÁLOGO DE SERVICIOS Y MANDATOS</span>
                     </div>
 
                     <!-- Lista de mandatos (poblada por AIPHandler.populateCRMTable) -->
@@ -341,117 +348,251 @@
             </div>
         </section>
 
-        <!-- [GADGET_0.2] Órbita 3 — Paleta Abisal / Terminal Fiduciaria · Stitch 2026-05-24 -->
+        <!-- [GADGET_0.3] Órbita 3 — 3 Pestañas · Paleta Abisal · 2026-05-25 -->
         <aside id="orbit-3" class="orbita-3-shell">
 
-            <!-- Fiduciary Rail -->
+            <!-- Fiduciary Rail — 3 dominios + cierre -->
             <nav class="orbita-3-rail" role="navigation" aria-label="Dominios de control">
-                <div role="tablist" aria-orientation="vertical" class="flex flex-col">
-                    <button role="tab" aria-selected="true" class="rail-node rail-node--active" data-domain="SYS">
+                <div class="flex flex-col h-full w-full">
+                    <!-- Botón cierre [✕] -->
+                    <button data-action="GateClosed"
+                        class="w-full h-12 flex items-center justify-center border-b border-[#223044] hover:bg-white/5 transition-colors cursor-pointer bg-transparent"
+                        style="border-left:none;border-right:none;border-top:none;" title="Cerrar">
+                        <span class="text-white/40 hover:text-white/70 text-sm font-mono transition-colors">✕</span>
+                    </button>
+                    <!-- SISTEMA -->
+                    <button role="tab" class="rail-node rail-node--active mt-1" data-rail-tab="sistema"
+                        onclick="document.dispatchEvent(new CustomEvent('Skeleton:Action:OrbitTab',{detail:{tab:'sistema'}}))">
                         <span class="rail-node__keel"></span>
                         <span class="rail-node__icon">◈</span>
-                        <span class="rail-node__tooltip">SYSTEM // SYS</span>
+                        <span class="rail-node__tooltip">SISTEMA</span>
                     </button>
-                    <button role="tab" aria-selected="false" class="rail-node" data-domain="IDX">
+                    <!-- AIMON -->
+                    <button role="tab" class="rail-node" data-rail-tab="aimon"
+                        onclick="document.dispatchEvent(new CustomEvent('Skeleton:Action:OrbitTab',{detail:{tab:'aimon'}}))">
                         <span class="rail-node__keel"></span>
-                        <span class="rail-node__icon">▤</span>
+                        <span class="rail-node__icon material-symbols-outlined" style="font-size:16px">smart_toy</span>
+                        <span class="rail-node__tooltip">AIMON</span>
                     </button>
-                    <button role="tab" aria-selected="false" class="rail-node" data-domain="AUD">
+                    <!-- ACCESO -->
+                    <button role="tab" class="rail-node" data-rail-tab="acceso"
+                        onclick="document.dispatchEvent(new CustomEvent('Skeleton:Action:OrbitTab',{detail:{tab:'acceso'}}))">
                         <span class="rail-node__keel"></span>
-                        <span class="rail-node__icon">🛡</span>
+                        <span class="rail-node__icon material-symbols-outlined" style="font-size:16px">login</span>
+                        <span class="rail-node__tooltip">ACCESO</span>
                     </button>
-
-                    <!-- Spacer and Environment -->
-                    <div class="mt-auto flex flex-col">
-                        <button role="tab" aria-selected="false" class="rail-node" data-domain="ENV">
-                            <span class="rail-node__icon">⚙</span>
-                        </button>
-                    </div>
                 </div>
             </nav>
 
             <!-- Content Viewport -->
             <section class="content-viewport">
 
-                <!-- Header: Session Bar & Mode Dial -->
+                <!-- Header: Session Bar + Mode Dial 3 pestañas + botón cierre -->
                 <header>
                     <div class="px-4 py-2 text-[9px] text-ink-ghost border-b border-line flex justify-between items-center bg-void">
                         <span>SESSION: MOCK-2026-05-24</span>
-                        <span class="text-accent-cold">STATUS: SECURE</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-accent-cold">STATUS: SECURE</span>
+                            <button data-action="GateClosed"
+                                class="text-white/40 hover:text-white/70 text-sm font-mono leading-none transition-colors cursor-pointer bg-transparent border-none px-1"
+                                title="Cerrar Órbita 3">✕</button>
+                        </div>
                     </div>
-                    <div class="mode-dial" role="group" aria-label="Modo operativo">
-                        <button class="mode-dial__option mode-dial__option--active" data-mode="system">
-                            <span>SYSTEM</span>
+                    <div class="mode-dial" role="group" aria-label="Dominio operativo">
+                        <button class="mode-dial__option mode-dial__option--active" data-action="OrbitTab" data-tab="sistema">
+                            <span>SISTEMA</span>
                             <span class="mode-dial__keel"></span>
                         </button>
-                        <button class="mode-dial__option" data-mode="aimon">
+                        <button class="mode-dial__option" data-action="OrbitTab" data-tab="aimon">
                             <span>AIMON</span>
+                            <span class="mode-dial__keel"></span>
+                        </button>
+                        <button class="mode-dial__option" data-action="OrbitTab" data-tab="acceso">
+                            <span>ACCESO</span>
                             <span class="mode-dial__keel"></span>
                         </button>
                     </div>
                 </header>
 
-                <!-- Body: AIMON Console -->
-                <main class="aimon-console">
-
-                    <!-- Entry 1 -->
-                    <article class="aimon-entry">
-                        <header class="aimon-entry__header">
-                            <span>14:22:09Z</span>
-                            <span>SCOPE: PUBLIC_EDGE</span>
-                            <span class="severity--info">INFO</span>
-                        </header>
-                        <div class="aimon-entry__body">
-                            Kernel initialized. Fiduciary protocols standing by.
-                            ████████ 100%
+                <!-- ═══ TAB A: SISTEMA — Tickers 2×2 ═══ -->
+                <main id="orbit3-tab-sistema" class="flex flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E] p-4 gap-4">
+                    <h2 class="text-[12px] uppercase tracking-[0.2em] text-[#E8ECF2] font-mono mb-2">MERCADO & FEEDS</h2>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-[#111827] border border-[#2A3A52] p-3">
+                            <span class="block text-[10px] text-[#9AA7B6] font-mono mb-1">XAU/USD</span>
+                            <span class="block text-[14px] text-white font-bold font-mono">2,847.30</span>
+                            <span class="block text-[10px] text-green-400 mt-1">▲ 0.4%</span>
                         </div>
-                    </article>
-
-                    <!-- Entry 2 (Instructional Skeletons) -->
-                    <article class="aimon-entry opacity-60">
-                        <header class="aimon-entry__header">
-                            <span>14:22:15Z</span>
-                            <span>SCOPE: AUTH</span>
-                            <span class="severity--info">PROC</span>
-                        </header>
-                        <div class="aimon-entry__body">
-                            Awaiting identity assertion...
-                            ░░░░░░░░ 45%
+                        <div class="bg-[#111827] border border-[#2A3A52] p-3">
+                            <span class="block text-[10px] text-[#9AA7B6] font-mono mb-1">SOFR</span>
+                            <span class="block text-[14px] text-white font-bold font-mono">5.32%</span>
+                            <span class="block text-[10px] text-gray-400 mt-1">—</span>
                         </div>
-                    </article>
-
-                    <!-- Golden Gate Act I -->
-                    <section class="vault-act mt-4">
-                        <div class="act-header">ACT I // GATE PRESENCE</div>
-                        <div class="preflight-checks">
-                            <div class="flex justify-between"><span>TLS:</span> <span class="text-green-900">ACTIVE</span></div>
-                            <div class="flex justify-between"><span>CLOCK:</span> <span>OK</span></div>
-                            <div class="flex justify-between"><span>POLICY:</span> <span>ELIGIBLE</span></div>
+                        <div class="bg-[#111827] border border-[#2A3A52] p-3">
+                            <span class="block text-[10px] text-[#9AA7B6] font-mono mb-1">EUR/CHF</span>
+                            <span class="block text-[14px] text-white font-bold font-mono">0.9620</span>
+                            <span class="block text-[10px] text-red-400 mt-1">▼ 0.1%</span>
                         </div>
-                        <button class="vault-action-primary" data-action="GateWake">INITIATE SSO PROTOCOL</button>
-                    </section>
-
-                    <!-- Command Line -->
-                    <div class="aimon-command-line">
-                        <span class="text-accent-cold">></span>
-                        <input type="text" class="command-input" placeholder="_" autocomplete="off">
+                        <div class="bg-[#111827] border border-[#2A3A52] p-3">
+                            <span class="block text-[10px] text-[#9AA7B6] font-mono mb-1">BRENT</span>
+                            <span class="block text-[14px] text-white font-bold font-mono">82.15</span>
+                            <span class="block text-[10px] text-green-400 mt-1">▲ 1.2%</span>
+                        </div>
                     </div>
                 </main>
 
-                <!-- Bottom: Ticker -->
-                <footer class="ticker-tape">
-                    <div class="ticker-item">
-                        <span class="ticker-symbol">XAU</span>
-                        <span class="ticker-value" data-i18n="feed.ticker_xau">2,847.30</span>
-                        <span class="delta--positive">▲0.4%</span>
+                <!-- ═══ TAB B: AIMON — Asistente + Consultas ═══ -->
+                <main id="orbit3-tab-aimon" class="hidden flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E]">
+                    <div class="px-5 py-4 border-b border-[#2A3A52] bg-[#111827]">
+                        <p class="text-[12px] text-[#E8ECF2] font-mono leading-relaxed">
+                            <span class="text-[#7FB4FF] font-bold">TIP:</span> El acceso al CRM requiere validación institucional. AIMON monitoriza el estado de cada expediente en tiempo real. Contacte a operaciones para soporte.
+                        </p>
                     </div>
-                    <div class="h-4 w-px bg-line"></div>
-                    <div class="ticker-item">
-                        <span class="ticker-symbol">SOFR</span>
-                        <span class="ticker-value" data-i18n="feed.ticker_sofr">5.32</span>
-                        <span class="text-ink-ghost">──</span>
+                    <div class="px-5 py-5 flex flex-col gap-3 flex-1">
+                        <label class="text-[11px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono block">MENSAJE A OPERACIONES</label>
+                        <textarea class="w-full flex-1 min-h-[120px] bg-[#111827] border border-[#2A3A52] text-[13px] text-[#FFFFFF] font-mono p-3 focus:outline-none focus:border-[#7FB4FF] focus:ring-1 focus:ring-[#7FB4FF] transition-colors resize-none placeholder:text-[#9AA7B6]/50" placeholder="Escriba su consulta al equipo técnico..."></textarea>
                     </div>
-                </footer>
+                </main>
+
+                <!-- ═══ TAB C: ACCESO — Portal de entrada calificado ═══ -->
+                <main id="orbit3-tab-acceso" class="hidden flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E]">
+
+                    <!-- SSO colapsado en acordeón -->
+                    <div class="px-5 py-4 border-b border-[#2A3A52] shrink-0">
+                        <details class="group">
+                            <summary class="text-[10px] uppercase tracking-[0.15em] text-[#9AA7B6] font-mono cursor-pointer flex items-center justify-between list-none hover:text-[#7FB4FF] transition-colors py-1">
+                                ACCESO MEDIANTE SSO (Facilitador)
+                                <span class="text-[9px] transition-transform duration-200 group-open:rotate-180 select-none">▼</span>
+                            </summary>
+                            <div class="flex flex-col gap-2 mt-3">
+                                <button type="button" data-action="OAuthSuccess" data-provider="google"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
+                                    <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">G</span>
+                                    <span class="text-[12px] text-[#FFFFFF] font-mono">Google SSO</span>
+                                </button>
+                                <button type="button" data-action="OAuthSuccess" data-provider="microsoft"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
+                                    <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">M</span>
+                                    <span class="text-[12px] text-[#FFFFFF] font-mono">Microsoft Entra</span>
+                                </button>
+                                <button type="button" data-action="OAuthSuccess" data-provider="apple"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
+                                    <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">A</span>
+                                    <span class="text-[12px] text-[#FFFFFF] font-mono">Apple SSO</span>
+                                </button>
+                                <button type="button" data-action="OAuthSuccess" data-provider="linkedin"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
+                                    <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">In</span>
+                                    <span class="text-[12px] text-[#FFFFFF] font-mono">LinkedIn SSO</span>
+                                </button>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- Formulario ALTA POR DATOS -->
+                    <form id="aip-access-form" class="px-5 py-4 flex flex-col gap-3" novalidate>
+                        <span class="text-[10px] uppercase tracking-[0.15em] text-[#9AA7B6] font-mono">ALTA POR DATOS</span>
+
+                        <!-- Perfil: Inversor / Agente -->
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono">Perfil *</label>
+                            <div class="flex gap-5">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="aip-perfil" value="inversor" class="accent-[#7FB4FF]" checked>
+                                    <span class="text-[12px] text-[#D7DEE7] font-mono">Inversor</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="aip-perfil" value="agente" class="accent-[#7FB4FF]">
+                                    <span class="text-[12px] text-[#D7DEE7] font-mono">Agente</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Entidad (visible solo si perfil=Agente) -->
+                        <div id="aip-entidad-wrap" class="hidden flex-col gap-1">
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-entidad">Entidad / Persona Representada *</label>
+                            <input id="aip-entidad" type="text" placeholder="Nombre de la entidad o persona"
+                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                        </div>
+
+                        <!-- Nombre y Apellidos -->
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-nombre">Nombre y Apellidos *</label>
+                            <input id="aip-nombre" type="text" placeholder="Nombre completo"
+                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                        </div>
+
+                        <!-- Razón Social -->
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-razon">Razón Social *</label>
+                            <input id="aip-razon" type="text" placeholder="Empresa o institución"
+                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                        </div>
+
+                        <!-- Correo Electrónico -->
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-email">Correo Electrónico *</label>
+                            <input id="aip-email" type="email" placeholder="nombre@empresa.com"
+                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                        </div>
+
+                        <!-- Teléfono: prefijo + número -->
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono">Teléfono *</label>
+                            <div class="flex gap-2">
+                                <select id="aip-tel-prefix"
+                                    class="w-20 shrink-0 px-2 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono focus:border-[#7FB4FF] outline-none transition-colors">
+                                    <option value="+1">+1</option>
+                                    <option value="+34" selected>+34</option>
+                                    <option value="+44">+44</option>
+                                    <option value="+41">+41</option>
+                                    <option value="+33">+33</option>
+                                    <option value="+49">+49</option>
+                                    <option value="+39">+39</option>
+                                    <option value="+55">+55</option>
+                                    <option value="+52">+52</option>
+                                    <option value="+971">+971</option>
+                                    <option value="+65">+65</option>
+                                </select>
+                                <input id="aip-tel-num" type="tel" placeholder="600 000 000"
+                                    class="flex-1 px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                            </div>
+                        </div>
+
+                        <!-- Motivos con contador en tiempo real -->
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-motivos">Motivos de la solicitud *</label>
+                            <textarea id="aip-motivos" rows="4"
+                                placeholder="Describa brevemente su interés en acceder a la plataforma AIP..."
+                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors resize-none"></textarea>
+                            <div class="flex items-center justify-between mt-0.5">
+                                <p id="aip-motivos-error" class="hidden text-[10px] font-mono text-[#FF4757]">Mín. 12 palabras, máx. 45.</p>
+                                <p id="aip-motivos-count" class="text-[10px] font-mono text-[#9AA7B6] ml-auto">Palabras: 0 / 45</p>
+                            </div>
+                        </div>
+
+                        <!-- Checkboxes de compliance -->
+                        <div class="flex flex-col gap-2 pt-1">
+                            <label class="flex items-start gap-2 cursor-pointer">
+                                <input id="aip-check-comms" type="checkbox" class="accent-[#7FB4FF] mt-0.5 shrink-0">
+                                <span class="text-[11px] text-[#9AA7B6] font-mono leading-relaxed">Acepto recibir comunicaciones operativas</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer">
+                                <input id="aip-check-data" type="checkbox" class="accent-[#7FB4FF] mt-0.5 shrink-0">
+                                <span class="text-[11px] text-[#9AA7B6] font-mono leading-relaxed">Acepto el tratamiento de datos fiduciarios</span>
+                            </label>
+                        </div>
+
+                        <!-- CTA Principal -->
+                        <button type="submit" id="aip-submit"
+                            class="w-full mt-1 px-4 py-3 text-[13px] font-bold uppercase tracking-[0.1em] font-mono cursor-pointer border-none transition-colors duration-300"
+                            style="background:#7FB4FF;color:#05070B;">
+                            ENVIAR SOLICITUD
+                        </button>
+                        <p id="aip-form-error" class="hidden text-[10px] font-mono text-[#FF4757] text-center">Complete todos los campos requeridos correctamente.</p>
+                    </form>
+
+                </main>
 
             </section>
 
@@ -463,18 +604,8 @@
             <p class="text-white/30 whitespace-nowrap" data-i18n="footer.copyright">—</p>
         </div>
 
-        <!-- TICKER DE MERCADO CON PROFUNDIDAD (3D Tunnel) -->
-        <div class="w-full lg:w-1/3 flex justify-center">
-            <div class="relative w-full max-w-sm stitch-drawer rounded-sm border border-[var(--stitch-border)]/50 overflow-hidden">
-                <div class="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#0C121A] to-transparent z-10"></div>
-                <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#0C121A] to-transparent z-10"></div>
-                <div class="py-2 flex items-center justify-center ticker-wrap w-full overflow-hidden whitespace-nowrap">
-                    <div class="ticker-content text-[var(--stitch-gold)] font-mono text-[10px] tracking-wider opacity-90">
-                        XAU/USD $2,340 (+0.4%) &nbsp;&bull;&nbsp; BTC/USD $64,200 (-1.2%) &nbsp;&bull;&nbsp; EUR/CHF 0.98 (+0.1%)
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- TICKER DE MERCADO — [aip-ticker] Web Component (Light DOM) · E4-T00.3 resuelto · VIBE-AIP-S-REBORN-03.4 -->
+        <aip-ticker class="w-full lg:w-1/3 flex justify-center"></aip-ticker>
 
         <!-- ENLACES INSTITUCIONALES -->
         <div class="flex items-center justify-end gap-6 w-full lg:w-1/3">
@@ -483,6 +614,7 @@
         </div>
     </footer>
 
+    <script type="module" src="./src/gadgets/aip-ticker.js"></script>
     <script type="module" src="./src/main.js"></script>
     <script type="module" src="/src/verticals/aip/ignition.js"></script>
 </body>

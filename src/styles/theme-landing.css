@@ -87,19 +87,20 @@ body {
 
 /* --- GEOMETRÍA DEL CHASIS (Sutura de Fricción) --- */
 .aip-chassis {
+    flex: 1;
+    min-height: 0;
     display: grid;
-    /* [DT-ORBIT3-01] Orbit-3 colapsada por defecto (0px) — se expande via :has() al activarse */
-    grid-template-columns: 2fr 0px;
+    /* [DT-ORBIT3-01] Orbit-3 colapsada por defecto (48px = rail fiduciario visible) — se expande via :has() al activarse */
+    grid-template-columns: 1fr 48px;
     width: 100%;
-    /* App Shell: Altura estricta para ocupar el flex-1 del body */
-    height: 100%;
+    /* App Shell: flex:1 desde body flex-col — SIN clase Tailwind flex-1 que colisionaba con display:grid */
     overflow: hidden;
     transition: grid-template-columns 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* [DT-ORBIT3-01] Expandir Orbit-3 cuando está activa */
 .aip-chassis:has(#orbit-3.active) {
-    grid-template-columns: 2fr 380px; /* [GADGET_0.2] Paleta Abisal — 380px canónico */
+    grid-template-columns: 1fr 380px; /* [GADGET_0.2] Paleta Abisal — 380px canónico */
 }
 
 /* Soporte para futura Órbita 1 (Panel Izquierdo) */
@@ -109,9 +110,9 @@ body {
 
 /* Blindaje de Órbita 3 */
 .orbit-3 {
-    min-height: 0;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 @media (max-width: 768px) {
@@ -254,12 +255,7 @@ body {
    ============================================================ */
 
 
-/* El chasis ocupa exactamente el espacio entre header y footer */
-.aip-chassis {
-    height: calc(100vh - var(--header-h) - var(--footer-h));
-    margin-top: var(--header-h);
-    overflow: hidden;
-}
+/* El chasis se gestiona por flex: 1 en la regla principal, eliminada redundancia de calc y margin-top */
 
 /* Cada órbita hace scroll de forma aislada */
 #orbit-2,
@@ -301,12 +297,16 @@ body {
     --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
 }
 
-/* Shell Geometry */
+/* Shell Geometry — glassmorphic (GADGET_0.3 · 2026-05-25) */
 .orbita-3-shell {
-    width: var(--orbita-3-width-expanded);
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
     height: 100%;
-    background-color: #070A10;
-    border-left: 1px solid #223044;
+    background-color: rgba(7, 10, 16, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: row;
     overflow: hidden;
