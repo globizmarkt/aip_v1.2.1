@@ -26,6 +26,7 @@ export const AIPHandler = {
 
     init() {
         console.log('[AIPHandler] Inicializando handlers de vertical...');
+        UserFSM.boot();                     // [FSM-01] Arranque FSM — BOOT_SEQUENCE → ORBIT_1_GUEST|ORBIT_2_GATEKEEPER
         this._setupListeners();
         this._setupCRMControls();
         this._setupAccessForm();
@@ -40,16 +41,14 @@ export const AIPHandler = {
     _initGatekeeperSubscribers() {
         document.addEventListener('Skeleton:Gatekeeper:AccessGranted', (e) => {
             const { wc, raw } = e.detail;
-            console.log('[AIPHandler] AccessGranted. Usuario:', raw?.usr, '| Tier:', raw?.tier, '| WC:', wc?.length);
-            // [FSM-01] Transición KYC_PENDING → KYC_VERIFIED
-            UserFSM.transition('ACCESS_GRANTED', { wc });
+            // [FSM-01] Transición ORBIT_2_GATEKEEPER → ORBIT_3_CRM_ACTIVE
+            UserFSM.transition('Skeleton:Gatekeeper:AccessGranted', { wc });
             this.showCRM(wc);
         });
         document.addEventListener('Skeleton:Gatekeeper:AccessDenied', (e) => {
             const { reason, raw } = e.detail;
-            console.warn(`[AIPHandler] AccessDenied — ${reason}. Usuario: ${raw?.usr ?? 'unknown'}`);
-            // [FSM-01] Transición KYC_PENDING → BLOCKED
-            UserFSM.transition('ACCESS_DENIED', { reason });
+            // [FSM-01] Transición ORBIT_2_GATEKEEPER → ACCESS_BLOCKED
+            UserFSM.transition('Skeleton:Gatekeeper:AccessDenied', { reason });
             this._showAccessDenied(reason);
         });
     },
@@ -73,8 +72,8 @@ export const AIPHandler = {
 
         // Éxito en Autenticación (Paso al CRM) — [DT-018] vía PassportValidator (mock payload)
         document.addEventListener('Skeleton:Action:OAuthSuccess', () => {
-            // [FSM-01] Transición ANONYMOUS → KYC_PENDING antes de lanzar validación
-            UserFSM.transition('ACCESS_REQUESTED');
+            // [FSM-01] Transición ORBIT_1_GUEST → ORBIT_2_GATEKEEPER antes de lanzar validación
+            UserFSM.transition('LOGIN_SUBMITTED');
             const mockPayload = { usr: 'uuid_8f92a', rol: 'inv', tier: 'inst', jur: 'CH', kyc: 'ok', pv: 1, wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'] };
             PassportValidator.validateAccess(mockPayload);
         });
@@ -179,6 +178,12 @@ export const AIPHandler = {
      * APAGÓN ATÓMICO: Oculta TODA la landing. Revela el CRM en viewport completo.
      */
     showCRM(wcWhitelist = []) {
+        // [FSM-01] Inmunización: showCRM solo opera si la FSM autorizó ORBIT_3_CRM_ACTIVE
+        const currentState = UserFSM.getState();
+        if (currentState !== 'ORBIT_3_CRM_ACTIVE') {
+            console.error(`[AIPHandler] showCRM abortado: estado inválido ${currentState}. Se requiere ORBIT_3_CRM_ACTIVE.`);
+            return;
+        }
         console.log('[AIPHandler] APAGÓN ATÓMICO — Transicionando a vista CRM...');
 
         // 1. Ocultar el header de la landing
@@ -958,8 +963,8 @@ export const AIPHandler = {
 
             // [DT-018] Transición atómica SPA vía PassportValidator (mock payload)
             // Cuando el backend esté activo, sustituir mockPayload por el token real del servidor.
-            // [FSM-01] Transición ANONYMOUS → KYC_PENDING antes de lanzar validación
-            UserFSM.transition('ACCESS_REQUESTED');
+            // [FSM-01] Transición ORBIT_1_GUEST → ORBIT_2_GATEKEEPER antes de lanzar validación
+            UserFSM.transition('LOGIN_SUBMITTED');
             const mockPayload = { usr: 'uuid_8f92a', rol: 'inv', tier: 'inst', jur: 'CH', kyc: 'ok', pv: 1, wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'] };
             PassportValidator.validateAccess(mockPayload);
         });
