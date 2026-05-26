@@ -5,21 +5,22 @@
  * Doctrina: Cascada Fiduciaria | Ley II (Re-hidratación)
  */
 
-import { StorageAdapter } from 'infra/storage/StorageAdapter.js';
-import { i18nEngine } from 'core/i18n/i18n-engine.js';
-import { PassportEngine } from 'core/passport/PassportEngine.js';
-import UIBinder from 'shared/UIBinder.js'; // default export = singleton new UIBinder() — init() es método de instancia, no estático
-import { enforceProjectGate } from 'ui/orbit-3-gatekeeper/gateEnforcer.js';
+// [Saneamiento Fase 18 — bare specifiers → rutas relativas nativas ES6]
+import { StorageAdapter } from './02-infra/storage/StorageAdapter.js';
+import { i18nEngine } from './01-core/i18n/i18n-engine.js';
+import { PassportEngine } from './01-core/passport/PassportEngine.js';
+import UIBinder from './03-interface/shared/UIBinder.js'; // default export = singleton new UIBinder() — init() es método de instancia, no estático
+import { enforceProjectGate } from './03-interface/orbit-3-gatekeeper/gateEnforcer.js';
 const gateEnforcer = {
     init: () => {},
     enforce: (identity) => enforceProjectGate({ clearanceRequired: identity?.clearanceLevel || 'BRONZE' })
 };
-import { GoldenGate } from 'ui/orbit-3-gatekeeper/ui-gate/GoldenGate.js';
+import { GoldenGate } from './03-interface/orbit-3-gatekeeper/ui-gate/GoldenGate.js';
 import { UIHydrator } from './03-interface/ui-hydrator.js'; // [E3-GENESIS] PV-04 sutura
-import { deepFreeze } from 'core/utils/deepFreeze.js'; // [E3-GENESIS] E3-T08 — canónico R27
+import { deepFreeze } from './01-core/utils/deepFreeze.js'; // [E3-GENESIS] E3-T08 — canónico R27
 import { Router } from './03-interface/orchestrator/Router.js'; // [REBORN-02] Orquestador de bus R20
 import { TabLoader } from './03-interface/TabLoader.js';        // [TAB-INJ-01] Inyección de gadgets de landing
-import sessionGC from 'core/sessionGC.js';                      // [E3-T03] Recolector de Basura Fiduciaria
+import sessionGC from './01-core/sessionGC.js';                 // [E3-T03] Recolector de Basura Fiduciaria
 import { GenesisWizard } from './03-interface/wizards/GenesisWizard.js'; // [E3-T01] Esclusa del Golden Gate
 import { LegalModal } from './03-interface/wizards/LegalModal.js';    // [E3-T02] Guardián legal fluido
 
