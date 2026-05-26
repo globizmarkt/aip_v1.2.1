@@ -1,4 +1,6 @@
 // %[CARRIL-AIP-TABLOADER] - [TAB-INJ-01] - [VIBE-AIP-S-REBORN-02]
+// DT-AIP-05 RESUELTO — VIBE-AIP-S-REBORN-03.5 · 2026-05-26
+// innerHTML con datos externos extirpado. Sanitizador Zero-Trust (#sanitizeExternal) activo.
 /**
  * TabLoader.js
  * Mecanismo de inyección de gadgets de landing en #tab-content-container.
@@ -7,12 +9,14 @@
  *
  * Doctrina: R18 (ES Modules) | R20 (Event-Driven) | R25 (gadgets = sensores ciegos)
  *           R28 (Desacoplamiento) | R19 (Trazabilidad)
+ *           DT-AIP-05 (XSS Zero-Trust — createElement + sanitizeExternal)
  *
  * Flujo canónico:
  *   [data-action="Tab*Click"] → UIBinder → Skeleton:RequestGate
  *   → Router (SEMANTIC_MAP) → Skeleton:Action:TabNavigate { tab: slug }
  *   → TabLoader.#load() → fetch gadgets/landing/${slug}/code.html
- *   → innerHTML en #tab-content-container, ocultar #orbit-2-main-content
+ *   → #sanitizeExternal() → DocumentFragment → #tab-content-container
+ *   ocultar #orbit-2-main-content
  */
 
 /**
@@ -68,12 +72,11 @@ class TabLoaderEngine {
 
         this.#currentSlug = slug;
 
-        // Estado de carga — placeholder fiduciario
-        this.#renderContainer(
-            `<div class="py-16 text-center text-on-surface-variant text-xs font-mono tracking-[0.3em] uppercase opacity-40">
-                Cargando ${slug}&hellip;
-            </div>`
-        );
+        // Estado de carga — placeholder fiduciario (DT-AIP-05: createElement — sin innerHTML)
+        const loadingEl = document.createElement('div');
+        loadingEl.className = 'py-16 text-center text-on-surface-variant text-xs font-mono tracking-[0.3em] uppercase opacity-40';
+        loadingEl.textContent = `Cargando ${slug}…`;
+        this.#renderContainer(loadingEl);
 
         try {
             // Cache hit → render inmediato sin fetch
@@ -83,27 +86,65 @@ class TabLoaderEngine {
                 this.#cache[slug] = await res.text();
             }
 
-            this.#renderContainer(this.#cache[slug]);
-            console.log(`[TabLoader] ${slug} → inyectado en #tab-content-container (${this.#cache[slug].length} chars).`);
+            // DT-AIP-05: Sanitizar HTML externo antes de inyectar — nunca innerHTML directo
+            this.#renderContainer(TabLoaderEngine.#sanitizeExternal(this.#cache[slug]));
+            console.log(`[TabLoader] ${slug} → inyectado en #tab-content-container (${this.#cache[slug].length} chars, sanitizado).`);
 
         } catch (err) {
             this.#currentSlug = null; // Permite reintentar en próximo click
             console.error('[TabLoader] Error cargando gadget:', err);
-            this.#renderContainer(
-                `<div class="py-12 px-8 border border-red-500/20 bg-red-950/10 rounded-sm">
-                    <p class="text-red-400 text-xs font-mono tracking-wider uppercase mb-2">Error de carga</p>
-                    <p class="text-on-surface-variant text-xs font-mono">${err.message}</p>
-                </div>`
-            );
+            // DT-AIP-05: err.message es dato externo — usar textContent, nunca interpolación en innerHTML
+            const errWrap  = document.createElement('div');
+            errWrap.className = 'py-12 px-8 border border-red-500/20 bg-red-950/10 rounded-sm';
+            const errTitle = document.createElement('p');
+            errTitle.className = 'text-red-400 text-xs font-mono tracking-wider uppercase mb-2';
+            errTitle.textContent = 'Error de carga';
+            const errMsg   = document.createElement('p');
+            errMsg.className = 'text-on-surface-variant text-xs font-mono';
+            errMsg.textContent = err.message;
+            errWrap.appendChild(errTitle);
+            errWrap.appendChild(errMsg);
+            this.#renderContainer(errWrap);
         }
     }
 
     /**
-     * Inyecta HTML en el contenedor y gestiona la visibilidad orbit-2.
-     * @param {string} html
+     * Sanitizador Zero-Trust para HTML externo (DT-AIP-05).
+     * Parsea en contexto aislado (DOMParser), expurga <script> y atributos on*,
+     * retorna un DocumentFragment con nodos saneados listos para importar al DOM.
+     * @param {string} rawHtml — HTML crudo de servidor (nunca de confianza implícita)
+     * @returns {DocumentFragment}
      */
-    #renderContainer(html) {
-        this.#container.innerHTML = html;
+    static #sanitizeExternal(rawHtml) {
+        const parser = new DOMParser();
+        const doc    = parser.parseFromString(rawHtml, 'text/html');
+
+        // Expurgar <script> — por política R0 aunque DOMParser no los ejecuta
+        doc.querySelectorAll('script').forEach(el => el.remove());
+
+        // Expurgar atributos de evento inline (onerror, onclick, onload…)
+        const DANGEROUS_ATTR = /^on[a-z]/i;
+        doc.querySelectorAll('*').forEach(el => {
+            Array.from(el.attributes)
+                .filter(attr => DANGEROUS_ATTR.test(attr.name))
+                .forEach(attr => el.removeAttribute(attr.name));
+        });
+
+        // Construir DocumentFragment con nodos saneados importados al documento activo
+        const frag = document.createDocumentFragment();
+        Array.from(doc.body.childNodes).forEach(node =>
+            frag.appendChild(document.importNode(node, true))
+        );
+        return frag;
+    }
+
+    /**
+     * Monta content en el contenedor y gestiona la visibilidad orbit-2.
+     * @param {Node|DocumentFragment} content — nodo DOM saneado (nunca string externo)
+     */
+    #renderContainer(content) {
+        // DT-AIP-05: replaceChildren — acepta nodos DOM, nunca strings externos
+        this.#container.replaceChildren(content);
         // Ocultar contenido principal de landing
         this.#mainContent.classList.add('hidden');
         // Mostrar contenedor de tab

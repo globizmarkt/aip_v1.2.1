@@ -11,6 +11,9 @@ import { mockState } from './mockState.js';
 // [DT-018] Validador Fiduciario SDUI — Sentinel (COG-62) · Electrificado VIBE-AIP-S-REBORN-03.4
 import { PassportValidator } from '../../01-core/passportValidator.js';
 
+// [FSM-01] Máquina de Estados Finitos del Usuario — VIBE-AIP-S-REBORN-03.5
+import { UserFSM } from '../../01-core/userFSM.js';
+
 export const AIPHandler = {
 
     /**
@@ -38,11 +41,15 @@ export const AIPHandler = {
         document.addEventListener('Skeleton:Gatekeeper:AccessGranted', (e) => {
             const { wc, raw } = e.detail;
             console.log('[AIPHandler] AccessGranted. Usuario:', raw?.usr, '| Tier:', raw?.tier, '| WC:', wc?.length);
+            // [FSM-01] Transición KYC_PENDING → KYC_VERIFIED
+            UserFSM.transition('ACCESS_GRANTED', { wc });
             this.showCRM(wc);
         });
         document.addEventListener('Skeleton:Gatekeeper:AccessDenied', (e) => {
             const { reason, raw } = e.detail;
             console.warn(`[AIPHandler] AccessDenied — ${reason}. Usuario: ${raw?.usr ?? 'unknown'}`);
+            // [FSM-01] Transición KYC_PENDING → BLOCKED
+            UserFSM.transition('ACCESS_DENIED', { reason });
             this._showAccessDenied(reason);
         });
     },
@@ -66,6 +73,8 @@ export const AIPHandler = {
 
         // Éxito en Autenticación (Paso al CRM) — [DT-018] vía PassportValidator (mock payload)
         document.addEventListener('Skeleton:Action:OAuthSuccess', () => {
+            // [FSM-01] Transición ANONYMOUS → KYC_PENDING antes de lanzar validación
+            UserFSM.transition('ACCESS_REQUESTED');
             const mockPayload = { usr: 'uuid_8f92a', rol: 'inv', tier: 'inst', jur: 'CH', kyc: 'ok', pv: 1, wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'] };
             PassportValidator.validateAccess(mockPayload);
         });
@@ -353,13 +362,10 @@ export const AIPHandler = {
         console.log('[AIPHandler] Hidratando Vertical con:', data);
 
         // 1. Poblar Ticker (Si existe el nodo)
+        // DT-AIP-05: data.ticker.* es dato externo en Fase 5+ — textContent (R0)
         const ticker = document.querySelector('.ticker-content');
         if (ticker && data.ticker) {
-            ticker.innerHTML = `
-                XAU/USD ${data.ticker.xau} &nbsp;&bull;&nbsp;
-                SOFR ${data.ticker.sofr} &nbsp;&bull;&nbsp;
-                EUR/CHF ${data.ticker.eur_chf}
-            `;
+            ticker.textContent = `XAU/USD ${data.ticker.xau} • SOFR ${data.ticker.sofr} • EUR/CHF ${data.ticker.eur_chf}`;
         }
 
         // 2. Poblar Tabla CRM
@@ -384,13 +390,19 @@ export const AIPHandler = {
         const container = document.getElementById('crm-table-body');
         if (!container) return;
 
-        container.innerHTML = ''; // Limpieza fiduciaria
+        container.replaceChildren(); // Limpieza fiduciaria (DT-AIP-05: replaceChildren sobre innerHTML='')
 
         // Función auxiliar para crear cabeceras de división
+        // DT-AIP-05: createElement + textContent — aunque title sea literal, se prohíbe innerHTML
         const createHeader = (title) => {
             const h = document.createElement('div');
             h.className = 'text-[10px] uppercase tracking-widest text-[var(--crm-text-secondary)] mt-4 mb-2 mx-3 font-mono flex items-center gap-1';
-            h.innerHTML = `<span class="material-symbols-outlined" style="font-size:14px">folder_open</span> ${title}`;
+            const icon = document.createElement('span');
+            icon.className = 'material-symbols-outlined';
+            icon.style.fontSize = '14px';
+            icon.textContent = 'folder_open';
+            h.appendChild(icon);
+            h.appendChild(document.createTextNode(` ${title}`));
             return h;
         };
 
@@ -946,6 +958,8 @@ export const AIPHandler = {
 
             // [DT-018] Transición atómica SPA vía PassportValidator (mock payload)
             // Cuando el backend esté activo, sustituir mockPayload por el token real del servidor.
+            // [FSM-01] Transición ANONYMOUS → KYC_PENDING antes de lanzar validación
+            UserFSM.transition('ACCESS_REQUESTED');
             const mockPayload = { usr: 'uuid_8f92a', rol: 'inv', tier: 'inst', jur: 'CH', kyc: 'ok', pv: 1, wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'] };
             PassportValidator.validateAccess(mockPayload);
         });
