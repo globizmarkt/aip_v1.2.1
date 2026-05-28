@@ -100,5 +100,14 @@
       "cancel": "CANCEL"
     }
   },
+  "legal": {
+    "title": "Institutional Fiduciary Attestation",
+    "description": "By accessing Orbit 3 of this system, you accept the terms of institutional intermediation, the asset custody policy, and the immutable traceability of your operations.",
+    "disclaimer": "WARNING: All interactions within this perimeter are subject to cryptographic audit under KYC/AML regulations and jurisdictional regulatory reporting.",
+    "action": {
+      "accept": "Accept Terms",
+      "reject": "Reject and Exit"
+    }
+  },
   "footer": { "copyright": "© 2026 Atlantis International Projects, LTD. All rights reserved." }
 }

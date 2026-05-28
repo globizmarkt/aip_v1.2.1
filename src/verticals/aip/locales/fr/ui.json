@@ -100,5 +100,14 @@
       "cancel": "ANNULER"
     }
   },
+  "legal": {
+    "title": "Attestation Fiduciaire Institutionnelle",
+    "description": "En accédant à l'Orbite 3 du système, vous acceptez les conditions d'intermédiation institutionnelle, la politique de conservation des actifs et la traçabilité immuable de vos opérations.",
+    "disclaimer": "AVERTISSEMENT : Toutes les interactions au sein de ce périmètre sont soumises à un audit cryptographique conformément aux réglementations KYC/AML et aux rapports réglementaires juridictionnels.",
+    "action": {
+      "accept": "Accepter les conditions",
+      "reject": "Rejeter et quitter"
+    }
+  },
   "footer": { "copyright": "© 2026 Atlantis International Projects, LTD. Tous droits réservés." }
 }
