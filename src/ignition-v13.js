@@ -34,6 +34,15 @@ ComponentRegistry.registerLazy(
     () => import('./03-interface/components/auth/aip-legal-attestation.js')
 );
 
+// ─── EXIT COOLDOWN — timestamp de la última salida del CRM (BUG-VAL-EXIT-01) ─────────────
+//
+// El mock session de AIPHandler re-dispara Skeleton:Gatekeeper:AccessGranted
+// inmediatamente después de que _restoreLanding() ejecuta, causando un segundo
+// ciclo de atestación (bug "doble esclusa"). Declarado a nivel de módulo para
+// ser accesible desde _restoreLanding() (módulo scope) y el listener §4.
+
+let _lastExitTimestamp = 0;
+
 // ─── 2. Inicializar Router con el contenedor exclusivo v1.3 ──────────────────────────────
 
 const shell = document.getElementById('v13-shell');
@@ -140,6 +149,14 @@ if (!shell) {
     // hasValidSDUIPayload guard verifica que wc.length > 0.
 
     document.addEventListener('Skeleton:Gatekeeper:AccessGranted', (e) => {
+        // ── EXIT COOLDOWN GUARD (BUG-VAL-EXIT-01) ────────────────────────────
+        // El mock session de AIPHandler re-dispara AccessGranted tras _restoreLanding().
+        // Si han pasado menos de 800ms desde el último EXIT, se descarta el evento.
+        if (Date.now() - _lastExitTimestamp < 800) {
+            console.warn('[Bridge v1.3 →] AccessGranted ignorado — cooldown post-EXIT activo (%dms)', Date.now() - _lastExitTimestamp);
+            return;
+        }
+
         const wc = e.detail?.wc ?? [];
         const sdui = { wc: wc.length > 0 ? wc : ['aip-legal-attestation'] };
 
@@ -149,6 +166,26 @@ if (!shell) {
         UserFSM.send('ACCESS_GRANTED', sdui);     // ORBIT_2_GATEKEEPER → ORBIT_3_LEGAL_ATTESTATION
         // Router detecta ORBIT_3_LEGAL_ATTESTATION → monta aip-legal-attestation en #v13-shell
     });
+
+    // ─── LANG DROPDOWN BRIDGE (LANG-BRIDGE-01) ───────────────────────────────────────────────
+    //
+    // El <details id="lang-selector"> en index.html usa backdrop-filter que crea un
+    // stacking context independiente en #orbit-3 (landing), impidiendo que el dropdown
+    // z-[100] lo supere visualmente aunque la especificidad numérica lo permite.
+    // Solución sin tocar AIPHandler: abrir el dropdown colapsa #orbit-3 en landing
+    // eliminando .active → el grid Trinity reduce la columna derecha a 0.
+    //
+    // [BRIDGE_LEGACY] — migrar a router landing en Forja 9+
+
+    const _langSelector = document.getElementById('lang-selector');
+    if (_langSelector) {
+        _langSelector.addEventListener('toggle', () => {
+            if (_langSelector.open) {
+                document.getElementById('orbit-3')?.classList.remove('active');
+                console.log('[Lang-Bridge v1.3] #orbit-3 colapsado — dropdown abierto');
+            }
+        });
+    }
 
     // ─── 5. BRIDGE BACK: Transiciones FSM v1.3 → handoff a v1.2.1 ────────────────────────
     //
@@ -220,6 +257,20 @@ if (!shell) {
 // Idempotente — seguro ante llamadas múltiples por rutas A+C en paralelo.
 
 function _restoreLanding() {
+    // ── EXIT COOLDOWN STAMP (BUG-VAL-EXIT-01) ─────────────────────────────
+    // Marca el timestamp de esta salida. El Bridge Forward §4 rechazará cualquier
+    // AccessGranted que llegue en los próximos 800ms (re-fire del mock session).
+    _lastExitTimestamp = Date.now();
+
+    // ── #v13-shell force-clear (safety net de timing del Router) ──────────
+    // El Router limpia #v13-shell asincrónicamente al cambiar de estado FSM.
+    // En el path de EXIT puede haber un frame donde aip-legal-attestation sigue
+    // renderizado mientras el DOM landing ya es visible → estado Frankenstein.
+    // Este clear síncrono garantiza que #v13-shell esté vacío antes de que
+    // landing elements aparezcan.
+    const _v13shell = document.getElementById('v13-shell');
+    if (_v13shell) _v13shell.innerHTML = '';
+
     // Restaurar elementos ocultados por _showLegalAttestation
     document.querySelector('body > header')?.classList.remove('hidden');
     document.querySelector('body > footer')?.classList.remove('hidden');

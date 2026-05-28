@@ -34,13 +34,13 @@
        ═══════════════════════════════════════════════════════════════════════ */
 
     /* Órbita 1 — Árbol de Navegación Maestro (base estructural) */
-    --crm-bg-orbit-1:         light-dark(#f5f0e6, #0C0F14);
+    --crm-bg-orbit-1:         light-dark(#f5f0e6, #0C1018);
 
     /* Órbita 2 — Dashboard / Workbench (lienzo principal) */
-    --crm-bg-orbit-2:         light-dark(#ffffff, #11151C);
+    --crm-bg-orbit-2:         light-dark(#ffffff, #121B28);
 
     /* Órbita 3 — Contexto / AIMON / KYC (panel contextual elevado) */
-    --crm-bg-orbit-3:         light-dark(#fbfbfd, #161B22);
+    --crm-bg-orbit-3:         light-dark(#fbfbfd, #1A2536);
 
     /* Superficies auxiliares (cards, modales, paneles internos) */
     --crm-surface-raised:     light-dark(#ffffff,  #162132);
@@ -427,6 +427,19 @@
 #crm-orbit-1       { background-color: var(--crm-bg-orbit-1); }
 #crm-orbit-2       { background-color: var(--crm-bg-orbit-2); }
 #crm-orbit-3-panel { background-color: var(--crm-bg-orbit-3); }
+
+/* ─── CHEVRON LAYOUT FIX (BUG-VAL-05 · DIR-AIP-14) ─────────────────────────
+   theme-landing.css declara .crm-collapse-btn { width: 100% } — en un header
+   flex justify-between esto empuja la etiqueta de panel fuera del área visible.
+   Override: width:auto + flex-shrink:0 preservan justify-between funcional
+   y restauran la visibilidad del label sin alterar el marcado del gadget.
+   crm-tokens-v13.css carga DESPUÉS de theme-landing.css → mayor prioridad
+   en cascada (mismo score de especificidad, última regla gana).
+   ─────────────────────────────────────────────────────────────────────────── */
+.crm-collapse-btn {
+    width:       auto;
+    flex-shrink: 0;
+}
 
 /* Exit CRM button — visible solo cuando body.crm-mode está activo */
 body.crm-mode #crm-exit-btn {
