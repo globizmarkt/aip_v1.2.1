@@ -275,9 +275,16 @@ function _restoreLanding() {
     document.querySelector('body > header')?.classList.remove('hidden');
     document.querySelector('body > footer')?.classList.remove('hidden');
 
-    ['orbit-3', 'orbit-2-main-content', 'tab-content-container', 'landing-view'].forEach(id => {
-        document.getElementById(id)?.classList.remove('hidden');
-    });
+    // orbit-3 y landing-view: restaurar visibilidad (AIPHandler los había ocultado)
+    document.getElementById('orbit-3')?.classList.remove('hidden');
+    document.getElementById('landing-view')?.classList.remove('hidden');
+
+    // orbit-2-main-content y tab-content-container: colapsar explícitamente.
+    // _showLegalAttestation los ocultó; nosotros NO los restauramos — queremos
+    // landing limpia post-EXIT, sin el panel SSO expandido.
+    // El usuario puede re-abrir el panel de login via UI normal (REQUEST ACCESS).
+    document.getElementById('orbit-2-main-content')?.classList.add('hidden');
+    document.getElementById('tab-content-container')?.classList.add('hidden');
 
     // Ocultar la gate v1.2.1 (quedó visible detrás del overlay que ya no existe)
     document.getElementById('legal-attestation-gate')?.classList.add('hidden');
