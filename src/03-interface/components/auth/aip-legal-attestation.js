@@ -18,74 +18,85 @@ export class AipLegalAttestation extends ReactiveElement {
     connectedCallback() {
         // 1. Inyección del esqueleto estático (Seguro por defecto, inmune a XSS)
         this.innerHTML = `
-            <div class="luxury-glass" style="
-                background-color: var(--crm-bg-surface, #0F1117);
-                border: 1px solid var(--crm-border-subtle, rgba(255,255,255,0.08));
+            <div style="
+                background: rgba(9, 16, 30, 0.97);
+                border: 1px solid rgba(212, 185, 110, 0.22);
+                border-top: 2px solid rgba(212, 185, 110, 0.55);
                 padding: 2.5rem;
-                border-radius: 0;
                 width: 100%;
                 max-width: 560px;
                 box-sizing: border-box;
                 font-family: system-ui, sans-serif;
+                box-shadow: 0 12px 48px rgba(0, 0, 0, 0.65);
             ">
                 <h2 style="
                     color: var(--stitch-gold, #D4B96E);
-                    margin-top: 0;
-                    margin-bottom: 1rem;
-                    font-size: 1.5rem;
-                    letter-spacing: 0.01em;
+                    margin: 0 0 1.25rem;
+                    font-size: 1.35rem;
+                    font-weight: 500;
+                    letter-spacing: 0.02em;
+                    text-decoration: none;
                 " data-i18n="legal.title">
                     Atestación Fiduciaria Institucional
                 </h2>
 
                 <p style="
-                    color: var(--crm-text-secondary, #A0AABF);
-                    line-height: 1.6;
-                    margin-bottom: 1.5rem;
+                    color: #BDC8D8;
+                    line-height: 1.65;
+                    margin: 0 0 1.5rem;
+                    font-size: 0.9rem;
+                    text-decoration: none;
                 " data-i18n="legal.description">
                     Al acceder a la Órbita 3 del sistema, usted acepta los términos de intermediación institucional, la política de custodia de activos y la trazabilidad inmutable de sus operaciones.
                 </p>
 
                 <div style="
-                    background-color: var(--crm-bg-canvas, #0C0F14);
-                    border: 1px solid var(--crm-border, rgba(255,255,255,0.12));
-                    padding: 1rem;
-                    border-radius: 0;
-                    margin-bottom: 2rem;
+                    background: rgba(0, 0, 0, 0.28);
+                    border-left: 2px solid rgba(212, 185, 110, 0.3);
+                    border-top: 1px solid rgba(255, 255, 255, 0.05);
+                    border-right: 1px solid rgba(255, 255, 255, 0.05);
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                    padding: 0.875rem 1rem;
+                    margin: 0 0 2rem;
                 ">
                     <p style="
-                        color: var(--crm-text-secondary, rgba(160,170,191,0.7));
-                        font-size: 0.85rem;
+                        color: #5F7290;
+                        font-size: 0.78rem;
                         margin: 0;
-                        line-height: 1.5;
+                        line-height: 1.6;
+                        font-family: var(--font-mono, 'Courier New', monospace);
+                        letter-spacing: 0.02em;
+                        text-decoration: none;
                     " data-i18n="legal.disclaimer">
                         ADVERTENCIA: Todas las interacciones dentro de este perímetro están sujetas a auditoría criptográfica bajo normativas KYC/AML y reportes regulatorios jurisdiccionales.
                     </p>
                 </div>
 
-                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
                     <button id="btn-legal-reject" style="
                         background: transparent;
-                        color: var(--crm-text-primary, #E8EDF5);
-                        border: 1px solid var(--crm-border, rgba(255,255,255,0.2));
-                        padding: 0.75rem 1.5rem;
-                        border-radius: 2px;
+                        color: #5F7290;
+                        border: 1px solid rgba(95, 114, 144, 0.35);
+                        padding: 0.65rem 1.4rem;
                         cursor: pointer;
-                        transition: opacity 0.2s;
-                        font-size: 0.9rem;
+                        font-size: 0.825rem;
+                        letter-spacing: 0.06em;
+                        text-transform: uppercase;
+                        transition: border-color 0.2s, color 0.2s;
                     " data-i18n="legal.action.reject">
                         Rechazar y Salir
                     </button>
                     <button id="btn-legal-accept" style="
-                        background-color: var(--stitch-gold, #D4B96E);
-                        color: #0B1A2A;
+                        background: var(--stitch-gold, #D4B96E);
+                        color: #09101E;
                         border: none;
-                        padding: 0.75rem 1.5rem;
-                        border-radius: 2px;
-                        font-weight: bold;
+                        padding: 0.65rem 1.75rem;
+                        font-weight: 600;
                         cursor: pointer;
+                        font-size: 0.825rem;
+                        letter-spacing: 0.06em;
+                        text-transform: uppercase;
                         transition: opacity 0.2s;
-                        font-size: 0.9rem;
                     " data-i18n="legal.action.accept">
                         Aceptar Términos
                     </button>
