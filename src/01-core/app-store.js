@@ -1,39 +1,30 @@
 /**
  * @file app-store.js
- * @description Proxy in-memory micro-reactivo (Zero-Trust).
+ * @description Proxy in-memory micro-reactivo (Zero-Trust Real).
  * Cero manipulación de DOM. Cero Event Bus Global.
+ *
+ * SECURITY: Claim Único — la capacidad de escritura solo puede ser reclamada
+ * una vez en el ciclo de vida de la aplicación (claimWriteCapability).
+ * Sutura R0: Override Sentinel 2026-05-28.
  */
 
 import { initialState, isValidStateShape } from './contracts/state-contract.js';
 
-// Capability-based Write: Símbolo único. Solo quien importa esta constante secreta
-// (La FSM en la Fase 3) tiene autorización matemática para mutar el store.
-const WRITE_TOKEN = Symbol('AIP_FSM_WRITE_TOKEN');
-
-// Estado interno oculto en la clausura
 let currentState = structuredClone(initialState);
 const listeners = new Set();
+let writeCapabilityDelivered = false;
 
-/**
- * Notifica a todos los suscriptores entregando un clon inmutable (Snapshot).
- */
 function notifyListeners() {
     const snapshot = Object.freeze(structuredClone(currentState));
     for (const listener of listeners) {
-        try {
-            listener(snapshot);
-        } catch (err) {
-            console.error('[Store:Error] Fallo en listener reactivo:', err);
-        }
+        try { listener(snapshot); }
+        catch (err) { console.error('[Store:Error]', err); }
     }
 }
 
-// Interceptor mutacional (Patrón inspirado en Valtio)
 const proxyHandler = {
     set(target, property, value) {
         target[property] = value;
-        // Batching simplificado: idealmente esto debería usar requestAnimationFrame
-        // para coalescencia de eventos, pero mantenemos footprint mínimo.
         notifyListeners();
         return true;
     }
@@ -64,28 +55,36 @@ export function onStateChange(callback) {
 }
 
 // ==========================================
-// 🔐 API RESTRINGIDA (Solo Escritura FSM)
+// 🔐 API RESTRINGIDA (Claim Único Zero-Trust)
 // ==========================================
 
-export function getWriteToken() {
-    return WRITE_TOKEN;
-}
-
 /**
- * Ejecuta una mutación en el Store. Rechaza cualquier intento sin el token oficial.
- * @param {Symbol} token - El WRITE_TOKEN de autorización.
- * @param {Function} patchFn - Función que inyecta la mutación sobre el proxy.
+ * Entrega la capacidad de mutación (commit) UNA SOLA VEZ.
+ * El FSM debe reclamar esto en su fase de boot. Cualquier intento posterior
+ * lanzará un error crítico de seguridad.
+ *
+ * CONTRATO DOCTRINAL: el llamador (FSM) debe usar Top-Level Replacements
+ * al mutar via patchFn para garantizar que el proxy superficial dispare
+ * notifyListeners(). Ejemplo correcto:
+ *   commit(proxy => { proxy.auth = { ...proxy.auth, isAuthenticated: true }; })
+ * Ejemplo incorrecto (muta en silencio):
+ *   commit(proxy => { proxy.auth.isAuthenticated = true; })
+ *
+ * @returns {Function} commitState(patchFn)
  */
-export function commitState(token, patchFn) {
-    if (token !== WRITE_TOKEN) {
-        throw new Error('[Store:Zero-Trust] Intento de escritura no autorizada rechazado.');
+export function claimWriteCapability() {
+    if (writeCapabilityDelivered) {
+        throw new Error('[Store:Zero-Trust] Violación Crítica: Capacidad de escritura ya reclamada.');
     }
 
-    // Inyecta el cambio
-    patchFn(stateProxy);
+    writeCapabilityDelivered = true;
+    console.log('[Store:Security] Capacidad de escritura fiduciaria reclamada y bloqueada.');
 
-    // Validación estructural post-mutación
-    if (!isValidStateShape(currentState)) {
-        console.warn('[Store:Validation] El estado ha sufrido una mutación que rompe el schema base.');
-    }
+    return function commitState(patchFn) {
+        patchFn(stateProxy);
+
+        if (!isValidStateShape(currentState)) {
+            console.error('[Store:Validation] ESTADO CORRUPTO: Ruptura del schema base.');
+        }
+    };
 }
