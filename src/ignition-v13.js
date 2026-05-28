@@ -61,8 +61,9 @@ if (!shell) {
     const _exitBtn = document.getElementById('crm-exit-btn');
     if (_exitBtn) {
         _exitBtn.addEventListener('click', () => {
-            console.log('[Exit v1.3] LOGOUT_REQUESTED disparado');
-            UserFSM.send('LOGOUT_REQUESTED');
+            console.log('[Exit v1.3] LOGOUT_REQUESTED + landing restore');
+            UserFSM.send('LOGOUT_REQUESTED');   // FSM: ORBIT_3_CRM_ACTIVE → ORBIT_1_GUEST
+            _restoreLanding();                  // DOM: directo, sin esperar onStateChange
         });
     }
 
@@ -96,10 +97,14 @@ if (!shell) {
     //
     // [BRIDGE_LEGACY] — eliminar en Forja 9+ al migrar AIPHandler.js.
 
-    const _kycBannerObserver = new MutationObserver(mutations => {
+    // Observer persistente — sin disconnect() para sobrevivir a re-entradas al CRM.
+    // Guarda de idempotencia: si el banner ya está en orbit-2 (re-fire del mismo mutation
+    // record por doble observer), se salta sin actuar.
+    new MutationObserver(mutations => {
         for (const m of mutations) {
             for (const node of m.addedNodes) {
                 if (node.id !== 'kyc-barrier-banner') continue;
+                if (node.parentElement?.id === 'crm-orbit-2') continue; // ya reubicado
 
                 const target = document.getElementById('crm-orbit-2');
                 if (!target) return;
@@ -120,12 +125,9 @@ if (!shell) {
                 if (dashboard) dashboard.style.marginTop = '';
 
                 console.log('[KYC-Bridge v1.3] Banner reubicado en #crm-orbit-2');
-                _kycBannerObserver.disconnect();
-                return;
             }
         }
-    });
-    _kycBannerObserver.observe(document.body, { childList: true });
+    }).observe(document.body, { childList: true });
 
     // ─── 4. BRIDGE FORWARD: Skeleton:Gatekeeper:AccessGranted → FSM v1.3 ──────────────────
     //
@@ -202,14 +204,20 @@ if (!shell) {
     });
 }
 
-// ─── Helper: Restaurar DOM v1.2.1 tras rechazo del peaje ──────────────────────────────────
+// ─── Helper: Restaurar DOM v1.2.1 ─────────────────────────────────────────────────────────
+//
+// Rutas de invocación:
+//   A. Exit button click  → directo (ruta primaria — sin esperar FSM async)
+//   B. onStateChange      → ORBIT_3_LEGAL_ATTESTATION → ORBIT_1_GUEST (rechazo legal)
+//   C. onStateChange      → ORBIT_3_CRM_ACTIVE → ORBIT_1_GUEST (safety net async)
 //
 // Invierte lo que AIPHandler._showLegalAttestation() hizo al recibir AccessGranted:
-//   - Ocultó: body > header, body > footer, #orbit-3, #orbit-2-main-content,
-//             #tab-content-container, #landing-view
-//   - Mostró: #legal-attestation-gate
+//   Ocultó: body > header/footer, #orbit-3, #orbit-2-main-content,
+//           #tab-content-container, #landing-view
+//   Mostró: #legal-attestation-gate
+//   AIPHandler.showCRM() además mostró #crm-dashboard y añadió margin-top al mismo.
 //
-// Nota: función declarada fuera del bloque if(shell) para que su scope sea limpio.
+// Idempotente — seguro ante llamadas múltiples por rutas A+C en paralelo.
 
 function _restoreLanding() {
     // Restaurar elementos ocultados por _showLegalAttestation
@@ -223,8 +231,17 @@ function _restoreLanding() {
     // Ocultar la gate v1.2.1 (quedó visible detrás del overlay que ya no existe)
     document.getElementById('legal-attestation-gate')?.classList.add('hidden');
 
-    // Ocultar el dashboard CRM (visible tras showCRM en AIPHandler)
-    document.getElementById('crm-dashboard')?.classList.add('hidden');
+    // CRM dashboard: ocultar + limpiar inline styles dejados por AIPHandler
+    // (marginTop: 40px y posibles display:block que no ceden al classList.add('hidden'))
+    const _dashboard = document.getElementById('crm-dashboard');
+    if (_dashboard) {
+        _dashboard.classList.add('hidden');
+        _dashboard.style.marginTop = '';
+        _dashboard.style.display   = '';
+    }
+
+    // KYC banner: eliminar del DOM para que el observer re-arme en la próxima entrada
+    document.getElementById('kyc-barrier-banner')?.remove();
 
     // [BACKWARD-COMPAT] Limpiar body.crm-mode al volver a landing
     document.body.classList.remove('crm-mode');
