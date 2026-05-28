@@ -11,11 +11,12 @@
 // ============================================================================
 
 export const USER_STATES = Object.freeze({
-    BOOT_SEQUENCE:      'BOOT_SEQUENCE',
-    ORBIT_1_GUEST:      'ORBIT_1_GUEST',
-    ORBIT_2_GATEKEEPER: 'ORBIT_2_GATEKEEPER',
-    ORBIT_3_CRM_ACTIVE: 'ORBIT_3_CRM_ACTIVE',
-    ACCESS_BLOCKED:     'ACCESS_BLOCKED',
+    BOOT_SEQUENCE:            'BOOT_SEQUENCE',
+    ORBIT_1_GUEST:            'ORBIT_1_GUEST',
+    ORBIT_2_GATEKEEPER:       'ORBIT_2_GATEKEEPER',
+    ORBIT_3_LEGAL_ATTESTATION: 'ORBIT_3_LEGAL_ATTESTATION',
+    ORBIT_3_CRM_ACTIVE:       'ORBIT_3_CRM_ACTIVE',
+    ACCESS_BLOCKED:           'ACCESS_BLOCKED',
 });
 
 const TRANSITION_MAP = Object.freeze({
@@ -27,8 +28,13 @@ const TRANSITION_MAP = Object.freeze({
         LOGIN_SUBMITTED:       USER_STATES.ORBIT_2_GATEKEEPER,
     }),
     [USER_STATES.ORBIT_2_GATEKEEPER]: Object.freeze({
-        'Skeleton:Gatekeeper:AccessGranted': USER_STATES.ORBIT_3_CRM_ACTIVE,
+        'Skeleton:Gatekeeper:AccessGranted': USER_STATES.ORBIT_3_LEGAL_ATTESTATION,
         'Skeleton:Gatekeeper:AccessDenied':  USER_STATES.ACCESS_BLOCKED,
+    }),
+    [USER_STATES.ORBIT_3_LEGAL_ATTESTATION]: Object.freeze({
+        'Skeleton:Legal:Accepted':           USER_STATES.ORBIT_3_CRM_ACTIVE,
+        LOGOUT_REQUESTED:                    USER_STATES.ORBIT_1_GUEST,
+        SESSION_EXPIRED:                     USER_STATES.ORBIT_2_GATEKEEPER,
     }),
     [USER_STATES.ORBIT_3_CRM_ACTIVE]: Object.freeze({
         LOGOUT_REQUESTED:      USER_STATES.ORBIT_1_GUEST,
