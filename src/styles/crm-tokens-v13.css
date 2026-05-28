@@ -1,0 +1,396 @@
+/**
+ * @file crm-tokens-v13.css
+ * @description Contrato Visual Canónico — AIP CRM Trinity Layout v1.3
+ *
+ * SOURCE OF TRUTH: Este archivo es la ÚNICA fuente autorizada de tokens
+ * visuales para el sistema CRM v1.3. Todos los componentes nuevos consumen
+ * EXCLUSIVAMENTE estos tokens. Ningún hex hardcodeado en componentes.
+ *
+ * Doctrina R3 (Zero-Hex): Los valores hexadecimales viven SOLO aquí.
+ * Doctrina WCAG AA: Contraste mínimo 4.5:1 (texto normal), 3:1 (texto grande).
+ * Doctrina Austeridad Fiduciaria: Radios — 0px paneles, 2px botones.
+ *
+ * Arquitectura: light-dark() nativa — un solo bloque :root, sin duplicación.
+ * Activación de tema: [data-theme="dark"] | [data-theme="light"] en <html>.
+ * Default: dark (CRM institucional).
+ *
+ * Origen: INV-VIS-01 — 2026-05-28_them_investigation.md (Perplexity Research)
+ * Producido: 2026-05-28 · Fase 04.2 · Forja Visual I
+ */
+
+/* ─── Preconnect semántico implícito ────────────────────────────────────────
+   Fonts: Cormorant Garamond, Inter, JetBrains Mono, Fira Code
+   Carga via <link> en index.html — no @import aquí (serial block)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+    color-scheme: light dark; /* Respeta prefers-color-scheme por defecto */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 1 — SUPERFICIES DE ÓRBITA
+       Jerarquía de elevación (mandato del Director):
+         Dark:  Órbita 1 más oscura (base) → 2 y 3 progresivamente más claras
+         Light: Órbita 1 marfil (nav) → 2 y 3 blanco puro (lienzo de trabajo)
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* Órbita 1 — Árbol de Navegación Maestro (base estructural) */
+    --crm-bg-orbit-1:         light-dark(#f5f0e6, #0b1119);
+
+    /* Órbita 2 — Dashboard / Workbench (lienzo principal) */
+    --crm-bg-orbit-2:         light-dark(#ffffff, #111b28);
+
+    /* Órbita 3 — Contexto / AIMON / KYC (panel contextual elevado) */
+    --crm-bg-orbit-3:         light-dark(#fbfbfd, #172233);
+
+    /* Superficies auxiliares (cards, modales, paneles internos) */
+    --crm-surface-raised:     light-dark(#ffffff,  #162132);
+    --crm-surface-elevated:   light-dark(#fbfbfd,  #1a2740);
+    --crm-surface-inset:      light-dark(#f3f5f7,  #0e1622);
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 2 — TIPOGRAFÍA INSTITUCIONAL
+       Doctrina: Familia correcta para cada capa de contenido.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* Familias de fuentes por zona */
+    --crm-title-font:         "Cormorant Garamond", serif;        /* Títulos, headings, secciones */
+    --crm-body-font:          "Inter", "Public Sans", system-ui, sans-serif; /* Cuerpo operativo */
+    --crm-number-font:        "JetBrains Mono", ui-monospace, monospace;     /* Métricas, importes, ratios */
+    --crm-hash-font:          "Fira Code", ui-monospace, monospace;          /* Hashes, IDs, crypto, logs */
+
+    /* Escala tipográfica */
+    --crm-font-size-caption:  0.6875rem;  /* 11px — meta, timestamps */
+    --crm-font-size-label:    0.75rem;    /* 12px — labels, chips */
+    --crm-font-size-body:     0.875rem;   /* 14px — cuerpo operativo (densidad CRM) */
+    --crm-font-size-title:    1.125rem;   /* 18px — títulos de panel */
+    --crm-font-size-display:  1.5rem;     /* 24px — métricas hero */
+
+    --crm-line-height-body:   1.5;
+    --crm-line-height-title:  1.2;
+    --crm-line-height-mono:   1.4;        /* Código, hashes — más aireado */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 3 — TEXTO
+       WCAG AA: --crm-text-primary sobre --crm-bg-orbit-2 ≥ 4.5:1
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --crm-text-primary:       light-dark(#101820, #f4f1e8);   /* Principal — alto contraste */
+    --crm-text-secondary:     light-dark(#4d5968, #c0c7d1);   /* Secundario — metadatos, labels */
+    --crm-text-muted:         light-dark(#6f7a87, #8e99a8);   /* Muted — captions, ayuda */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 4 — BORDES
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --crm-border-subtle:      light-dark(rgba(16, 24, 32, 0.08), rgba(255, 255, 255, 0.08));
+    --crm-border-strong:      light-dark(rgba(16, 24, 32, 0.14), rgba(255, 255, 255, 0.14));
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 5 — ACENTOS FIDUCIARIOS
+       Identidad cromática del sistema AIP.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* UK Gold — Estado premium, hitos fiduciarios, CTAs primarios */
+    --crm-accent-uk-gold:     light-dark(#a9822f, #c8a24a);
+
+    /* Deep Ocean — Navegación activa, estados, links institucionales */
+    --crm-accent-deep-ocean:  light-dark(#1d4a77, #4a8ab8);
+
+    /* Ivory — Respiro visual, fondos neutros, separadores */
+    --crm-accent-ivory:       light-dark(#fbfbfd, #f4f1e8);
+
+    /* Carbon — Ancla neutral, texto fuerte, contornos */
+    --crm-accent-carbon:      light-dark(#101820, #0b1119);
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 6 — SOMBRAS Y ELEVACIÓN
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --crm-shadow-orbit-1:     0 0 0 1px var(--crm-border-subtle);
+    --crm-shadow-orbit-2:     light-dark(
+                                0 10px 24px rgba(16, 24, 32, 0.08),
+                                0 12px 30px rgba(0, 0, 0, 0.28)
+                              );
+    --crm-shadow-orbit-3:     light-dark(
+                                0 8px 18px rgba(16, 24, 32, 0.06),
+                                0 10px 24px rgba(0, 0, 0, 0.22)
+                              );
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 7 — GEOMETRÍA
+       Doctrina Austeridad Fiduciaria: sin redondeos gratuitos.
+       ─────────────────────────────────────────────────────────────────────
+       R-Radius:
+         --crm-radius-none  0px   → paneles, contenedores, órbitas
+         --crm-radius-btn   2px   → botones, tags, chips
+         --crm-radius-input 3px   → inputs (mínima suavidad táctil)
+         --crm-radius-card  6px   → cards de deal, modales institucionales
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --crm-radius-none:        0;
+    --crm-radius-btn:         2px;
+    --crm-radius-input:       3px;
+    --crm-radius-card:        6px;
+
+    /* ─── Espaciado compacto (densidad de datos > decoración) ─── */
+    --crm-space-2xs:          2px;
+    --crm-space-xs:           4px;
+    --crm-space-sm:           8px;
+    --crm-space-md:           12px;
+    --crm-space-lg:           16px;
+    --crm-space-xl:           24px;
+    --crm-space-2xl:          40px;
+
+    /* ─── Dimensiones estructurales ─── */
+    --crm-header-h:           56px;    /* Header CRM compacto */
+    --crm-orbit1-w:           240px;   /* Árbol de navegación */
+    --crm-orbit3-w:           360px;   /* Panel contextual */
+    --crm-orbit3-w-collapsed: 48px;    /* Rail fiduciario colapsado */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 8 — FOCO (WCAG AA — indicador visible obligatorio)
+       Patrón: anillo doble (inner + outer) con offset — robusto dark/light.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --crm-focus-ring-color:   light-dark(#101820, #f4f1e8);
+    --crm-focus-ring-outer:   light-dark(rgba(16, 24, 32, 0.12), rgba(244, 241, 232, 0.18));
+    --crm-focus-ring-inner:   light-dark(#ffffff, #0b1119);
+    --crm-focus-offset:       2px;
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 9 — ESTADOS DE FEEDBACK (WCAG AA — siempre texto + ícono)
+       Regla: color nunca es el ÚNICO indicador de estado.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* ─── Error ─── */
+    --crm-error-bg:           light-dark(#fdecef, #3a1518);
+    --crm-error-border:       light-dark(#c93343, #c85b63);
+    --crm-error-text:         light-dark(#7d1d2a, #ffd9dc);
+    --crm-error-icon:         light-dark(#b82033, #ff9aa2);
+
+    /* ─── Warning ─── */
+    --crm-warning-bg:         light-dark(#fff3d6, #33250f);
+    --crm-warning-border:     light-dark(#b8860b, #d8a23a);
+    --crm-warning-text:       light-dark(#7a5500, #ffe2a8);
+    --crm-warning-icon:       light-dark(#8a5f00, #f4c35d);
+
+    /* ─── Success ─── */
+    --crm-success-bg:         light-dark(#eaf7ef, #123124);
+    --crm-success-border:     light-dark(#2f855a, #3a9b68);
+    --crm-success-text:       light-dark(#1f5f43, #d7f4e4);
+    --crm-success-icon:       light-dark(#2b7a4b, #7ee2ab);
+
+    /* ─── Loading / Skeleton ─── */
+    --crm-loading-bg:         light-dark(#eef3f7, #162132);
+    --crm-loading-border:     light-dark(#cfd8e3, #2a3a4f);
+    --crm-loading-text:       light-dark(#4d5968, #b7c3d1);
+    --crm-loading-accent:     light-dark(#1d4a77, #6ea8ff);
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 10 — INPUTS
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --crm-input-bg:             light-dark(#ffffff,  #0e1622);
+    --crm-input-text:           light-dark(#101820,  #f4f1e8);
+    --crm-input-placeholder:    light-dark(#7a8795,  #7f8a98);
+    --crm-input-border:         light-dark(#cdd5df,  #263243);
+    --crm-input-border-hover:   light-dark(#aebacc,  #38506c);
+    --crm-input-border-focus:   var(--crm-focus-ring-color);
+    --crm-input-bg-disabled:    light-dark(#f3f5f7,  #111820);
+    --crm-input-text-disabled:  light-dark(#8591a0,  #66707d);
+    --crm-input-error-border:   var(--crm-error-border);
+    --crm-input-error-bg:       var(--crm-error-bg);
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 11 — BOTONES
+       R-Radius de botones: --crm-radius-btn (2px) — Austeridad Fiduciaria.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --crm-btn-primary-bg:       light-dark(#a9822f, #c8a24a);
+    --crm-btn-primary-text:     light-dark(#ffffff,  #0b1119);
+    --crm-btn-secondary-bg:     transparent;
+    --crm-btn-secondary-text:   var(--crm-text-primary);
+    --crm-btn-secondary-border: light-dark(#c8d0da,  #425162);
+    --crm-btn-danger-bg:        light-dark(#b82033,  #7d1d2a);
+    --crm-btn-danger-text:      light-dark(#ffffff,  #ffd9dc);
+    --crm-btn-ghost-text:       var(--crm-text-secondary);
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 12 — ESTADOS KYC / COMPLIANCE
+       Semántica: Neutral → Pending → Review → Verified → Rejected
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* Neutral (sin acción requerida) */
+    --crm-kyc-neutral-bg:       light-dark(#eef3f7, #162132);
+    --crm-kyc-neutral-border:   light-dark(#cfd8e3, #304357);
+    --crm-kyc-neutral-text:     var(--crm-text-secondary);
+
+    /* Pending (esperando documentación) */
+    --crm-kyc-pending-bg:       light-dark(#fff3d6, #33250f);
+    --crm-kyc-pending-border:   light-dark(#b8860b, #d8a23a);
+    --crm-kyc-pending-text:     light-dark(#7a5500, #ffe2a8);
+
+    /* En revisión (análisis activo) */
+    --crm-kyc-review-bg:        light-dark(#e7efff, #10264a);
+    --crm-kyc-review-border:    light-dark(#4e7bd9, #6e9eff);
+    --crm-kyc-review-text:      light-dark(#1f4e9a, #dbe8ff);
+
+    /* Verificado (KYC cleared) */
+    --crm-kyc-verified-bg:      light-dark(#eaf7ef, #123124);
+    --crm-kyc-verified-border:  light-dark(#2f855a, #3a9b68);
+    --crm-kyc-verified-text:    light-dark(#1f5f43, #d7f4e4);
+
+    /* Rechazado (AML flag / blocked) */
+    --crm-kyc-rejected-bg:      light-dark(#fdecef, #3a1518);
+    --crm-kyc-rejected-border:  light-dark(#c93343, #c85b63);
+    --crm-kyc-rejected-text:    light-dark(#7d1d2a, #ffd9dc);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CONTROL DE TEMA MANUAL
+   Override sobre prefers-color-scheme del sistema operativo.
+   Activación: document.documentElement.dataset.theme = 'light' | 'dark'
+   ═══════════════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] {
+    color-scheme: light;
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   UTILIDADES DE COMPONENTE CANÓNICAS
+   Clases base que consumen tokens. No tocar — extensión por variantes.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Input fiduciario ─── */
+.crm-field {
+    background:   var(--crm-input-bg);
+    color:        var(--crm-input-text);
+    border:       1px solid var(--crm-input-border);
+    border-radius: var(--crm-radius-input);
+    font-family:  var(--crm-body-font);
+    font-size:    var(--crm-font-size-body);
+    padding:      var(--crm-space-sm) var(--crm-space-md);
+    transition:   border-color 150ms ease;
+    outline:      none;
+}
+
+.crm-field::placeholder {
+    color: var(--crm-input-placeholder);
+}
+
+.crm-field:hover {
+    border-color: var(--crm-input-border-hover);
+}
+
+.crm-field:focus-visible {
+    border-color: var(--crm-input-border-focus);
+    box-shadow:
+        0 0 0 var(--crm-focus-offset) var(--crm-focus-ring-inner),
+        0 0 0 calc(var(--crm-focus-offset) + 3px) var(--crm-focus-ring-outer);
+}
+
+.crm-field[data-invalid="true"],
+.crm-field:invalid {
+    background:   var(--crm-input-error-bg);
+    border-color: var(--crm-input-error-border);
+}
+
+.crm-field:disabled {
+    background:   var(--crm-input-bg-disabled);
+    color:        var(--crm-input-text-disabled);
+    cursor:       not-allowed;
+}
+
+/* ─── Botones canónicos ─── */
+.crm-btn {
+    border-radius:  var(--crm-radius-btn);
+    font-family:    var(--crm-body-font);
+    font-size:      var(--crm-font-size-label);
+    font-weight:    600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding:        var(--crm-space-sm) var(--crm-space-lg);
+    cursor:         pointer;
+    border:         none;
+    transition:     opacity 150ms ease, box-shadow 150ms ease;
+    outline:        none;
+}
+
+.crm-btn:focus-visible {
+    box-shadow:
+        0 0 0 var(--crm-focus-offset) var(--crm-focus-ring-inner),
+        0 0 0 calc(var(--crm-focus-offset) + 3px) var(--crm-focus-ring-outer);
+}
+
+.crm-btn:disabled {
+    opacity:        0.5;
+    cursor:         not-allowed;
+}
+
+.crm-btn--primary {
+    background: var(--crm-btn-primary-bg);
+    color:      var(--crm-btn-primary-text);
+}
+
+.crm-btn--secondary {
+    background:  var(--crm-btn-secondary-bg);
+    color:       var(--crm-btn-secondary-text);
+    border:      1px solid var(--crm-btn-secondary-border);
+}
+
+.crm-btn--danger {
+    background: var(--crm-btn-danger-bg);
+    color:      var(--crm-btn-danger-text);
+}
+
+/* ─── Badge KYC ─── */
+.crm-kyc-badge {
+    display:        inline-flex;
+    align-items:    center;
+    gap:            var(--crm-space-xs);
+    border-radius:  var(--crm-radius-btn);
+    border:         1px solid;
+    font-family:    var(--crm-body-font);
+    font-size:      var(--crm-font-size-caption);
+    font-weight:    500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding:        2px var(--crm-space-xs);
+}
+
+.crm-kyc-badge[data-state="neutral"]   { background: var(--crm-kyc-neutral-bg);   border-color: var(--crm-kyc-neutral-border);   color: var(--crm-kyc-neutral-text);   }
+.crm-kyc-badge[data-state="pending"]   { background: var(--crm-kyc-pending-bg);   border-color: var(--crm-kyc-pending-border);   color: var(--crm-kyc-pending-text);   }
+.crm-kyc-badge[data-state="review"]    { background: var(--crm-kyc-review-bg);    border-color: var(--crm-kyc-review-border);    color: var(--crm-kyc-review-text);    }
+.crm-kyc-badge[data-state="verified"]  { background: var(--crm-kyc-verified-bg);  border-color: var(--crm-kyc-verified-border);  color: var(--crm-kyc-verified-text);  }
+.crm-kyc-badge[data-state="rejected"]  { background: var(--crm-kyc-rejected-bg);  border-color: var(--crm-kyc-rejected-border);  color: var(--crm-kyc-rejected-text);  }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   APÉNDICE — MAPA DE MIGRACIÓN  (tokens legacy → contrato v1.3)
+   Para facilitar la transición de componentes v1.2.1 a este contrato.
+   ─────────────────────────────────────────────────────────────────────
+   body.crm-mode (legacy)                  →  crm-tokens-v13.css
+   ─────────────────────────────────────────────────────────────────────
+   --crm-bg-canvas     #0C0F14            →  --crm-bg-orbit-1   (dark: #0b1119)
+   --crm-bg-surface    #0F1117            →  --crm-bg-orbit-2   (dark: #111b28)
+   --crm-bg-elevated   #1A1D24            →  --crm-surface-elevated (dark: #1a2740)
+   --crm-text-primary  #E8EDF5            →  --crm-text-primary (dark: #f4f1e8)
+   --crm-text-secondary #A0AABF           →  --crm-text-secondary (dark: #c0c7d1)
+   --crm-text-mono     #7A9EC4            →  --crm-hash-font + --crm-accent-deep-ocean
+   --crm-border        #2A2F3A            →  --crm-border-strong
+   --crm-border-subtle #1E2330            →  --crm-border-subtle
+   --crm-accent        var(--stitch-gold) →  --crm-accent-uk-gold
+   --crm-success       #10B981            →  --crm-success-border (light: #2f855a)
+   --crm-warning       #F59E0B            →  --crm-warning-border
+   --crm-danger        #EF4444            →  --crm-error-border
+
+   theme-landing.css :root (compatibilidad)
+   ─────────────────────────────────────────────────────────────────────
+   --stitch-gold  #D4B96E                 →  mantener en :root (landing identity)
+                                              --crm-accent-uk-gold es la variante CRM
+   --font-mono    DM Mono                 →  --crm-hash-font (Fira Code, CRM)
+                                              --crm-number-font (JetBrains Mono, CRM)
+   ═══════════════════════════════════════════════════════════════════════ */
