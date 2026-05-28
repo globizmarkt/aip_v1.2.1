@@ -18,7 +18,7 @@ export class AipLegalAttestation extends ReactiveElement {
     connectedCallback() {
         // 1. Inyección del esqueleto estático (Seguro por defecto, inmune a XSS)
         this.innerHTML = `
-            <div class="orbita-3-shell luxury-glass" style="
+            <div class="luxury-glass" style="
                 background-color: var(--crm-bg-surface, #0F1117);
                 border: 1px solid var(--crm-border-subtle, rgba(255,255,255,0.08));
                 padding: 2.5rem;

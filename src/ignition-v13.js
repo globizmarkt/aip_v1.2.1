@@ -34,21 +34,18 @@ if (!shell) {
 } else {
     AppRouter.init(shell);
 
-    // ─── 3. Conducir FSM a ORBIT_3_LEGAL_ATTESTATION (Walking Skeleton demo) ────────────
+    // ─── 3. Boot FSM: BOOT_SEQUENCE → ORBIT_1_GUEST ──────────────────────────────────────
     //
-    // Payload SDUI mínimo — satisface la guarda hasValidSDUIPayload:
-    //   payload.wc debe ser un Array no vacío de tag-names autorizados.
+    // Estado correcto para un visitante en la landing page:
+    //   - #v13-shell permanece vacío (sin overlay)
+    //   - La landing v1.2.1 opera con normalidad
     //
-    // Este mock será reemplazado por el token real del servidor en Forja 9+ (DD-02).
+    // La transición a ORBIT_3_LEGAL_ATTESTATION la dispara el Gatekeeper v1.3 (Forja 8)
+    // cuando el servidor valide al usuario y emita ACCESS_GRANTED.
+    // Hasta entonces, el FSM v1.3 coexiste silenciosamente con v1.2.1.
 
-    const mockSDUIPayload = {
-        wc: ['aip-legal-attestation']
-    };
+    UserFSM.send('NO_SESSION_FOUND');   // BOOT_SEQUENCE → ORBIT_1_GUEST (landing = sin overlay)
 
-    UserFSM.send('NO_SESSION_FOUND');                  // BOOT_SEQUENCE → ORBIT_1_GUEST
-    UserFSM.send('LOGIN_SUBMITTED');                   // ORBIT_1_GUEST → ORBIT_2_GATEKEEPER
-    UserFSM.send('ACCESS_GRANTED', mockSDUIPayload);   // ORBIT_2_GATEKEEPER → ORBIT_3_LEGAL_ATTESTATION
-
-    console.log('[Ignition v1.3] Walking Skeleton activo. FSM:', UserFSM.getMachineState());
-    ComponentRegistry.audit();
+    console.log('[Ignition v1.3] Cimiento activo. FSM:', UserFSM.getMachineState());
+    // ORBIT_1_GUEST confirmado — #v13-shell vacío, landing visible.
 }
