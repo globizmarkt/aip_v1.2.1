@@ -392,8 +392,13 @@
 #detail-roi,
 [data-crm-metric],
 .crm-metric-value {
-    font-family:         var(--crm-number-font);
+    font-family:          var(--crm-number-font);
     font-variant-numeric: tabular-nums;
+    overflow:             hidden;
+    white-space:          nowrap;
+    text-overflow:        ellipsis;
+    max-width:            100%;
+    min-width:            0;        /* Permite shrink en flex/grid */
 }
 
 /* IDs, hashes, códigos de operación */
@@ -407,6 +412,25 @@
 .crm-aimon-entry--system {
     font-family: var(--crm-hash-font);
     font-size:   var(--crm-font-size-caption);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   JERARQUÍA DE ELEVACIÓN — ID OVERRIDES  (BUG-VAL-01 · DIR-AIP-14)
+   theme-landing.css asigna superficies via clases genéricas que apuntan
+   a aliases backward-compat sin diferenciación entre órbitas.
+   Estos overrides por ID restauran la jerarquía correcta:
+     Órbita 1 (nav)       → más oscura  (base estructural)
+     Órbita 2 (workbench) → media       (lienzo principal)
+     Órbita 3 (contexto)  → más clara   (panel elevado)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+#crm-orbit-1       { background-color: var(--crm-bg-orbit-1); }
+#crm-orbit-2       { background-color: var(--crm-bg-orbit-2); }
+#crm-orbit-3-panel { background-color: var(--crm-bg-orbit-3); }
+
+/* Exit CRM button — visible solo cuando body.crm-mode está activo */
+body.crm-mode #crm-exit-btn {
+    display: block !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════

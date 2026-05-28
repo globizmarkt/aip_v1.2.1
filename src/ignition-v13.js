@@ -52,6 +52,20 @@ if (!shell) {
 
     console.log('[Ignition v1.3] Cimiento activo — FSM:', UserFSM.getMachineState());
 
+    // ─── EXIT CRM BUTTON (BUG-VAL-04 · DIR-AIP-14) ───────────────────────────────────────
+    //
+    // Botón fijo #crm-exit-btn (index.html) — oculto por defecto (style="display:none").
+    // Visibilidad controlada en §5 onStateChange según estado FSM.
+    // Dispara: LOGOUT_REQUESTED → ORBIT_3_CRM_ACTIVE → ORBIT_1_GUEST (resetSession).
+
+    const _exitBtn = document.getElementById('crm-exit-btn');
+    if (_exitBtn) {
+        _exitBtn.addEventListener('click', () => {
+            console.log('[Exit v1.3] LOGOUT_REQUESTED disparado');
+            UserFSM.send('LOGOUT_REQUESTED');
+        });
+    }
+
     // ─── 4. BRIDGE FORWARD: Skeleton:Gatekeeper:AccessGranted → FSM v1.3 ──────────────────
     //
     // AIPHandler.js (FROZEN v18.7) escucha este mismo evento para mostrar su propia
@@ -83,6 +97,11 @@ if (!shell) {
     onStateChange(state => {
         const current = state.ui?.fsmState;
 
+        // ── Mostrar / ocultar botón de salida del CRM ─────────────────────────
+        if (_exitBtn) {
+            _exitBtn.style.display = (current === 'ORBIT_3_CRM_ACTIVE') ? 'block' : 'none';
+        }
+
         if (_bridgePrevState === 'ORBIT_3_LEGAL_ATTESTATION') {
 
             if (current === 'ORBIT_3_CRM_ACTIVE') {
@@ -111,6 +130,13 @@ if (!shell) {
             }
         }
 
+        // ── Exit Path: usuario salió del CRM activo ────────────────────────────
+        // ORBIT_3_CRM_ACTIVE → ORBIT_1_GUEST via LOGOUT_REQUESTED | SESSION_EXPIRED
+        if (_bridgePrevState === 'ORBIT_3_CRM_ACTIVE' && current === 'ORBIT_1_GUEST') {
+            console.log('[Bridge v1.3 ←] CRM_EXIT → restaurando landing v1.2.1');
+            _restoreLanding();
+        }
+
         _bridgePrevState = current;
     });
 }
@@ -135,6 +161,9 @@ function _restoreLanding() {
 
     // Ocultar la gate v1.2.1 (quedó visible detrás del overlay que ya no existe)
     document.getElementById('legal-attestation-gate')?.classList.add('hidden');
+
+    // Ocultar el dashboard CRM (visible tras showCRM en AIPHandler)
+    document.getElementById('crm-dashboard')?.classList.add('hidden');
 
     // [BACKWARD-COMPAT] Limpiar body.crm-mode al volver a landing
     document.body.classList.remove('crm-mode');

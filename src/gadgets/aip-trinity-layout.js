@@ -63,7 +63,7 @@ class AipTrinityLayout extends HTMLElement {
                 <div class="flex items-center justify-between px-3 py-2 border-b border-[var(--crm-border)] shrink-0">
                     <span class="crm-panel-label">MANDATE REGISTRY</span>
                     <button type="button" id="crm-orbit1-toggle"
-                            class="crm-collapse-btn flex items-center text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer"
+                            class="flex items-center text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer"
                             aria-label="Colapsar Órbita 1">
                         <span class="material-symbols-outlined crm-chevron" style="font-size:16px;transition:transform 0.35s ease">keyboard_double_arrow_left</span>
                     </button>
@@ -183,7 +183,7 @@ class AipTrinityLayout extends HTMLElement {
                 <!-- Header: collapse toggle + label -->
                 <div class="flex items-center justify-between px-3 py-2 border-b border-[var(--crm-border)] shrink-0">
                     <button type="button" id="crm-orbit3-toggle"
-                            class="crm-collapse-btn flex items-center text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer"
+                            class="flex items-center text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer"
                             aria-label="Colapsar Órbita 3">
                         <span class="material-symbols-outlined crm-chevron" style="font-size:16px;transition:transform 0.35s ease">keyboard_double_arrow_right</span>
                     </button>
