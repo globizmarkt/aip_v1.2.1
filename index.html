@@ -497,12 +497,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 2rem;
+            box-sizing: border-box;
             pointer-events: none;
         }
         #v13-shell:not(:empty) {
             background: rgba(10, 22, 40, 0.88);
             backdrop-filter: blur(4px);
             pointer-events: all;
+        }
+        /* Garantiza que cualquier Web Component montado en el shell sea bloque centrado */
+        #v13-shell > * {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+            flex-shrink: 0;
         }
     </style>
     <script type="module" src="./src/ignition-v13.js"></script>
