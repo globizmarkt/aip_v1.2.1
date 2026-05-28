@@ -91,17 +91,8 @@
                 class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
                 data-action="TabRegulatoryClick" data-tab="regulatory" data-i18n="nav.legislation">—</button>
 
-            <!-- INICIO — desplaza el selector de idioma, evita colisión con Órbita 3 -->
-            <button type="button"
-                class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
-                data-action="NavInicio">INICIO</button>
-
-            <button type="button"
-                class="ml-4 px-5 py-2.5 text-[10px] uppercase tracking-[0.3em] border border-[var(--stitch-gold)]/50 text-[var(--stitch-gold)] hover:bg-[var(--stitch-gold)] hover:text-background transition-all duration-500"
-                data-action="GateWake" data-i18n="nav.request_access">—</button>
-
-            <!-- SELECTOR DE IDIOMA UNÍVOCO -->
-            <details class="relative ml-2 group">
+            <!-- SELECTOR DE IDIOMA — izquierda del botón Inicio (Forja Visual II) -->
+            <details class="relative ml-4 group">
                 <summary class="cursor-pointer text-[10px] uppercase tracking-[0.2em] font-mono text-white/70 hover:text-[var(--stitch-gold)] list-none flex items-center gap-1 py-2 transition-colors">
                     ES <span class="text-[8px]">▼</span>
                 </summary>
@@ -110,6 +101,15 @@
                     <button type="button" class="text-[10px] uppercase font-mono tracking-widest text-white/50 py-1.5 px-4 text-left hover:bg-white/5 hover:text-[var(--stitch-gold)]" data-action="ChangeLanguage" data-lang="en">EN</button>
                 </div>
             </details>
+
+            <!-- INICIO — a la derecha del selector de idioma -->
+            <button type="button"
+                class="ml-2 text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
+                data-action="NavInicio">INICIO</button>
+
+            <button type="button"
+                class="ml-4 px-5 py-2.5 text-[10px] uppercase tracking-[0.3em] border border-[var(--stitch-gold)]/50 text-[var(--stitch-gold)] hover:bg-[var(--stitch-gold)] hover:text-background transition-all duration-500"
+                data-action="GateWake" data-i18n="nav.request_access">—</button>
         </nav>
     </header>
 

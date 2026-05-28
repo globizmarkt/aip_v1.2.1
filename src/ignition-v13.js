@@ -92,6 +92,12 @@ if (!shell) {
                 console.log('[Bridge v1.3 ←] LEGAL_ACCEPTED → activando CRM v1.2.1');
                 document.dispatchEvent(new CustomEvent('Skeleton:Legal:Accepted', { bubbles: true }));
                 // AIPHandler: oculta #legal-attestation-gate, llama showCRM(_wcPending)
+
+                // [BACKWARD-COMPAT] Activar body.crm-mode para que AIPHandler.js
+                // (FROZEN v18.7) y theme-landing.css reciban la paleta CRM correcta.
+                // Se elimina en Forja 9+ cuando AIPHandler sea migrado a v1.3.
+                document.body.classList.add('crm-mode');
+                console.log('[Bridge v1.3 ←] body.crm-mode activado');
             }
 
             if (current === 'ORBIT_1_GUEST') {
@@ -129,6 +135,9 @@ function _restoreLanding() {
 
     // Ocultar la gate v1.2.1 (quedó visible detrás del overlay que ya no existe)
     document.getElementById('legal-attestation-gate')?.classList.add('hidden');
+
+    // [BACKWARD-COMPAT] Limpiar body.crm-mode al volver a landing
+    document.body.classList.remove('crm-mode');
 
     console.log('[Bridge v1.3] Landing v1.2.1 restaurada.');
 }

@@ -63,7 +63,7 @@ class AipTrinityLayout extends HTMLElement {
                 <div class="flex items-center justify-between px-3 py-2 border-b border-[var(--crm-border)] shrink-0">
                     <span class="crm-panel-label">MANDATE REGISTRY</span>
                     <button type="button" id="crm-orbit1-toggle"
-                            class="flex items-center text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer"
+                            class="crm-collapse-btn flex items-center text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer"
                             aria-label="Colapsar Órbita 1">
                         <span class="material-symbols-outlined crm-chevron" style="font-size:16px;transition:transform 0.35s ease">keyboard_double_arrow_left</span>
                     </button>
@@ -183,7 +183,7 @@ class AipTrinityLayout extends HTMLElement {
                 <!-- Header: collapse toggle + label -->
                 <div class="flex items-center justify-between px-3 py-2 border-b border-[var(--crm-border)] shrink-0">
                     <button type="button" id="crm-orbit3-toggle"
-                            class="flex items-center text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer"
+                            class="crm-collapse-btn flex items-center text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer"
                             aria-label="Colapsar Órbita 3">
                         <span class="material-symbols-outlined crm-chevron" style="font-size:16px;transition:transform 0.35s ease">keyboard_double_arrow_right</span>
                     </button>
@@ -206,6 +206,44 @@ class AipTrinityLayout extends HTMLElement {
                 </div>
             </aside>
         `;
+
+        // [FORJA-VIS-II] Rail Suture — AIPHandler._setupCRMControls() se ejecuta antes
+        // de que connectedCallback() corra (timing de módulos), así que el wiring
+        // de chevrones falla silenciosamente allí (getElementById devuelve null).
+        // Esta sutura garantiza el vínculo correcto.
+        this._wireRailToggles();
+    }
+
+    // ─── Rail Toggle Handlers ─────────────────────────────────────────────────
+    // Bisturí funcional (R-GADGET-01): solo JS, sin alterar el marcado.
+    // Patrón: toggle clase .collapsed en el panel → CSS hace el resto.
+    _wireRailToggles() {
+        const orbit1Panel  = this.querySelector('#crm-orbit-1');
+        const orbit1Toggle = this.querySelector('#crm-orbit1-toggle');
+        const orbit3Panel  = this.querySelector('#crm-orbit-3-panel');
+        const orbit3Toggle = this.querySelector('#crm-orbit3-toggle');
+
+        if (orbit1Toggle && orbit1Panel) {
+            orbit1Toggle.addEventListener('click', () => {
+                const isCollapsed = orbit1Panel.classList.toggle('collapsed');
+                orbit1Toggle.setAttribute('aria-expanded', String(!isCollapsed));
+                const icon = orbit1Toggle.querySelector('.crm-chevron');
+                if (icon) icon.textContent = isCollapsed
+                    ? 'keyboard_double_arrow_right'
+                    : 'keyboard_double_arrow_left';
+            });
+        }
+
+        if (orbit3Toggle && orbit3Panel) {
+            orbit3Toggle.addEventListener('click', () => {
+                const isCollapsed = orbit3Panel.classList.toggle('collapsed');
+                orbit3Toggle.setAttribute('aria-expanded', String(!isCollapsed));
+                const icon = orbit3Toggle.querySelector('.crm-chevron');
+                if (icon) icon.textContent = isCollapsed
+                    ? 'keyboard_double_arrow_left'
+                    : 'keyboard_double_arrow_right';
+            });
+        }
     }
 }
 

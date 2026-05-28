@@ -244,6 +244,24 @@
     --crm-kyc-rejected-bg:      light-dark(#fdecef, #3a1518);
     --crm-kyc-rejected-border:  light-dark(#c93343, #c85b63);
     --crm-kyc-rejected-text:    light-dark(#7d1d2a, #ffd9dc);
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 13 — ALIASES BACKWARD-COMPAT (legacy body.crm-mode → v1.3)
+       Permiten que aip-trinity-layout.js (v1.2.1) resuelva sin modificación.
+       PURGAR en Forja Visual III una vez migrados todos los componentes legacy.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --crm-bg-surface:       var(--crm-bg-orbit-2);       /* → Superficie principal */
+    --crm-bg-canvas:        var(--crm-bg-orbit-1);       /* → Lienzo base (más oscuro) */
+    --crm-bg-elevated:      var(--crm-surface-elevated); /* → Cards y paneles elevados */
+    --crm-accent:           var(--crm-accent-uk-gold);   /* → UK Gold fiduciario */
+    --crm-border:           var(--crm-border-strong);    /* → Bordes definidos */
+
+    /* Flat colors para Tailwind JIT opacity (bg-[var(--crm-success)]/10)
+       Valores del modo dark — único modo disponible actualmente en CRM. */
+    --crm-success:          #3a9b68;  /* = crm-success-border dark */
+    --crm-warning:          #d8a23a;  /* = crm-warning-border dark */
+    --crm-danger:           #c85b63;  /* = crm-error-border dark */
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -367,6 +385,29 @@
 .crm-kyc-badge[data-state="review"]    { background: var(--crm-kyc-review-bg);    border-color: var(--crm-kyc-review-border);    color: var(--crm-kyc-review-text);    }
 .crm-kyc-badge[data-state="verified"]  { background: var(--crm-kyc-verified-bg);  border-color: var(--crm-kyc-verified-border);  color: var(--crm-kyc-verified-text);  }
 .crm-kyc-badge[data-state="rejected"]  { background: var(--crm-kyc-rejected-bg);  border-color: var(--crm-kyc-rejected-border);  color: var(--crm-kyc-rejected-text);  }
+
+/* ─── Tipografía de métricas financieras y datos estructurados ─── */
+/* Nodos de valores monetarios, ratios y porcentajes */
+#detail-ticket,
+#detail-roi,
+[data-crm-metric],
+.crm-metric-value {
+    font-family:         var(--crm-number-font);
+    font-variant-numeric: tabular-nums;
+}
+
+/* IDs, hashes, códigos de operación */
+#crm-table-body .font-mono,
+[data-crm-hash],
+.crm-hash-value {
+    font-family: var(--crm-hash-font);
+}
+
+/* Entradas del log AIMON — monoespaciado técnico */
+.crm-aimon-entry--system {
+    font-family: var(--crm-hash-font);
+    font-size:   var(--crm-font-size-caption);
+}
 
 /* ═══════════════════════════════════════════════════════════════════════
    APÉNDICE — MAPA DE MIGRACIÓN  (tokens legacy → contrato v1.3)
