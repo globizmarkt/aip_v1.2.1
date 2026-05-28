@@ -257,52 +257,26 @@ if (!shell) {
 // Idempotente — seguro ante llamadas múltiples por rutas A+C en paralelo.
 
 function _restoreLanding() {
-    // ── EXIT COOLDOWN STAMP (BUG-VAL-EXIT-01) ─────────────────────────────
-    // Marca el timestamp de esta salida. El Bridge Forward §4 rechazará cualquier
-    // AccessGranted que llegue en los próximos 800ms (re-fire del mock session).
-    _lastExitTimestamp = Date.now();
+    // ── EXIT: reload limpio ────────────────────────────────────────────────────
+    //
+    // DIAGNÓSTICO (Rondas 3 y 4): la inversión manual de mutaciones DOM de
+    // AIPHandler (FROZEN v18.7) es estructuralmente incompleta — AIPHandler es
+    // una caja negra que toca clases, estilos inline, aria-attrs y estado interno
+    // que no tenemos mapeado. Cada ronda de validación expone una mutación nueva.
+    //
+    // SOLUCIÓN FIDUCIARIA: location.reload() garantiza:
+    //   · DOM virgen — cero arrastre de estado AIPHandler
+    //   · FSM v1.3 arranca fresco en ORBIT_1_GUEST
+    //   · Bridges re-inicializan limpios
+    //   · Cero posibilidad de estado Frankenstein
+    //
+    // El cooldown guard (_lastExitTimestamp) se resetea con el módulo en el
+    // nuevo load — no hay riesgo de doble-esclusa porque AIPHandler también
+    // arranca fresco y no re-dispara AccessGranted sin interacción del usuario.
+    //
+    // [FORJA-9+] Si en el futuro se necesita SPA-exit sin reload, implementar
+    // AIPHandler.resetToLanding() y llamarlo aquí. Por ahora, reload es correcto.
 
-    // ── #v13-shell force-clear (safety net de timing del Router) ──────────
-    // El Router limpia #v13-shell asincrónicamente al cambiar de estado FSM.
-    // En el path de EXIT puede haber un frame donde aip-legal-attestation sigue
-    // renderizado mientras el DOM landing ya es visible → estado Frankenstein.
-    // Este clear síncrono garantiza que #v13-shell esté vacío antes de que
-    // landing elements aparezcan.
-    const _v13shell = document.getElementById('v13-shell');
-    if (_v13shell) _v13shell.innerHTML = '';
-
-    // Restaurar elementos ocultados por _showLegalAttestation
-    document.querySelector('body > header')?.classList.remove('hidden');
-    document.querySelector('body > footer')?.classList.remove('hidden');
-
-    // orbit-3 y landing-view: restaurar visibilidad (AIPHandler los había ocultado)
-    document.getElementById('orbit-3')?.classList.remove('hidden');
-    document.getElementById('landing-view')?.classList.remove('hidden');
-
-    // orbit-2-main-content y tab-content-container: colapsar explícitamente.
-    // _showLegalAttestation los ocultó; nosotros NO los restauramos — queremos
-    // landing limpia post-EXIT, sin el panel SSO expandido.
-    // El usuario puede re-abrir el panel de login via UI normal (REQUEST ACCESS).
-    document.getElementById('orbit-2-main-content')?.classList.add('hidden');
-    document.getElementById('tab-content-container')?.classList.add('hidden');
-
-    // Ocultar la gate v1.2.1 (quedó visible detrás del overlay que ya no existe)
-    document.getElementById('legal-attestation-gate')?.classList.add('hidden');
-
-    // CRM dashboard: ocultar + limpiar inline styles dejados por AIPHandler
-    // (marginTop: 40px y posibles display:block que no ceden al classList.add('hidden'))
-    const _dashboard = document.getElementById('crm-dashboard');
-    if (_dashboard) {
-        _dashboard.classList.add('hidden');
-        _dashboard.style.marginTop = '';
-        _dashboard.style.display   = '';
-    }
-
-    // KYC banner: eliminar del DOM para que el observer re-arme en la próxima entrada
-    document.getElementById('kyc-barrier-banner')?.remove();
-
-    // [BACKWARD-COMPAT] Limpiar body.crm-mode al volver a landing
-    document.body.classList.remove('crm-mode');
-
-    console.log('[Bridge v1.3] Landing v1.2.1 restaurada.');
+    console.log('[Bridge v1.3] EXIT → location.reload() — landing virgen.');
+    location.reload();
 }
