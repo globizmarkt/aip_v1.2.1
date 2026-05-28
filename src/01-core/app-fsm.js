@@ -110,5 +110,8 @@ export const UserFSM = {
         // 4. Consolidar Transición
         console.log(`[FSM] Transición: ${currentMachineState} -> ${transition.target}`);
         currentMachineState = transition.target;
+
+        // 5. Reflejar estado FSM en el Store (permite que el Router reaccione sin acoplamiento directo)
+        commit(proxy => { proxy.ui = { ...proxy.ui, fsmState: transition.target }; });
     }
 };

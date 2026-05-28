@@ -18,7 +18,8 @@ export const initialState = {
     ui: {
         activeRoute: '/',
         theme: 'dark',
-        allowedComponents: [] // Whitelist inyectado por Claims
+        allowedComponents: [], // Whitelist inyectado por Claims
+        fsmState: 'BOOT_SEQUENCE' // Espejo del nodo activo de la FSM — permite que el Router reaccione
     },
     system: {
         version: STATE_VERSION,

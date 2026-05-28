@@ -482,6 +482,30 @@
     <script type="module" src="./src/gadgets/aip-trinity-layout.js"></script>
     <script type="module" src="./src/main.js"></script>
     <script type="module" src="/src/verticals/aip/ignition.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         Walking Skeleton v1.3 — contenedor y bootstrap del cimiento reactivo.
+         #v13-shell es propiedad exclusiva del AppRouter — no manipular desde
+         código v1.2.1. Se activa únicamente cuando la FSM lo habita.
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <div id="v13-shell"></div>
+    <style>
+        #v13-shell {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        #v13-shell:not(:empty) {
+            background: rgba(10, 22, 40, 0.88);
+            backdrop-filter: blur(4px);
+            pointer-events: all;
+        }
+    </style>
+    <script type="module" src="./src/ignition-v13.js"></script>
 </body>
 
 </html>
