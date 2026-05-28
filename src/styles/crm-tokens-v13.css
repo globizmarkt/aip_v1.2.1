@@ -34,13 +34,13 @@
        ═══════════════════════════════════════════════════════════════════════ */
 
     /* Órbita 1 — Árbol de Navegación Maestro (base estructural) */
-    --crm-bg-orbit-1:         light-dark(#f5f0e6, #0b1119);
+    --crm-bg-orbit-1:         light-dark(#f5f0e6, #0C0F14);
 
     /* Órbita 2 — Dashboard / Workbench (lienzo principal) */
-    --crm-bg-orbit-2:         light-dark(#ffffff, #111b28);
+    --crm-bg-orbit-2:         light-dark(#ffffff, #11151C);
 
     /* Órbita 3 — Contexto / AIMON / KYC (panel contextual elevado) */
-    --crm-bg-orbit-3:         light-dark(#fbfbfd, #172233);
+    --crm-bg-orbit-3:         light-dark(#fbfbfd, #161B22);
 
     /* Superficies auxiliares (cards, modales, paneles internos) */
     --crm-surface-raised:     light-dark(#ffffff,  #162132);
@@ -431,6 +431,14 @@
 /* Exit CRM button — visible solo cuando body.crm-mode está activo */
 body.crm-mode #crm-exit-btn {
     display: block !important;
+}
+
+/* Landing header + footer: ocultos en modo CRM (el CRM tiene su propio header).
+   AIPHandler ya los oculta en _showLegalAttestation; esta regla es el seguro CSS.
+   Se revelan automáticamente al quitar crm-mode (ver _restoreLanding en ignition-v13.js). */
+body.crm-mode > header,
+body.crm-mode > footer {
+    display: none !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════

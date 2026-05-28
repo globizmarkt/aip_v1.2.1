@@ -66,6 +66,67 @@ if (!shell) {
         });
     }
 
+    // ─── LIGHT MODE BRIDGE (LM-BRIDGE-01) ────────────────────────────────────────────────
+    //
+    // AIPHandler (FROZEN v18.7) activa el modo claro con body.classList.toggle('light-mode').
+    // El contrato visual v1.3 usa data-theme en <html> para activar light-dark() CSS.
+    // Este observer sincroniza ambos sistemas sin tocar AIPHandler.
+    //
+    // Flujo: body.light-mode ON → html[data-theme="light"]  → light-dark() resuelve light
+    //        body.light-mode OFF → html[data-theme="dark"]  → light-dark() resuelve dark
+
+    new MutationObserver(mutations => {
+        for (const m of mutations) {
+            if (m.attributeName === 'class') {
+                const isLight = document.body.classList.contains('light-mode');
+                document.documentElement.dataset.theme = isLight ? 'light' : 'dark';
+                console.log('[LM-Bridge v1.3] data-theme →', document.documentElement.dataset.theme);
+            }
+        }
+    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    // ─── KYC BANNER BRIDGE (KYC-BRIDGE-01) ───────────────────────────────────────────────
+    //
+    // AIPHandler (FROZEN v18.7) inyecta #kyc-barrier-banner como overlay fijo en
+    // document.body (position:fixed; top:0; z-index:100), tapando los headers de
+    // las órbitas donde viven los chevrons.
+    // Este observer intercepta la inyección y reubica el banner como sticky-header
+    // dentro de #crm-orbit-2 (workbench), preservando su visibilidad y liberando los chevrons.
+    // Cancela también el margin-top:40px que AIPHandler pone en #crm-dashboard.
+    //
+    // [BRIDGE_LEGACY] — eliminar en Forja 9+ al migrar AIPHandler.js.
+
+    const _kycBannerObserver = new MutationObserver(mutations => {
+        for (const m of mutations) {
+            for (const node of m.addedNodes) {
+                if (node.id !== 'kyc-barrier-banner') continue;
+
+                const target = document.getElementById('crm-orbit-2');
+                if (!target) return;
+
+                // Sobrescribir inline style: fixed → sticky dentro de Orbit 2
+                node.style.cssText = [
+                    'position:sticky', 'top:0', 'z-index:10',
+                    'display:flex', 'align-items:center', 'gap:12px',
+                    'padding:8px 16px', 'flex-shrink:0',
+                    'background:linear-gradient(135deg,rgba(199,162,75,.12),rgba(127,180,255,.06))',
+                    'border-bottom:1px solid rgba(193,168,93,.25)',
+                ].join(';');
+
+                target.prepend(node);
+
+                // Cancelar el margin-top que AIPHandler puso en el dashboard
+                const dashboard = document.getElementById('crm-dashboard');
+                if (dashboard) dashboard.style.marginTop = '';
+
+                console.log('[KYC-Bridge v1.3] Banner reubicado en #crm-orbit-2');
+                _kycBannerObserver.disconnect();
+                return;
+            }
+        }
+    });
+    _kycBannerObserver.observe(document.body, { childList: true });
+
     // ─── 4. BRIDGE FORWARD: Skeleton:Gatekeeper:AccessGranted → FSM v1.3 ──────────────────
     //
     // AIPHandler.js (FROZEN v18.7) escucha este mismo evento para mostrar su propia
