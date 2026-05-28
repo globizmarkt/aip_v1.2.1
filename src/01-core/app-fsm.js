@@ -9,23 +9,10 @@
 import { readState, claimWriteCapability } from './app-store.js';
 import { GUARDS } from './app-guards.js';
 import { ACTIONS } from './app-actions.js';
+import { deepFreeze } from './utils/deepFreeze.js';
 
 // SUTURA ZERO-TRUST: Reclamar el token de escritura (Se ejecuta solo una vez al importar)
 const commit = claimWriteCapability();
-
-/**
- * Aplica inmutabilidad profunda a un objeto (Doctrina R-FREEZE).
- * @param {Object} obj
- * @returns {Object} Objeto congelado recursivamente.
- */
-function deepFreeze(obj) {
-    Object.keys(obj).forEach(prop => {
-        if (obj[prop] !== null && typeof obj[prop] === 'object' && !Object.isFrozen(obj[prop])) {
-            deepFreeze(obj[prop]);
-        }
-    });
-    return Object.freeze(obj);
-}
 
 // Definición topológica inmutable del Grafo de Estados
 const MACHINE_DEF = deepFreeze({
