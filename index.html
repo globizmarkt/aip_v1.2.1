@@ -312,59 +312,103 @@
                     </div>
                 </main>
 
-                <!-- ═══ TAB B: AIMON — Asistente + Consultas ═══ -->
+                <!-- ═══ TAB B: AIMON — Monitor de estado · consola de log · sin chat ═══ -->
+                <!-- BISTURÍ B1 · 2026-05-29 · LAND-02 · textarea "MENSAJE A OPERACIONES" → terminal log (doctrina AIMON) -->
                 <main id="orbit3-tab-aimon" class="hidden flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E]">
-                    <div class="px-5 py-4 border-b border-[#2A3A52] bg-[#111827]">
-                        <p class="text-[12px] text-[#E8ECF2] font-mono leading-relaxed">
-                            <span class="text-[#7FB4FF] font-bold">TIP:</span> El acceso al CRM requiere validación institucional. AIMON monitoriza el estado de cada expediente en tiempo real. Contacte a operaciones para soporte.
-                        </p>
-                    </div>
-                    <div class="px-5 py-5 flex flex-col gap-3 flex-1">
-                        <label class="text-[11px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono block">MENSAJE A OPERACIONES</label>
-                        <textarea class="w-full flex-1 min-h-[120px] bg-[#111827] border border-[#2A3A52] text-[13px] text-[#FFFFFF] font-mono p-3 focus:outline-none focus:border-[#7FB4FF] focus:ring-1 focus:ring-[#7FB4FF] transition-colors resize-none placeholder:text-[#9AA7B6]/50" placeholder="Escriba su consulta al equipo técnico..."></textarea>
-                    </div>
+                    <!-- Status Panel -->
+                    <section class="p-4 grid grid-cols-2 gap-y-4 border-b border-[#2A3A52] bg-[#070A10] shrink-0">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[8px] text-[#6E7B8B] uppercase tracking-widest">Integrity</span>
+                            <span class="text-xs font-bold font-mono text-[#C7A24B]">00</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[8px] text-[#6E7B8B] uppercase tracking-widest">Clearance</span>
+                            <span class="text-xs font-bold font-mono text-red-500">NONE</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[8px] text-[#6E7B8B] uppercase tracking-widest">Mandates</span>
+                            <span class="text-xs font-bold font-mono text-[#6E7B8B]">LOCKED</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[8px] text-[#6E7B8B] uppercase tracking-widest">Session</span>
+                            <span class="text-xs font-bold font-mono text-green-400">ACTIVE</span>
+                        </div>
+                    </section>
+                    <!-- Terminal Log -->
+                    <section class="flex-1 overflow-y-auto pt-2 pb-6 bg-[#05070B] font-mono">
+                        <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
+                            <span class="text-[9px] text-[#6E7B8B]">[00:00:01]</span>
+                            <span class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">SYS</span>
+                            <span class="text-[10px] text-[#9AA7B6]">VISITOR SESSION INITIALIZED — UNVERIFIED</span>
+                        </div>
+                        <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
+                            <span class="text-[9px] text-[#6E7B8B]">[00:00:02]</span>
+                            <span class="text-[8px] px-1 py-0.5 bg-green-500/10 text-green-400 uppercase font-bold">GEO</span>
+                            <span class="text-[10px] text-[#9AA7B6]">GEO CONTEXT: EU JURISDICTION DETECTED</span>
+                        </div>
+                        <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
+                            <span class="text-[9px] text-[#6E7B8B]">[00:00:03]</span>
+                            <span class="text-[8px] px-1 py-0.5 bg-yellow-500/10 text-yellow-400 uppercase font-bold">MKT</span>
+                            <span class="text-[10px] text-[#9AA7B6]">MARKET CONTEXT: LOADED — XAU VOLATILITY ELEVATED</span>
+                        </div>
+                        <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
+                            <span class="text-[9px] text-[#6E7B8B]">[00:00:04]</span>
+                            <span class="text-[8px] px-1 py-0.5 bg-red-500/10 text-red-400 uppercase font-bold">GATE</span>
+                            <span class="text-[10px] text-[#9AA7B6]">INTEGRITY_SCORE: 0 — ACCESO GATE REQUIRED</span>
+                        </div>
+                        <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
+                            <span class="text-[9px] text-[#6E7B8B]">[00:00:05]</span>
+                            <span class="text-[8px] px-1 py-0.5 bg-gray-500/10 text-[#6E7B8B] uppercase font-bold">MON</span>
+                            <span class="text-[10px] text-[#9AA7B6]">MANDATE TREE: LOCKED — CLEARANCE LEVEL: NONE</span>
+                        </div>
+                        <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
+                            <span class="text-[9px] text-[#6E7B8B]">[00:00:06]</span>
+                            <span class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">SYS</span>
+                            <span class="text-[10px] text-[#9AA7B6]">AIMON: PASSIVE MONITORING ACTIVE</span>
+                        </div>
+                        <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
+                            <span class="text-[9px] text-[#6E7B8B]">[00:00:07]</span>
+                            <span class="text-[8px] px-1 py-0.5 bg-white/10 text-white uppercase font-bold">ACT</span>
+                            <span class="text-[10px] text-white font-bold">NEXT ACTION: COMPLETE ACCESO → VERIFY IDENTITY</span>
+                        </div>
+                        <div class="grid items-center gap-2 px-3 py-1.5 border-l-2 border-[#7FB4FF] bg-[#7FB4FF]/[0.03]" style="grid-template-columns:55px 50px 1fr">
+                            <span class="text-[9px] text-[#6E7B8B]">[00:00:08]</span>
+                            <span class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">MON</span>
+                            <span class="text-[10px] text-[#9AA7B6]">AWAITING INSTITUTIONAL QUALIFICATION…</span>
+                        </div>
+                    </section>
                 </main>
 
                 <!-- ═══ TAB C: ACCESO — Portal de entrada calificado ═══ -->
                 <main id="orbit3-tab-acceso" class="hidden flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E]">
 
-                    <!-- SSO colapsado en acordeón -->
+                    <!-- SSO visible por defecto — BISTURÍ B2 · 2026-05-29 · LAND-02 -->
                     <div class="px-5 py-4 border-b border-[#2A3A52] shrink-0">
-                        <details class="group">
-                            <summary class="text-[10px] uppercase tracking-[0.15em] text-[#9AA7B6] font-mono cursor-pointer flex items-center justify-between list-none hover:text-[#7FB4FF] transition-colors py-1">
-                                ACCESO MEDIANTE SSO (Facilitador)
-                                <span class="text-[9px] transition-transform duration-200 group-open:rotate-180 select-none">▼</span>
-                            </summary>
-                            <div class="flex flex-col gap-2 mt-3">
-                                <button type="button" data-action="OAuthSuccess" data-provider="google"
-                                    class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
-                                    <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">G</span>
-                                    <span class="text-[12px] text-[#FFFFFF] font-mono">Google SSO</span>
-                                </button>
-                                <button type="button" data-action="OAuthSuccess" data-provider="microsoft"
-                                    class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
-                                    <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">M</span>
-                                    <span class="text-[12px] text-[#FFFFFF] font-mono">Microsoft Entra</span>
-                                </button>
-                                <button type="button" data-action="OAuthSuccess" data-provider="apple"
-                                    class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
-                                    <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">A</span>
-                                    <span class="text-[12px] text-[#FFFFFF] font-mono">Apple SSO</span>
-                                </button>
-                                <button type="button" data-action="OAuthSuccess" data-provider="linkedin"
-                                    class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
-                                    <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">In</span>
-                                    <span class="text-[12px] text-[#FFFFFF] font-mono">LinkedIn SSO</span>
-                                </button>
-                            </div>
-                        </details>
+                        <p class="text-[10px] uppercase tracking-[0.15em] text-[#9AA7B6] font-mono mb-3">ACCESO INSTITUCIONAL</p>
+                        <div class="flex flex-col gap-2">
+                            <button type="button" data-action="OAuthSuccess" data-provider="google"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
+                                <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">G</span>
+                                <span class="text-[12px] text-[#FFFFFF] font-mono">Google Workspace</span>
+                            </button>
+                            <button type="button" data-action="OAuthSuccess" data-provider="microsoft"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
+                                <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">M</span>
+                                <span class="text-[12px] text-[#FFFFFF] font-mono">Microsoft Entra</span>
+                            </button>
+                            <button type="button" data-action="OAuthSuccess" data-provider="linkedin"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#111827] border border-[#2A3A52] hover:border-[#7FB4FF] outline-none transition-all duration-300 cursor-pointer">
+                                <span class="text-[13px] font-bold text-[#E8ECF2] w-5 text-center">In</span>
+                                <span class="text-[12px] text-[#FFFFFF] font-mono">LinkedIn Professional</span>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Formulario ALTA POR DATOS -->
                     <form id="aip-access-form" class="px-5 py-4 flex flex-col gap-3" novalidate>
                         <span class="text-[10px] uppercase tracking-[0.15em] text-[#9AA7B6] font-mono">ALTA POR DATOS</span>
 
-                        <!-- Perfil: Inversor / Agente -->
+                        <!-- Perfil: Inversor / Agente / Fundador — BISTURÍ B3 · 2026-05-29 · LAND-02 -->
                         <div class="flex flex-col gap-1.5">
                             <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono">Perfil *</label>
                             <div class="flex gap-5">
@@ -376,6 +420,14 @@
                                     <input type="radio" name="aip-perfil" value="agente" class="accent-[#7FB4FF]">
                                     <span class="text-[12px] text-[#D7DEE7] font-mono">Agente</span>
                                 </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="aip-perfil" value="fundador" class="accent-[#7FB4FF]">
+                                    <span class="text-[12px] text-[#D7DEE7] font-mono">Fundador</span>
+                                </label>
+                            </div>
+                            <!-- Hint Fundador — toggle: ignition pendiente de wiring -->
+                            <div id="aip-fundador-hint" class="hidden text-[9px] italic text-[#C7A24B] mt-1 font-mono">
+                                ¿Tienes un proyecto? AIP Ventures está abierto a presentaciones cualificadas.
                             </div>
                         </div>
 
