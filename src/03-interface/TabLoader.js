@@ -24,11 +24,13 @@
  * Debe sincronizarse con gadgets/landing/ en disco.
  */
 const ALLOWED_SLUGS = Object.freeze({
+    '__main__':     true,   // [TAB-INJ-01] Slug especial — restaura orbit-2-main-content (NavInicio)
     'about-aip':    true,
     'our-services': true,
     'markets':      true,
     'intelligence': true,
     'regulatory':   true,
+    'aip-ventures': true,   // [LAND-01] Tab #6 añadido 2026-05-30
 });
 
 class TabLoaderEngine {
@@ -51,7 +53,7 @@ class TabLoaderEngine {
         }
 
         document.addEventListener('Skeleton:Action:TabNavigate', (e) => this.#load(e));
-        console.log('[TabLoader] Mecanismo de inyección de tabs activo — 5 slugs autorizados.');
+        console.log('[TabLoader] Mecanismo de inyección de tabs activo — 7 slugs autorizados.');
     }
 
     /**
@@ -64,6 +66,12 @@ class TabLoaderEngine {
         // Validación de slug (R0 — Zero Trust)
         if (!slug || !ALLOWED_SLUGS[slug]) {
             console.warn('[TabLoader] Slug no autorizado o ausente:', slug);
+            return;
+        }
+
+        // [TAB-INJ-01] Caso especial __main__: restaurar orbit-2-main-content (NavInicio)
+        if (slug === '__main__') {
+            this.#showMain();
             return;
         }
 
@@ -136,6 +144,19 @@ class TabLoaderEngine {
             frag.appendChild(document.importNode(node, true))
         );
         return frag;
+    }
+
+    /**
+     * [TAB-INJ-01] Restaura la vista principal (INICIO / orbit-2-main-content).
+     * Invocado exclusivamente cuando slug === '__main__' (NavInicio).
+     * Complemento simétrico de #renderContainer().
+     */
+    #showMain() {
+        this.#container.replaceChildren();          // Vaciar gadget activo
+        this.#container.classList.add('hidden');    // Ocultar contenedor de tab
+        this.#mainContent.classList.remove('hidden'); // Mostrar orbit-2-main-content
+        this.#currentSlug = null;                   // Resetear slug activo
+        console.log('[TabLoader] NavInicio → orbit-2-main-content restaurado.');
     }
 
     /**

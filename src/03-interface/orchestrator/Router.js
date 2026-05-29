@@ -20,11 +20,13 @@ const SEMANTIC_MAP = Object.freeze({
     CancelAccess:        'Skeleton:Action:GateClosed',
     RequestAccess:       'Skeleton:Action:AuthToggle',
     // [TAB-INJ-01] Navegación de tabs — traducción semántica canónica
+    NavInicio:           'Skeleton:Action:TabNavigate',  // __main__ → restaura orbit-2-main-content
     TabAboutAipClick:    'Skeleton:Action:TabNavigate',
     TabOurServicesClick: 'Skeleton:Action:TabNavigate',
     TabMarketsClick:     'Skeleton:Action:TabNavigate',
     TabIntelligenceClick:'Skeleton:Action:TabNavigate',
     TabRegulatoryClick:  'Skeleton:Action:TabNavigate',
+    TabAipVenturesClick: 'Skeleton:Action:TabNavigate',  // [LAND-01] Tab #6 — AIP Ventures
     // [E3-T02] Selector de idioma — traducción semántica canónica
     ChangeLanguage:      'Skeleton:Action:LanguageChange',
 });
