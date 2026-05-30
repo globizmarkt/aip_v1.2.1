@@ -1,3 +1,33 @@
+<!-- [Sprint 18.5] Jerarquía tipográfica + sustitución emojis por Material Symbols -->
+<style>
+    #tab-regulatory .tab-view__title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 300;
+        letter-spacing: 0.04em;
+        line-height: 1.1;
+    }
+    #tab-regulatory .section-heading {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--theme-foreground-alt, #94A3B8);
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    #tab-regulatory .section-heading::before {
+        content: '';
+        display: inline-block;
+        width: 1.5rem;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.4;
+    }
+</style>
+
 <div class="tab-view w-full max-w-6xl mx-auto" id="tab-regulatory" data-tab="regulatory">
 
   <!-- Header canónico -->
@@ -28,7 +58,7 @@
       </div>
     </div>
     <div class="fiduciary-card mt-4 border-l-4 border-institutional-gold">
-      <p class="text-xs text-institutional-gold/80 font-mono" data-i18n="regulatory.framework.declaration">⛁ El cumplimiento no es un añadido. Es el motor de ejecución. La plataforma no opera si el estado fiduciario del agente no está certificado.</p>
+      <p class="text-xs text-institutional-gold/80 font-mono" data-i18n="regulatory.framework.declaration"><span class="material-symbols-outlined align-middle" style="font-size:13px">gavel</span> El cumplimiento no es un añadido. Es el motor de ejecución. La plataforma no opera si el estado fiduciario del agente no está certificado.</p>
     </div>
   </section>
 
@@ -65,7 +95,7 @@
         </div>
       </div>
       <div class="mt-6 pt-4 fiduciary-border-top">
-        <p class="text-xs text-surface-muted/60" data-i18n="regulatory.jurisdiction.disclaimer">⚠️ La presente plataforma no constituye asesoramiento financiero ni ofrece servicios de custodia directa. El usuario opera desde su propia soberanía de activos.</p>
+        <p class="text-xs text-surface-muted/60" data-i18n="regulatory.jurisdiction.disclaimer"><span class="material-symbols-outlined align-middle" style="font-size:13px">warning</span> La presente plataforma no constituye asesoramiento financiero ni ofrece servicios de custodia directa. El usuario opera desde su propia soberanía de activos.</p>
       </div>
     </div>
   </section>
@@ -87,7 +117,7 @@
     </div>
     <!-- Dashboard de estado mock -->
     <div class="fiduciary-card mt-6 border-red-500/20 bg-red-950/10">
-      <h3 class="text-sm font-semibold text-red-400 mb-4" data-i18n="regulatory.risk_controls.dashboard_status">⚠️ IntegrityScore actual: 45/100 (Umbral: 60) — NO SUPERA</h3>
+      <h3 class="text-sm font-semibold text-red-400 mb-4 flex items-center gap-2" data-i18n="regulatory.risk_controls.dashboard_status"><span class="material-symbols-outlined" style="font-size:16px">warning</span> IntegrityScore actual: 45/100 (Umbral: 60) — NO SUPERA</h3>
       <div class="grid grid-cols-3 gap-3">
         <div class="bg-abisal/40 p-3 rounded text-center">
           <span class="micro-badge micro-badge--critical">KYC</span>
@@ -126,7 +156,7 @@
     </div>
     <!-- GDPR Notice -->
     <div class="fiduciary-card mt-6 border-institutional-gold/20">
-      <p class="text-xs text-institutional-gold/80 leading-relaxed" data-i18n="regulatory.governance.gdpr_notice">📋 GDPR art. 13 notice — Los datos personales tratados se utilizan exclusivamente para fines de cumplimiento AML/KYC. El usuario tiene derecho de acceso, rectificación y olvido vía compliance@aip.financial.</p>
+      <p class="text-xs text-institutional-gold/80 leading-relaxed" data-i18n="regulatory.governance.gdpr_notice"><span class="material-symbols-outlined align-middle" style="font-size:13px">assignment</span> GDPR art. 13 notice — Los datos personales tratados se utilizan exclusivamente para fines de cumplimiento AML/KYC. El usuario tiene derecho de acceso, rectificación y olvido vía compliance@aip.financial.</p>
     </div>
   </section>
 
