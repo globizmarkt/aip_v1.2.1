@@ -1,0 +1,257 @@
+<!-- GADGET_03_LAND.2 — Opportunity (AIP Financial & Commodities) -->
+<!-- %[Fase 14] - Industrialización de Pestañas - Estándar Abisal -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    :root {
+        --theme-deep-ocean: #101D33;
+        --theme-surface: #162641;
+        --theme-surface-alt: #0D1726;
+        --theme-surface-bright: #1A2C42;
+        --theme-foreground: #F8F9FA;
+        --theme-foreground-alt: #94A3B8;
+        --theme-accent: #C1A85D;
+        --theme-border: rgba(193, 168, 93, 0.15);
+    }
+
+    body {
+        background-color: var(--theme-deep-ocean);
+        font-family: 'Public Sans', sans-serif;
+        padding: 2rem;
+        color: var(--theme-foreground);
+    }
+</style>
+
+<!-- GADGET_03_LAND.3 — Opportunity -->
+<div class="tab-view w-full" id="tab-opportunity" data-tab="opportunity">
+
+    <!-- CABECERA DEL GADGET -->
+    <div class="tab-view__header mb-10 pb-6 border-b border-[var(--theme-border)]">
+        <p class="text-[10px] uppercase tracking-[0.4em] text-[var(--theme-accent)] mb-3">
+            Modelo Institucional
+        </p>
+        <h1 class="font-serif text-4xl font-light tracking-wide text-[var(--theme-foreground)] mb-3"
+            data-i18n="opportunity.hero.title">
+            Canal de Mandatos Verificados
+        </h1>
+        <p class="text-sm text-[var(--theme-foreground-alt)] max-w-2xl leading-relaxed"
+            data-i18n="opportunity.hero.subtitle">
+            Acceso condicionado por IntegrityScore ≥ 75.
+        </p>
+    </div>
+
+    <div class="tab-view__body space-y-16">
+
+        <!-- Bloque 1: Positioning -->
+        <section class="opportunity-section--positioning space-y-6 max-w-3xl">
+            <p class="text-sm text-[var(--theme-foreground-alt)] leading-relaxed"
+                data-i18n="opportunity.positioning.p1">
+                AIP Opportunity es el canal de acceso a mandatos de inversión verificados por el protocolo fiduciario de
+                AIP. No es un directorio de oportunidades de acceso público ni un marketplace abierto.
+            </p>
+            <p class="text-sm text-[var(--theme-foreground-alt)] leading-relaxed"
+                data-i18n="opportunity.positioning.p2">
+                Cada mandato publicado ha atravesado el proceso de esclusa interna: verificación de origen del capital,
+                evaluación de integridad estructural y validación regulatoria. El acceso al detalle requiere
+                IntegrityScore ≥ 75 y autorización de perfil activo en Órbita 1.
+            </p>
+        </section>
+
+        <!-- Bloque 2: Categorías de Mandato -->
+        <section class="opportunity-section--categories">
+            <h2 class="text-xs uppercase tracking-[0.2em] text-[var(--theme-accent)] mb-8"
+                data-i18n="opportunity.categories.title">Categorías de Mandato</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- MATERIAS PRIMAS -->
+                <article
+                    class="mandate-card bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 flex flex-col h-full transition-all hover:bg-[var(--theme-surface-bright)]">
+                    <span class="text-[9px] font-mono tracking-widest text-[var(--theme-accent)] uppercase mb-4"
+                        data-i18n="opportunity.categories.commodities.label">MATERIAS PRIMAS</span>
+                    <h3 class="font-serif text-xl mb-4 text-[var(--theme-foreground)]"
+                        data-i18n="opportunity.categories.commodities.title">Commodities Estructurados</h3>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed mb-8 flex-grow"
+                        data-i18n="opportunity.categories.commodities.desc">
+                        Mandatos de colocación en metales preciosos, energía y agrícolas con estructura de custodia
+                        verificada. Volúmenes mínimos y condiciones de liquidez establecidos en el término sheet de cada
+                        mandato.
+                    </p>
+                    <div class="pt-4 border-t border-[var(--theme-border)] text-[9px] font-mono text-[var(--theme-accent)]"
+                        data-i18n="opportunity.categories.commodities.req">IntegrityScore ≥ 75 · Perfil Inversor
+                        Cualificado.</div>
+                </article>
+
+                <!-- CAPITAL PRIVADO -->
+                <article
+                    class="mandate-card bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 flex flex-col h-full transition-all hover:bg-[var(--theme-surface-bright)]">
+                    <span class="text-[9px] font-mono tracking-widest text-[var(--theme-accent)] uppercase mb-4"
+                        data-i18n="opportunity.categories.equity.label">CAPITAL PRIVADO</span>
+                    <h3 class="font-serif text-xl mb-4 text-[var(--theme-foreground)]"
+                        data-i18n="opportunity.categories.equity.title">Mandatos de Coinversión</h3>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed mb-8 flex-grow"
+                        data-i18n="opportunity.categories.equity.desc">
+                        Mandatos de coinversión en proyectos estructurados con validación fiduciaria previa. La
+                        identidad del emisor del mandato permanece protegida hasta matching mutuo y superación de
+                        esclusa bilateral.
+                    </p>
+                    <div class="pt-4 border-t border-[var(--theme-border)] text-[9px] font-mono text-[var(--theme-accent)]"
+                        data-i18n="opportunity.categories.equity.req">IntegrityScore ≥ 75 · Autorización AIP Ventures.
+                    </div>
+                </article>
+
+                <!-- ESTRUCTURAS REGULADAS -->
+                <article
+                    class="mandate-card bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 flex flex-col h-full transition-all hover:bg-[var(--theme-surface-bright)]">
+                    <span class="text-[9px] font-mono tracking-widest text-[var(--theme-accent)] uppercase mb-4"
+                        data-i18n="opportunity.categories.regulated.label">ESTRUCTURAS REGULADAS</span>
+                    <h3 class="font-serif text-xl mb-4 text-[var(--theme-foreground)]"
+                        data-i18n="opportunity.categories.regulated.title">Vehículos de Inversión Colectiva</h3>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed mb-8 flex-grow"
+                        data-i18n="opportunity.categories.regulated.desc">
+                        Mandatos en fondos de inversión colectiva y vehículos estructurados bajo marco AIFMD/UCITS.
+                        Información de mandato disponible solo para inversores con perfil gatekeeper activo.
+                    </p>
+                    <div class="pt-4 border-t border-[var(--theme-border)] text-[9px] font-mono text-[var(--theme-accent)]"
+                        data-i18n="opportunity.categories.regulated.req">IntegrityScore ≥ 75 · Perfil Gatekeeper.</div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- Bloque 3: Protocolo de Acceso -->
+        <section
+            class="opportunity-section--protocol bg-[var(--theme-surface-alt)] p-10 border border-[var(--theme-border)]">
+            <h2 class="text-xs uppercase tracking-[0.2em] text-[var(--theme-accent)] mb-10"
+                data-i18n="opportunity.protocol.title">Protocolo de Acceso</h2>
+            <div class="space-y-8 max-w-2xl">
+
+                <!-- Paso 1 -->
+                <div class="grid grid-cols-[auto_1fr] gap-6 group">
+                    <div
+                        class="w-8 h-8 rounded-full border border-[var(--theme-accent)] text-[var(--theme-accent)] flex items-center justify-center font-mono text-xs group-hover:bg-[var(--theme-accent)] group-hover:text-[var(--theme-deep-ocean)] transition-all">
+                        01</div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-medium text-[var(--theme-foreground)] uppercase tracking-wide"
+                            data-i18n="opportunity.protocol.step1.title">Verificación de perfil</h4>
+                        <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                            data-i18n="opportunity.protocol.step1.desc">El sistema valida IntegrityScore activo (≥ 75) y
+                            perfil de inversor cualificado en Órbita 1. Sin perfil activo, el acceso al detalle de
+                            mandatos está bloqueado por diseño.</p>
+                    </div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="grid grid-cols-[auto_1fr] gap-6 group">
+                    <div
+                        class="w-8 h-8 rounded-full border border-[var(--theme-accent)] text-[var(--theme-accent)] flex items-center justify-center font-mono text-xs group-hover:bg-[var(--theme-accent)] group-hover:text-[var(--theme-deep-ocean)] transition-all">
+                        02</div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-medium text-[var(--theme-foreground)] uppercase tracking-wide"
+                            data-i18n="opportunity.protocol.step2.title">Solicitud de acceso al mandato</h4>
+                        <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                            data-i18n="opportunity.protocol.step2.desc">El inversor cualificado expresa interés en un
+                            mandato visible. La solicitud no implica compromiso económico ni transmite datos de
+                            identidad al emisor del mandato.</p>
+                    </div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="grid grid-cols-[auto_1fr] gap-6 group">
+                    <div
+                        class="w-8 h-8 rounded-full border border-[var(--theme-accent)] text-[var(--theme-accent)] flex items-center justify-center font-mono text-xs group-hover:bg-[var(--theme-accent)] group-hover:text-[var(--theme-deep-ocean)] transition-all">
+                        03</div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-medium text-[var(--theme-foreground)] uppercase tracking-wide"
+                            data-i18n="opportunity.protocol.step3.title">Validación cruzada AIP</h4>
+                        <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                            data-i18n="opportunity.protocol.step3.desc">AIP ejecuta la validación cruzada entre el
+                            perfil del inversor y los requisitos del mandato. Timeline estimado: 3–5 días hábiles. No se
+                            garantiza compatibilidad.</p>
+                    </div>
+                </div>
+
+                <!-- Paso 4 -->
+                <div class="grid grid-cols-[auto_1fr] gap-6 group">
+                    <div
+                        class="w-8 h-8 rounded-full border border-[var(--theme-accent)] text-[var(--theme-accent)] flex items-center justify-center font-mono text-xs group-hover:bg-[var(--theme-accent)] group-hover:text-[var(--theme-deep-ocean)] transition-all">
+                        04</div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-medium text-[var(--theme-foreground)] uppercase tracking-wide"
+                            data-i18n="opportunity.protocol.step4.title">Apertura del canal bilateral</h4>
+                        <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                            data-i18n="opportunity.protocol.step4.desc">Tras validación positiva, AIP habilita el canal
+                            de comunicación protegido entre las partes. La identidad del emisor del mandato se revela en
+                            este punto, bajo NDA estructural del protocolo fiduciario.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Bloque 4: Gate de IntegrityScore -->
+        <section class="opportunity-section--gate">
+
+            <!-- ESTADO BLOQUEADO (Default) -->
+            <div class="opportunity-gate__blocked bg-[var(--theme-surface-bright)] border border-[var(--theme-accent)]/30 p-10 text-center space-y-6"
+                id="opportunity-gate-blocked" data-min-score="75">
+                <div class="flex justify-center">
+                    <span class="material-symbols-outlined text-4xl text-[var(--theme-accent)] opacity-50">lock</span>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-xl font-serif text-[var(--theme-foreground)]"
+                        data-i18n="opportunity.gate.blocked.title">Acceso Restringido</h3>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] tracking-[0.2em] uppercase"
+                        data-i18n="opportunity.gate.blocked.subtitle">El detalle de mandatos disponibles requiere
+                        IntegrityScore ≥ 75 y perfil de inversor cualificado activo. Complete el proceso de admisión
+                        fiduciaria en Órbita 1 para habilitar este canal.</p>
+                </div>
+                <div class="pt-4">
+                    <button data-action="OrbitTransitionAdmission"
+                        class="px-10 py-4 border border-[var(--theme-accent)] text-[var(--theme-accent)] font-bold text-[10px] uppercase tracking-[0.4em] transition-all hover:bg-[var(--theme-accent)] hover:text-[var(--theme-deep-ocean)] active:scale-95"
+                        data-i18n="opportunity.gate.blocked.cta">
+                        Iniciar proceso de admisión.
+                    </button>
+                </div>
+            </div>
+
+            <!-- ESTADO ABIERTO (Hidden) -->
+            <div class="opportunity-gate__open bg-[var(--theme-surface-bright)] border border-[var(--theme-accent)] p-10 text-center space-y-6"
+                id="opportunity-gate-open" hidden>
+                <div class="flex justify-center">
+                    <span class="material-symbols-outlined text-4xl text-[var(--theme-accent)]">verified_user</span>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-xl font-serif text-[var(--theme-foreground)]"
+                        data-i18n="opportunity.gate.open.title">CANAL HABILITADO</h3>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] tracking-[0.2em] uppercase"
+                        data-i18n="opportunity.gate.open.subtitle">Su perfil cumple los requisitos de acceso. Los
+                        mandatos disponibles aparecen en el directorio protegido de Órbita 1.</p>
+                </div>
+                <div class="pt-4">
+                    <button data-action="OrbitTransitionCRM"
+                        class="px-10 py-4 bg-[var(--theme-accent)] text-[var(--theme-deep-ocean)] font-bold text-[10px] uppercase tracking-[0.4em] transition-all hover:brightness-110 active:scale-95"
+                        data-i18n="opportunity.gate.open.cta">
+                        Acceder al directorio de mandatos.
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Bloque 5: Disclaimer -->
+        <footer class="opportunity-section--disclaimer pt-10 border-t border-[var(--theme-border)]">
+            <div class="bg-[var(--theme-surface)]/40 p-6 border-l-2 border-[var(--theme-accent)]">
+                <p class="text-[10px] text-[var(--theme-foreground-alt)] leading-relaxed italic"
+                    data-i18n="opportunity.legal.disclaimer">
+                    <strong data-i18n="opportunity.disclaimer.label">Información regulatoria (MiFID II /
+                        AIFMD):</strong> Los mandatos de inversión publicados en este canal están dirigidos
+                    exclusivamente a inversores cualificados conforme a la legislación aplicable. La publicación de un
+                    mandato no constituye oferta pública de valores ni invitación general a invertir. La inversión en
+                    activos de capital privado y materias primas conlleva riesgos, incluida la posible pérdida total del
+                    capital invertido. AIP Financial & Commodities no actúa como asesor financiero independiente ni
+                    gestiona los activos de los mandatos publicados.
+                </p>
+            </div>
+        </footer>
+    </div>
+</div>
