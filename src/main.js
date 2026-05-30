@@ -24,6 +24,7 @@ import sessionGC from './01-core/sessionGC.js';                 // [E3-T03] Reco
 import { GenesisWizard } from './03-interface/wizards/GenesisWizard.js'; // [E3-T01] Esclusa del Golden Gate
 import { LegalModal } from './03-interface/wizards/LegalModal.js';    // [E3-T02] Guardián legal fluido
 import './gadgets/aip-orbit1-tree.js';                               // [E5-GADGET-7.4] Árbol de mandatos Órbita 1 (auto-wire en Skeleton:Legal:Accepted)
+import './gadgets/aip-crm-home.js';                                // [E5-GADGET-7.4] CRM Home — Portfolio Overview (auto-wire en Skeleton:Legal:Accepted)
 
 /**
  * Whitelist de Verticales Autorizadas (COG-64)
