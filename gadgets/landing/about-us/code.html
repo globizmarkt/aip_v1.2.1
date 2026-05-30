@@ -19,6 +19,25 @@
         font-family: sans-serif;
         padding: 2rem;
     }
+
+    /* [Sprint 18.5] Legibilidad sobre fondo abisal — R-GADGET-01 autorizado por Director */
+    #tab-about-us .tab-view__body p,
+    #tab-about-us .tab-view__body li span:not([class*="text-[var(--theme-accent)"]) {
+        color: var(--theme-foreground);
+        opacity: 0.82;
+    }
+    #tab-about-us .tab-view__body .text-[var(--theme-foreground-alt)] {
+        color: var(--theme-foreground) !important;
+        opacity: 0.72;
+    }
+    #tab-about-us h1.font-serif {
+        font-weight: 400; /* light → normal para mejor rendering sobre abisal */
+    }
+    #tab-about-us h2,
+    #tab-about-us h3,
+    #tab-about-us h4 {
+        font-weight: 500;
+    }
 </style>
 <div class="tab-view w-full" id="tab-about-us" data-tab="about-us">
 
