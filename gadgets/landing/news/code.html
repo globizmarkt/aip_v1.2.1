@@ -120,7 +120,7 @@
         <section class="news-section--grid relative min-h-[400px]">
 
             <!-- Loading State -->
-            <div id="news-loading-state" class="flex flex-col items-center justify-center py-20 space-y-4">
+            <div id="news-loading-state" class="flex flex-col items-center justify-center py-20 space-y-4" hidden>
                 <div class="loader-bar w-48"></div>
                 <p class="text-[10px] uppercase tracking-[0.3em] text-[var(--theme-accent)] animate-pulse"
                     data-i18n="news.loading.text">
@@ -131,7 +131,7 @@
             <!-- Empty State -->
             <div id="news-empty-state" class="flex flex-col items-center justify-center py-20 text-center" hidden>
                 <span
-                    class="material-symbols-outlined text-[var(--theme-foreground-alt)] opacity-20 text-5xl mb-4">Inbox</span>
+                    class="material-symbols-outlined text-[var(--theme-foreground-alt)] opacity-20 text-5xl mb-4">inbox</span>
                 <p class="text-sm text-[var(--theme-foreground-alt)]" data-i18n="news.empty.text">
                     No hay información disponible en este momento. Los datos se actualizan automáticamente cada 30
                     minutos.
@@ -140,7 +140,7 @@
 
             <!-- Error State -->
             <div id="news-error-state" class="flex flex-col items-center justify-center py-20 text-center" hidden>
-                <span class="material-symbols-outlined text-red-500/50 text-5xl mb-4">Warning</span>
+                <span class="material-symbols-outlined text-red-500/50 text-5xl mb-4">warning</span>
                 <p class="text-sm text-[var(--theme-foreground-alt)]" data-i18n="news.error.text">
                     No ha sido posible recuperar la información. Reintente en unos minutos.
                 </p>
