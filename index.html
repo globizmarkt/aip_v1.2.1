@@ -88,11 +88,15 @@
             }
         }, true);
     </script>
-    <!-- [NAV-ACTIVE] Estado activo de tabs de navegación — gestionado por TabLoader -->
+    <!-- [NAV-ACTIVE] Estado activo de tabs + [R7] Inhibición orbit-3 en landing -->
     <style>
         .nav-tab--active {
             color: var(--stitch-gold) !important;
             opacity: 1 !important;
+        }
+        /* orbit-3 invisible en landing, visible automáticamente al entrar en crm-mode */
+        body:not(.crm-mode) #orbit-3 {
+            display: none !important;
         }
     </style>
 </head>
@@ -251,7 +255,7 @@
         </section>
 
         <!-- [GADGET_0.3] Órbita 3 — 3 Pestañas · Paleta Abisal · 2026-05-25 -->
-        <aside id="orbit-3" class="orbita-3-shell hidden"><!-- TAB-INJ-01: inhibición visual pre-render R7 -->
+        <aside id="orbit-3" class="orbita-3-shell"><!-- TAB-INJ-01: inhibición vía CSS body:not(.crm-mode) -->
 
             <!-- Fiduciary Rail — 3 dominios + cierre -->
             <nav class="orbita-3-rail" role="navigation" aria-label="Dominios de control">

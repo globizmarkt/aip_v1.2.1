@@ -2,44 +2,39 @@
 <!-- %[Fase 14] - Industrialización de Pestañas - Estándar Abisal -->
 
 <script src="https://cdn.tailwindcss.com"></script>
-<style>
-    :root {
-        --theme-deep-ocean: #101D33;
-        --theme-surface: #162641;
-        --theme-surface-alt: #0D1726;
-        --theme-surface-bright: #1A2C42;
-        --theme-foreground: #F8F9FA;
-        --theme-foreground-alt: #94A3B8;
-        --theme-accent: #C1A85D;
-        --theme-border: rgba(193, 168, 93, 0.15);
-    }
-
-    body {
-        background-color: var(--theme-deep-ocean);
-        font-family: sans-serif;
-        padding: 2rem;
-    }
-
-    /* [Sprint 18.5] Legibilidad sobre fondo abisal — R-GADGET-01 autorizado por Director */
-    #tab-about-us .tab-view__body p,
-    #tab-about-us .tab-view__body li span:not([class*="text-[var(--theme-accent)"]) {
-        color: var(--theme-foreground);
-        opacity: 0.82;
-    }
-    #tab-about-us .tab-view__body .text-[var(--theme-foreground-alt)] {
-        color: var(--theme-foreground) !important;
-        opacity: 0.72;
-    }
-    #tab-about-us h1.font-serif {
-        font-weight: 400; /* light → normal para mejor rendering sobre abisal */
-    }
-    #tab-about-us h2,
-    #tab-about-us h3,
-    #tab-about-us h4 {
-        font-weight: 500;
-    }
-</style>
 <div class="tab-view w-full" id="tab-about-us" data-tab="about-us">
+    <!-- [Sprint 18.5] style DENTRO del div raíz — sobrevive DOMParser body extraction -->
+    <style>
+        :root {
+            --theme-deep-ocean: #101D33;
+            --theme-surface: #162641;
+            --theme-surface-alt: #0D1726;
+            --theme-surface-bright: #1A2C42;
+            --theme-foreground: #F8F9FA;
+            --theme-foreground-alt: #94A3B8;
+            --theme-accent: #C1A85D;
+            --theme-border: rgba(193, 168, 93, 0.15);
+        }
+
+        /* [Sprint 18.5] Legibilidad sobre fondo abisal */
+        #tab-about-us .tab-view__body p,
+        #tab-about-us .tab-view__body li span:not([class*="text-[var(--theme-accent)"]) {
+            color: var(--theme-foreground);
+            opacity: 0.82;
+        }
+        #tab-about-us .tab-view__body .text-\[var\(--theme-foreground-alt\)\] {
+            color: var(--theme-foreground) !important;
+            opacity: 0.72;
+        }
+        #tab-about-us h1.font-serif {
+            font-weight: 400;
+        }
+        #tab-about-us h2,
+        #tab-about-us h3,
+        #tab-about-us h4 {
+            font-weight: 500;
+        }
+    </style>
 
     <!-- CABECERA DEL GADGET (Doctrina §4) -->
     <div class="tab-view__header mb-10 pb-6 border-b border-[var(--theme-border)]">

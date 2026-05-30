@@ -1,34 +1,33 @@
-<!-- [Sprint 18.5] Jerarquía tipográfica + sustitución emojis por Material Symbols -->
-<style>
-    #tab-regulatory .tab-view__title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(2rem, 4vw, 3.5rem);
-        font-weight: 300;
-        letter-spacing: 0.04em;
-        line-height: 1.1;
-    }
-    #tab-regulatory .section-heading {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.65rem;
-        letter-spacing: 0.35em;
-        text-transform: uppercase;
-        color: var(--theme-foreground-alt, #94A3B8);
-        margin-bottom: 1.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    #tab-regulatory .section-heading::before {
-        content: '';
-        display: inline-block;
-        width: 1.5rem;
-        height: 1px;
-        background: currentColor;
-        opacity: 0.4;
-    }
-</style>
-
 <div class="tab-view w-full max-w-6xl mx-auto" id="tab-regulatory" data-tab="regulatory">
+    <!-- [Sprint 18.5] style DENTRO del div raíz — sobrevive DOMParser body extraction -->
+    <style>
+        #tab-regulatory .tab-view__title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+        }
+        #tab-regulatory .section-heading {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--theme-foreground-alt, #94A3B8);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        #tab-regulatory .section-heading::before {
+            content: '';
+            display: inline-block;
+            width: 1.5rem;
+            height: 1px;
+            background: currentColor;
+            opacity: 0.4;
+        }
+    </style>
 
   <!-- Header canónico -->
   <header class="tab-view__header">

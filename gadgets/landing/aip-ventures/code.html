@@ -4,7 +4,9 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- Fuentes específicas del gadget no incluidas en index.html global -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&family=DM+Mono:wght@300;400;500&family=Public+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
-<style>
+<div class="tab-view w-full max-w-7xl mx-auto" data-tab="aip-ventures" id="tab-aip-ventures">
+    <!-- [Sprint 18.5] style DENTRO del div raíz — sobrevive DOMParser body extraction -->
+    <style>
     :root {
         --uk-gold: #C1A85D;
         --abisal-bg: #101D33;
@@ -115,7 +117,6 @@
     }
 </style>
 
-<div class="tab-view w-full max-w-7xl mx-auto" data-tab="aip-ventures" id="tab-aip-ventures">
     <!-- GADGET_6.3 - AIP VENTURES - [CARRIL-AIP-001] — SUTURADO 2026-05-30 -->
     <!-- CABECERA DEL GADGET -->
     <!-- SUTURA 1: border-[rgba(193,168,93,0.15)] → border-[var(--glass-border-mid)] -->
