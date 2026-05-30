@@ -1,0 +1,328 @@
+<!-- GADGET_01_LAND.3 — About Us (AIP Financial & Commodities) -->
+<!-- %[Fase 14] - Industrialización de Pestañas - Estándar Abisal -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    :root {
+        --theme-deep-ocean: #101D33;
+        --theme-surface: #162641;
+        --theme-surface-alt: #0D1726;
+        --theme-surface-bright: #1A2C42;
+        --theme-foreground: #F8F9FA;
+        --theme-foreground-alt: #94A3B8;
+        --theme-accent: #C1A85D;
+        --theme-border: rgba(193, 168, 93, 0.15);
+    }
+
+    body {
+        background-color: var(--theme-deep-ocean);
+        font-family: sans-serif;
+        padding: 2rem;
+    }
+</style>
+<div class="tab-view w-full" id="tab-about-us" data-tab="about-us">
+
+    <!-- CABECERA DEL GADGET (Doctrina §4) -->
+    <div class="tab-view__header mb-10 pb-6 border-b border-[var(--theme-border)]">
+        <p class="text-[10px] uppercase tracking-[0.4em] text-[var(--theme-accent)] mb-3">
+            Modelo Institucional
+        </p>
+        <h1 class="font-serif text-4xl font-light tracking-wide text-[var(--theme-foreground)] mb-3"
+            data-i18n="aboutus.identity.title">
+            AIP Financial & Commodities
+        </h1>
+        <p class="text-sm text-[var(--theme-foreground-alt)] max-w-2xl leading-relaxed"
+            data-i18n="aboutus.identity.subtitle">
+            Intermediario fiduciario para capital institucional y materias primas estructuradas
+        </p>
+    </div>
+
+    <div class="tab-view__body space-y-12">
+
+        <!-- BLOQUE 1: Identidad Institucional -->
+        <section
+            class="aboutus-section aboutus-section--identity bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8">
+            <div class="aboutus-identity space-y-4 text-sm text-[var(--theme-foreground-alt)] leading-relaxed">
+                <p data-i18n="aboutus.identity.p1">
+                    AIP Financial & Commodities opera como intermediario fiduciario entre inversores cualificados y
+                    productos estructurados de capital privado y materias primas. No es una plataforma de acceso
+                    abierto. El acceso está condicionado por un protocolo de admisión y verificación de integridad.
+                </p>
+                <p data-i18n="aboutus.identity.p2">
+                    La arquitectura fiduciaria descansa sobre tres pilares: jurisdicción regulada (AFM/DNB, Países
+                    Bajos), estructura STAK con segregación de activos, y Triple Esclusa de Cumplimiento como condición
+                    previa a cualquier operación.
+                </p>
+            </div>
+        </section>
+
+        <!-- BLOQUE 2: Modelo Institucional (Qué es vs Qué no es) -->
+        <section class="aboutus-section aboutus-section--positioning">
+            <h3 class="text-xs uppercase tracking-[0.2em] text-[var(--theme-accent)] mb-6 font-semibold"
+                data-i18n="aboutus.positioning.title">
+                Modelo Institucional
+            </h3>
+            <div class="aboutus-positioning__grid grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- QUÉ ES AIP -->
+                <div
+                    class="positioning-card positioning-card--what bg-[var(--theme-surface-alt)] border border-[var(--theme-border)] p-8 transition-colors hover:border-[var(--theme-accent)]/30 group">
+                    <div class="text-[10px] tracking-[0.2em] text-[var(--theme-accent)] font-mono mb-6 uppercase"
+                        data-i18n="aboutus.positioning.what.label">
+                        QUÉ ES AIP
+                    </div>
+                    <ul class="space-y-4 text-sm text-[var(--theme-foreground)] list-none">
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--theme-accent)]">·</span>
+                            <span data-i18n="aboutus.positioning.what.item1">Intermediario fiduciario con esclusa de
+                                integridad</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--theme-accent)]">·</span>
+                            <span data-i18n="aboutus.positioning.what.item2">Gatekeeper algorítmico de calidad del
+                                capital</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--theme-accent)]">·</span>
+                            <span data-i18n="aboutus.positioning.what.item3">Entorno de admisión previa para inversores
+                                acreditados</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--theme-accent)]">·</span>
+                            <span data-i18n="aboutus.positioning.what.item4">Plataforma regulada bajo jurisdicción
+                                AFM/DNB</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- QUÉ NO ES AIP -->
+                <div
+                    class="positioning-card positioning-card--not bg-[var(--theme-surface-alt)] border border-[var(--theme-border)] p-8">
+                    <div class="text-[10px] tracking-[0.2em] text-[var(--theme-foreground-alt)] font-mono mb-6 uppercase"
+                        data-i18n="aboutus.positioning.not.label">
+                        QUÉ NO ES AIP
+                    </div>
+                    <ul class="space-y-4 text-sm text-[var(--theme-foreground-alt)] list-none font-light">
+                        <li class="flex items-start gap-3">
+                            <span class="opacity-30">·</span>
+                            <span data-i18n="aboutus.positioning.not.item1">Exchange de acceso abierto</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="opacity-30">·</span>
+                            <span data-i18n="aboutus.positioning.not.item2">Custodio bancario tradicional</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="opacity-30">·</span>
+                            <span data-i18n="aboutus.positioning.not.item3">Fondo de capital riesgo convencional</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="opacity-30">·</span>
+                            <span data-i18n="aboutus.positioning.not.item4">Plataforma de financiación
+                                participativa</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOQUE 3: Capacidades Institucionales (Tabla Grid Alta Densidad) -->
+        <section class="aboutus-section aboutus-section--services">
+            <div class="mb-8">
+                <h3 class="text-xs uppercase tracking-[0.2em] text-[var(--theme-accent)] mb-2 font-semibold"
+                    data-i18n="aboutus.services.title">
+                    Capacidades Institucionales
+                </h3>
+                <p class="text-[10px] text-[var(--theme-foreground-alt)] uppercase tracking-wider"
+                    data-i18n="aboutus.services.subtitle">
+                    Acceso condicionado por IntegrityScore
+                </p>
+            </div>
+
+            <div class="aboutus-services__table border border-[var(--theme-border)]" role="table">
+                <!-- Header -->
+                <div class="service-row service-row--header grid grid-cols-10 bg-[var(--theme-surface-bright)] border-b border-[var(--theme-border)] p-4 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--theme-accent)]"
+                    role="row">
+                    <div class="col-span-3" role="columnheader" data-i18n="aboutus.services.col.name">Capacidad</div>
+                    <div class="col-span-5 px-4" role="columnheader" data-i18n="aboutus.services.col.desc">Descripción
+                    </div>
+                    <div class="col-span-2 text-right" role="columnheader" data-i18n="aboutus.services.col.access">
+                        Acceso</div>
+                </div>
+
+                <!-- Row 1: Admisión -->
+                <div class="service-row grid grid-cols-10 border-b border-[var(--theme-border)] p-4 items-center hover:bg-[var(--theme-surface-bright)]/50 transition-colors"
+                    role="row">
+                    <div class="col-span-3 text-xs font-medium text-[var(--theme-foreground)] uppercase tracking-wider"
+                        role="cell" data-i18n="aboutus.services.row1.name">Admisión Fiduciaria</div>
+                    <div class="col-span-5 px-4 text-xs text-[var(--theme-foreground-alt)] leading-relaxed" role="cell"
+                        data-i18n="aboutus.services.row1.desc">Verificación patrimonial y Triple Esclusa de Cumplimiento
+                        (KYC → AML → Sanciones). Generación de IntegrityScore inicial.</div>
+                    <div class="col-span-2 text-right font-mono text-[10px] text-[var(--theme-accent)]" role="cell"
+                        data-i18n="aboutus.services.row1.access">Cualificado</div>
+                </div>
+
+                <!-- Row 2: Workspace -->
+                <div class="service-row grid grid-cols-10 border-b border-[var(--theme-border)] p-4 items-center hover:bg-[var(--theme-surface-bright)]/50 transition-colors"
+                    role="row">
+                    <div class="col-span-3 text-xs font-medium text-[var(--theme-foreground)] uppercase tracking-wider"
+                        role="cell" data-i18n="aboutus.services.row2.name">Workspace CRM</div>
+                    <div class="col-span-5 px-4 text-xs text-[var(--theme-foreground-alt)] leading-relaxed" role="cell"
+                        data-i18n="aboutus.services.row2.desc">Consola de gestión de contrapartes con trazabilidad de
+                        operaciones y registro de Deuda de Know-how.</div>
+                    <div class="col-span-2 text-right font-mono text-[10px] text-[var(--theme-accent)]" role="cell"
+                        data-i18n="aboutus.services.row2.access">IntegrityScore ≥ 60</div>
+                </div>
+
+                <!-- Row 3: Inteligencia -->
+                <div class="service-row grid grid-cols-10 border-b border-[var(--theme-border)] p-4 items-center hover:bg-[var(--theme-surface-bright)]/50 transition-colors"
+                    role="row">
+                    <div class="col-span-3 text-xs font-medium text-[var(--theme-foreground)] uppercase tracking-wider"
+                        role="cell" data-i18n="aboutus.services.row3.name">Inteligencia de Mercado</div>
+                    <div class="col-span-5 px-4 text-xs text-[var(--theme-foreground-alt)] leading-relaxed" role="cell"
+                        data-i18n="aboutus.services.row3.desc">Vigilancia algorítmica de commodities (metales, energía,
+                        agrícolas) con señales de riesgo regulatorio en tiempo real.</div>
+                    <div class="col-span-2 text-right font-mono text-[10px] text-[var(--theme-accent)]" role="cell"
+                        data-i18n="aboutus.services.row3.access">IntegrityScore ≥ 60</div>
+                </div>
+
+                <!-- Row 4: Captura -->
+                <div class="service-row grid grid-cols-10 border-b border-[var(--theme-border)] p-4 items-center hover:bg-[var(--theme-surface-bright)]/50 transition-colors"
+                    role="row">
+                    <div class="col-span-3 text-xs font-medium text-[var(--theme-foreground)] uppercase tracking-wider"
+                        role="cell" data-i18n="aboutus.services.row4.name">Captura de Oportunidades</div>
+                    <div class="col-span-5 px-4 text-xs text-[var(--theme-foreground-alt)] leading-relaxed" role="cell"
+                        data-i18n="aboutus.services.row4.desc">Matching entre liquidez institucional y mandatos
+                        verificados. Ejecución diferida con validación fiduciaria.</div>
+                    <div class="col-span-2 text-right font-mono text-[10px] text-[var(--theme-accent)]" role="cell"
+                        data-i18n="aboutus.services.row4.access">IntegrityScore ≥ 75</div>
+                </div>
+
+                <!-- Row 5: Soporte -->
+                <div class="service-row grid grid-cols-10 p-4 items-center hover:bg-[var(--theme-surface-bright)]/50 transition-colors"
+                    role="row">
+                    <div class="col-span-3 text-xs font-medium text-[var(--theme-foreground)] uppercase tracking-wider"
+                        role="cell" data-i18n="aboutus.services.row5.name">Soporte de Validación</div>
+                    <div class="col-span-5 px-4 text-xs text-[var(--theme-foreground-alt)] leading-relaxed" role="cell"
+                        data-i18n="aboutus.services.row5.desc">Audit trail inmutable para Compliance Officers.
+                        Exportación de flujos KYC/AML para auditoría externa.</div>
+                    <div class="col-span-2 text-right font-mono text-[10px] text-[var(--theme-accent)]" role="cell"
+                        data-i18n="aboutus.services.row5.access">Perfil Gatekeeper</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOQUE 4: Principios Operativos (Grid 2x2) -->
+        <section class="aboutus-section aboutus-section--principles">
+            <h3 class="text-xs uppercase tracking-[0.2em] text-[var(--theme-accent)] mb-6 font-semibold"
+                data-i18n="aboutus.principles.title">
+                Principios Operativos
+            </h3>
+            <div class="aboutus-principles__grid grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Tarjeta 1 -->
+                <div
+                    class="principle-card bg-[var(--theme-surface)] border border-[var(--theme-border)] p-6 hover:bg-[var(--theme-surface-bright)]/30 transition-all">
+                    <div class="text-[10px] font-mono tracking-[0.2em] text-[var(--theme-accent)] mb-4 uppercase"
+                        data-i18n="aboutus.principles.p1.label">
+                        FRICCIÓN DELIBERADA
+                    </div>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                        data-i18n="aboutus.principles.p1.text">
+                        La complejidad del proceso de admisión no es un obstáculo. Es un filtro de calidad que
+                        desacelera transacciones para permitir verificación AML/KYC en tiempo real.
+                    </p>
+                </div>
+                <!-- Tarjeta 2 -->
+                <div
+                    class="principle-card bg-[var(--theme-surface)] border border-[var(--theme-border)] p-6 hover:bg-[var(--theme-surface-bright)]/30 transition-all">
+                    <div class="text-[10px] font-mono tracking-[0.2em] text-[var(--theme-accent)] mb-4 uppercase"
+                        data-i18n="aboutus.principles.p2.label">
+                        SOBERANÍA FIDUCIARIA
+                    </div>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                        data-i18n="aboutus.principles.p2.text">
+                        Cero dependencia de APIs externas de seguimiento. El estado del usuario reside en sesión local
+                        bajo prefijo controlado. El DOM no almacena información sensible.
+                    </p>
+                </div>
+                <!-- Tarjeta 3 -->
+                <div
+                    class="principle-card bg-[var(--theme-surface)] border border-[var(--theme-border)] p-6 hover:bg-[var(--theme-surface-bright)]/30 transition-all">
+                    <div class="text-[10px] font-mono tracking-[0.2em] text-[var(--theme-accent)] mb-4 uppercase"
+                        data-i18n="aboutus.principles.p3.label">
+                        TRAZABILIDAD CIEGA
+                    </div>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                        data-i18n="aboutus.principles.p3.text">
+                        Los metadatos del usuario se depuran en el PassportEngine. Solo el IntegrityScore —sin datos
+                        personales— transita entre órbitas operativas.
+                    </p>
+                </div>
+                <!-- Tarjeta 4 -->
+                <div
+                    class="principle-card bg-[var(--theme-surface)] border border-[var(--theme-border)] p-6 hover:bg-[var(--theme-surface-bright)]/30 transition-all">
+                    <div class="text-[10px] font-mono tracking-[0.2em] text-[var(--theme-accent)] mb-4 uppercase"
+                        data-i18n="aboutus.principles.p4.label">
+                        ADMISIÓN ANTES QUE VENTA
+                    </div>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                        data-i18n="aboutus.principles.p4.text">
+                        AIP no persigue capital. Verifica carteras. El acceso al producto es consecuencia de la
+                        verificación, no condición de ella.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOQUE 5: Marco Regulatorio -->
+        <section class="aboutus-section aboutus-section--legal space-y-8">
+            <h3 class="text-xs uppercase tracking-[0.2em] text-[var(--theme-accent)] mb-6 font-semibold"
+                data-i18n="aboutus.legal.title">
+                Regulatory Framework
+            </h3>
+            <div class="aboutus-legal__grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="legal-card bg-[var(--theme-surface-alt)] border border-[var(--theme-border)] p-6">
+                    <div class="text-[10px] font-mono tracking-[0.2em] text-[var(--theme-accent)] mb-4 uppercase"
+                        data-i18n="aboutus.legal.card1.label">
+                        JURISDICCIÓN
+                    </div>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                        data-i18n="aboutus.legal.card1.text">
+                        Países Bajos — Supervisión AFM (Autoridad de Mercados Financieros) y DNB (Banco Central).
+                        Registro activo y cumplimiento continuo.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="legal-card bg-[var(--theme-surface-alt)] border border-[var(--theme-border)] p-6">
+                    <div class="text-[10px] font-mono tracking-[0.2em] text-[var(--theme-accent)] mb-4 uppercase"
+                        data-i18n="aboutus.legal.card2.label">
+                        ESTRUCTURA
+                    </div>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                        data-i18n="aboutus.legal.card2.text">
+                        STAK fiduciaria con segregación de activos. Los derechos económicos y los derechos de control
+                        están separados por diseño estructural.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="legal-card bg-[var(--theme-surface-alt)] border border-[var(--theme-border)] p-6">
+                    <div class="text-[10px] font-mono tracking-[0.2em] text-[var(--theme-accent)] mb-4 uppercase"
+                        data-i18n="aboutus.legal.card3.label">
+                        MARCO NORMATIVO
+                    </div>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed"
+                        data-i18n="aboutus.legal.card3.text">
+                        MiFID II · AIFMD · GDPR · Directiva AML5. El cumplimiento normativo es condición estructural, no
+                        declaración de intención.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Disclaimer Final -->
+            <div class="aboutus-legal__disclaimer text-[11px] text-[var(--theme-foreground-alt)] leading-relaxed bg-[var(--theme-surface)] border-l-2 border-[var(--theme-accent)] p-6 italic shadow-xl"
+                data-i18n="aboutus.legal.disclaimer">
+                <strong>Aviso regulatorio:</strong> AIP Financial & Commodities no actúa como asesor financiero
+                independiente. La información contenida en esta plataforma tiene carácter institucional y está dirigida
+                exclusivamente a inversores cualificados conforme a la legislación aplicable en su jurisdicción.
+            </div>
+        </section>
+    </div> <!-- /.tab-view__body -->
+</div> <!-- /#tab-about-us -->
