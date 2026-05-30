@@ -77,16 +77,18 @@
         class="flex-none z-50 flex justify-between items-center px-8 py-5 border-b border-outline-variant bg-background/60 backdrop-blur-xl">
         <span class="font-serif text-2xl tracking-[0.25em] uppercase text-secondary" data-i18n="header.brand">—</span>
         <nav class="flex items-center gap-6">
+            <!-- [LAND-07] about-us/ — fusión de about-aip + our-services · 2026-05-30 -->
             <button type="button" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
-                data-action="TabAboutAipClick" data-tab="about-aip" data-i18n="nav.about">—</button>
-            <button type="button" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
-                data-action="TabOurServicesClick" data-tab="our-services" data-i18n="nav.services">—</button>
+                data-action="TabAboutUsClick" data-tab="about-us" data-i18n="nav.about">—</button>
+            <!-- [LAND-05] TabOurServicesClick + our-services/ → DEPRECADO (fusionado en about-us) -->
+            <!-- [LAND-06] markets/ → news/ (slug canónico) · 2026-05-30 -->
             <button type="button"
                 class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
-                data-action="TabMarketsClick" data-tab="markets" data-i18n="nav.market">—</button>
+                data-action="TabMarketsClick" data-tab="news" data-i18n="nav.market">—</button>
+            <!-- [LAND-08] intelligence/ → opportunity/ (slug canónico) · 2026-05-30 -->
             <button type="button"
                 class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
-                data-action="TabIntelligenceClick" data-tab="intelligence" data-i18n="nav.news">—</button>
+                data-action="TabIntelligenceClick" data-tab="opportunity" data-i18n="nav.news">—</button>
             <button type="button"
                 class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
                 data-action="TabRegulatoryClick" data-tab="regulatory" data-i18n="nav.legislation">—</button>

@@ -22,15 +22,18 @@
 /**
  * Slugs de landing autorizados (lista blanca explícita — R0).
  * Debe sincronizarse con gadgets/landing/ en disco.
+ *
+ * [LAND-05/06/07/08] Slugs canónicos post-DEC-LAND-01 — 2026-05-30
+ * Deprecados: about-aip, our-services (fusionados en about-us)
+ *             markets → news, intelligence → opportunity
  */
 const ALLOWED_SLUGS = Object.freeze({
     '__main__':     true,   // [TAB-INJ-01] Slug especial — restaura orbit-2-main-content (NavInicio)
-    'about-aip':    true,
-    'our-services': true,
-    'markets':      true,
-    'intelligence': true,
+    'about-us':     true,   // [LAND-07] Fusión about-aip + our-services
+    'news':         true,   // [LAND-06] Renombrado desde markets
+    'opportunity':  true,   // [LAND-08] Renombrado desde intelligence
     'regulatory':   true,
-    'aip-ventures': true,   // [LAND-01] Tab #6 añadido 2026-05-30
+    'aip-ventures': true,   // [LAND-01] Tab #6 — AIP Ventures
 });
 
 class TabLoaderEngine {
@@ -53,7 +56,7 @@ class TabLoaderEngine {
         }
 
         document.addEventListener('Skeleton:Action:TabNavigate', (e) => this.#load(e));
-        console.log('[TabLoader] Mecanismo de inyección de tabs activo — 7 slugs autorizados.');
+        console.log('[TabLoader] Mecanismo de inyección de tabs activo — 6 slugs autorizados (post-DEC-LAND-01).');
     }
 
     /**
@@ -80,6 +83,9 @@ class TabLoaderEngine {
 
         this.#currentSlug = slug;
 
+        // [TAB-INJ-01 · PASO C] Inhibición visual: clase de estado de carga sobre el contenedor
+        this.#container.classList.add('tab-content-container--loading');
+
         // Estado de carga — placeholder fiduciario (DT-AIP-05: createElement — sin innerHTML)
         const loadingEl = document.createElement('div');
         loadingEl.className = 'py-16 text-center text-on-surface-variant text-xs font-mono tracking-[0.3em] uppercase opacity-40';
@@ -96,10 +102,14 @@ class TabLoaderEngine {
 
             // DT-AIP-05: Sanitizar HTML externo antes de inyectar — nunca innerHTML directo
             this.#renderContainer(TabLoaderEngine.#sanitizeExternal(this.#cache[slug]));
+            // [PASO C] Levantar inhibición visual tras render exitoso
+            this.#container.classList.remove('tab-content-container--loading');
             console.log(`[TabLoader] ${slug} → inyectado en #tab-content-container (${this.#cache[slug].length} chars, sanitizado).`);
 
         } catch (err) {
             this.#currentSlug = null; // Permite reintentar en próximo click
+            // [PASO C] Levantar inhibición visual en caso de error también
+            this.#container.classList.remove('tab-content-container--loading');
             console.error('[TabLoader] Error cargando gadget:', err);
             // DT-AIP-05: err.message es dato externo — usar textContent, nunca interpolación en innerHTML
             const errWrap  = document.createElement('div');
