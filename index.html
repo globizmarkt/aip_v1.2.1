@@ -95,9 +95,9 @@
             color: var(--stitch-gold) !important;
             opacity: 1 !important;
         }
-        /* orbit-3 invisible en landing, visible automáticamente al entrar en crm-mode */
-        body:not(.crm-mode) #orbit-3 {
-            display: none !important;
+        /* orbit-3 visible en landing (SISTEMA/AIMON/ACCESO) — se oculta en CRM donde Trinity Layout toma el control */
+        body.crm-mode #orbit-3 {
+            display: none;
         }
         /* [FIX-2.1] Radio buttons abisal — appearance-none + diseño manual */
         input[type="radio"].accent-secondary {
