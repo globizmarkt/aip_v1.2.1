@@ -70,6 +70,24 @@
             }
         }
     </script>
+    <!-- [LANG-DROPDOWN] Cierre del selector de idioma tras selección + stop propagation -->
+    <script>
+        document.addEventListener('Skeleton:Action:LanguageChange', (e) => {
+            const sel = document.getElementById('lang-selector');
+            if (sel) sel.removeAttribute('open');
+            // Actualizar label del summary con el idioma seleccionado
+            const summary = sel?.querySelector('summary');
+            if (summary && e.detail?.lang) {
+                summary.firstChild.textContent = e.detail.lang.toUpperCase() + ' ';
+            }
+        });
+        // stopPropagation en botones de idioma para evitar bubbling hacia orbit-3
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('#lang-selector [data-action="ChangeLanguage"]')) {
+                e.stopPropagation();
+            }
+        }, true);
+    </script>
     <!-- [NAV-ACTIVE] Estado activo de tabs de navegación — gestionado por TabLoader -->
     <style>
         .nav-tab--active {
