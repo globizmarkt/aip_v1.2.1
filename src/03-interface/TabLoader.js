@@ -41,6 +41,7 @@ class TabLoaderEngine {
     #mainContent = null;  // #orbit-2-main-content
     #currentSlug = null;  // Slug activo (evita recargas innecesarias)
     #cache       = {};    // HTML cacheado por slug (R19: no refetch en sesión)
+    #navButtons  = null;  // [NAV-ACTIVE] Botones de tab de la nav superior
 
     /**
      * Inicializa el motor y enlaza el listener del bus de eventos.
@@ -54,6 +55,9 @@ class TabLoaderEngine {
             console.warn('[TabLoader] Contenedores DOM ausentes (#tab-content-container / #orbit-2-main-content) — inyección desactivada.');
             return;
         }
+
+        // [NAV-ACTIVE] Recoger botones de tab de la nav para gestión de estado activo
+        this.#navButtons = document.querySelectorAll('nav [data-tab]');
 
         document.addEventListener('Skeleton:Action:TabNavigate', (e) => this.#load(e));
         console.log('[TabLoader] Mecanismo de inyección de tabs activo — 6 slugs autorizados (post-DEC-LAND-01).');
@@ -82,6 +86,9 @@ class TabLoaderEngine {
         if (this.#currentSlug === slug) return;
 
         this.#currentSlug = slug;
+
+        // [NAV-ACTIVE] Iluminar botón activo en dorado
+        this.#setActiveNav(slug);
 
         // [TAB-INJ-01 · PASO C] Inhibición visual: clase de estado de carga sobre el contenedor
         this.#container.classList.add('tab-content-container--loading');
@@ -166,7 +173,24 @@ class TabLoaderEngine {
         this.#container.classList.add('hidden');    // Ocultar contenedor de tab
         this.#mainContent.classList.remove('hidden'); // Mostrar orbit-2-main-content
         this.#currentSlug = null;                   // Resetear slug activo
+        this.#setActiveNav(null);                   // [NAV-ACTIVE] Limpiar estado activo
         console.log('[TabLoader] NavInicio → orbit-2-main-content restaurado.');
+    }
+
+    /**
+     * [NAV-ACTIVE] Gestiona el estado visual activo en la barra de navegación.
+     * Aplica .nav-tab--active al botón cuyo data-tab coincide con el slug activo.
+     * @param {string|null} slug — slug activo, o null para limpiar todos
+     */
+    #setActiveNav(slug) {
+        if (!this.#navButtons) return;
+        this.#navButtons.forEach(btn => {
+            if (slug && btn.dataset.tab === slug) {
+                btn.classList.add('nav-tab--active');
+            } else {
+                btn.classList.remove('nav-tab--active');
+            }
+        });
     }
 
     /**
