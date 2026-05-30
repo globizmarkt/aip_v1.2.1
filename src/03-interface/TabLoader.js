@@ -58,6 +58,7 @@ class TabLoaderEngine {
 
         // [NAV-ACTIVE] Recoger botones de tab de la nav para gestión de estado activo
         this.#navButtons = document.querySelectorAll('nav [data-tab]');
+        this.#setActiveNav('__main__'); // [FIX-1.2] INICIO activo por defecto en carga inicial
 
         document.addEventListener('Skeleton:Action:TabNavigate', (e) => this.#load(e));
         console.log('[TabLoader] Mecanismo de inyección de tabs activo — 6 slugs autorizados (post-DEC-LAND-01).');
@@ -173,7 +174,7 @@ class TabLoaderEngine {
         this.#container.classList.add('hidden');    // Ocultar contenedor de tab
         this.#mainContent.classList.remove('hidden'); // Mostrar orbit-2-main-content
         this.#currentSlug = null;                   // Resetear slug activo
-        this.#setActiveNav(null);                   // [NAV-ACTIVE] Limpiar estado activo
+        this.#setActiveNav('__main__');             // [NAV-ACTIVE] INICIO activo al volver al home
         console.log('[TabLoader] NavInicio → orbit-2-main-content restaurado.');
     }
 

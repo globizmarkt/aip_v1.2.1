@@ -27,6 +27,63 @@
             background: currentColor;
             opacity: 0.4;
         }
+        #tab-regulatory .tab-view__subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            color: var(--theme-foreground-alt, #94A3B8);
+            opacity: 0.75;
+            margin-top: 0.75rem;
+            max-width: 52rem;
+            line-height: 1.6;
+        }
+        #tab-regulatory .tab-view__header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        #tab-regulatory .fiduciary-card {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 2px;
+            padding: 1.25rem 1.5rem;
+            transition: border-color 0.2s;
+        }
+        #tab-regulatory .fiduciary-card:hover {
+            border-color: rgba(199,162,75,0.18);
+        }
+        #tab-regulatory .fiduciary-border {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin: 2.5rem 0;
+        }
+        #tab-regulatory .micro-badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.6rem;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 1px;
+            color: rgba(255,255,255,0.55);
+            background: rgba(255,255,255,0.03);
+        }
+        #tab-regulatory .micro-badge--critical {
+            border-color: rgba(239,68,68,0.3);
+            color: rgba(239,68,68,0.8);
+            background: rgba(239,68,68,0.05);
+        }
+        #tab-regulatory .micro-badge--warning {
+            border-color: rgba(199,162,75,0.35);
+            color: rgba(199,162,75,0.85);
+            background: rgba(199,162,75,0.05);
+        }
+        #tab-regulatory .micro-badge--info {
+            border-color: rgba(59,130,246,0.3);
+            color: rgba(59,130,246,0.75);
+            background: rgba(59,130,246,0.05);
+        }
     </style>
 
   <!-- Header canónico -->

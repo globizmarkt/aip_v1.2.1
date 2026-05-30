@@ -81,12 +81,7 @@
                 summary.firstChild.textContent = e.detail.lang.toUpperCase() + ' ';
             }
         });
-        // stopPropagation en botones de idioma para evitar bubbling hacia orbit-3
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('#lang-selector [data-action="ChangeLanguage"]')) {
-                e.stopPropagation();
-            }
-        }, true);
+        // [FIX-1.1] Capture-phase stopPropagation eliminado — bloqueaba UIBinder (DT corregido Sprint 18.6)
     </script>
     <!-- [NAV-ACTIVE] Estado activo de tabs + [R7] Inhibición orbit-3 en landing -->
     <style>
@@ -97,6 +92,34 @@
         /* orbit-3 invisible en landing, visible automáticamente al entrar en crm-mode */
         body:not(.crm-mode) #orbit-3 {
             display: none !important;
+        }
+        /* [FIX-2.1] Radio buttons abisal — appearance-none + diseño manual */
+        input[type="radio"].accent-secondary {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 13px;
+            height: 13px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            background: transparent;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        input[type="radio"].accent-secondary:checked {
+            border-color: var(--stitch-gold, #C7A24B);
+            background: var(--stitch-gold, #C7A24B);
+            box-shadow: inset 0 0 0 3px var(--background, #0B1422);
+        }
+        input[type="radio"].accent-secondary:hover:not(:checked) {
+            border-color: rgba(199,162,75,0.5);
+        }
+        /* [FIX-2.3] Panel dropdown idioma — fondo opaco para legibilidad */
+        #lang-selector > div {
+            background: rgba(10, 18, 34, 0.97) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-color: rgba(199,162,75,0.18) !important;
         }
     </style>
 </head>

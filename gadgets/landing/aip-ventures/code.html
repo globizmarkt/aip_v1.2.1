@@ -1,12 +1,10 @@
 <!-- GADGET_05_LAND.3 — AIP Ventures (AIP Financial & Commodities) -->
 <!-- %[Fase 14] - Industrialización de Pestañas - Estándar Abisal -->
 
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Fuentes específicas del gadget no incluidas en index.html global -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&family=DM+Mono:wght@300;400;500&family=Public+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
 <div class="tab-view w-full max-w-7xl mx-auto" data-tab="aip-ventures" id="tab-aip-ventures">
-    <!-- [Sprint 18.5] style DENTRO del div raíz — sobrevive DOMParser body extraction -->
+    <!-- [FIX-3.1] style + @import DENTRO del div raíz — sobrevive DOMParser body extraction -->
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&family=DM+Mono:wght@300;400;500&family=Public+Sans:wght@300;400;600&display=swap');
     :root {
         --uk-gold: #C1A85D;
         --abisal-bg: #101D33;
