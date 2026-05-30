@@ -1,0 +1,368 @@
+<!-- GADGET_05_LAND.3 — AIP Ventures (AIP Financial & Commodities) -->
+<!-- %[Fase 14] - Industrialización de Pestañas - Estándar Abisal -->
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fuentes específicas del gadget no incluidas en index.html global -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&family=DM+Mono:wght@300;400;500&family=Public+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+<style>
+    :root {
+        --uk-gold: #C1A85D;
+        --abisal-bg: #101D33;
+        --luxury-glass: rgba(16, 29, 51, 0.5);
+        --glass-border: rgba(193, 168, 93, 0.12);
+        /* SUTURA R3 — variantes de opacidad como tokens canónicos */
+        --glass-border-faint: rgba(193, 168, 93, 0.10);
+        --glass-border-mid:   rgba(193, 168, 93, 0.15);
+        --glass-border-hover: rgba(193, 168, 93, 0.20);
+        --glass-bg-subtle:    rgba(193, 168, 93, 0.02);
+        --foreground-alt: #94A3B8;
+    }
+
+    body {
+        background-color: var(--abisal-bg);
+        color: #F8F9FA;
+        font-family: 'Public Sans', sans-serif;
+        margin: 0;
+    }
+
+    .font-garamond {
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+    .font-noto {
+        font-family: 'Noto Serif', serif;
+    }
+
+    .font-mono {
+        font-family: 'DM Mono', monospace;
+    }
+
+    .luxury-card {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: var(--luxury-glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 0px !important;
+        transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .luxury-card:hover {
+        border-color: rgba(193, 168, 93, 0.4);
+    }
+
+    .micro-badge {
+        font-family: 'DM Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border: 1px solid var(--uk-gold);
+        color: var(--uk-gold);
+        display: inline-block;
+    }
+
+    .ventures-step-number {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 42px;
+        line-height: 1;
+        opacity: 0.3;
+        color: var(--uk-gold);
+    }
+
+    .ventures-cta-button {
+        border: 1px solid var(--uk-gold);
+        color: var(--uk-gold);
+        font-family: 'DM Mono', monospace;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        padding: 1.25rem 3rem;
+        background: transparent;
+        transition: all 0.4s ease;
+        border-radius: 0px;
+        cursor: pointer;
+    }
+
+    .ventures-cta-button:hover {
+        background: var(--uk-gold);
+        color: var(--abisal-bg);
+    }
+
+    .timeline-step {
+        position: relative;
+    }
+
+    .timeline-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 2rem;
+        right: -1rem;
+        width: 2rem;
+        height: 1px;
+        background: var(--glass-border);
+        z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+        .timeline-step:not(:last-child)::after {
+            display: none;
+        }
+    }
+
+    .material-symbols-outlined {
+        font-size: 24px;
+    }
+</style>
+
+<div class="tab-view w-full max-w-7xl mx-auto" data-tab="aip-ventures" id="tab-aip-ventures">
+    <!-- GADGET_6.3 - AIP VENTURES - [CARRIL-AIP-001] — SUTURADO 2026-05-30 -->
+    <!-- CABECERA DEL GADGET -->
+    <!-- SUTURA 1: border-[rgba(193,168,93,0.15)] → border-[var(--glass-border-mid)] -->
+    <div class="tab-view__header mb-16 pb-12 border-b border-[var(--glass-border-mid)]">
+        <!-- SUTURA 1: text-[#C1A85D] → text-[var(--uk-gold)] -->
+        <p class="font-mono text-[9px] uppercase tracking-[0.5em] text-[var(--uk-gold)] mb-4"
+            data-i18n="ventures.positioning.subtitle">
+            Intermediario fiduciario con esclusa de integridad
+        </p>
+        <h1 class="font-garamond text-6xl md:text-7xl font-light tracking-tight text-[#F8F9FA] mb-8"
+            data-i18n="ventures.positioning.title">
+            Estructura de Capital Privado
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl">
+            <!-- SUTURA 3: texto mock inyectado desde DATA_CONTRACT -->
+            <p class="text-sm text-[var(--foreground-alt)] leading-relaxed font-light"
+                data-i18n="ventures.positioning.p1">
+                AIP Ventures no es un fondo de capital riesgo convencional ni una plataforma
+                de financiación participativa abierta. Actúa como intermediario fiduciario
+                entre fundadores con proyectos estructurados y la red de inversores
+                cualificados de AIP.
+            </p>
+            <!-- SUTURA 1: border-[rgba(193,168,93,0.2)] → border-[var(--glass-border-hover)] -->
+            <p class="text-sm text-[var(--foreground-alt)] leading-relaxed font-light border-l border-[var(--glass-border-hover)] pl-8"
+                data-i18n="ventures.positioning.p2">
+                La diferencia estructural radica en la esclusa fiduciaria: el fundador
+                no accede directamente a los inversores. Primero atraviesa un protocolo
+                de integridad, verificación y matching. Anonimato hasta acuerdo mutuo.
+            </p>
+        </div>
+    </div>
+    <div class="tab-view__body space-y-24">
+        <!-- Bloque 2: Eligibility (Grid 2 columns) -->
+        <section>
+            <div class="flex items-center gap-4 mb-10">
+                <!-- SUTURA 1: bg-[#C1A85D] → bg-[var(--uk-gold)] -->
+                <span class="h-px w-16 bg-[var(--uk-gold)] opacity-40"></span>
+                <h3 class="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--foreground-alt)]"
+                    data-i18n="ventures.forwhom.title">Destinatarios</h3>
+            </div>
+            <!-- SUTURA 1: bg-[rgba(193,168,93,0.1)] → bg-[var(--glass-border-faint)]
+                          border-[rgba(193,168,93,0.1)] → border-[var(--glass-border-faint)] -->
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-px bg-[var(--glass-border-faint)] border border-[var(--glass-border-faint)]">
+                <!-- Perfil A: Fundador -->
+                <div class="luxury-card p-12 flex flex-col gap-8">
+                    <div class="micro-badge self-start" data-i18n="ventures.forwhom.founder.badge">PERFIL A —
+                        FUNDADOR</div>
+                    <!-- SUTURA 3: texto mock inyectado -->
+                    <h4 class="font-noto text-3xl font-light text-[#F8F9FA]"
+                        data-i18n="ventures.forwhom.founder.title">Proyecto estructurado</h4>
+                    <p class="text-sm text-[var(--foreground-alt)] leading-relaxed font-light"
+                        data-i18n="ventures.forwhom.founder.description">
+                        Fundador con modelo de negocio validado, equipo operativo y proyecciones
+                        financieras. Busca capital institucional a través del ecosistema
+                        fiduciario de AIP. Sin relación comercial directa con inversores
+                        hasta completar la esclusa.
+                    </p>
+                    <ul class="space-y-4 mt-4">
+                        <li class="flex items-center gap-3">
+                            <!-- SUTURA 1: bg-[#C1A85D] → bg-[var(--uk-gold)] -->
+                            <span class="h-1 w-1 bg-[var(--uk-gold)]"></span>
+                            <!-- SUTURA 1: text-[#C1A85D] → text-[var(--uk-gold)] -->
+                            <span class="text-[10px] font-mono text-[var(--uk-gold)] uppercase tracking-widest"
+                                data-i18n="ventures.forwhom.founder.req1">· Operación supervisada por la jurisdicción AFM/DNB</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="h-1 w-1 bg-[var(--uk-gold)]"></span>
+                            <span class="text-[10px] font-mono text-[var(--uk-gold)] uppercase tracking-widest"
+                                data-i18n="ventures.forwhom.founder.req2">· Estructura de gobierno corporativo documentada</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="h-1 w-1 bg-[var(--uk-gold)]"></span>
+                            <span class="text-[10px] font-mono text-[var(--uk-gold)] uppercase tracking-widest"
+                                data-i18n="ventures.forwhom.founder.req3">· KYC nivel 3 del equipo fundador</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Perfil B: Angel -->
+                <div class="luxury-card p-12 flex flex-col gap-8">
+                    <div class="micro-badge self-start" data-i18n="ventures.forwhom.angel.badge">PERFIL B —
+                        BUSINESS ANGEL</div>
+                    <h4 class="font-noto text-3xl font-light text-[#F8F9FA]"
+                        data-i18n="ventures.forwhom.angel.title">Deal flow curado</h4>
+                    <p class="text-sm text-[var(--foreground-alt)] leading-relaxed font-light"
+                        data-i18n="ventures.forwhom.angel.description">
+                        Inversor cualificado de la red AIP con capacidad de suscripción. Accede
+                        a mandatos verificados por el protocolo fiduciario, no a un directorio
+                        abierto. La identidad del fundador se revela únicamente tras matching
+                        mutuo y superación de la esclusa.
+                    </p>
+                    <ul class="space-y-4 mt-4">
+                        <li class="flex items-center gap-3">
+                            <span class="h-1 w-1 bg-[var(--uk-gold)]"></span>
+                            <span class="text-[10px] font-mono text-[var(--uk-gold)] uppercase tracking-widest"
+                                data-i18n="ventures.forwhom.angel.req1">· Acreditación como inversor profesional (MiFID II)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="h-1 w-1 bg-[var(--uk-gold)]"></span>
+                            <span class="text-[10px] font-mono text-[var(--uk-gold)] uppercase tracking-widest"
+                                data-i18n="ventures.forwhom.angel.req2">· IntegrityScore ≥ 75</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="h-1 w-1 bg-[var(--uk-gold)]"></span>
+                            <span class="text-[10px] font-mono text-[var(--uk-gold)] uppercase tracking-widest"
+                                data-i18n="ventures.forwhom.angel.req3">· Autorización de acceso al deal flow AIP Ventures</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- Bloque 3: Admission Protocol (Technical Timeline) -->
+        <section>
+            <div class="mb-12">
+                <h3 class="font-garamond text-4xl font-light text-[#F8F9FA] mb-3"
+                    data-i18n="ventures.admission.title">Protocolo de admisión</h3>
+                <!-- SUTURA 1: text-[#C1A85D] → text-[var(--uk-gold)] -->
+                <p class="font-mono text-[9px] uppercase tracking-[0.4em] text-[var(--uk-gold)] opacity-70"
+                    data-i18n="ventures.admission.subtitle">Sin contacto directo hasta esclusa superada</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Step 1 -->
+                <div class="timeline-step luxury-card p-8 flex flex-col gap-6">
+                    <span class="ventures-step-number">01</span>
+                    <div>
+                        <h5 class="font-mono text-[10px] font-bold tracking-[0.2em] text-[#F8F9FA] uppercase mb-3"
+                            data-i18n="ventures.admission.step1.title">Envío del proyecto</h5>
+                        <p class="text-[12px] text-[var(--foreground-alt)] leading-relaxed font-light"
+                            data-i18n="ventures.admission.step1.description">
+                            Presentación anónima del proyecto: sector, estado de desarrollo,
+                            requerimiento de capital. Sin información identificable del fundador.
+                        </p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="timeline-step luxury-card p-8 flex flex-col gap-6">
+                    <span class="ventures-step-number">02</span>
+                    <div>
+                        <h5 class="font-mono text-[10px] font-bold tracking-[0.2em] text-[#F8F9FA] uppercase mb-3"
+                            data-i18n="ventures.admission.step2.title">Revisión interna</h5>
+                        <p class="text-[12px] text-[var(--foreground-alt)] leading-relaxed font-light"
+                            data-i18n="ventures.admission.step2.description">
+                            Análisis por el comité de inversión AIP. Timeline estimado:
+                            5–10 días hábiles. No se garantiza aceptación.
+                        </p>
+                    </div>
+                </div>
+                <!-- Step 3 — Fiduciary Gate (oro institucional) -->
+                <!-- SUTURA 1: border-b-[#C1A85D] → border-b-[var(--uk-gold)] -->
+                <div class="timeline-step luxury-card p-8 flex flex-col gap-6 border-b-2 border-b-[var(--uk-gold)]">
+                    <span class="ventures-step-number">03</span>
+                    <div>
+                        <h5 class="font-mono text-[10px] font-bold tracking-[0.2em] text-[#F8F9FA] uppercase mb-3"
+                            data-i18n="ventures.admission.step3.title">Esclusa fiduciaria</h5>
+                        <p class="text-[12px] text-[var(--foreground-alt)] leading-relaxed font-light"
+                            data-i18n="ventures.admission.step3.description">
+                            KYC nivel 3 del equipo fundador. Evaluación de IntegrityScore.
+                            Verificación de idoneidad regulatoria.
+                        </p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="timeline-step luxury-card p-8 flex flex-col gap-6">
+                    <span class="ventures-step-number">04</span>
+                    <div>
+                        <h5 class="font-mono text-[10px] font-bold tracking-[0.2em] text-[#F8F9FA] uppercase mb-3"
+                            data-i18n="ventures.admission.step4.title">Matching protegido</h5>
+                        <p class="text-[12px] text-[var(--foreground-alt)] leading-relaxed font-light"
+                            data-i18n="ventures.admission.step4.description">
+                            Presentación de la oportunidad a inversores cualificados de la red AIP.
+                            La identidad del fundador permanece protegida hasta interés mutuo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Bloque 4: Institutional Guarantees (Clinical Grid) -->
+        <!-- SUTURA 1: border-[rgba(193,168,93,0.15)] → border-[var(--glass-border-mid)]
+                      bg-[rgba(193,168,93,0.02)] → bg-[var(--glass-bg-subtle)] -->
+        <section class="py-16 border-y border-[var(--glass-border-mid)] bg-[var(--glass-bg-subtle)]">
+            <!-- SUTURA 1: text-[#C1A85D] → text-[var(--uk-gold)] -->
+            <h3 class="text-center font-mono text-[10px] uppercase tracking-[0.5em] text-[var(--uk-gold)] mb-16"
+                data-i18n="ventures.trust.title">Garantías institucionales</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 px-8">
+                <!-- Card 1 -->
+                <div class="text-center space-y-6">
+                    <span class="material-symbols-outlined text-[var(--uk-gold)] opacity-60">balance</span>
+                    <h5 class="font-garamond text-2xl font-light text-[#F8F9FA]"
+                        data-i18n="ventures.trust.card1.title">Jurisdicción regulada</h5>
+                    <p class="text-[12px] text-[var(--foreground-alt)] leading-relaxed max-w-xs mx-auto font-light"
+                        data-i18n="ventures.trust.card1.description">
+                        AIP opera bajo supervisión de AFM y DNB (Países Bajos). Estructura STAK
+                        fiduciaria con segregación de activos.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="text-center space-y-6">
+                    <span class="material-symbols-outlined text-[var(--uk-gold)] opacity-60">lock_person</span>
+                    <h5 class="font-garamond text-2xl font-light text-[#F8F9FA]"
+                        data-i18n="ventures.trust.card2.title">Confidencialidad estructural</h5>
+                    <p class="text-[12px] text-[var(--foreground-alt)] leading-relaxed max-w-xs mx-auto font-light"
+                        data-i18n="ventures.trust.card2.description">
+                        Identidad del fundador protegida hasta matching mutuo. Sin exposición
+                        pública de propuestas. Principio de «need to know».
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="text-center space-y-6">
+                    <span class="material-symbols-outlined text-[var(--uk-gold)] opacity-60">verified_user</span>
+                    <h5 class="font-garamond text-2xl font-light text-[#F8F9FA]"
+                        data-i18n="ventures.trust.card3.title">Esclusa como garantía</h5>
+                    <p class="text-[12px] text-[var(--foreground-alt)] leading-relaxed max-w-xs mx-auto font-light"
+                        data-i18n="ventures.trust.card3.description">
+                        El fundador no negocia directamente con inversores. El protocolo
+                        AIP actúa como filtro de integridad y alineamiento regulatorio.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- Bloque 5: CTA + Disclaimer -->
+        <section class="pb-24">
+            <div class="max-w-3xl mx-auto text-center space-y-12">
+                <div class="inline-block">
+                    <button class="ventures-cta-button" data-action="Orbit4VenturesSubmit"
+                        data-i18n="ventures.cta.button" type="button">
+                        Presentar Proyecto
+                    </button>
+                </div>
+                <!-- SUTURA 1: text-[var(--foreground-alt)] ya correcto — sin hex hardcoded -->
+                <p class="font-mono text-[9px] uppercase tracking-[0.3em] text-[var(--foreground-alt)] opacity-60"
+                    data-i18n="ventures.cta.subcopy">
+                    Tras el envío, el proyecto pasa a revisión interna.
+                    Timeline orientativo: 5–10 días hábiles. No se garantiza admisión.
+                </p>
+                <!-- SUTURA 1: border-[rgba(193,168,93,0.1)] → border-[var(--glass-border-faint)] -->
+                <div class="mt-16 pt-10 border-t border-[var(--glass-border-faint)] text-left">
+                    <p class="font-mono text-[9px] text-[var(--foreground-alt)]/40 leading-relaxed text-justify tracking-tight"
+                        data-i18n="ventures.cta.disclaimer">
+                        Información regulatoria (MiFID II / AIFMD): La inversión en proyectos
+                        de capital privado conlleva riesgos, incluida la posible pérdida total
+                        del capital. No existe garantía de rentabilidad ni de ejecución de
+                        matching. El acceso está restringido a inversores cualificados conforme
+                        a la legislación aplicable. AIP no actúa como asesor financiero
+                        independiente.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
