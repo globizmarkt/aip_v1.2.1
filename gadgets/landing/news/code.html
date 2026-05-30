@@ -1,0 +1,223 @@
+<!-- GADGET_02_LAND.3 — News (AIP Financial & Commodities) -->
+<!-- %[Fase 14] - Industrialización de Pestañas - Estándar Abisal -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    :root {
+        --theme-deep-ocean: #101D33;
+        --theme-surface: #162641;
+        --theme-surface-alt: #0D1726;
+        --theme-surface-bright: #1A2C42;
+        --theme-foreground: #F8F9FA;
+        --theme-foreground-alt: #94A3B8;
+        --theme-accent: #C1A85D;
+        --theme-border: rgba(193, 168, 93, 0.15);
+    }
+
+    body {
+        background-color: var(--theme-deep-ocean);
+        font-family: sans-serif;
+        padding: 2rem;
+    }
+
+    .news-card {
+        background-color: var(--theme-surface);
+        border: 1px solid var(--theme-border);
+        transition: all 0.3s ease;
+    }
+
+    .news-card:hover {
+        border-color: var(--theme-accent);
+        background-color: var(--theme-surface-bright);
+    }
+
+    .filter-btn--active {
+        background-color: var(--theme-accent);
+        color: var(--theme-deep-ocean);
+        border-color: var(--theme-accent);
+    }
+
+    .loader-bar {
+        width: 100%;
+        height: 2px;
+        background-color: var(--theme-surface-alt);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .loader-bar::after {
+        content: '';
+        position: absolute;
+        width: 40%;
+        height: 100%;
+        background-color: var(--theme-accent);
+        animation: loading 1.5s infinite ease-in-out;
+    }
+
+    @keyframes loading {
+        0% {
+            left: -40%;
+        }
+
+        100% {
+            left: 100%;
+        }
+    }
+</style>
+
+<div class="tab-view" id="tab-news" data-tab="news">
+
+    <!-- Header -->
+    <div class="tab-view__header mb-10 pb-6 border-b border-[var(--theme-border)]">
+        <h1 class="font-serif text-4xl font-light tracking-wide text-[var(--theme-foreground)] mb-3"
+            data-i18n="news.intro.title">
+            Inteligencia de Mercado
+        </h1>
+        <p class="text-sm text-[var(--theme-foreground-alt)] max-w-2xl leading-relaxed" data-i18n="news.intro.subtitle">
+            Vigilancia institucional de commodities y mercados financieros regulados.
+        </p>
+    </div>
+
+    <div class="tab-view__body space-y-10">
+
+        <!-- Bloque 1: Intro Institucional -->
+        <section class="news-section--intro">
+            <div class="space-y-4 text-sm text-[var(--theme-foreground-alt)] leading-relaxed max-w-4xl">
+                <p data-i18n="news.intro.p1">
+                    AIP publica selección editorial de flujo informativo relevante para inversores institucionales
+                    activos en materias primas, capital privado y marcos regulatorios de jurisdicciones financieras
+                    clave.
+                </p>
+                <p data-i18n="news.intro.p2">
+                    La selección no constituye asesoramiento de inversión. Es contexto fiduciario para contrapartes
+                    cualificadas en proceso de toma de decisión.
+                </p>
+            </div>
+        </section>
+
+        <!-- Bloque 2: Filtros -->
+        <section class="news-section--filters">
+            <div class="flex flex-wrap gap-3">
+                <button
+                    class="filter-btn--active px-4 py-1.5 border border-[var(--theme-border)] text-[10px] uppercase tracking-[0.2em] font-medium transition-all"
+                    data-filter="all" data-i18n="news.filters.all">Todas</button>
+                <button
+                    class="hover:bg-[var(--theme-surface-bright)] px-4 py-1.5 border border-[var(--theme-border)] text-[var(--theme-foreground-alt)] text-[10px] uppercase tracking-[0.2em] font-medium transition-all"
+                    data-filter="commodities" data-i18n="news.filters.commodities">Commodities</button>
+                <button
+                    class="hover:bg-[var(--theme-surface-bright)] px-4 py-1.5 border border-[var(--theme-border)] text-[var(--theme-foreground-alt)] text-[10px] uppercase tracking-[0.2em] font-medium transition-all"
+                    data-filter="regulatory" data-i18n="news.filters.regulatory">Marco Regulatorio</button>
+                <button
+                    class="hover:bg-[var(--theme-surface-bright)] px-4 py-1.5 border border-[var(--theme-border)] text-[var(--theme-foreground-alt)] text-[10px] uppercase tracking-[0.2em] font-medium transition-all"
+                    data-filter="capital" data-i18n="news.filters.capital">Capital Privado</button>
+                <button
+                    class="hover:bg-[var(--theme-surface-bright)] px-4 py-1.5 border border-[var(--theme-border)] text-[var(--theme-foreground-alt)] text-[10px] uppercase tracking-[0.2em] font-medium transition-all"
+                    data-filter="macro" data-i18n="news.filters.macro">Macroeconomía</button>
+            </div>
+        </section>
+
+        <!-- Bloque 3: Grid Dinámico y Estados -->
+        <section class="news-section--grid relative min-h-[400px]">
+
+            <!-- Loading State -->
+            <div id="news-loading-state" class="flex flex-col items-center justify-center py-20 space-y-4">
+                <div class="loader-bar w-48"></div>
+                <p class="text-[10px] uppercase tracking-[0.3em] text-[var(--theme-accent)] animate-pulse"
+                    data-i18n="news.loading.text">
+                    Recuperando información de mercado...
+                </p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="news-empty-state" class="flex flex-col items-center justify-center py-20 text-center" hidden>
+                <span
+                    class="material-symbols-outlined text-[var(--theme-foreground-alt)] opacity-20 text-5xl mb-4">Inbox</span>
+                <p class="text-sm text-[var(--theme-foreground-alt)]" data-i18n="news.empty.text">
+                    No hay información disponible en este momento. Los datos se actualizan automáticamente cada 30
+                    minutos.
+                </p>
+            </div>
+
+            <!-- Error State -->
+            <div id="news-error-state" class="flex flex-col items-center justify-center py-20 text-center" hidden>
+                <span class="material-symbols-outlined text-red-500/50 text-5xl mb-4">Warning</span>
+                <p class="text-sm text-[var(--theme-foreground-alt)]" data-i18n="news.error.text">
+                    No ha sido posible recuperar la información. Reintente en unos minutos.
+                </p>
+            </div>
+
+            <!-- News Grid -->
+            <div class="news-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="news-card-grid"
+                data-source="finnhub+rss">
+                <!-- Card Mock (Template Visual) -->
+                <article class="news-card p-6 flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-4">
+                        <span
+                            class="px-2 py-0.5 bg-[var(--theme-surface-alt)] border border-[var(--theme-border)] text-[9px] uppercase tracking-widest text-[var(--theme-accent)] font-mono"
+                            data-i18n="news.mock.category">
+                            REGULATORY
+                        </span>
+                        <time class="text-[9px] font-mono text-[var(--theme-foreground-alt)] opacity-60"
+                            datetime="2026-05-24T14:22:00Z">
+                            2026-05-24 14:22Z
+                        </time>
+                    </div>
+                    <h4 class="font-serif text-lg text-[var(--theme-foreground)] mb-3 leading-snug tracking-tight"
+                        data-i18n="news.mock.title">
+                        ECB eleva requisitos de cobertura para activos fiduciarios estructurados
+                    </h4>
+                    <p class="text-xs text-[var(--theme-foreground-alt)] leading-relaxed mb-6 flex-grow"
+                        data-i18n="news.mock.summary">
+                        La nueva directiva prudencial impactará directamente en los ratios de liquidez de las
+                        estructuras STAK registradas en jurisdicción NL. Se espera un periodo de adaptación de 90 días.
+                    </p>
+                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-[var(--theme-border)]">
+                        <span class="text-[10px] font-mono text-[var(--theme-foreground-alt)]"
+                            data-i18n="news.mock.source">
+                            SOURCE: ECB_MID
+                        </span>
+                        <a href="#"
+                            class="text-[10px] uppercase tracking-widest text-[var(--theme-accent)] hover:text-[var(--theme-accent-hover)] transition-colors flex items-center gap-1"
+                            data-i18n="news.card.readmore">
+                            Leer fuente <span class="material-symbols-outlined text-[12px]">open_in_new</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Bloque 4: Paginación -->
+        <section
+            class="news-section--pagination flex items-center justify-center gap-8 py-10 border-t border-[var(--theme-border)]">
+            <button
+                class="text-[10px] uppercase tracking-[0.3em] text-[var(--theme-foreground-alt)] disabled:opacity-30 flex items-center gap-2"
+                data-action="NewsPrev" disabled>
+                <span class="material-symbols-outlined text-[14px]">chevron_left</span> Anterior
+            </button>
+            <div class="text-[11px] font-mono text-[var(--theme-foreground-alt)] tracking-widest">
+                1 de <span data-i18n="news.pagination.total">—</span>
+            </div>
+            <button
+                class="text-[10px] uppercase tracking-[0.3em] text-[var(--theme-accent)] hover:text-[var(--theme-accent-hover)] flex items-center gap-2"
+                data-action="NewsNext">
+                Siguiente <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+            </button>
+        </section>
+
+        <!-- Bloque 5: Disclaimer -->
+        <section class="news-section--legal">
+            <div class="bg-[var(--theme-surface-alt)] border-l-2 border-[var(--theme-accent)] p-4">
+                <p class="text-[11px] text-[var(--theme-foreground-alt)] leading-relaxed italic"
+                    data-i18n="news.disclaimer.text">
+                    <strong data-i18n="news.disclaimer.label">Aviso editorial:</strong> La información publicada en esta
+                    sección proviene de fuentes externas (proveedores de datos financieros y publicaciones de organismos
+                    regulatorios) y se reproduce con fines informativos. AIP Financial & Commodities no valida ni
+                    respalda el contenido de las fuentes referenciadas. Nada de lo aquí publicado constituye
+                    asesoramiento de inversión, recomendación de compra o venta de activos, ni análisis financiero
+                    regulado bajo MiFID II.
+                </p>
+            </div>
+        </section>
+
+    </div>
+</div>
