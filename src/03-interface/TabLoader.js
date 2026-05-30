@@ -60,7 +60,11 @@ class TabLoaderEngine {
         this.#navButtons = document.querySelectorAll('nav [data-tab]');
         this.#setActiveNav('__main__'); // [FIX-1.2] INICIO activo por defecto en carga inicial
 
-        document.addEventListener('Skeleton:Action:TabNavigate', (e) => this.#load(e));
+        document.addEventListener('Skeleton:Action:TabNavigate', (e) => {
+            // [FIX-DROPDOWN] Cerrar selector de idioma al navegar entre pestañas
+            document.getElementById('lang-selector')?.removeAttribute('open');
+            this.#load(e);
+        });
         console.log('[TabLoader] Mecanismo de inyección de tabs activo — 6 slugs autorizados (post-DEC-LAND-01).');
     }
 
