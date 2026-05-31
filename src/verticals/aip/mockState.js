@@ -241,7 +241,7 @@ export const mockState = deepFreeze({
 // CRM-CONTENT-01 — piloto completo 2026-05-31
 
 const CATEGORY_METALES = {
-  id:         'commodities-metales-mineria',
+  id:         'metales-mineria',
   domain:     'COMMODITIES',
   label:      'Metales & Minería',
   labelShort: 'Metales',
@@ -318,7 +318,7 @@ const CATEGORY_METALES = {
 // ── [SEC-06-STUBS] Resto de categorías — stubs hasta contenido real ──
 
 const CATEGORY_ENERGIA = {
-  id: 'commodities-energia-derivados', domain: 'COMMODITIES',
+  id: 'energia-derivados', domain: 'COMMODITIES',
   label: 'Energía & Derivados', labelShort: 'Energía',
   procedure: {
     headline:    'Acceso a Operaciones de Energía y Derivados',
@@ -337,7 +337,7 @@ const CATEGORY_ENERGIA = {
 };
 
 const CATEGORY_AGRICOLA = {
-  id: 'commodities-agricola-soft', domain: 'COMMODITIES',
+  id: 'agricola-soft', domain: 'COMMODITIES',
   label: 'Agrícola & Soft', labelShort: 'Agrícola',
   procedure: {
     headline: 'Acceso a Operaciones Agrícolas y Soft Commodities',
@@ -354,7 +354,7 @@ const CATEGORY_AGRICOLA = {
 };
 
 const CATEGORY_VENTURES_EQUITY = {
-  id: 'ventures-equity', domain: 'VENTURES',
+  id: 'venture-equity', domain: 'VENTURES',
   label: 'Venture Equity', labelShort: 'Equity',
   procedure: {
     headline: 'Acceso a Operaciones de Venture Equity',
@@ -375,11 +375,12 @@ const CATEGORY_VENTURES_EQUITY = {
  * Map de categorías L2 — keyed by id.
  * Acceso: mockState.categories['commodities-metales-mineria']
  */
+// Keys = category IDs del DEFAULT_TAXONOMY en aip-orbit1-tree.js (SSoT del árbol)
 const CATEGORIES_DATA = {
-  'commodities-metales-mineria':    CATEGORY_METALES,
-  'commodities-energia-derivados':  CATEGORY_ENERGIA,
-  'commodities-agricola-soft':      CATEGORY_AGRICOLA,
-  'ventures-equity':                CATEGORY_VENTURES_EQUITY,
+  'metales-mineria':   CATEGORY_METALES,
+  'energia-derivados': CATEGORY_ENERGIA,
+  'agricola-soft':     CATEGORY_AGRICOLA,
+  'venture-equity':    CATEGORY_VENTURES_EQUITY,
   // M&A y Soluciones Financieras: stubs pendientes contenido Director
 };
 
@@ -397,7 +398,7 @@ const DOCUMENTS_REGISTRY = {
     id:          'metales-compliance',
     label:       'Protocolo de Integridad y Cumplimiento',
     type:        'protocol',
-    category_id: 'commodities-metales-mineria',
+    category_id: 'metales-mineria',
     kycRequired: 0,
     downloadUrl: null,   // TODO CRM-DOCS-01: subir a Firebase Storage
     description: 'Marco de cumplimiento AML/KYC aplicable a todas las operaciones de metales. Cubre Blacklist Protocol, sanciones internacionales y carácter vinculante de la información declarada. Lectura obligatoria antes de cualquier solicitud.',
@@ -409,7 +410,7 @@ const DOCUMENTS_REGISTRY = {
     id:          'metales-cuestionario-aluminio',
     label:       'Cuestionario de Solicitud y Viabilidad — Aluminio (Al)',
     type:        'questionnaire',
-    category_id: 'commodities-metales-mineria',
+    category_id: 'metales-mineria',
     kycRequired: 0,
     downloadUrl: null,   // TODO CRM-DOCS-01
     description: 'Triaje de viabilidad para operaciones físicas de aluminio. Cubre estructura de compra, especificación del activo (P1020/A7 · Alambrón · Billetes Extrusión), matriz logística, Price Reality Check (LME) e ingeniería financiera (DLC/SBLC). Documento vinculante para emisión de SCO.',
@@ -421,7 +422,7 @@ const DOCUMENTS_REGISTRY = {
     id:          'metales-cuestionario-cobre',
     label:       'Cuestionario de Solicitud y Viabilidad — Cobre (Cu)',
     type:        'questionnaire',
-    category_id: 'commodities-metales-mineria',
+    category_id: 'metales-mineria',
     kycRequired: 0,
     downloadUrl: null,   // TODO CRM-DOCS-01
     description: 'Triaje de viabilidad para operaciones físicas de cobre. Mismo protocolo que aluminio adaptado a especificaciones LME Cu (Grado A, Cátodos, Alambrón).',
@@ -433,7 +434,7 @@ const DOCUMENTS_REGISTRY = {
     id:          'metales-cuestionario-oro',
     label:       'Cuestionario de Solicitud y Viabilidad — Oro (Au)',
     type:        'questionnaire',
-    category_id: 'commodities-metales-mineria',
+    category_id: 'metales-mineria',
     kycRequired: 0,
     downloadUrl: null,   // TODO CRM-DOCS-01
     description: 'Triaje de viabilidad para operaciones físicas de oro. Opera bajo LBMA. Exige certificación de origen y cadena de custodia. Cumplimiento AML reforzado.',
