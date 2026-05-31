@@ -83,7 +83,7 @@ export const AIPHandler = {
             if (e.detail.vertical === 'aip') this.hydrate(e.detail.data);
         });
 
-        document.addEventListener('Skeleton:Action:MandateSelect', (e) => {
+        document.addEventListener('Skeleton:Action:MandateSelected', (e) => {
             this._showMandateDetail(e.detail.mandate);
         });
     },
