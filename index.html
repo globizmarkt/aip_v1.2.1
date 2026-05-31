@@ -99,6 +99,15 @@
         body.crm-mode #orbit-3 {
             display: none;
         }
+        /* [DT-AIP-07 Cycle 2] trinity orbit-3-panel extirpado de CRM view —
+           arquitectura canónica: crm-orbit-1 | crm-home__main | crm-home__sidebar-r */
+        body.crm-mode #crm-orbit-3-panel {
+            display: none;
+        }
+        /* crm-orbit-2 ocupa el espacio restante al ocultar orbit-3-panel */
+        body.crm-mode #crm-orbit-2 {
+            flex: 1;
+        }
         /* [FIX-2.1] Radio buttons abisal — appearance-none + diseño manual */
         input[type="radio"].accent-secondary {
             appearance: none;

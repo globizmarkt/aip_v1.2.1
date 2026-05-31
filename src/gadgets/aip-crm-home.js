@@ -356,49 +356,9 @@ ${CRM_HOME_STYLES}
 <!-- [§B] Main body -->
 <div class="crm-home__body">
 
-    <!-- Sidebar izquierdo: IntegrityScore + KYC -->
-    <aside class="crm-home__sidebar-l">
-        <!-- IntegrityScore widget -->
-        <div class="crm-home__section">
-            <p class="label-xs ghost" style="margin-bottom:16px;">INTEGRITYSCORE</p>
-            <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
-                ${this._renderScoreRing(s.integrityScore)}
-                <div style="display:flex;flex-direction:column;gap:4px;">
-                    <span class="mono" style="font-size:10px;color:var(--crm-bronze);">${s.clearanceLevel} TIER</span>
-                    <span class="label-xs ghost">UMBRAL SILVER: ${s.integrityThresholds.silver}</span>
-                    <span class="label-xs" style="color:var(--crm-warning);">ΔFALTANTE: +${s.integrityThresholds.silver - s.integrityScore} PTS</span>
-                </div>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:12px;">
-                ${s.scoreComponents.map(c => this._renderScoreBar(c)).join('')}
-            </div>
-        </div>
-
-        <!-- KYC tier ladder -->
-        <div class="crm-home__section">
-            <p class="label-xs ghost" style="margin-bottom:12px;">PROTOCOLO KYC</p>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-                ${s.kycTiers.map(t => `
-                <div class="kyc-tier">
-                    <span class="mono kyc-tick--${t.completed ? 'ok' : 'pending'}" style="font-size:9px;">${t.completed ? '✓' : '○'}</span>
-                    <span style="font-size:11px;color:${t.completed ? 'var(--crm-text-secondary)' : 'var(--crm-warning)'};">Tier ${t.tier} — ${t.label}</span>
-                </div>`).join('')}
-            </div>
-            ${kycNextTier ? `<p style="font-size:9px;color:var(--crm-text-secondary);margin-top:10px;line-height:1.5;">Tier ${kycNextTier.tier} desbloquea: SILVER tier · Proyectos CUALIFICADO · Matching engine</p>` : ''}
-        </div>
-
-        <!-- Capacidades -->
-        <div class="crm-home__section">
-            <p class="label-xs ghost" style="margin-bottom:12px;">CAPACIDADES ACTIVAS</p>
-            <div style="display:flex;flex-direction:column;gap:6px;">
-                ${s.capacidades.map(c => `
-                <div style="display:flex;align-items:center;justify-content:space-between;">
-                    <span style="font-size:11px;color:var(--crm-text-secondary);">${c.label}</span>
-                    <span style="font-size:9px;color:${c.activa ? 'var(--crm-success)' : 'var(--crm-danger)'};">${c.activa ? 'ACTIVO' : 'BLOQUEADO'}</span>
-                </div>`).join('')}
-            </div>
-        </div>
-    </aside>
+    <!-- [DT-AIP-07 Cycle 2] sidebar-l extirpado — arquitectura canónica 3 col:
+         crm-orbit-1 (tree) | crm-home__main | crm-home__sidebar-r
+         IntegrityScore migra a futura card dentro de crm-home__main -->
 
     <!-- Columna central: Portfolio -->
     <main class="crm-home__main">
