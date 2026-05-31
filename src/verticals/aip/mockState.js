@@ -184,6 +184,98 @@ const MANDATE_003 = {
   notes: [],
 };
 
+// [SEC-03-D] Mandate AIP-M-2026-004 — Gold Bullion SCO (EVALUACIÓN · Bank to Bank)
+// Fuente: SCO_Bullion_UK_Switzerland_Dubai_HongKong_06_01_2026.pdf
+// CRM-TREE-03 sprint · 2026-05-31
+const MANDATE_004 = {
+  mandateId:      'AIP-M-2026-004',
+  type:           'Asset',
+  locked:         false,
+
+  parties: {
+    originator:     'AIP Commodities Desk',
+    client:         '— Pendiente de identificar (comprador cualificado)',
+    counterparties: ['Vendedor institucional — identidad bajo NDA (CH/UK/AE/HK)'],
+  },
+
+  asset: {
+    class:          'Gold Bullion (Au)',
+    spec:           'Non-GLD Standard · 99.95% mín (999.5/1000) · Hallmark int. reconocido',
+    quantity:       '15,000 MT con Rolls & Extensions',
+    estimatedValue: null,              // Precio dinámico: 12/9 bajo LBMA spot (~$3,285/oz)
+    currency:       'USD',
+    incoterm:       'FOB',
+    trialLot:       'A definir — primera tranche por confirmar',
+    barSize:        '1 KG / 12.5 KG lingotes',
+    purity:         '99.95% mínimo (999.5/1000) o superior',
+    origin:         'No criminal — certificado',
+    ageAsset:       'Menos de 5 años',
+    priceStructure: '12/9 bajo cotización LBMA spot',
+    locations:      'London · Zurich · Dubai · Hong Kong',
+    dealType:       'Bank to Bank o Ledger to Ledger',
+  },
+
+  compliance: {
+    kycTier:         2,
+    amlClear:        false,
+    sanctionsCheck:  false,
+    ncndaSigned:     true,
+    sgsCertificate:  '— Pendiente verificación con banco custodio',
+    sblcProvider:    '— B2B / MT600 Proof of Product',
+    sblcAmount:      'MT103 primera tranche — importe a definir',
+  },
+
+  timeline: {
+    created:       '2026-01-06',
+    lastActivity:  '2026-05-31',
+    targetClose:   'TBD — pendiente comprador cualificado',
+    nextMilestone: 'Verificación SKR con banco custodio (paso 3 del SCO)',
+  },
+
+  fiduciaryState: 'EVALUACIÓN',
+
+  // Procedimiento de transacción del SCO (7 pasos)
+  // Fuente directa: SCO_Bullion_UK_Switzerland_Dubai_HongKong_06_01_2026.pdf
+  scoTransactionProcedure: [
+    {
+      step:  1, phase: 'Documentación Inicial',
+      buyer: 'LOI + CIS + POF o Autorización de verificación de fondos',
+      seller: 'FCO firmado · SPA para firma y sello con NCNDA/IMFPA',
+    },
+    {
+      step:  2, phase: 'Verificación Bancaria y Garantías de Pago',
+      detail: 'Comprador instruye a su Bank Officer a proveer Proof of Funds al Bank Officer del Vendedor a cambio del Proof of Product (MT600). Los Bank Officers confirman que el comprador tiene fondos suficientes y el vendedor tiene los SKRs verificados.',
+    },
+    {
+      step:  3, phase: 'Validación con Banco Custodio — Autorización SKR',
+      detail: 'El Comprador recibe la autorización requerida para verificar el SKR y toda la documentación directamente con el Banco Custodio del oro, en su condición de Comprador.',
+    },
+    {
+      step:  4, phase: 'Pago Bank-to-Bank',
+      detail: 'Una vez verificado el oro: el Comprador ejecuta el pago bancario de la primera tranche, típicamente vía MT103.',
+    },
+    {
+      step:  5, phase: 'Transferencia de Título de Propiedad',
+      detail: 'Pago verificado → Vendedor ordena la liberación. El Vendedor transfiere el Title of Ownership al Comprador: cantidad de barras correspondiente + documentación de custodia actualizada + SKR actualizado a nombre del Comprador.',
+    },
+    {
+      step:  6, phase: 'Entrega / Retiro',
+      detail: 'El Comprador decide: mantener el oro almacenado en el vault (custodio verificado) o transportarlo internacionalmente bajo cobertura logística certificada.',
+    },
+    {
+      step:  7, phase: 'Comisiones — per NCNDA/IMFPA',
+      detail: 'Las comisiones a los agentes del Vendedor y del Comprador son pagadas por el Vendedor inmediatamente y sin demora a cada Paymaster o Beneficiario designado, tras cada tranche y conforme a los Términos del NCNDA/IMFPA.',
+    },
+  ],
+
+  notes: [
+    'SCO emitido: Enero 2026. Operación Bank to Bank o Ledger to Ledger.',
+    'Precio: 12/9 bajo cotización LBMA spot. Con XAU/USD ~$3,285/oz → precio referencial ~$2,891/oz para el comprador.',
+    'Jurisdicciones activas: Reino Unido (FCA) · Suiza (FINMA) · Emiratos Árabes (DFSA) · Hong Kong (SFC).',
+    'Material NON-GLD: no apto para entrega en contratos de futuros COMEX/NYMEX. Apto para transacciones OTC bilaterales certificadas.',
+  ],
+};
+
 // ─────────────────────────────────────────────────────────────
 // [SEC-04] Datos mock — TICKER
 // ─────────────────────────────────────────────────────────────
@@ -277,9 +369,17 @@ const CATEGORY_METALES = {
       cta:  'Puedes proponer una operación ahora — las oportunidades en metales también se crean ad hoc.',
     },
     teasers: [
-      // Populated when active mandates exist — currently empty pending real ops
+      {
+        id:             'AIP-M-2026-004',
+        category_label: 'Gold Bullion (Au)',
+        value_range:    '15,000 MT · Precio 12/9 LBMA',
+        type:           'Asset',
+        status:         'En evaluación',
+        dealType:       'Bank to Bank · FOB',
+        locations:      'London · Zurich · Dubai · Hong Kong',
+      },
     ],
-    mandate_ids: [],
+    mandate_ids: ['AIP-M-2026-004'],
   },
 
   aimon: {
@@ -442,7 +542,7 @@ const DOCUMENTS_REGISTRY = {
  * Contrato L2: DOMAIN_BLUEPRINT_05_L2_NODE_CONTRACT.md
  */
 export const mockState = deepFreeze({
-  mandates:   [MANDATE_001, MANDATE_002, MANDATE_003],
+  mandates:   [MANDATE_001, MANDATE_002, MANDATE_003, MANDATE_004],
   ticker:     TICKER_DATA,
   categories: CATEGORIES_DATA,
   documents:  DOCUMENTS_REGISTRY,

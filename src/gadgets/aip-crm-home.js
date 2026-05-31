@@ -1,6 +1,6 @@
 // ============================================================
 // ARCHIVO  : aip-crm-home.js
-// VERSIÓN  : 1.1.0
+// VERSIÓN  : 1.2.0
 // FECHA    : 2026-05-31
 // PROPÓSITO: Web Component del HOME de Órbita 2 (CRM Dashboard).
 //            Vista de Portfolio Overview + Detalle de Mandato.
@@ -60,6 +60,7 @@
 
 // [SEC-01] Importaciones y dependencias
 import { ReactiveElement } from '../03-interface/base/reactive-element.js';
+import { mockState }       from '../verticals/aip/mockState.js';
 
 // [SEC-02] Constantes — mock data v1.3
 // PRODUCCIÓN: sustituir por lectura de PassportEngine + Firebase
@@ -329,6 +330,72 @@ const CRM_HOME_STYLES = `
     .node-detail            { font-size: 11px; color: var(--crm-text-secondary); line-height: 1.5; }
     .evidence-line          { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--crm-text-dim);
                               margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--crm-border); }
+
+    /* ── [CRM-TREE-03] Procedure View ──────────────────────────── */
+    .proc-view              { padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+    .proc-market-note       { padding: 12px 16px;
+                              background: color-mix(in srgb, var(--crm-accent) 5%, transparent);
+                              border-left: 2px solid var(--crm-accent);
+                              font-size: 11px; color: var(--crm-text-secondary); line-height: 1.6; }
+    .proc-steps             { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--crm-border); }
+    .proc-step              { display: flex; gap: 16px; padding: 16px;
+                              border-bottom: 1px solid var(--crm-border); background: var(--crm-abyss); }
+    .proc-step:last-child   { border-bottom: none; }
+    .proc-step__num         { width: 24px; height: 24px; flex-shrink: 0;
+                              display: flex; align-items: center; justify-content: center;
+                              background: color-mix(in srgb, var(--crm-accent) 12%, transparent);
+                              border: 1px solid color-mix(in srgb, var(--crm-accent) 30%, transparent);
+                              font-family: 'JetBrains Mono', monospace; font-size: 10px;
+                              color: var(--crm-accent); }
+    .proc-step__body        { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .proc-step__title       { font-size: 12px; font-weight: 500; }
+    .proc-step__desc        { font-size: 11px; color: var(--crm-text-secondary); line-height: 1.5; }
+    .proc-step__docs        { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .proc-doc-card          { display: flex; align-items: center; gap: 8px; padding: 6px 10px;
+                              background: var(--crm-surface); border: 1px solid var(--crm-border);
+                              cursor: pointer; transition: border-color 150ms ease; }
+    .proc-doc-card:hover    { border-color: var(--crm-accent); }
+    .proc-doc-card__icon    { font-size: 12px; color: var(--crm-text-secondary); }
+    .proc-doc-card__label   { font-size: 10px; }
+    .proc-doc-card__type    { font-size: 9px; color: var(--crm-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; }
+    .proc-sla               { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+                              color: var(--crm-warning); margin-top: 4px; }
+    .proc-cta-zone          { padding: 20px; background: var(--crm-surface); border: 1px solid var(--crm-border);
+                              display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+
+    /* ── [CRM-TREE-03] Opportunity View ────────────────────────── */
+    .opp-view               { padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+    .opp-gate-banner        { padding: 16px;
+                              background: color-mix(in srgb, var(--crm-warning) 5%, transparent);
+                              border: 1px solid color-mix(in srgb, var(--crm-warning) 20%, transparent);
+                              border-left: 2px solid var(--crm-warning);
+                              display: flex; flex-direction: column; gap: 12px; }
+    .opp-gate__progress     { height: 6px; background: var(--crm-border); position: relative; }
+    .opp-gate__fill         { height: 6px; background: var(--crm-warning); transition: width 400ms ease; }
+    .opp-teasers            { display: flex; flex-direction: column; gap: 12px; }
+    .opp-teaser-card        { display: flex; align-items: center; gap: 16px; padding: 14px 16px;
+                              background: var(--crm-surface); border: 1px solid var(--crm-border);
+                              border-left: 2px solid var(--crm-gold);
+                              position: relative; overflow: hidden; }
+    .opp-teaser-card--locked { opacity: 0.55; pointer-events: none; }
+    .opp-teaser-card--locked::after {
+                              content: ''; position: absolute; inset: 0;
+                              background: repeating-linear-gradient(
+                                45deg,
+                                transparent,
+                                transparent 4px,
+                                color-mix(in srgb, var(--crm-border) 40%, transparent) 4px,
+                                color-mix(in srgb, var(--crm-border) 40%, transparent) 5px
+                              ); pointer-events: none; }
+    .opp-teaser__id         { font-family: 'JetBrains Mono', monospace; font-size: 9px;
+                              color: var(--crm-text-secondary); width: 110px; flex-shrink: 0; }
+    .opp-teaser__label      { flex: 1; font-size: 12px; font-weight: 500; }
+    .opp-teaser__meta       { font-size: 10px; color: var(--crm-text-secondary); margin-top: 2px; }
+    .opp-teaser__value      { font-family: 'JetBrains Mono', monospace; font-size: 11px;
+                              color: var(--crm-gold); text-align: right; flex-shrink: 0; }
+    .opp-teaser__status     { flex-shrink: 0; }
+    .opp-empty-state        { padding: 20px; background: var(--crm-surface); border: 1px solid var(--crm-border);
+                              text-align: center; }
 </style>
 `;
 
@@ -336,10 +403,12 @@ const CRM_HOME_STYLES = `
 class AipCrmHome extends ReactiveElement {
 
     // [SEC-04a] Campos privados + lifecycle
-    #session  = MOCK_SESSION;
-    #projects = MOCK_PROJECTS;
-    #rendered = false;
-    #selectedMandate = null; // [VIBE-03.7] Estado de conmutación Portfolio ↔ Detalle
+    #session          = MOCK_SESSION;
+    #projects         = MOCK_PROJECTS;
+    #rendered         = false;
+    #selectedMandate  = null;    // [VIBE-03.7] Portfolio ↔ MandateDetail
+    #selectedCategory = null;    // [CRM-TREE-03] Portfolio ↔ ProcedureView / OpportunityView
+    #selectedLayer    = 'procedure'; // 'procedure' | 'opportunity'
 
     connectedCallback() {
         super.connectedCallback(); // suscripción al store vía ReactiveElement
@@ -417,10 +486,16 @@ ${CRM_HOME_STYLES}
 </footer>
         `;
 
-        // [VIBE-03.7] Conmutación de vista interna
+        // Conmutación de vista interna — orden de prioridad:
+        // 1. MandateDetail (L3)   2. ProcedureView (L2-PROC)
+        // 3. OpportunityView (L2-OPP)   4. Portfolio (home)
         const container = this.querySelector('#crm-home-view-container');
         if (this.#selectedMandate) {
             this._renderMandateDetail(container, this.#selectedMandate);
+        } else if (this.#selectedCategory && this.#selectedLayer === 'procedure') {
+            this._renderProcedureView(container, this.#selectedCategory);
+        } else if (this.#selectedCategory && this.#selectedLayer === 'opportunity') {
+            this._renderOpportunityView(container, this.#selectedCategory);
         } else {
             this._renderPortfolio(container, s, p);
         }
@@ -509,6 +584,204 @@ ${CRM_HOME_STYLES}
             </div>
         </div>
         `;
+    }
+
+    // [SEC-04d2] _renderProcedureView — CRM-TREE-03 · 2026-05-31
+    // Renderiza el itinerario operativo de un nodo L2 del árbol.
+    // DT-AIP-05: todos los datos vienen de mockState (deepFrozen) — innerHTML seguro.
+    _renderProcedureView(container, categoryData) {
+        const proc = categoryData.procedure;
+        const docs = mockState?.documents ?? {};
+
+        container.innerHTML = `
+        <!-- Sub-header breadcrumb -->
+        <div class="crm-home__subbar">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="btn-inst" data-action-home="BackToPortfolio" style="padding:4px 12px;font-size:9px;">← VOLVER</button>
+                <span class="label-sm ghost">/</span>
+                <span class="label-sm ghost">CRM</span>
+                <span class="label-sm ghost">/</span>
+                <span class="label-sm">${categoryData.label}</span>
+                <span class="label-sm ghost">/</span>
+                <span class="label-sm" style="color:var(--crm-accent);">PROCEDIMIENTO</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span class="badge badge--maturing">PROC · ACCESO LIBRE</span>
+            </div>
+        </div>
+
+        <!-- Cuerpo de la vista -->
+        <div class="proc-view">
+
+            <!-- Headline + market note -->
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <p class="label-xs ghost">ITINERARIO OPERATIVO</p>
+                <h2 style="font-size:15px;font-weight:600;">${proc.headline}</h2>
+                <div class="proc-market-note">${proc.market_note}</div>
+            </div>
+
+            <!-- Steps -->
+            <div>
+                <p class="label-xs ghost" style="margin-bottom:12px;">PASOS DEL PROCEDIMIENTO</p>
+                <div class="proc-steps">
+                    ${proc.steps.map(step => {
+                        const stepDocs = (step.documents ?? []).map(docId => {
+                            const doc = docs[docId];
+                            if (!doc) return '';
+                            const isQuestionnaire = doc.type === 'questionnaire';
+                            const mailSubject = encodeURIComponent(`[METALES] Cuestionario ${doc.label} — ${MOCK_SESSION.operador}`);
+                            return `
+                            <div class="proc-doc-card" data-action-home="DownloadDoc" data-doc-id="${docId}">
+                                <span class="proc-doc-card__icon">📄</span>
+                                <div style="display:flex;flex-direction:column;gap:1px;">
+                                    <span class="proc-doc-card__label">${doc.label}</span>
+                                    <span class="proc-doc-card__type">${doc.type}</span>
+                                </div>
+                                ${isQuestionnaire ? `
+                                <a href="mailto:operations@aip.com?subject=${mailSubject}" class="btn-inst" style="padding:3px 10px;font-size:9px;margin-left:8px;text-decoration:none;">
+                                    ✉ ENVIAR
+                                </a>` : ''}
+                                ${doc.downloadUrl ? `
+                                <a href="${doc.downloadUrl}" target="_blank" class="btn-inst" style="padding:3px 10px;font-size:9px;margin-left:4px;text-decoration:none;">
+                                    ⬇ PDF
+                                </a>` : `
+                                <span class="label-xs ghost" style="margin-left:8px;" title="PDF disponible tras upload Firebase (CRM-DOCS-01)">⬇ PDF próximo</span>`}
+                            </div>`;
+                        }).join('');
+
+                        return `
+                        <div class="proc-step">
+                            <div class="proc-step__num">${step.order}</div>
+                            <div class="proc-step__body">
+                                <span class="proc-step__title">${step.title}</span>
+                                <p class="proc-step__desc">${step.description}</p>
+                                ${stepDocs ? `<div class="proc-step__docs">${stepDocs}</div>` : ''}
+                                ${step.sla ? `<p class="proc-sla">⧗ SLA: ${step.sla}</p>` : ''}
+                            </div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            </div>
+
+            <!-- CTA Final -->
+            <div class="proc-cta-zone">
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                    <p class="label-xs" style="color:var(--crm-gold);">${proc.propose_cta.label}</p>
+                    <p style="font-size:11px;color:var(--crm-text-secondary);">${proc.propose_cta.description}</p>
+                </div>
+                <a href="${proc.propose_cta.contact}" class="btn-inst btn-primary" style="flex-shrink:0;text-decoration:none;padding:8px 20px;">
+                    → PROPONER OPERACIÓN
+                </a>
+            </div>
+
+        </div>`;
+    }
+
+    // [SEC-04d3] _renderOpportunityView — CRM-TREE-03 · 2026-05-31
+    // Renderiza los teasers de mandatos activos para un nodo L2.
+    // Gate: IntegrityScore del usuario vs unlock_threshold de la categoría.
+    // DT-AIP-05: todos los datos vienen de mockState (deepFrozen) — innerHTML seguro.
+    _renderOpportunityView(container, categoryData) {
+        const opp        = categoryData.opportunities;
+        const threshold  = opp.unlock_threshold.integrityScore;
+        const userScore  = this.#session.integrityScore;
+        const isUnlocked = userScore >= threshold;
+        const kycNeeded  = opp.unlock_threshold.kycTier;
+        const nextTier   = this.#session.kycTiers.find(t => !t.completed);
+        const scorePct   = Math.min(100, Math.round((userScore / threshold) * 100));
+
+        container.innerHTML = `
+        <!-- Sub-header breadcrumb -->
+        <div class="crm-home__subbar">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="btn-inst" data-action-home="BackToPortfolio" style="padding:4px 12px;font-size:9px;">← VOLVER</button>
+                <span class="label-sm ghost">/</span>
+                <span class="label-sm ghost">CRM</span>
+                <span class="label-sm ghost">/</span>
+                <span class="label-sm">${categoryData.label}</span>
+                <span class="label-sm ghost">/</span>
+                <span class="label-sm" style="color:var(--crm-gold);">OPORTUNIDADES</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                ${isUnlocked
+                    ? `<span class="badge badge--maturing">ACCESO DESBLOQUEADO</span>`
+                    : `<span class="badge badge--blocked">SCORE ${userScore} / ${threshold} — BLOQUEADO</span>`}
+            </div>
+        </div>
+
+        <div class="opp-view">
+
+            ${!isUnlocked ? `
+            <!-- Gate banner -->
+            <div class="opp-gate-banner">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div>
+                        <p class="label-xs" style="color:var(--crm-warning);margin-bottom:4px;">
+                            ACCESO RESTRINGIDO — INTEGRITY SCORE INSUFICIENTE
+                        </p>
+                        <p style="font-size:11px;color:var(--crm-text-secondary);">
+                            IntegrityScore actual: <span class="mono" style="color:var(--crm-warning);">${userScore}</span>
+                            de <span class="mono">${threshold}</span> requeridos (SILVER · KYC Tier ${kycNeeded}).
+                            ${nextTier ? `Completar KYC Tier ${nextTier.tier} (${nextTier.label}) añade +15 pts.` : ''}
+                        </p>
+                    </div>
+                    ${nextTier ? `<button class="btn-inst btn-primary" data-action-home="KycTier" data-tier="${nextTier.tier}" style="flex-shrink:0;">COMPLETAR KYC TIER ${nextTier.tier}</button>` : ''}
+                </div>
+                <div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                        <span class="label-xs ghost">PROGRESO HACIA SILVER</span>
+                        <span class="mono" style="font-size:9px;">${userScore} / ${threshold}</span>
+                    </div>
+                    <div class="opp-gate__progress">
+                        <div class="opp-gate__fill" style="width:${scorePct}%;"></div>
+                    </div>
+                </div>
+            </div>` : ''}
+
+            <!-- Teasers de mandatos -->
+            <div>
+                <p class="label-xs ghost" style="margin-bottom:12px;">
+                    MANDATOS ACTIVOS — ${opp.teasers.length} POSICIÓN${opp.teasers.length !== 1 ? 'ES' : ''}
+                </p>
+                ${opp.teasers.length > 0 ? `
+                <div class="opp-teasers">
+                    ${opp.teasers.map(teaser => {
+                        const cardClass = isUnlocked ? 'opp-teaser-card' : 'opp-teaser-card opp-teaser-card--locked';
+                        const clickAttr = isUnlocked ? `data-action-home="OpenTeaser" data-mandate-id="${teaser.id}"` : '';
+                        return `
+                        <div class="${cardClass}" ${clickAttr} style="${isUnlocked ? 'cursor:pointer;' : ''}">
+                            <div class="opp-teaser__id mono">${teaser.id}</div>
+                            <div style="flex:1;">
+                                <p class="opp-teaser__label">${teaser.category_label}</p>
+                                <p class="opp-teaser__meta">${teaser.dealType ?? teaser.type} · ${teaser.locations ?? ''}</p>
+                            </div>
+                            <div style="text-align:right;">
+                                <p class="opp-teaser__value">${teaser.value_range}</p>
+                                <span class="badge ${isUnlocked ? 'badge--maturing' : ''}" style="margin-top:4px;">${teaser.status}</span>
+                            </div>
+                        </div>`;
+                    }).join('')}
+                </div>` : `
+                <div class="opp-empty-state">
+                    <p style="font-size:12px;color:var(--crm-text-secondary);margin-bottom:8px;">${opp.empty_state.text}</p>
+                    <p style="font-size:10px;color:var(--crm-text-dim);">${opp.empty_state.cta}</p>
+                </div>`}
+            </div>
+
+            <!-- CTA proponer -->
+            <div class="proc-cta-zone">
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                    <p class="label-xs" style="color:var(--crm-gold);">¿Tienes material disponible?</p>
+                    <p style="font-size:11px;color:var(--crm-text-secondary);">
+                        Las oportunidades en ${categoryData.labelShort} también se crean ad hoc — no es necesario esperar a que estén publicadas.
+                    </p>
+                </div>
+                <a href="mailto:operations@aip.com?subject=[PROPUESTA ${categoryData.labelShort.toUpperCase()}] Posición disponible" class="btn-inst" style="flex-shrink:0;text-decoration:none;padding:8px 16px;">
+                    → PROPONER POSICIÓN
+                </a>
+            </div>
+
+        </div>`;
     }
 
     // [SEC-04e] _renderMandateDetail — trasplante desde AIPHandler.js
@@ -868,17 +1141,28 @@ ${CRM_HOME_STYLES}
 
     // [SEC-04f] _wire — event delegation + listeners globales
     _wire() {
-        // Listener del bus canónico para selección de mandatos
-        // [DT-AIP-07 Cycle 3] ARQ-FIND-11 cerrado · 2026-05-31
+        // [DT-AIP-07 Cycle 3] Listener mandato individual (L3)
         document.addEventListener('Skeleton:Action:MandateSelected', (e) => {
             const { mandate } = e.detail;
-            if (!mandate) {
-                console.warn('[CrmHome] MandateSelected sin payload de mandato');
-                return;
-            }
-            this.#selectedMandate = mandate;
+            if (!mandate) { console.warn('[CrmHome] MandateSelected sin payload'); return; }
+            this.#selectedMandate  = mandate;
+            this.#selectedCategory = null;
             this._render();
             this._wireViewInternal();
+        });
+
+        // [CRM-TREE-03] Listener categoría L2 — procedure o opportunity layer
+        document.addEventListener('Skeleton:Action:CategorySelected', (e) => {
+            const { categoryId, layer, categoryData } = e.detail;
+            if (!categoryId) { console.warn('[CrmHome] CategorySelected sin categoryId'); return; }
+            const data = categoryData ?? mockState?.categories?.[categoryId] ?? null;
+            if (!data) { console.warn('[CrmHome] CategorySelected: no hay datos para', categoryId); return; }
+            this.#selectedMandate  = null;
+            this.#selectedCategory = data;
+            this.#selectedLayer    = layer ?? 'procedure';
+            this._render();
+            this._wireViewInternal();
+            console.log(`[CrmHome] CategorySelected → ${categoryId} · layer: ${layer}`);
         });
 
         this._wireViewInternal();
@@ -909,10 +1193,25 @@ ${CRM_HOME_STYLES}
                     this._onProjectSelected(btn.dataset.projectId);
                     break;
                 case 'BackToPortfolio':
-                    this.#selectedMandate = null;
+                    this.#selectedMandate  = null;
+                    this.#selectedCategory = null;
                     this._render();
                     this._wireViewInternal();
                     break;
+
+                case 'OpenTeaser': {
+                    // Teaser cliqueado en opportunity-view → abrir mandate-detail-view
+                    const mandateId = btn.dataset.mandateId;
+                    const mandate = mockState?.mandates?.find(m => m.mandateId === mandateId) ?? null;
+                    if (mandate) {
+                        this.#selectedMandate = mandate;
+                        this._render();
+                        this._wireViewInternal();
+                    } else {
+                        console.warn('[CrmHome] OpenTeaser: mandato no encontrado →', mandateId);
+                    }
+                    break;
+                }
             }
         });
     }
