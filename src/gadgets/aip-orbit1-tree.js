@@ -90,6 +90,18 @@ const DEFAULT_TAXONOMY = Object.freeze([
             { id: 'hibridos-alternativos', label: 'Híbridos & Alternativos' },
         ]),
     },
+    // [TL-15] AIP Ventures — 4º dominio · Roadmap Bloque 3 · 2026-05-31
+    // DEUDA_PENDIENTE | ARQ-FIND-04 | categorías pendientes de SDD spec formal
+    {
+        id: 'aip-ventures',
+        label: 'AIP Ventures',
+        icon: 'rocket_launch',
+        categories: Object.freeze([
+            { id: 'venture-equity',        label: 'Venture Equity' },
+            { id: 'growth-capital',        label: 'Growth Capital' },
+            { id: 'estructurados-venture', label: 'Estructurados Venture' },
+        ]),
+    },
 ]);
 
 /**
@@ -101,7 +113,8 @@ const MOCK_MANDATES = Object.freeze([
     { id: 'AIP-M-2026-001', categoryId: 'compraventa-empresarial', score: 82, status: 'ACTIVE',  label: 'Adquisición Tech SaaS · NL' },
     { id: 'AIP-M-2026-002', categoryId: 'real-estate-comercial',   score: 71, status: 'ACTIVE',  label: 'RE Comercial · Amsterdam' },
     { id: 'AIP-M-2026-003', categoryId: 'energia-derivados',       score: 65, status: 'PENDING', label: 'Derivados Energía · TTF' },
-    { id: 'AIP-V-2026-001', categoryId: 'equity-capital',          score: 78, status: 'ACTIVE',  label: 'Venture Equity · FinTech' },
+    { id: 'AIP-V-2026-001', categoryId: 'venture-equity',           score: 78, status: 'ACTIVE',  label: 'Venture Equity · FinTech' },
+    { id: 'AIP-V-2026-002', categoryId: 'growth-capital',           score: 62, status: 'PENDING', label: 'Growth Capital · CleanTech SaaS' },
 ]);
 
 // ─── CSS DEL COMPONENTE ───────────────────────────────────────────────────────

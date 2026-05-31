@@ -99,15 +99,11 @@
         body.crm-mode #orbit-3 {
             display: none;
         }
-        /* [DT-AIP-07 Cycle 2] trinity orbit-3-panel extirpado de CRM view —
-           arquitectura canónica: crm-orbit-1 | crm-home__main | crm-home__sidebar-r */
-        body.crm-mode #crm-orbit-3-panel {
-            display: none;
-        }
-        /* crm-orbit-2 ocupa el espacio restante al ocultar orbit-3-panel */
+        /* crm-orbit-2 (crm-home__main) — flex:1 garantiza que ocupa el espacio central */
         body.crm-mode #crm-orbit-2 {
             flex: 1;
         }
+        /* orbit-3-panel VISIBLE — hidratado con actividad reciente + acciones desde trinity */
         /* [MODELO-B] Orbit-3 landing — Grid estructurado con micro-badges · 2026-05-31 */
         @keyframes dot-pulse {
             0%,100% { transform:scale(1);opacity:1; }

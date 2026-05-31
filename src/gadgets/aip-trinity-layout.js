@@ -195,14 +195,52 @@ class AipTrinityLayout extends HTMLElement {
                     <span class="crm-aimon-status-dot"></span>
                     <span class="text-[9px] font-mono text-[var(--crm-text-secondary)] uppercase tracking-widest">Sistema activo</span>
                 </div>
-                <div class="crm-aimon-log flex-1 overflow-y-auto px-4 py-3">
+                <div class="crm-aimon-log overflow-y-auto px-4 py-3" style="flex:0 0 auto;">
                     <p class="crm-aimon-entry crm-aimon-entry--system">AIMON v1.2 · Modo Mandato Activo</p>
                     <p class="crm-aimon-entry crm-aimon-entry--reminder">Atestación legal completada. Clearance: BRONZE.</p>
                     <p class="crm-aimon-entry crm-aimon-entry--system">Seleccione un mandato para análisis contextual.</p>
                 </div>
-                <div class="crm-aimon-cursor px-4 py-3 border-t border-[var(--crm-border)] flex items-center gap-2 shrink-0">
+                <div class="crm-aimon-cursor px-4 py-2 border-t border-[var(--crm-border)] flex items-center gap-2 shrink-0">
                     <span class="font-mono text-[10px] text-[var(--crm-accent)]">▸</span>
                     <span class="font-mono text-[10px] text-[var(--crm-text-secondary)]">_</span>
+                </div>
+
+                <!-- Actividad reciente -->
+                <div class="px-4 py-3 border-t border-[var(--crm-border)] flex-1 overflow-y-auto">
+                    <p class="text-[9px] uppercase tracking-widest text-[var(--crm-text-secondary)] mb-2 font-mono">Actividad Reciente</p>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div>
+                            <p style="font-size:11px;color:var(--crm-text-primary);">Documento KYC-T2 subido</p>
+                            <p style="font-size:9px;color:var(--crm-text-secondary);">PRJ-2026-001 · Identidad oficial</p>
+                            <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:2px;">2d</p>
+                        </div>
+                        <div>
+                            <p style="font-size:11px;color:var(--crm-text-primary);">Mandato PRJ-2026-002 creado</p>
+                            <p style="font-size:9px;color:var(--crm-text-secondary);">Advisory · 120M USD · CO/SFC</p>
+                            <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:2px;">15d</p>
+                        </div>
+                        <div>
+                            <p style="font-size:11px;color:var(--crm-text-primary);">AML check completado</p>
+                            <p style="font-size:9px;color:var(--crm-text-secondary);">PRJ-2026-001 · CLEAR</p>
+                            <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:2px;">22d</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximas acciones -->
+                <div class="px-4 py-3 border-t border-[var(--crm-border)] shrink-0">
+                    <p class="text-[9px] uppercase tracking-widest text-[var(--crm-text-secondary)] mb-2 font-mono">Próximas Acciones</p>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                        <button style="width:100%;padding:8px 12px;background:var(--crm-surface);border:1px solid var(--crm-border);color:var(--crm-text-primary);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-align:left;cursor:pointer;">
+                            [2] VER WORKBENCH →
+                        </button>
+                        <button style="width:100%;padding:8px 12px;background:var(--crm-surface);border:1px solid var(--crm-border);color:var(--crm-text-primary);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-align:left;cursor:pointer;">
+                            [3] VINCULAR WALLET
+                        </button>
+                    </div>
+                    <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:8px;line-height:1.5;">
+                        La vinculación de wallet añade +5 pts al IntegrityScore (componente Verificaciones).
+                    </p>
                 </div>
             </aside>
         `;

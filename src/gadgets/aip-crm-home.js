@@ -441,60 +441,9 @@ ${CRM_HOME_STYLES}
 
     </main>
 
-    <!-- Sidebar derecho: AIMON + actividad -->
-    <aside class="crm-home__sidebar-r">
-
-        <!-- AIMON mini-console -->
-        <div class="crm-home__section">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                <p class="label-xs ghost">AIMON</p>
-                <span class="badge" style="color:var(--crm-accent);border-color:color-mix(in srgb,var(--crm-accent) 30%,transparent);background:color-mix(in srgb,var(--crm-accent) 5%,transparent);">◈ SYSTEM</span>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-                ${MOCK_AIMON_LOG.map(entry => `
-                <div class="aimon-log-entry">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                        <span style="color:var(--crm-text-secondary);">${entry.ts}</span>
-                        <span class="aimon-level--${entry.level}">${entry.level}</span>
-                    </div>
-                    <p style="color:var(--crm-text-secondary);line-height:1.4;">${entry.text}</p>
-                </div>`).join('')}
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;margin-top:12px;border-top:1px solid var(--crm-border);padding-top:8px;">
-                <span class="mono" style="font-size:10px;color:var(--crm-accent);">&gt;</span>
-                <input type="text" class="aimon-input" placeholder="_" aria-label="AIMON command input" autocomplete="off">
-            </div>
-        </div>
-
-        <!-- Actividad reciente -->
-        <div class="crm-home__section">
-            <p class="label-xs ghost" style="margin-bottom:12px;">ACTIVIDAD RECIENTE</p>
-            <div style="display:flex;flex-direction:column;gap:12px;">
-                ${MOCK_ACTIVITY.map(act => `
-                <div class="activity-item">
-                    <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <span style="font-size:10px;color:var(--crm-text-secondary);">${act.label}</span>
-                        <span class="mono" style="font-size:9px;color:var(--crm-text-secondary);">${act.ago}</span>
-                    </div>
-                    <p style="font-size:9px;color:var(--crm-text-secondary);">${act.sub}</p>
-                </div>`).join('')}
-            </div>
-        </div>
-
-        <!-- Próximas acciones -->
-        <div class="crm-home__section">
-            <p class="label-xs ghost" style="margin-bottom:12px;">PRÓXIMAS ACCIONES</p>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-                ${kycNextTier ? `<button class="btn-inst btn-primary" data-action-home="KycTier" data-tier="${kycNextTier.tier}" style="width:100%;text-align:left;">[1] KYC TIER ${kycNextTier.tier}</button>` : ''}
-                <button class="btn-inst" data-action-home="Workbench" style="width:100%;text-align:left;">[2] VER WORKBENCH →</button>
-                <button class="btn-inst" data-action-home="WalletLink" style="width:100%;text-align:left;">[3] VINCULAR WALLET</button>
-            </div>
-            <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:8px;line-height:1.5;">
-                La vinculación de wallet añade +5 pts al IntegrityScore (componente Verificaciones).
-            </p>
-        </div>
-
-    </aside>
+    <!-- [DT-AIP-07 Cycle 2 ext.] sidebar-r migrado a #crm-orbit-3-panel de trinity-layout.
+         Actividad reciente + Próximas acciones viven en orbit-3. crm-home = 2 columnas:
+         crm-orbit-1 (tree) | crm-home__main | orbit-3-panel (activity+actions) -->
 </div>
 
 <!-- [§C] Status bar inferior -->
