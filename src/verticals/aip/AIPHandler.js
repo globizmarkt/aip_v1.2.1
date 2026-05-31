@@ -46,13 +46,7 @@ export const AIPHandler = {
 
             UserFSM.transition('Skeleton:Legal:Accepted', { wc: this._wcPending });
             this.showCRM(this._wcPending);
-
-            // Hidratación diferida para asegurar renderizado previo
-            setTimeout(() => {
-                this.populateCRMTable(mockState.mandates);
-                this._populateTicker(mockState.ticker);
-                console.log('[AIPHandler] CRM inicializado y poblado con mockState.');
-            }, 150);
+            // [DT-AIP-07] populateCRMTable extirpada — reemplazada por <aip-orbit1-tree>
         }, { once: true });
     },
 
@@ -83,7 +77,7 @@ export const AIPHandler = {
         });
 
         document.addEventListener('Skeleton:Action:OrbitTab', (e) => this._switchOrbit3Tab(e.detail.tab));
-        document.addEventListener('Skeleton:Action:CRMFilter', (e) => this.filterCRM(e.detail.filter));
+        // [DT-AIP-07] Skeleton:Action:CRMFilter eliminado — filterCRM() nunca existió (dead listener)
 
         document.addEventListener('Skeleton:HydrateVertical', (e) => {
             if (e.detail.vertical === 'aip') this.hydrate(e.detail.data);
@@ -286,134 +280,12 @@ export const AIPHandler = {
         if (ticker && data.ticker) {
             ticker.textContent = `XAU/USD ${data.ticker.xau} • SOFR ${data.ticker.sofr} • EUR/CHF ${data.ticker.eur_chf}`;
         }
-        if (data.assets) this.populateCRMTable(data.assets);
+        // [DT-AIP-07] populateCRMTable extirpada — datos de mandatos via aip-orbit1-tree
     },
 
-    populateCRMTable(mandates) {
-        const container = document.getElementById('crm-table-body');
-        if (!container) return;
-
-        container.replaceChildren();
-
-        const createHeader = (title) => {
-            const h = document.createElement('div');
-            h.className = 'text-[10px] uppercase tracking-widest text-[var(--crm-text-secondary)] mt-4 mb-2 mx-3 font-mono flex items-center gap-1';
-            const icon = document.createElement('span');
-            icon.className = 'material-symbols-outlined';
-            icon.style.fontSize = '14px';
-            icon.textContent = 'folder_open';
-            h.append(icon, document.createTextNode(` ${title}`));
-            return h;
-        };
-
-        const createLockedNode = (title, state) => {
-            const row = document.createElement('div');
-            row.className = 'crm-mandate-row px-3 py-2.5 mx-2 my-1 rounded border border-[var(--crm-border)] transition-colors duration-150 select-none opacity-40 cursor-not-allowed';
-            row.setAttribute('aria-disabled', 'true');
-
-            const line1 = document.createElement('div');
-            line1.className = 'flex items-center justify-between mb-1';
-
-            const titleSpan = document.createElement('span');
-            titleSpan.className = 'text-[10px] font-mono text-[var(--crm-text-secondary)] truncate';
-            titleSpan.textContent = title;
-
-            const lockIcon = document.createElement('span');
-            lockIcon.className = 'material-symbols-outlined text-[var(--crm-text-secondary)]';
-            lockIcon.style.fontSize = '14px';
-            lockIcon.textContent = 'lock';
-
-            line1.append(titleSpan, lockIcon);
-
-            const line2 = document.createElement('div');
-            line2.className = 'flex items-center justify-between';
-
-            const stateBadge = document.createElement('span');
-            stateBadge.className = `crm-state-badge crm-state-gestacion`;
-            stateBadge.textContent = state;
-
-            line2.append(stateBadge);
-
-            const kycCta = document.createElement('div');
-            kycCta.className = 'mt-1.5 flex items-center gap-1 text-[8px] uppercase tracking-widest text-[var(--crm-accent)]/50';
-            const kycIcon = document.createElement('span');
-            kycIcon.className = 'material-symbols-outlined';
-            kycIcon.style.fontSize = '10px';
-            kycIcon.textContent = 'verified_user';
-            const kycLabel = document.createElement('span');
-            kycLabel.textContent = 'KYC requerido';
-            kycCta.append(kycIcon, kycLabel);
-
-            row.append(line1, line2, kycCta);
-            return row;
-        };
-
-        const activeMandate = mandates.find(m => m.mandateId === 'AIP-2026-001');
-
-        container.appendChild(createHeader('M&A Y REAL ESTATE'));
-        container.appendChild(createLockedNode('Cartera de Activos Off-Market', 'GESTACIÓN'));
-        container.appendChild(createLockedNode('Mandatos de Adquisición', 'GESTACIÓN'));
-
-        container.appendChild(createHeader('INTELIGENCIA FINANCIERA'));
-        container.appendChild(createLockedNode('Informes de Soberanía', 'GESTACIÓN'));
-        container.appendChild(createLockedNode('Análisis de Riesgo Geopolítico', 'GESTACIÓN'));
-
-        container.appendChild(createHeader('COMMODITIES'));
-
-        if (activeMandate) {
-            const row = document.createElement('div');
-            row.className = 'crm-mandate-row px-3 py-2.5 mx-2 my-1 rounded border border-[var(--crm-border)] transition-colors duration-150 select-none cursor-pointer hover:bg-[var(--crm-bg-surface)] hover:border-[var(--crm-accent)]/40';
-            row.dataset.mandateId = activeMandate.mandateId;
-
-            const line1 = document.createElement('div');
-            line1.className = 'flex items-center justify-between mb-1';
-
-            const idSpan = document.createElement('span');
-            idSpan.className = 'text-[10px] font-mono text-[var(--crm-text-secondary)] tracking-widest';
-            idSpan.textContent = activeMandate.mandateId;
-
-            const typeBadge = document.createElement('span');
-            typeBadge.className = 'text-[8px] uppercase tracking-widest px-1.5 py-0.5 rounded border border-[var(--crm-accent)]/30 text-[var(--crm-accent)]';
-            typeBadge.textContent = activeMandate.type;
-
-            line1.append(idSpan, typeBadge);
-
-            const line2 = document.createElement('div');
-            line2.className = 'flex items-center justify-between';
-
-            const stateBadge = document.createElement('span');
-            stateBadge.className = `crm-state-badge crm-state-${this._stateKey(activeMandate.fiduciaryState)}`;
-            stateBadge.textContent = activeMandate.fiduciaryState;
-
-            const assetSpan = document.createElement('span');
-            assetSpan.className = 'text-[9px] text-[var(--crm-text-secondary)] truncate max-w-[85px]';
-            assetSpan.textContent = activeMandate.asset?.class ?? '—';
-
-            line2.append(stateBadge, assetSpan);
-            row.append(line1, line2);
-
-            row.addEventListener('click', () => {
-                container.querySelectorAll('.crm-mandate-row').forEach(r => r.classList.remove('crm-mandate-row--active'));
-                row.classList.add('crm-mandate-row--active');
-                document.dispatchEvent(new CustomEvent('Skeleton:Action:MandateSelect', { detail: { mandate: activeMandate }, bubbles: true }));
-            });
-
-            container.appendChild(row);
-        }
-
-        container.appendChild(createLockedNode('Procedimientos Off-Take', 'GESTACIÓN'));
-    },
-
-    _stateKey(state) {
-        const MAP = {
-            'GESTACIÓN': 'gestacion',
-            'EMBRIONARIO': 'embrionario',
-            'MADURACIÓN': 'maduracion',
-            'CUALIFICADO': 'cualificado',
-            'EJECUTADO': 'ejecutado',
-        };
-        return MAP[state] ?? 'gestacion';
-    },
+    // [DT-AIP-07 — 2026-05-31] populateCRMTable() + _stateKey() EXTIRPADAS.
+    // Reemplazadas por <aip-orbit1-tree> (src/gadgets/aip-orbit1-tree.js).
+    // La taxonomía 3 niveles (Dominio→Categoría→Mandato) vive en el WC reactivo.
 
     _showMandateDetail(mandate) {
         const detail = document.getElementById('expediente-detail');
@@ -739,9 +611,7 @@ export const AIPHandler = {
         detail.append(workbench);
     },
 
-    _populateTicker(ticker) {
-        console.log('[AIPHandler] Ticker data disponible:', ticker);
-    },
+    // [DT-AIP-07 — 2026-05-31] _populateTicker() EXTIRPADA — código muerto (solo console.log).
 
     _setupAccessForm() {
         document.querySelectorAll('input[name="aip-perfil"]').forEach(input => {

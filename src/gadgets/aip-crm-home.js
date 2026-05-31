@@ -704,7 +704,7 @@ ${CRM_HOME_STYLES}
     /**
      * Monta el componente en el contenedor indicado.
      * Uso canónico (en main.js, tras Skeleton:Legal:Accepted):
-     *   AipCrmHome.mount('#crm-orbit-main');
+     *   AipCrmHome.mount('#crm-orbit-2');
      *
      * @param {string|HTMLElement} container
      * @returns {AipCrmHome|null}
@@ -732,7 +732,7 @@ customElements.define('aip-crm-home', AipCrmHome);
 // Auto-wire: mismo patrón que aip-orbit1-tree.js
 // Al importar este módulo, el home se monta cuando el usuario supera la atestación.
 document.addEventListener('Skeleton:Legal:Accepted', () => {
-    AipCrmHome.mount('#crm-orbit-main');
+    AipCrmHome.mount('#crm-orbit-2');
 }, { once: true });
 
 export { AipCrmHome };
