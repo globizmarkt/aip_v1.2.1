@@ -108,6 +108,33 @@
         body.crm-mode #crm-orbit-2 {
             flex: 1;
         }
+        /* [MODELO-B] Orbit-3 landing — Grid estructurado con micro-badges · 2026-05-31 */
+        @keyframes dot-pulse {
+            0%,100% { transform:scale(1);opacity:1; }
+            50%      { transform:scale(1.6);opacity:0.5; }
+        }
+        .dot-pulse {
+            display:inline-block;width:5px;height:5px;border-radius:50%;
+            background:#4ade80;animation:dot-pulse 1.5s infinite;flex-shrink:0;
+        }
+        .orbit3-ticker-card {
+            background:#0E1624;border:1px solid #223044;padding:12px;
+            display:flex;flex-direction:column;gap:4px;
+        }
+        .orbit3-notice {
+            display:flex;align-items:stretch;border:1px solid #2B3D58;
+            background:#070A10;font-family:'DM Mono',monospace;
+        }
+        .orbit3-notice__tag {
+            display:flex;align-items:center;padding:0 8px;
+            font-size:8px;font-weight:700;letter-spacing:0.08em;
+            writing-mode:horizontal-tb;
+        }
+        .orbit3-status-row {
+            display:flex;justify-content:space-between;align-items:center;
+            padding:11px 0;border-bottom:1px solid #223044;
+        }
+        .orbit3-status-row:last-child { border-bottom:none; }
         /* [FIX-2.1] Radio buttons abisal — appearance-none + diseño manual */
         input[type="radio"].accent-secondary {
             appearance: none;
@@ -358,31 +385,106 @@
                     </div>
                 </header>
 
-                <!-- ═══ TAB A: SISTEMA — Tickers 2×2 ═══ -->
-                <main id="orbit3-tab-sistema" class="flex flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E] p-4 gap-4">
-                    <h2 class="text-[12px] uppercase tracking-[0.2em] text-[#E8ECF2] font-mono mb-2">MERCADO & FEEDS</h2>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="bg-[#111827] border border-[#2A3A52] p-3">
-                            <span class="block text-[10px] text-[#9AA7B6] font-mono mb-1">XAU/USD</span>
-                            <span class="block text-[14px] text-white font-bold font-mono">2,847.30</span>
-                            <span class="block text-[10px] text-green-400 mt-1">▲ 0.4%</span>
+                <!-- ═══ TAB A: SISTEMA — Modelo B · Grid + Micro-badges · 2026-05-31 ═══ -->
+                <!-- DEUDA_PENDIENTE | ARQ-FIND-07 | INV-NEWS-01 | Tickers mock — reemplazar con NewsCache feeds vivos -->
+                <main id="orbit3-tab-sistema" class="flex flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E]">
+                    <!-- Zona A: Market Signals (60%) -->
+                    <section class="p-4 flex flex-col gap-3 flex-[3]">
+                        <h2 class="text-[11px] uppercase tracking-[0.2em] text-[#C7A24B] font-serif mb-1">Market Signals</h2>
+                        <div class="grid grid-cols-2 gap-2">
+                            <!-- XAU/USD -->
+                            <div class="orbit3-ticker-card">
+                                <div class="flex justify-between items-start">
+                                    <span class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
+                                        <span class="dot-pulse"></span>LIVE
+                                    </span>
+                                    <span class="text-[9px] text-[#6E7B8B] font-mono tracking-tighter">XAU/USD</span>
+                                </div>
+                                <span class="text-white text-[18px] font-bold font-mono mt-1">2,341.20</span>
+                                <span class="text-[10px] text-green-400">▲ +0.84%</span>
+                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Basel III reclassification — institutional demand</span>
+                            </div>
+                            <!-- SOFR -->
+                            <div class="orbit3-ticker-card">
+                                <div class="flex justify-between items-start">
+                                    <span class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
+                                        <span class="dot-pulse"></span>LIVE
+                                    </span>
+                                    <span class="text-[9px] text-[#6E7B8B] font-mono tracking-tighter">SOFR</span>
+                                </div>
+                                <span class="text-white text-[18px] font-bold font-mono mt-1">5.32%</span>
+                                <span class="text-[10px] text-[#6E7B8B]">— 0.00</span>
+                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Active in 6 AIP Trade Finance mandates</span>
+                            </div>
+                            <!-- EUR/CHF -->
+                            <div class="orbit3-ticker-card">
+                                <div class="flex justify-between items-start">
+                                    <span class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
+                                        <span class="dot-pulse"></span>LIVE
+                                    </span>
+                                    <span class="text-[9px] text-[#6E7B8B] font-mono tracking-tighter">EUR/CHF</span>
+                                </div>
+                                <span class="text-white text-[18px] font-bold font-mono mt-1">0.9620</span>
+                                <span class="text-[10px] text-red-400">▼ -0.12%</span>
+                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Swiss jurisdiction — 3 active mandates</span>
+                            </div>
+                            <!-- BRENT -->
+                            <div class="orbit3-ticker-card">
+                                <div class="flex justify-between items-start">
+                                    <span class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
+                                        <span class="dot-pulse"></span>LIVE
+                                    </span>
+                                    <span class="text-[9px] text-[#6E7B8B] font-mono tracking-tighter">BRENT</span>
+                                </div>
+                                <span class="text-white text-[18px] font-bold font-mono mt-1">82.15</span>
+                                <span class="text-[10px] text-green-400">▲ +1.20%</span>
+                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Commodity off-take pipeline: 2 qualified</span>
+                            </div>
                         </div>
-                        <div class="bg-[#111827] border border-[#2A3A52] p-3">
-                            <span class="block text-[10px] text-[#9AA7B6] font-mono mb-1">SOFR</span>
-                            <span class="block text-[14px] text-white font-bold font-mono">5.32%</span>
-                            <span class="block text-[10px] text-gray-400 mt-1">—</span>
+                        <!-- Notices: ALERT / INFO / INTEL -->
+                        <div class="orbit3-notice mt-1">
+                            <div class="orbit3-notice__tag bg-[#C7A24B]/15 text-[#C7A24B]">ALERT</div>
+                            <div class="w-px bg-[#2B3D58]"></div>
+                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">EU AML/CFT ADVISORY: ENHANCED DUE DILIGENCE TRIGGERED FOR CROSS-BORDER VASP SETTLEMENTS.</p>
                         </div>
-                        <div class="bg-[#111827] border border-[#2A3A52] p-3">
-                            <span class="block text-[10px] text-[#9AA7B6] font-mono mb-1">EUR/CHF</span>
-                            <span class="block text-[14px] text-white font-bold font-mono">0.9620</span>
-                            <span class="block text-[10px] text-red-400 mt-1">▼ 0.1%</span>
+                        <div class="orbit3-notice">
+                            <div class="orbit3-notice__tag bg-[#7FB4FF]/10 text-[#7FB4FF]">INFO</div>
+                            <div class="w-px bg-[#2B3D58]"></div>
+                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">AIP Q3-Q4 MANDATE ALLOCATIONS OPEN — CROSS-BORDER LIQUIDITY AGGREGATION ENABLED.</p>
                         </div>
-                        <div class="bg-[#111827] border border-[#2A3A52] p-3">
-                            <span class="block text-[10px] text-[#9AA7B6] font-mono mb-1">BRENT</span>
-                            <span class="block text-[14px] text-white font-bold font-mono">82.15</span>
-                            <span class="block text-[10px] text-green-400 mt-1">▲ 1.2%</span>
+                        <div class="orbit3-notice">
+                            <div class="orbit3-notice__tag bg-[#C7A24B]/10 text-[#C7A24B]/80">INTEL</div>
+                            <div class="w-px bg-[#2B3D58]"></div>
+                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">PORTUGAL INVESTMENT CLUSTER: RWA + LOGISTICS OPPORTUNITIES UNDER STAK STRUCTURES.</p>
                         </div>
-                    </div>
+                    </section>
+                    <!-- Zona B: Operations Status (40%) -->
+                    <section class="p-4 bg-[#070A10] border-t border-[#2B3D58] flex-[2] flex flex-col justify-center">
+                        <h2 class="text-[11px] uppercase tracking-[0.2em] text-[#C7A24B] font-serif mb-3">Operations Status</h2>
+                        <div>
+                            <div class="orbit3-status-row">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[8px] px-2 py-0.5 bg-green-500/20 text-green-400 font-bold uppercase">ACTIVE</span>
+                                    <span class="text-[10px] text-[#9AA7B6] font-mono">MANDATES IN PIPELINE</span>
+                                </div>
+                                <span class="text-white font-bold text-[12px] font-mono">14</span>
+                            </div>
+                            <div class="orbit3-status-row">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[8px] px-2 py-0.5 bg-blue-500/20 text-blue-400 font-bold uppercase">3</span>
+                                    <span class="text-[10px] text-[#9AA7B6] font-mono">JURISDICTIONS MONITORED</span>
+                                </div>
+                                <span class="text-white font-bold text-[11px] font-mono">EU · CH · UAE</span>
+                            </div>
+                            <div class="orbit3-status-row">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[8px] px-2 py-0.5 bg-yellow-500/20 text-yellow-400 font-bold uppercase">SECURE</span>
+                                    <span class="text-[10px] text-[#9AA7B6] font-mono">INTELLIGENCE ENGINE</span>
+                                </div>
+                                <span class="text-white font-bold text-[11px] font-mono tracking-tighter">OPERATIONAL</span>
+                            </div>
+                        </div>
+                    </section>
                 </main>
 
                 <!-- ═══ TAB B: AIMON — Monitor de estado · consola de log · sin chat ═══ -->
