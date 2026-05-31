@@ -1,0 +1,228 @@
+/**
+ * @file landing-tokens.css
+ * @description Contrato Visual Canonico — AIP Landing + Orbit-3 Landing (Paleta Abismal)
+ *
+ * SOURCE OF TRUTH para la zona de landing: orbit-3 tabs (SISTEMA/AIMON/ACCESO),
+ * legal attestation modal, y gadgets de tabs publicos (orbit-2 landing).
+ *
+ * SEPARACION INTENCIONAL:
+ *   landing-tokens.css  → Landing + Orbit-3 + Attestation (estetica Vault/Abismal)
+ *   crm-tokens-v13.css  → CRM interior (estetica Bloomberg/Institucional)
+ *
+ * NO mezclar entre archivos. Cada zona consume su propio sistema.
+ *
+ * Doctrina R3 (Zero-Hex): los hex solo viven aqui. Ningun componente de landing
+ * puede tener colores hardcodeados — referenciar siempre var(--abyss-*).
+ *
+ * Decisions selladas: INV-VIS-02 · DEC-VIS-04 · DEC-VIS-06 · DEC-VIS-10
+ * Producido: 2026-05-31 · Forja Visual II — Fase 1
+ */
+
+:root {
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 1 — SUPERFICIES ABISMALES
+       Jerarquia de profundidad: void (mas oscuro) → base → surface → raised
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --abyss-void:            #05070B;   /* Fondo log AIMON — mas profundo */
+    --abyss-bg-deep:         #070A10;   /* Operations status · Notices */
+    --abyss-bg-base:         #0A0F1E;   /* Fondo base orbit-3 tabs */
+    --abyss-surface:         #0E1624;   /* Ticker cards · contenedores */
+    --abyss-surface-raised:  #111827;   /* Botones OAuth · acceso form */
+    --abyss-overlay:         rgba(5, 7, 11, 0.92); /* Overlay attestation modal */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 2 — BORDES ABISMALES
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --abyss-border:          #223044;   /* Borde estandar */
+    --abyss-border-strong:   #2B3D58;   /* Borde enfatizado · separadores */
+    --abyss-border-mid:      #2A3A52;   /* Borde formularios · divisores */
+    --abyss-border-gold:     rgba(200, 162, 74, 0.18); /* Borde modal attestation */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 3 — TIPOGRAFIA ABISMAL
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* Familias (misma doctrina que CRM — coherencia entre zonas) */
+    --abyss-title-font:      "Cormorant Garamond", serif;   /* Titulos fiduciarios */
+    --abyss-body-font:       "Inter", system-ui, sans-serif; /* Cuerpo funcional */
+    --abyss-mono-font:       "DM Mono", ui-monospace, monospace; /* Logs · hashes · AIMON */
+
+    /* Escala */
+    --abyss-size-micro:      0.5625rem; /* 9px — timestamps · labels minimos */
+    --abyss-size-caption:    0.625rem;  /* 10px — texto de log · metadatos */
+    --abyss-size-label:      0.6875rem; /* 11px — headers de seccion · caps */
+    --abyss-size-body:       0.75rem;   /* 12px — texto de formulario */
+    --abyss-size-value:      0.875rem;  /* 14px — valores de ticker */
+    --abyss-size-display:    1.5rem;    /* 24px — metricas hero (XAU, SOFR) */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 4 — TEXTO ABISMAL
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --abyss-text-primary:    #D7DEE7;   /* Texto principal */
+    --abyss-text-secondary:  #9AA7B6;   /* Metadatos · descripciones */
+    --abyss-text-muted:      #6E7B8B;   /* Timestamps · ayuda · inactivo */
+    --abyss-text-inverse:    #0A0F1E;   /* Texto sobre fondos claros (botones gold) */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 5 — ACENTOS ABISMALES
+       DEC-VIS-06: UK Gold canonico unificado — mismo valor que crm-tokens-v13
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --abyss-gold:            #C8A24A;   /* UK Gold canonico (= --crm-accent-uk-gold dark) */
+    --abyss-gold-dim:        rgba(200, 162, 74, 0.15); /* Gold translucido — tags ALERT/INTEL */
+    --abyss-gold-hover:      #D4B96E;   /* Gold refinado para hover states */
+
+    --abyss-cold:            #7FB4FF;   /* Azul frio — sistema, INFO, hover OAuth */
+    --abyss-cold-dim:        rgba(127, 180, 255, 0.10); /* Cold translucido — tag INFO */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 6 — ESTADOS SEMANTICOS
+       DEC-VIS-07: semántica reducida — solo accionables destacan
+       Regla: si el usuario no necesita hacer nada, no hay color de estado.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* GATE — bloqueo activo (accionable: requiere resolver KYC) */
+    --abyss-state-gate-bg:   rgba(239, 68, 68, 0.10);
+    --abyss-state-gate-text: #F87171;   /* rojo suave sobre fondo oscuro */
+
+    /* ACT — accion urgente requerida (accionable: requiere click del usuario) */
+    --abyss-state-act-bg:    rgba(200, 162, 74, 0.10);
+    --abyss-state-act-text:  #C8A24A;   /* gold — misma semantica que --abyss-gold */
+
+    /* NEUTRAL — todos los demas tipos (SYS, GEO, MKT, MON) */
+    --abyss-state-neutral-bg:   rgba(110, 123, 139, 0.10);
+    --abyss-state-neutral-text: #6E7B8B; /* = --abyss-text-muted */
+
+    /* Indicadores de estado vivos (no de log — para Operations Status) */
+    --abyss-success:         #4ade80;   /* verde vivo — LIVE / ACTIVE / SECURE */
+    --abyss-success-dim:     rgba(74, 222, 128, 0.20);
+    --abyss-danger:          #F87171;   /* rojo — BLOCKED / CLEARANCE NONE */
+    --abyss-warning:         #FBBF24;   /* amber — alertas de mercado */
+    --abyss-info:            #7FB4FF;   /* = --abyss-cold — INFO notices */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 7 — TICKER DE MERCADO (variaciones positivas/negativas)
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --abyss-ticker-up:       #4ade80;   /* Flecha arriba · variacion positiva */
+    --abyss-ticker-down:     #F87171;   /* Flecha abajo · variacion negativa */
+    --abyss-ticker-neutral:  #9AA7B6;   /* Sin variacion */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 8 — GEOMETRIA
+       Misma doctrina que CRM: austeridad, sin radios gratuitos.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --abyss-radius-none:     0;
+    --abyss-radius-badge:    2px;   /* Badges de log (SYS, GATE, ACT...) */
+    --abyss-radius-btn:      2px;   /* Botones de accion */
+    --abyss-radius-input:    3px;   /* Inputs de formulario */
+    --abyss-radius-modal:    0px;   /* Modal attestation — sin redondeo (autoridad) */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 9 — ALIASES BACKWARD-COMPAT (legacy → landing-tokens)
+       Permiten migrar gradualmente sin romper clases existentes.
+       PURGAR cuando todos los componentes de landing usen --abyss-* directamente.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    --theme-deep-ocean:      var(--abyss-bg-base);
+    --theme-surface:         var(--abyss-surface);
+    --theme-surface-alt:     var(--abyss-bg-deep);
+    --theme-accent:          var(--abyss-gold);
+    --theme-accent-hover:    var(--abyss-gold-hover);
+    --theme-foreground:      var(--abyss-text-primary);
+    --theme-foreground-alt:  var(--abyss-text-secondary);
+    --stitch-gold:           var(--abyss-gold);
+    --stitch-border:         rgba(255, 255, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   UTILIDADES DE COMPONENTE — BADGES DE LOG AIMON
+   DEC-VIS-07: semántica reducida. Solo GATE y ACT tienen color.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.aimon-badge {
+    font-size:      var(--abyss-size-micro);
+    font-family:    var(--abyss-mono-font);
+    font-weight:    700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding:        2px 4px;
+    border-radius:  var(--abyss-radius-badge);
+    display:        inline-block;
+    min-width:      2.8em;
+    text-align:     center;
+}
+
+/* Estado neutral — SYS, GEO, MKT, MON y cualquier tipo no accionable */
+.aimon-badge,
+.aimon-badge--sys,
+.aimon-badge--geo,
+.aimon-badge--mkt,
+.aimon-badge--mon {
+    background: var(--abyss-state-neutral-bg);
+    color:      var(--abyss-state-neutral-text);
+}
+
+/* Estado GATE — bloqueo activo (requiere accion del usuario) */
+.aimon-badge--gate {
+    background: var(--abyss-state-gate-bg);
+    color:      var(--abyss-state-gate-text);
+}
+
+/* Estado ACT — accion urgente requerida */
+.aimon-badge--act {
+    background: var(--abyss-state-act-bg);
+    color:      var(--abyss-state-act-text);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   UTILIDADES — NOTICES DEL SISTEMA (SISTEMA tab)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.abyss-notice-tag--alert {
+    background: var(--abyss-gold-dim);
+    color:      var(--abyss-gold);
+}
+
+.abyss-notice-tag--info {
+    background: var(--abyss-cold-dim);
+    color:      var(--abyss-cold);
+}
+
+.abyss-notice-tag--intel {
+    background: var(--abyss-gold-dim);
+    color:      rgba(200, 162, 74, 0.80);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   APÉNDICE — MAPA DE MIGRACION (hardcodes → tokens)
+   Para uso durante Forja Visual II al migrar index.html
+   ─────────────────────────────────────────────────────────────────────
+   #05070B    → var(--abyss-void)
+   #070A10    → var(--abyss-bg-deep)
+   #0A0F1E    → var(--abyss-bg-base)
+   #0E1624    → var(--abyss-surface)
+   #111827    → var(--abyss-surface-raised)
+   #223044    → var(--abyss-border)
+   #2B3D58    → var(--abyss-border-strong)
+   #2A3A52    → var(--abyss-border-mid)
+   #C7A24B    → var(--abyss-gold)          [canonical: #C8A24A]
+   #D4B96E    → var(--abyss-gold-hover)
+   #C1A85D    → var(--abyss-gold)          [alias — purgar]
+   #7FB4FF    → var(--abyss-cold)
+   #4ade80    → var(--abyss-success)
+   #D7DEE7    → var(--abyss-text-primary)
+   #9AA7B6    → var(--abyss-text-secondary)
+   #6E7B8B    → var(--abyss-text-muted)
+   #E8ECF2    → var(--abyss-text-primary)  [alias cercano]
+   bg-blue-500/10 text-blue-400  → .aimon-badge (neutral)
+   bg-green-500/10 text-green-400 → .aimon-badge (neutral)
+   bg-yellow-500/10 text-yellow-400 → .aimon-badge (neutral)
+   bg-red-500/10 text-red-400    → .aimon-badge--gate
+   bg-white/10 text-white        → .aimon-badge--act
+   ═══════════════════════════════════════════════════════════════════════ */
