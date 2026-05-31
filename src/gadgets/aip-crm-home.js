@@ -1,10 +1,11 @@
 // ============================================================
 // ARCHIVO  : aip-crm-home.js
-// VERSIÓN  : 1.0.0
+// VERSIÓN  : 1.1.0
 // FECHA    : 2026-05-31
 // PROPÓSITO: Web Component del HOME de Órbita 2 (CRM Dashboard).
-//            Vista de Portfolio Overview — estado HOME canónico del CRM.
+//            Vista de Portfolio Overview + Detalle de Mandato.
 //            Montado cuando layer_2_document === null (sin mandato abierto).
+//            [VIBE-AIP-S-REBORN-03.7] Trasplante _showMandateDetail desde AIPHandler.js
 // ============================================================
 
 // ÍNDICE
@@ -14,11 +15,13 @@
 // [SEC-04] Clase AipCrmHome — Web Component
 //   [SEC-04a] Campos privados + lifecycle
 //   [SEC-04b] stateChanged — reactividad al store
-//   [SEC-04c] _render — construcción del DOM
-//   [SEC-04d] _wire — event delegation
-//   [SEC-04e] _emit + dispatch — bus canónico + FSM
-//   [SEC-04f] Helpers de render (SVG ring, barras, badge tier)
-//   [SEC-04g] static mount — API pública de montaje
+//   [SEC-04c] _render — conmutación Portfolio vs Detalle
+//   [SEC-04d] _renderPortfolio — vista de tabla de proyectos
+//   [SEC-04e] _renderMandateDetail — trasplante desde AIPHandler.js
+//   [SEC-04f] _wire — event delegation + listeners globales
+//   [SEC-04g] _emit + dispatch — bus canónico + FSM
+//   [SEC-04h] Helpers de render (SVG ring, barras, badge tier)
+//   [SEC-04i] static mount — API pública de montaje
 // [SEC-05] Registro + auto-wire
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -36,7 +39,7 @@
 //
 // EVENTOS ESCUCHADOS (bus document)
 //   Skeleton:Legal:Accepted → auto-wire mount
-//   Skeleton:Action:MandateSelected → recibe aimonContext (emitido por aip-orbit1-tree)
+//   Skeleton:Action:MandateSelected → recibe mandate object (emitido por aip-orbit1-tree)
 //
 // EVENTOS EMITIDOS (bus document)
 //   Skeleton:CRM:ProjectSelected    { projectId }
@@ -51,7 +54,7 @@
 //
 // INTEGRACIÓN
 //   main.js: import './gadgets/aip-crm-home.js';
-//   Montado en: #crm-orbit-main (contenedor de Órbita 2)
+//   Montado en: #crm-orbit-2 (contenedor de Órbita 2)
 //   Auto-wire en Skeleton:Legal:Accepted — mismo patrón que aip-orbit1-tree.js
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -278,6 +281,54 @@ const CRM_HOME_STYLES = `
     .kyc-tier { display: flex; align-items: center; gap: 12px; }
     .kyc-tick--ok      { color: var(--crm-success); }
     .kyc-tick--pending { color: var(--crm-warning); }
+
+    /* ── Mandate Detail (trasplantado desde AIPHandler.js) ───────── */
+    .mandate-detail__header {
+        height: 44px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+        padding: 0 24px; background: var(--crm-abyss); border-bottom: 1px solid var(--crm-border);
+    }
+    .mandate-detail__body   { flex: 1; overflow-y: auto; padding: 24px; }
+    .workbench              { display: flex; flex-direction: column; gap: 24px; }
+    .tearsheet-header       { display: flex; flex-direction: column; gap: 16px; padding: 20px;
+                              background: var(--crm-surface); border: 1px solid var(--crm-border); }
+    .mandate-identity       { display: flex; align-items: center; gap: 16px; }
+    .mandate-id             { font-family: 'JetBrains Mono', monospace; font-size: 10px;
+                              letter-spacing: 0.08em; color: var(--crm-text-secondary); }
+    .mandate-name           { font-size: 16px; font-weight: 600; }
+    .status-badge           { padding: 2px 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px;
+                              letter-spacing: 0.08em; text-transform: uppercase;
+                              border: 1px solid var(--crm-border); color: var(--crm-text-secondary); }
+    .kpi-ribbon             { display: flex; gap: 24px; flex-wrap: wrap; }
+    .kpi-cell               { display: flex; flex-direction: column; gap: 4px; }
+    .kpi-label              { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--crm-text-secondary); }
+    .kpi-value              { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; }
+    .kpi-meta               { font-size: 9px; color: var(--crm-text-secondary); }
+    .panel-left             { display: flex; flex-direction: column; gap: 16px; }
+    .panel-right            { display: flex; flex-direction: column; gap: 12px; }
+    .counterparty-grid      { display: flex; gap: 0; border: 1px solid var(--crm-border); }
+    .grid-frozen            { border-right: 1px solid var(--crm-border); }
+    .grid-scrollable        { overflow-x: auto; }
+    .grid-row               { display: flex; align-items: center; height: 32px; padding: 0 12px; }
+    .grid-row.header        { background: var(--crm-surface); border-bottom: 1px solid var(--crm-border); }
+    .col-role               { width: 40px; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+    .col-entity             { width: 160px; font-size: 11px; }
+    .col-status             { width: 60px; }
+    .col-kyc                { width: 60px; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+    .col-docs               { width: 60px; }
+    .col-commit             { width: 80px; }
+    .col-juris              { width: 50px; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+    .status-dot             { width: 6px; height: 6px; border-radius: 50%; background: var(--crm-success); display: inline-block; }
+    .kyc-bar                { font-size: 10px; letter-spacing: 0.1em; }
+    .timeline-node          { padding: 12px; background: var(--crm-surface); border: 1px solid var(--crm-border); }
+    .node-header            { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .node-symbol            { font-size: 12px; }
+    .node-title             { font-size: 11px; font-weight: 500; flex: 1; }
+    .node-timestamp         { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--crm-text-secondary); }
+    .audit-badge            { padding: 1px 6px; font-size: 8px; letter-spacing: 0.08em;
+                              border: 1px solid var(--crm-border); color: var(--crm-text-secondary); }
+    .node-detail            { font-size: 11px; color: var(--crm-text-secondary); line-height: 1.5; }
+    .evidence-line          { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--crm-text-dim);
+                              margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--crm-border); }
 </style>
 `;
 
@@ -288,6 +339,7 @@ class AipCrmHome extends ReactiveElement {
     #session  = MOCK_SESSION;
     #projects = MOCK_PROJECTS;
     #rendered = false;
+    #selectedMandate = null; // [VIBE-03.7] Estado de conmutación Portfolio ↔ Detalle
 
     connectedCallback() {
         super.connectedCallback(); // suscripción al store vía ReactiveElement
@@ -295,8 +347,6 @@ class AipCrmHome extends ReactiveElement {
     }
 
     // [SEC-04b] stateChanged — reactividad al store
-    // v1.3: lee auth del store real + CRM desde mock.
-    // Producción: leer state.session + state.crm cuando existan en state-contract.
     stateChanged(state) {
         if (!state) return;
 
@@ -309,20 +359,16 @@ class AipCrmHome extends ReactiveElement {
         }
 
         // Re-renders parciales: actualizar solo lo que cambió
-        // v1.3: solo kycStatus del auth real puede provocar re-render
         const kycStatus = state?.auth?.kycStatus;
         if (kycStatus) {
             // Placeholder para lógica real — en v1.3 el mock no cambia
         }
     }
 
-    // [SEC-04c] _render — construcción del DOM
+    // [SEC-04c] _render — conmutación Portfolio vs Detalle
     _render() {
         const s = this.#session;
         const p = this.#projects;
-
-        const matchingBlocked = s.integrityScore < s.integrityThresholds.silver;
-        const kycNextTier     = s.kycTiers.find(t => !t.completed);
 
         // DT-AIP-05: solo datos controlados (mock / store) entran en innerHTML
         this.innerHTML = `
@@ -355,14 +401,38 @@ ${CRM_HOME_STYLES}
 
 <!-- [§B] Main body -->
 <div class="crm-home__body">
+    <main class="crm-home__main" id="crm-home-view-container"></main>
+</div>
 
-    <!-- [DT-AIP-07 Cycle 2] sidebar-l extirpado — arquitectura canónica 3 col:
-         crm-orbit-1 (tree) | crm-home__main | crm-home__sidebar-r
-         IntegrityScore migra a futura card dentro de crm-home__main -->
+<!-- [§C] Status bar inferior -->
+<footer class="crm-home__statusbar">
+    <div style="display:flex;align-items:center;gap:24px;">
+        <span class="label-xs ghost">FSM: ORBIT_3_CRM_ACTIVE</span>
+        <span class="label-xs ghost">v1.3-skeleton</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:24px;">
+        <span class="label-xs ghost">TRACE: ${s.traceId}</span>
+        <span class="label-xs ghost">SCOPE: CRM_BRONZE_AGENT</span>
+    </div>
+</footer>
+        `;
 
-    <!-- Columna central: Portfolio -->
-    <main class="crm-home__main">
+        // [VIBE-03.7] Conmutación de vista interna
+        const container = this.querySelector('#crm-home-view-container');
+        if (this.#selectedMandate) {
+            this._renderMandateDetail(container, this.#selectedMandate);
+        } else {
+            this._renderPortfolio(container, s, p);
+        }
+    }
 
+    // [SEC-04d] _renderPortfolio — vista de tabla de proyectos
+    _renderPortfolio(container, s, p) {
+        const matchingBlocked = s.integrityScore < s.integrityThresholds.silver;
+        const kycNextTier     = s.kycTiers.find(t => !t.completed);
+
+        // DT-AIP-05: solo datos controlados (MOCK_SESSION / MOCK_PROJECTS) en innerHTML
+        container.innerHTML = `
         <!-- Sub-header: breadcrumb + CTAs -->
         <div class="crm-home__subbar">
             <div style="display:flex;align-items:center;gap:8px;">
@@ -438,30 +508,383 @@ ${CRM_HOME_STYLES}
                 </div>` : ''}
             </div>
         </div>
-
-    </main>
-
-    <!-- [DT-AIP-07 Cycle 2 ext.] sidebar-r migrado a #crm-orbit-3-panel de trinity-layout.
-         Actividad reciente + Próximas acciones viven en orbit-3. crm-home = 2 columnas:
-         crm-orbit-1 (tree) | crm-home__main | orbit-3-panel (activity+actions) -->
-</div>
-
-<!-- [§C] Status bar inferior -->
-<footer class="crm-home__statusbar">
-    <div style="display:flex;align-items:center;gap:24px;">
-        <span class="label-xs ghost">FSM: ORBIT_3_CRM_ACTIVE</span>
-        <span class="label-xs ghost">v1.3-skeleton</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:24px;">
-        <span class="label-xs ghost">TRACE: ${s.traceId}</span>
-        <span class="label-xs ghost">SCOPE: CRM_BRONZE_AGENT</span>
-    </div>
-</footer>
         `;
     }
 
-    // [SEC-04d] _wire — event delegation
+    // [SEC-04e] _renderMandateDetail — trasplante desde AIPHandler.js
+    // [DT-AIP-07 Cycle 3] ARQ-FIND-11 cerrado · 2026-05-31
+    // DT-AIP-05: createElement + textContent, nunca innerHTML con datos del mandato
+    _renderMandateDetail(container, mandate) {
+        container.textContent = ''; // Limpieza fiduciaria
+
+        // ── Header del detalle con botón Volver ─────────────────────────────
+        const header = document.createElement('div');
+        header.className = 'mandate-detail__header';
+
+        const breadcrumb = document.createElement('div');
+        breadcrumb.style.cssText = 'display:flex;align-items:center;gap:8px;';
+
+        const backBtn = document.createElement('button');
+        backBtn.className = 'btn-inst';
+        backBtn.style.cssText = 'padding:4px 12px;font-size:9px;';
+        backBtn.textContent = '← VOLVER';
+        backBtn.dataset.actionHome = 'BackToPortfolio';
+
+        const sep1 = document.createElement('span');
+        sep1.className = 'label-sm ghost';
+        sep1.textContent = '/';
+
+        const sep2 = document.createElement('span');
+        sep2.className = 'label-sm ghost';
+        sep2.textContent = '/';
+
+        const crumbId = document.createElement('span');
+        crumbId.className = 'label-sm';
+        crumbId.textContent = mandate.mandateId ?? '—';
+
+        const crumbName = document.createElement('span');
+        crumbName.className = 'label-sm';
+        crumbName.style.color = 'var(--crm-text-secondary)';
+        crumbName.textContent = mandate.asset?.spec ?? mandate.asset?.class ?? mandate.type ?? '—';
+
+        breadcrumb.append(backBtn, sep1, crumbId, sep2, crumbName);
+        header.appendChild(breadcrumb);
+        container.appendChild(header);
+
+        // ── Body del detalle ────────────────────────────────────────────────
+        const body = document.createElement('div');
+        body.className = 'mandate-detail__body';
+
+        const workbench = document.createElement('div');
+        workbench.className = 'workbench';
+
+        // ── TEARSHEET HEADER ───────────────────────────────────────────────
+        const tHeader = document.createElement('div');
+        tHeader.className = 'tearsheet-header';
+
+        const identity = document.createElement('div');
+        identity.className = 'mandate-identity';
+
+        const mId = document.createElement('span');
+        mId.className = 'mandate-id';
+        mId.textContent = mandate.mandateId ?? '—';
+
+        const mName = document.createElement('span');
+        mName.className = 'mandate-name';
+        mName.textContent = mandate.asset?.spec ?? mandate.asset?.class ?? '—';
+
+        const mStateBadge = document.createElement('span');
+        mStateBadge.className = 'status-badge';
+        mStateBadge.textContent = mandate.fiduciaryState ?? '—';
+
+        identity.append(mId, mName, mStateBadge);
+
+        const kpiRibbon = document.createElement('div');
+        kpiRibbon.className = 'kpi-ribbon';
+
+        const amt = mandate.asset?.estimatedValue;
+        const kpiData = [
+            { label: 'Valor Est.', value: amt ? `$${(amt / 1_000_000).toFixed(0)}M` : '—', meta: mandate.asset?.currency ?? '' },
+            { label: 'Incoterm',   value: mandate.asset?.incoterm ?? '—', meta: '' },
+            { label: 'Calidad',    value: mandate.asset?.class ?? '—', meta: mandate.asset?.quantity ?? '' },
+            { label: 'Cert. SGS',  value: mandate.compliance?.sgsCertificate ?? '—', meta: '' },
+            { label: 'SBLC',       value: mandate.compliance?.sblcProvider ?? '—', meta: '' },
+            { label: 'KYC Tier',   value: `Tier ${mandate.compliance?.kycTier ?? '?'}`, meta: mandate.compliance?.amlClear ? 'AML ✓' : 'AML —' },
+        ];
+
+        kpiData.forEach(({ label, value, meta }) => {
+            const cell = document.createElement('div');
+            cell.className = 'kpi-cell';
+
+            const lbl = document.createElement('span');
+            lbl.className = 'kpi-label';
+            lbl.textContent = label;
+
+            const val = document.createElement('span');
+            val.className = 'kpi-value';
+            val.textContent = value;
+
+            cell.append(lbl, val);
+
+            if (meta) {
+                const m = document.createElement('span');
+                m.className = 'kpi-meta';
+                m.textContent = meta;
+                cell.append(m);
+            }
+            kpiRibbon.append(cell);
+        });
+
+        tHeader.append(identity, kpiRibbon);
+        workbench.append(tHeader);
+
+        // ── PANEL LEFT ──────────────────────────────────────────────────────
+        const panelLeft = document.createElement('div');
+        panelLeft.className = 'panel-left';
+
+        const cpTitle = document.createElement('p');
+        cpTitle.className = 'kpi-label';
+        cpTitle.textContent = 'Matriz de Contrapartes';
+
+        const cpGrid = document.createElement('div');
+        cpGrid.className = 'counterparty-grid';
+
+        const frozen = document.createElement('div');
+        frozen.className = 'grid-frozen';
+        const scrollable = document.createElement('div');
+        scrollable.className = 'grid-scrollable';
+
+        const frozenHdr = document.createElement('div');
+        frozenHdr.className = 'grid-row header';
+        ['#', 'Entidad'].forEach((h, i) => {
+            const col = document.createElement('div');
+            col.className = i === 0 ? 'col-role' : 'col-entity';
+            col.textContent = h;
+            frozenHdr.append(col);
+        });
+
+        const scrollHdr = document.createElement('div');
+        scrollHdr.className = 'grid-row header';
+        [
+            { text: 'Estado',      cls: 'col-status' },
+            { text: 'KYC',         cls: 'col-kyc'    },
+            { text: 'Docs',        cls: 'col-docs'   },
+            { text: 'Compromiso',  cls: 'col-commit' },
+            { text: 'Juris.',      cls: 'col-juris'  },
+        ].forEach(({ text, cls }) => {
+            const col = document.createElement('div');
+            col.className = cls;
+            col.textContent = text;
+            scrollHdr.append(col);
+        });
+
+        frozen.append(frozenHdr);
+        scrollable.append(scrollHdr);
+
+        const parties = [];
+        if (mandate.parties?.originator)
+            parties.push({ role: 'ORG', entity: mandate.parties.originator, kyc: '▓▓▓▓▓', commit: '—', juris: 'UY' });
+        if (mandate.parties?.client)
+            parties.push({ role: 'CLI', entity: mandate.parties.client, kyc: '▓▓▓░░', commit: '—', juris: 'ES' });
+        if (Array.isArray(mandate.parties?.counterparties)) {
+            mandate.parties.counterparties.forEach(cp =>
+                parties.push({ role: 'CP', entity: cp, kyc: '▓▓░░░', commit: '—', juris: 'NL' })
+            );
+        }
+
+        parties.forEach(p => {
+            const fRow = document.createElement('div');
+            fRow.className = 'grid-row';
+            const roleCell = document.createElement('div');
+            roleCell.className = 'col-role';
+            roleCell.textContent = p.role;
+            const entityCell = document.createElement('div');
+            entityCell.className = 'col-entity';
+            entityCell.textContent = p.entity;
+            fRow.append(roleCell, entityCell);
+            frozen.append(fRow);
+
+            const sRow = document.createElement('div');
+            sRow.className = 'grid-row';
+
+            const dotDiv = document.createElement('div');
+            dotDiv.className = 'col-status';
+            const dot = document.createElement('span');
+            dot.className = 'status-dot';
+            dotDiv.append(dot);
+
+            const kycDiv = document.createElement('div');
+            kycDiv.className = 'col-kyc';
+            const kycBar = document.createElement('span');
+            kycBar.className = 'kyc-bar';
+            kycBar.textContent = p.kyc;
+            kycDiv.append(kycBar);
+
+            const docsDiv = document.createElement('div');
+            docsDiv.className = 'col-docs';
+            docsDiv.textContent = '—';
+
+            const commitDiv = document.createElement('div');
+            commitDiv.className = 'col-commit';
+            commitDiv.textContent = p.commit;
+
+            const jurisDiv = document.createElement('div');
+            jurisDiv.className = 'col-juris';
+            jurisDiv.textContent = p.juris;
+
+            sRow.append(dotDiv, kycDiv, docsDiv, commitDiv, jurisDiv);
+            scrollable.append(sRow);
+        });
+
+        cpGrid.append(frozen, scrollable);
+        panelLeft.append(cpTitle, cpGrid);
+
+        const termsTitle = document.createElement('p');
+        termsTitle.className = 'kpi-label';
+        termsTitle.style.marginTop = '24px';
+        termsTitle.textContent = 'Condiciones del Mandato';
+
+        const termsData = [
+            { label: 'Tipo de operación', value: mandate.type ?? '—' },
+            { label: 'Activo',            value: mandate.asset?.class ?? '—' },
+            { label: 'Especificación',    value: mandate.asset?.spec ?? '—' },
+            { label: 'Volumen',           value: mandate.asset?.quantity ?? '—' },
+            { label: 'Incoterm',          value: mandate.asset?.incoterm ?? '—' },
+            { label: 'Creación',          value: mandate.timeline?.created ?? '—' },
+            { label: 'Cierre objetivo',   value: mandate.timeline?.targetClose ?? '—' },
+            { label: 'Último contacto',   value: mandate.timeline?.lastActivity ?? '—' },
+            { label: 'Próximo hito',      value: mandate.timeline?.nextMilestone ?? '—' },
+        ];
+
+        const termsGrid = document.createElement('div');
+        termsGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-top:8px;';
+
+        termsData.forEach(({ label, value }) => {
+            const item = document.createElement('div');
+
+            const lbl = document.createElement('span');
+            lbl.className = 'kpi-label';
+            lbl.textContent = label;
+
+            const val = document.createElement('span');
+            val.style.cssText = 'display:block;font-size:11px;color:var(--crm-text-primary);margin-top:2px;';
+            val.textContent = value;
+
+            item.append(lbl, val);
+            termsGrid.append(item);
+        });
+
+        panelLeft.append(termsTitle, termsGrid);
+        workbench.append(panelLeft);
+
+        // ── PANEL RIGHT — Audit Trail ───────────────────────────────────────
+        const panelRight = document.createElement('div');
+        panelRight.className = 'panel-right';
+
+        const auditTitle = document.createElement('p');
+        auditTitle.className = 'kpi-label';
+        auditTitle.textContent = 'Auditoría de Cumplimiento';
+        panelRight.append(auditTitle);
+
+        const c = mandate.compliance ?? {};
+        const milestones = [
+            {
+                category: 'LEGAL',
+                symbol: '✓',
+                title: 'NDA / NCNDA Firmado',
+                timestamp: mandate.timeline?.created ?? '—',
+                status: c.ncndaSigned ? 'VERIFIED' : 'PENDING',
+                detail: `NDA/NCNDA firmado. Estado: ${c.ncndaSigned ? 'Vigente' : 'Pendiente'}.`,
+                evidence: `ncnda_signed=${c.ncndaSigned}`,
+            },
+            {
+                category: 'LEGAL',
+                symbol: '✓',
+                title: 'AML / Sanctions Check',
+                timestamp: mandate.timeline?.lastActivity ?? '—',
+                status: (c.amlClear && c.sanctionsCheck) ? 'VERIFIED' : 'PENDING',
+                detail: `AML Clear: ${c.amlClear}. Sanctions: ${c.sanctionsCheck}.`,
+                evidence: `aml=${c.amlClear} · sanctions=${c.sanctionsCheck}`,
+            },
+            {
+                category: 'LEGAL',
+                symbol: '⧖',
+                title: `KYC Tier ${c.kycTier} Due Diligence`,
+                timestamp: mandate.timeline?.nextMilestone ?? '—',
+                status: 'PENDING',
+                detail: `Próximo hito: ${mandate.timeline?.nextMilestone ?? '—'}`,
+                evidence: `kyc_tier=${c.kycTier} · sblc_provider=${c.sblcProvider ?? '—'}`,
+            },
+            {
+                category: 'BLOCKER',
+                symbol: '!',
+                title: 'Certificado SGS',
+                timestamp: mandate.timeline?.lastActivity ?? '—',
+                status: c.sgsCertificate ? 'VERIFIED' : 'BLOCKER',
+                detail: c.sgsCertificate
+                    ? `Certificado emitido: ${c.sgsCertificate}`
+                    : 'Pendiente emisión certificado SGS.',
+                evidence: c.sgsCertificate ? `sgs=${c.sgsCertificate}` : 'sgs=MISSING',
+            },
+        ];
+
+        if (Array.isArray(mandate.notes)) {
+            mandate.notes.forEach((note, i) => milestones.push({
+                category: 'LEGAL',
+                symbol: '›',
+                title: `Nota ${i + 1}`,
+                timestamp: mandate.timeline?.lastActivity ?? '—',
+                status: 'VERIFIED',
+                detail: note,
+                evidence: `note_index=${i}`,
+            }));
+        }
+
+        milestones.forEach(({ category, symbol, title, timestamp, status, detail, evidence }) => {
+            const node = document.createElement('div');
+            node.className = 'timeline-node';
+            node.dataset.category = category;
+
+            const nodeHdr = document.createElement('div');
+            nodeHdr.className = 'node-header';
+
+            const sym = document.createElement('span');
+            sym.className = 'node-symbol';
+            sym.textContent = symbol;
+
+            const tit = document.createElement('span');
+            tit.className = 'node-title';
+            tit.textContent = title;
+
+            const ts = document.createElement('span');
+            ts.className = 'node-timestamp';
+            ts.textContent = timestamp;
+
+            const badge = document.createElement('span');
+            badge.className = 'audit-badge';
+            badge.textContent = status;
+
+            nodeHdr.append(sym, tit, ts, badge);
+
+            const nodeBody = document.createElement('div');
+            nodeBody.className = 'node-detail';
+
+            const detailSpan = document.createElement('span');
+            detailSpan.textContent = detail;
+
+            const evidenceLine = document.createElement('div');
+            evidenceLine.className = 'evidence-line';
+            evidenceLine.textContent = evidence;
+
+            nodeBody.append(detailSpan, evidenceLine);
+            node.append(nodeHdr, nodeBody);
+            panelRight.append(node);
+        });
+
+        workbench.append(panelRight);
+        body.append(workbench);
+        container.appendChild(body);
+    }
+
+    // [SEC-04f] _wire — event delegation + listeners globales
     _wire() {
+        // Listener del bus canónico para selección de mandatos
+        // [DT-AIP-07 Cycle 3] ARQ-FIND-11 cerrado · 2026-05-31
+        document.addEventListener('Skeleton:Action:MandateSelected', (e) => {
+            const { mandate } = e.detail;
+            if (!mandate) {
+                console.warn('[CrmHome] MandateSelected sin payload de mandato');
+                return;
+            }
+            this.#selectedMandate = mandate;
+            this._render();
+            this._wireViewInternal();
+        });
+
+        this._wireViewInternal();
+    }
+
+    _wireViewInternal() {
         this.addEventListener('click', (e) => {
             const btn = e.target.closest('[data-action-home]');
             if (!btn) return;
@@ -485,11 +908,16 @@ ${CRM_HOME_STYLES}
                 case 'SelectProject':
                     this._onProjectSelected(btn.dataset.projectId);
                     break;
+                case 'BackToPortfolio':
+                    this.#selectedMandate = null;
+                    this._render();
+                    this._wireViewInternal();
+                    break;
             }
         });
     }
 
-    // [SEC-04e] _emit + dispatch — bus canónico + FSM
+    // [SEC-04g] _emit + dispatch — bus canónico + FSM
     _emit(eventName, detail = {}) {
         document.dispatchEvent(new CustomEvent(eventName, {
             detail: Object.freeze(detail),
@@ -521,13 +949,12 @@ ${CRM_HOME_STYLES}
         this._emit('Skeleton:CRM:ProjectSelected', { projectId });
     }
 
-    // [SEC-04f] Helpers de render
+    // [SEC-04h] Helpers de render
     /** SVG ring para IntegrityScore. circunferencia = 2π × r (r=28) ≈ 175.93 */
     _renderScoreRing(score) {
         const r            = 28;
-        const circumference = +(2 * Math.PI * r).toFixed(2);   // 175.93
+        const circumference = +(2 * Math.PI * r).toFixed(2);
         const offset        = +(circumference * (1 - score / 100)).toFixed(2);
-        // Color del tier
         const color = score >= 90 ? 'var(--crm-gold)'
                     : score >= 75 ? 'var(--crm-silver)'
                     : 'var(--crm-bronze)';
@@ -609,15 +1036,7 @@ ${CRM_HOME_STYLES}
         </div>`;
     }
 
-    // [SEC-04g] static mount — API pública de montaje
-    /**
-     * Monta el componente en el contenedor indicado.
-     * Uso canónico (en main.js, tras Skeleton:Legal:Accepted):
-     *   AipCrmHome.mount('#crm-orbit-2');
-     *
-     * @param {string|HTMLElement} container
-     * @returns {AipCrmHome|null}
-     */
+    // [SEC-04i] static mount — API pública de montaje
     static mount(container) {
         const el = typeof container === 'string'
             ? document.querySelector(container)
@@ -639,7 +1058,6 @@ ${CRM_HOME_STYLES}
 customElements.define('aip-crm-home', AipCrmHome);
 
 // Auto-wire: mismo patrón que aip-orbit1-tree.js
-// Al importar este módulo, el home se monta cuando el usuario supera la atestación.
 document.addEventListener('Skeleton:Legal:Accepted', () => {
     AipCrmHome.mount('#crm-orbit-2');
 }, { once: true });
