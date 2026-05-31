@@ -200,35 +200,8 @@ const TICKER_DATA = {
   timestamp: '2026-05-24T09:00:00Z',
 };
 
-// ─────────────────────────────────────────────────────────────
-// [SEC-05] Ensamblaje y export
-// ─────────────────────────────────────────────────────────────
-
-/**
- * Estado mock completo del CRM (deepFrozen — inmutable en runtime).
- *
- * Estructura:
- *   mockState.mandates[]    → Array de objetos Mandate (L3 oportunidades)
- *   mockState.ticker        → Objeto con valores de mercado
- *   mockState.categories{}  → Map de nodos L2 (procedimiento + oportunidades)
- *   mockState.documents{}   → Map de documentos descargables
- *
- * Uso:
- *   import { mockState } from './mockState.js';
- *   const { mandates, ticker, categories, documents } = mockState;
- *
- * Progressive Lock:
- *   mandate.locked === true  → fila visible, opacity 0.4, click deshabilitado
- *   mandate.locked === false → fila activa, seleccionable
- *
- * Contrato L2: DOMAIN_BLUEPRINT_05_L2_NODE_CONTRACT.md
- */
-export const mockState = deepFreeze({
-  mandates:   [MANDATE_001, MANDATE_002, MANDATE_003],
-  ticker:     TICKER_DATA,
-  categories: CATEGORIES_DATA,
-  documents:  DOCUMENTS_REGISTRY,
-});
+// SEC-05 → movido al final del archivo (después de SEC-06 y SEC-07)
+// para evitar TDZ: CATEGORIES_DATA y DOCUMENTS_REGISTRY deben declararse antes del export.
 
 // ─────────────────────────────────────────────────────────────
 // [SEC-06] Datos mock — CATEGORIES (Nodos L2 del árbol CRM)
@@ -442,3 +415,35 @@ const DOCUMENTS_REGISTRY = {
     lastUpdated: '2026-05-31',
   },
 };
+
+// ─────────────────────────────────────────────────────────────
+// [SEC-05] Ensamblaje y export
+// (Posición al final: CATEGORIES_DATA y DOCUMENTS_REGISTRY
+//  deben estar declarados antes de ser referenciados aquí)
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Estado mock completo del CRM (deepFrozen — inmutable en runtime).
+ *
+ * Estructura:
+ *   mockState.mandates[]    → Array de objetos Mandate (L3 oportunidades)
+ *   mockState.ticker        → Objeto con valores de mercado
+ *   mockState.categories{}  → Map de nodos L2 (procedimiento + oportunidades)
+ *   mockState.documents{}   → Map de documentos descargables
+ *
+ * Uso:
+ *   import { mockState } from './mockState.js';
+ *   const { mandates, ticker, categories, documents } = mockState;
+ *
+ * Progressive Lock:
+ *   mandate.locked === true  → fila visible, opacity 0.4, click deshabilitado
+ *   mandate.locked === false → fila activa, seleccionable
+ *
+ * Contrato L2: DOMAIN_BLUEPRINT_05_L2_NODE_CONTRACT.md
+ */
+export const mockState = deepFreeze({
+  mandates:   [MANDATE_001, MANDATE_002, MANDATE_003],
+  ticker:     TICKER_DATA,
+  categories: CATEGORIES_DATA,
+  documents:  DOCUMENTS_REGISTRY,
+});
