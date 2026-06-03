@@ -315,32 +315,11 @@ export const AIPHandler = {
         if (!form) return;
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formError   = document.getElementById('aip-form-error');
-            const motivosVal  = document.getElementById('aip-motivos')?.value.trim() ?? '';
-            const wordCount   = motivosVal.split(/\s+/).filter(w => w.length > 0).length;
+            const formError = document.getElementById('aip-form-error');
 
-            if (wordCount < 12 || wordCount > 45) {
-                errorMsg?.classList.remove('hidden');
-                formError?.classList.remove('hidden');
-                return;
-            }
-
-            const nombre = document.getElementById('aip-nombre')?.value.trim();
-            const razon  = document.getElementById('aip-razon')?.value.trim();
-            const email  = document.getElementById('aip-email')?.value.trim();
-            const comms  = document.getElementById('aip-check-comms')?.checked;
-            const data   = document.getElementById('aip-check-data')?.checked;
-            const pass   = document.getElementById('aip-password')?.value;
-
-            if (!nombre || !razon || !email || !comms || !data || !pass) {
-                formError?.classList.remove('hidden');
-                return;
-            }
-
-            formError?.classList.add('hidden');
-
-            // [DEV-BYPASS] localhost only — email dev@aip.local salta Firebase
-            const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+            // [DEV-BYPASS] localhost only — email dev@aip.local salta TODAS las validaciones y Firebase
+            const email  = document.getElementById('aip-email')?.value?.trim();
+            const isDev  = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
             if (isDev && email === 'dev@aip.local') {
                 console.warn('[AIPHandler][DEV] Dev bypass activo — saltando Firebase Auth.');
                 UserFSM.transition('LOGIN_SUBMITTED');
@@ -356,6 +335,25 @@ export const AIPHandler = {
                 PassportValidator.validateAccess(devPayload);
                 return;
             }
+
+            // Validación normal (solo si no es dev bypass)
+            const motivosVal = document.getElementById('aip-motivos')?.value.trim() ?? '';
+            const wordCount  = motivosVal.split(/\s+/).filter(w => w.length > 0).length;
+            if (wordCount < 12 || wordCount > 45) {
+                document.getElementById('aip-motivos-error')?.classList.remove('hidden');
+                formError?.classList.remove('hidden');
+                return;
+            }
+            const nombre = document.getElementById('aip-nombre')?.value.trim();
+            const razon  = document.getElementById('aip-razon')?.value.trim();
+            const comms  = document.getElementById('aip-check-comms')?.checked;
+            const data   = document.getElementById('aip-check-data')?.checked;
+            const pass   = document.getElementById('aip-password')?.value;
+            if (!nombre || !razon || !email || !comms || !data || !pass) {
+                formError?.classList.remove('hidden');
+                return;
+            }
+            formError?.classList.add('hidden');
 
             try {
                 const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
