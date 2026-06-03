@@ -447,18 +447,18 @@ ${CRM_HOME_STYLES}
 <header class="crm-home__topbar">
     <div style="display:flex;align-items:center;gap:24px;">
         <div style="display:flex;align-items:center;gap:12px;">
-            <span class="label-xs ghost">OPERADOR</span>
+            <span class="label-xs">OPERADOR</span>
             <span class="mono" style="font-size:11px;">${s.operador}</span>
         </div>
         <div style="width:1px;height:16px;background:var(--crm-border);"></div>
         <div style="display:flex;align-items:center;gap:8px;">
             <span class="badge badge--bronze">${s.clearanceLevel}</span>
-            <span class="label-xs ghost">CLEARANCE L-${s.clearanceTier}</span>
+            <span class="label-xs">CLEARANCE L-${s.clearanceTier}</span>
         </div>
     </div>
     <div style="display:flex;align-items:center;gap:24px;">
         <div style="display:flex;align-items:center;gap:12px;">
-            <span class="label-xs ghost">SESIÓN</span>
+            <span class="label-xs">SESIÓN</span>
             <span class="mono" style="font-size:10px;color:var(--crm-text-secondary);">${s.sessionTimestamp}</span>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -476,12 +476,12 @@ ${CRM_HOME_STYLES}
 <!-- [§C] Status bar inferior -->
 <footer class="crm-home__statusbar">
     <div style="display:flex;align-items:center;gap:24px;">
-        <span class="label-xs ghost">FSM: ORBIT_3_CRM_ACTIVE</span>
-        <span class="label-xs ghost">v1.3-skeleton</span>
+        <span class="label-xs">FSM: ORBIT_3_CRM_ACTIVE</span>
+        <span class="label-xs">v1.3-skeleton</span>
     </div>
     <div style="display:flex;align-items:center;gap:24px;">
-        <span class="label-xs ghost">TRACE: ${s.traceId}</span>
-        <span class="label-xs ghost">SCOPE: CRM_BRONZE_AGENT</span>
+        <span class="label-xs">TRACE: ${s.traceId}</span>
+        <span class="label-xs">SCOPE: CRM_BRONZE_AGENT</span>
     </div>
 </footer>
         `;
@@ -511,7 +511,7 @@ ${CRM_HOME_STYLES}
         <!-- Sub-header: breadcrumb + CTAs -->
         <div class="crm-home__subbar">
             <div style="display:flex;align-items:center;gap:8px;">
-                <span class="label-sm ghost">CRM</span>
+                <span class="label-sm">CRM</span>
                 <span class="label-sm ghost">/</span>
                 <span class="label-sm">INICIO</span>
                 <span class="label-sm ghost">/</span>
@@ -543,12 +543,12 @@ ${CRM_HOME_STYLES}
         <!-- Portfolio activo -->
         <div style="padding:24px 24px 0;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-                <p class="label-xs ghost">PORTFOLIO ACTIVO — ${p.length} PROYECTO${p.length !== 1 ? 'S' : ''}</p>
+                <p class="label-xs">PORTFOLIO ACTIVO — ${p.length} PROYECTO${p.length !== 1 ? 'S' : ''}</p>
                 <div style="display:flex;align-items:center;gap:12px;">
-                    <span class="label-xs ghost">FILTRO:</span>
+                    <span class="label-xs">FILTRO:</span>
                     <span class="label-xs" style="color:var(--crm-accent);">TODOS</span>
-                    <span class="label-xs ghost">EMBRIONARIO</span>
-                    <span class="label-xs ghost">MADURACIÓN</span>
+                    <span class="label-xs">EMBRIONARIO</span>
+                    <span class="label-xs">MADURACIÓN</span>
                 </div>
             </div>
 
@@ -569,7 +569,7 @@ ${CRM_HOME_STYLES}
         <div style="padding:24px;">
             <div class="projects-table">
                 <div style="height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--crm-surface);border-bottom:1px solid var(--crm-border);">
-                    <span class="label-xs ghost">MATCHING ENGINE — OPORTUNIDADES CUALIFICADAS</span>
+                    <span class="label-xs">MATCHING ENGINE — OPORTUNIDADES CUALIFICADAS</span>
                     ${matchingBlocked ? `<span class="badge badge--blocked">BLOQUEADO · SCORE &lt; ${s.integrityThresholds.silver}</span>` : '<span class="badge badge--maturing">ACTIVO</span>'}
                 </div>
                 ${matchingBlocked ? this._renderMatchingBlocked() : '<p style="padding:16px;font-size:11px;color:var(--crm-text-secondary);">Matching engine activo — oportunidades disponibles.</p>'}
