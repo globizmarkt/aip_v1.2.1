@@ -66,10 +66,31 @@ export const AIPHandler = {
 
         document.addEventListener('Skeleton:Action:AuthToggle', () => this.switchGateMode('gatekeeper'));
 
-        document.addEventListener('Skeleton:Action:OAuthSuccess', () => {
-            UserFSM.transition('LOGIN_SUBMITTED');
-            const mockPayload = { usr: 'uuid_8f92a', rol: 'inv', tier: 'inst', jur: 'CH', kyc: 'ok', pv: 1, wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'] };
-            PassportValidator.validateAccess(mockPayload);
+        document.addEventListener('Skeleton:Action:OAuthSuccess', async () => {
+            const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
+            const emailEl = document.getElementById('aip-email');
+            const passEl  = document.getElementById('aip-password');
+            const email   = emailEl?.value?.trim();
+            const pass    = passEl?.value;
+            if (!email || !pass) return;
+            try {
+                const auth = getAuth();
+                const cred = await signInWithEmailAndPassword(auth, email, pass);
+                UserFSM.transition('LOGIN_SUBMITTED');
+                const payload = {
+                    usr:  cred.user.uid,
+                    rol:  'inv',
+                    tier: 'inst',
+                    jur:  'CH',
+                    kyc:  'ok',
+                    pv:   1,
+                    wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                };
+                PassportValidator.validateAccess(payload);
+            } catch (err) {
+                console.error('[AIPHandler] Firebase Auth error:', err.code);
+                document.getElementById('aip-form-error')?.classList.remove('hidden');
+            }
         });
 
         document.addEventListener('Skeleton:Action:NavInicio', () => {
@@ -285,7 +306,7 @@ export const AIPHandler = {
 
         const form = document.getElementById('aip-access-form');
         if (!form) return;
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formError   = document.getElementById('aip-form-error');
             const motivosVal  = document.getElementById('aip-motivos')?.value.trim() ?? '';
@@ -302,17 +323,34 @@ export const AIPHandler = {
             const email  = document.getElementById('aip-email')?.value.trim();
             const comms  = document.getElementById('aip-check-comms')?.checked;
             const data   = document.getElementById('aip-check-data')?.checked;
+            const pass   = document.getElementById('aip-password')?.value;
 
-            if (!nombre || !razon || !email || !comms || !data) {
+            if (!nombre || !razon || !email || !comms || !data || !pass) {
                 formError?.classList.remove('hidden');
                 return;
             }
 
             formError?.classList.add('hidden');
 
-            UserFSM.transition('LOGIN_SUBMITTED');
-            const mockPayload = { usr: 'uuid_8f92a', rol: 'inv', tier: 'inst', jur: 'CH', kyc: 'ok', pv: 1, wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'] };
-            PassportValidator.validateAccess(mockPayload);
+            try {
+                const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
+                const auth = getAuth();
+                const cred = await signInWithEmailAndPassword(auth, email, pass);
+                UserFSM.transition('LOGIN_SUBMITTED');
+                const payload = {
+                    usr:  cred.user.uid,
+                    rol:  'inv',
+                    tier: 'inst',
+                    jur:  'CH',
+                    kyc:  'ok',
+                    pv:   1,
+                    wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                };
+                PassportValidator.validateAccess(payload);
+            } catch (err) {
+                console.error('[AIPHandler] Firebase Auth error:', err.code);
+                formError?.classList.remove('hidden');
+            }
         });
     },
 
