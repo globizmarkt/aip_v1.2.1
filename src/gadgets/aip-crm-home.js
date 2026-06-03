@@ -1295,25 +1295,25 @@ ${CRM_HOME_STYLES}
         <div class="projects-table__row ${proj.keelClass}" data-action-home="SelectProject" data-project-id="${proj.id}">
             <div class="col-id">
                 <span class="mono" style="font-size:10px;">${proj.id}</span>
-                <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:2px;">First-touch: ${proj.firstTouch}</p>
+                <p style="font-size:9px;color:var(--crm-text-primary);margin-top:2px;">First-touch: ${proj.firstTouch}</p>
             </div>
             <div class="col-desc">
                 <p style="font-size:12px;font-weight:500;margin-bottom:2px;">${proj.label}</p>
-                <p style="font-size:10px;color:var(--crm-text-secondary);">${proj.detail}</p>
+                <p style="font-size:10px;color:var(--crm-text-primary);">${proj.detail}</p>
             </div>
             <div class="col-valor">
                 <span class="mono" style="font-size:11px;">${proj.valor}</span>
             </div>
             <div class="col-estado">
                 <span class="badge ${proj.badgeClass}">${proj.estado}</span>
-                <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:4px;">${proj.estadoStep}</p>
+                <p style="font-size:9px;color:var(--crm-text-primary);margin-top:4px;">${proj.estadoStep}</p>
             </div>
             <div class="col-compl">
                 <span style="font-size:9px;color:var(--crm-${proj.aml.color});">${proj.aml.status}</span>
-                <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:2px;">${proj.kyc.status}</p>
+                <p style="font-size:9px;color:var(--crm-text-primary);margin-top:2px;">${proj.kyc.status}</p>
             </div>
             <div class="col-date">
-                <span class="mono" style="font-size:10px;color:var(--crm-text-secondary);">${proj.lastUpdate}</span>
+                <span class="mono" style="font-size:10px;color:var(--crm-text-primary);">${proj.lastUpdate}</span>
             </div>
         </div>`;
     }
@@ -1324,12 +1324,12 @@ ${CRM_HOME_STYLES}
         <div class="matching-blocked-zone" style="padding:16px;display:flex;flex-direction:column;gap:12px;">
             ${[0, 1].map(() => `
             <div style="display:flex;align-items:center;gap:16px;">
-                <div class="mono skeleton-id" style="font-size:10px;color:var(--crm-text-secondary);width:130px;"></div>
+                <div class="mono skeleton-id" style="font-size:10px;color:var(--crm-text-primary);width:130px;"></div>
                 <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
                     <div class="skeleton-bar" style="width:60%;"></div>
                     <div class="skeleton-bar" style="width:40%;"></div>
                 </div>
-                <div class="mono skeleton-number" style="font-size:10px;color:var(--crm-text-secondary);"></div>
+                <div class="mono skeleton-number" style="font-size:10px;color:var(--crm-text-primary);"></div>
                 <div class="badge" style="border-color:var(--crm-border);color:var(--crm-text-secondary);">CUALIFICADO</div>
             </div>`).join('')}
         </div>`;
