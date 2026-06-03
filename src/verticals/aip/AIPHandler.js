@@ -339,6 +339,24 @@ export const AIPHandler = {
 
             formError?.classList.add('hidden');
 
+            // [DEV-BYPASS] localhost only — email dev@aip.local salta Firebase
+            const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+            if (isDev && email === 'dev@aip.local') {
+                console.warn('[AIPHandler][DEV] Dev bypass activo — saltando Firebase Auth.');
+                UserFSM.transition('LOGIN_SUBMITTED');
+                const devPayload = {
+                    usr:  'dev-usr-001',
+                    rol:  'inv',
+                    tier: 'inst',
+                    jur:  'CH',
+                    kyc:  'ok',
+                    pv:   1,
+                    wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                };
+                PassportValidator.validateAccess(devPayload);
+                return;
+            }
+
             try {
                 const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
                 const auth = getAuth();
