@@ -57,7 +57,8 @@
 //
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { mockState } from '../verticals/aip/mockState.js';
+import { mockState }             from '../verticals/aip/mockState.js';
+import { subscribeToMandates } from '../02-infra/firebase/MandateRepository.js';
 
 /**
  * Taxonomía por defecto (L1 fija + L2 configurable por Superadmin).
@@ -435,11 +436,34 @@ class AipOrbit1Tree extends HTMLElement {
     #activeCategoryId = null;
     #activeLayer      = 'procedure'; // [CRM-TREE-02] capa activa en L2
 
+    // [E6-T03] Mandatos desde Firestore — fallback a MOCK_MANDATES si vacío
+    #mandates         = [];
+    #unsubMandates    = null;
+
     // ── Lifecycle ─────────────────────────────────────────────────────────
     connectedCallback() {
+        // [E6-T03] Suscribir a Firestore — fallback a MOCK_MANDATES si vacío o error
+        this.#unsubMandates = subscribeToMandates(
+            (data) => {
+                this.#mandates = data.length > 0 ? data : MOCK_MANDATES;
+                this._render();
+            },
+            (err) => {
+                console.warn('[OrbitTree] Firestore mandates error, using mock:', err);
+                this.#mandates = MOCK_MANDATES;
+                this._render();
+            }
+        );
         this._render();
         this._wire();
         console.log('[OrbitTree] Árbol montado. Taxonomía:', this._getTaxonomy().length, 'dominios.');
+    }
+
+    disconnectedCallback() {
+        if (this.#unsubMandates) {
+            this.#unsubMandates();
+            this.#unsubMandates = null;
+        }
     }
 
     // ── Datos ─────────────────────────────────────────────────────────────
@@ -449,7 +473,8 @@ class AipOrbit1Tree extends HTMLElement {
     }
 
     _getMandates() {
-        return MOCK_MANDATES;
+        // [E6-T03] Usa mandatos de Firestore si disponibles, fallback a mock
+        return this.#mandates.length > 0 ? this.#mandates : MOCK_MANDATES;
     }
 
     /**
@@ -722,8 +747,9 @@ class AipOrbit1Tree extends HTMLElement {
         this.#activeCategoryId = categoryId;
         this.#activeDomainId   = domainId;
 
-        // Busca el objeto completo del mandato en mockState
-        const mandate = mockState?.mandates?.find(m => m.mandateId === mandateId) ?? null;
+        // [E6-T03] Busca en Firestore primero, fallback a mockState
+        const mandate = (this.#mandates.length > 0 ? this.#mandates : (mockState?.mandates ?? []))
+            .find(m => (m.mandateId ?? m.id) === mandateId) ?? null;
 
         this._emit('Skeleton:Action:MandateSelected', {
             mandate,
