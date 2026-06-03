@@ -106,6 +106,13 @@ export const AIPHandler = {
 
         // [DT-AIP-07 Cycle 3 — 2026-05-31] Skeleton:Action:MandateSelected EXTIRPADO de este handler.
         // Listener migrado a aip-crm-home.js → _wire() → ARQ-FIND-11 cerrado.
+
+        // [E6-T05 — 2026-06-03] EXIT → FSM real
+        document.addEventListener('Skeleton:Action:Exit', () => {
+            UserFSM.transition('LOGOUT');
+            document.dispatchEvent(new CustomEvent('Skeleton:State:OrbitReset', { bubbles: true }));
+            // Restablece orbit-3 a estado GUEST sin recargar página
+        });
     },
 
     toggleOrbit3(forceShow = null) {
