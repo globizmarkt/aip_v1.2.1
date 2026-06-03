@@ -67,26 +67,33 @@ export const AIPHandler = {
         document.addEventListener('Skeleton:Action:AuthToggle', () => this.switchGateMode('gatekeeper'));
 
         document.addEventListener('Skeleton:Action:OAuthSuccess', async () => {
-            const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
+            // [DEV-BYPASS] localhost — OAuth buttons entran directamente sin Firebase
+            const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+            if (isDev) {
+                console.warn('[AIPHandler][DEV] OAuth dev bypass activo — saltando Firebase.');
+                UserFSM.transition('LOGIN_SUBMITTED');
+                PassportValidator.validateAccess({
+                    usr: 'dev-usr-001', rol: 'inv', tier: 'inst',
+                    jur: 'CH', kyc: 'ok', pv: 1,
+                    wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                });
+                return;
+            }
             const emailEl = document.getElementById('aip-email');
             const passEl  = document.getElementById('aip-password');
             const email   = emailEl?.value?.trim();
             const pass    = passEl?.value;
             if (!email || !pass) return;
             try {
+                const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
                 const auth = getAuth();
                 const cred = await signInWithEmailAndPassword(auth, email, pass);
                 UserFSM.transition('LOGIN_SUBMITTED');
-                const payload = {
-                    usr:  cred.user.uid,
-                    rol:  'inv',
-                    tier: 'inst',
-                    jur:  'CH',
-                    kyc:  'ok',
-                    pv:   1,
-                    wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
-                };
-                PassportValidator.validateAccess(payload);
+                PassportValidator.validateAccess({
+                    usr: cred.user.uid, rol: 'inv', tier: 'inst',
+                    jur: 'CH', kyc: 'ok', pv: 1,
+                    wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                });
             } catch (err) {
                 console.error('[AIPHandler] Firebase Auth error:', err.code);
                 document.getElementById('aip-form-error')?.classList.remove('hidden');
