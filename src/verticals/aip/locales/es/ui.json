@@ -161,6 +161,231 @@
     "btn": { "whatsapp": "WhatsApp", "telegram": "Telegram", "mail": "Correo Institucional", "pdf": "Dossier PDF" },
     "legal": "Respuesta sujeta a validación de esclusa fiduciaria. Cero promesas de retorno."
   },
+  "about": {
+    "header": {
+      "label": "ESTRUCTURA FIDUCIARIA",
+      "title": "AIP FINANCIAL & COMMODITIES",
+      "subtitle": "Intermediación institucional de activos y Capital-as-a-Service. Ejecución estricta bajo mandato."
+    },
+    "overview": {
+      "challenge": {
+        "title": "EL RIESGO DE CONTRAPARTE",
+        "desc": "La exposición directa en mercados no regulados y operaciones corporativas genera vulnerabilidades críticas de confidencialidad y ejecución. El acceso no cualificado degrada la integridad del mandato."
+      },
+      "resolution": {
+        "title": "SEGREGACIÓN ESTRUCTURAL",
+        "desc": "Implementación de vehículos STAK para la disociación entre titularidad legal y derechos económicos. Trazabilidad inmutable en la asignación de capital y protección absoluta de identidad."
+      }
+    },
+    "mission": {
+      "statement": "Capital-as-a-Service estructurado. Intermediación sin fricción comercial.",
+      "pos": "Estructura fiduciaria STAK — Países Bajos (AFM/DNB)"
+    },
+    "access": {
+      "section_title": "VECTORES DE ADMISIÓN",
+      "q_investors": {
+        "badge": "[TIER-01 PERMITTED]",
+        "title": "INVERSORES CUALIFICADOS",
+        "desc": "Acceso a mandatos institucionales tras validación KYC L4."
+      },
+      "compliance": {
+        "badge": "[SCORE_GATE ACTIVE]",
+        "title": "COMPLIANCE CORPORATIVO",
+        "desc": "Auditoría de contrapartes y verificación de UBO pre-ejecución."
+      },
+      "gatekeepers": {
+        "badge": "[CLEARANCE_L3 REQUIRED]",
+        "title": "GESTORES PATRIMONIALES",
+        "desc": "Delegación de ejecución fiduciaria para asignaciones complejas."
+      }
+    },
+    "principles": {
+      "section_title": "INFRAESTRUCTURA OPERATIVA",
+      "friccion":     { "title": "INTEGRIDAD",  "desc": "Protocolo de exclusión por defecto." },
+      "soberania":    { "title": "SOBERANÍA",   "desc": "Control absoluto sobre el ciclo de vida del mandato." },
+      "trazabilidad": { "title": "TRACER",      "desc": "Registro de auditoría criptográfica." },
+      "contrato":     { "title": "GEMACIÓN",    "desc": "Estructuración paralela de activos." }
+    },
+    "cta":    { "onboarding": "INICIE ATESTACIÓN" },
+    "footer": { "access": "Operaciones limitadas a entidades con Clearance verificado." }
+  },
+  "services": {
+    "hero": {
+      "context":  "CAPACIDAD OPERATIVA",
+      "title":    "SERVICIOS ESTRUCTURALES",
+      "subtitle": "Infraestructura fiduciaria para la originación, estructuración y liquidación de operaciones corporativas."
+    },
+    "catalog": {
+      "title": "Matriz de Capacidades",
+      "admission":    { "title": "ADMISIÓN FIDUCIARIA",    "description": "Análisis de idoneidad y asignación de Clearance.",                          "access": "[SCORE >= 60]" },
+      "workspace":    { "title": "WORKSPACE CRM",          "description": "Entorno zero-trust para la revisión de mandatos.",                           "access": "[SCORE >= 60]" },
+      "intelligence": { "title": "INTELIGENCIA DE MERCADO","description": "Datos regulados aplicables a la estrategia.",                               "access": "[SCORE >= 60]" },
+      "opportunity":  { "title": "CAPTURA DE MANDATOS",    "description": "Ejecución de offtake e instrucciones vinculantes.",                          "access": "[SCORE >= 75]" },
+      "validation":   { "title": "SOPORTE DE VALIDACIÓN",  "description": "Diligencia debida sobre activos subyacentes.",                              "access": "[GATEKEEPER ONLY]" }
+    },
+    "onboarding": {
+      "title": "Pipeline de Acceso",
+      "step1": { "title": "CUALIFICACIÓN", "desc": "Procesamiento secuencial a través de la esclusa fiduciaria. Sin atestación no hay visibilidad." },
+      "step2": { "title": "ASIGNACIÓN",    "desc": "Despliegue del mandato tras confirmación del IntegrityScore y firma de NCNDA." },
+      "step3": { "title": "ACTIVACIÓN",    "desc": "Hidratación del workspace bajo cumplimiento del umbral IntegrityScore ≥ 60." }
+    },
+    "intelligence_types": {
+      "title":       "Auditoría y Compliance",
+      "surveillance":"Monitorización AML · Anomalías en precios y patrones de fondos.",
+      "context":     "Trazabilidad de Fondos · Enriquecimiento de contrapartes con historial.",
+      "risk":        "Alertas de Sanciones · Indicadores AML por velocidad y jurisdicción.",
+      "decision":    "Balance de Riesgo LGD · Recomendación de estructuras STAK/Trust."
+    },
+    "compliance": {
+      "title":       "AUDITORÍA Y COMPLIANCE",
+      "kyc_engine":  "KYC/AML Engine (Latencia Fiduciaria)",
+      "gatekeeping": "Algorithmic Gatekeeping",
+      "scoring":     "IntegrityScore Scoring Motor",
+      "privilege":   "Controles de Privilegio Multinivel",
+      "hard_gate": {
+        "title":          "INTEGRITY_SCORE HARD GATE",
+        "below_60_label": "< 60: Bloqueo Absoluto",
+        "below_60":       "No supera el umbral de integridad. Sin visibilidad documental.",
+        "above_60_label": "≥ 60: Acceso Órbita 1",
+        "above_60":       "Operaciones básicas habilitadas. Workspace CRM activo.",
+        "above_75_label": "≥ 75: Captura Superior",
+        "above_75":       "Acceso a productos estructurados y matching directo institucional."
+      }
+    },
+    "cta": {
+      "label":      "INICIAR PROTOCOLO",
+      "disclaimer": "Authenticated Access Only — AES-256 Protocol Active"
+    }
+  },
+  "aboutus": {
+    "identity": {
+      "title":    "DELIMITACIÓN OPERATIVA",
+      "subtitle": "El rigor exige fronteras claras. Definimos nuestra actividad por lo que intermediamos y por lo que rechazamos.",
+      "p1": "AIP Financial & Commodities opera como intermediario fiduciario entre inversores cualificados y productos estructurados de capital privado y materias primas. El acceso está condicionado por un protocolo de admisión y verificación de integridad.",
+      "p2": "La arquitectura fiduciaria descansa sobre tres pilares: jurisdicción regulada (AFM/DNB, Países Bajos), estructura STAK con segregación de activos, y Triple Esclusa de Cumplimiento como condición previa a cualquier operación."
+    },
+    "positioning": {
+      "title": "Modelo Institucional",
+      "what": {
+        "label": "AIP ES UN CANAL FIDUCIARIO",
+        "item1": "Una estructura de custodia y segregación.",
+        "item2": "Un mecanismo de matching cualificado.",
+        "item3": "Un entorno de trazabilidad inmutable.",
+        "item4": "Un filtro de contraparte institucional."
+      },
+      "not": {
+        "label": "AIP NO ES BANCA COMERCIAL",
+        "item1": "No captamos depósitos minoristas.",
+        "item2": "No emitimos recomendaciones de inversión.",
+        "item3": "No operamos mercados abiertos.",
+        "item4": "No prometemos liquidez garantizada."
+      }
+    },
+    "services": {
+      "title":    "Capacidades Institucionales",
+      "subtitle": "Acceso condicionado por IntegrityScore",
+      "col": { "name": "Capacidad", "desc": "Descripción", "access": "Acceso" },
+      "row1": { "name": "Admisión Fiduciaria",    "desc": "Verificación patrimonial y Triple Esclusa de Cumplimiento (KYC → AML → Sanciones). Generación de IntegrityScore inicial.", "access": "Cualificado" },
+      "row2": { "name": "Workspace CRM",          "desc": "Consola de gestión de contrapartes con trazabilidad de operaciones y registro inmutable.", "access": "IntegrityScore ≥ 60" },
+      "row3": { "name": "Inteligencia de Mercado","desc": "Vigilancia algorítmica de commodities con señales de riesgo regulatorio en tiempo real.",  "access": "IntegrityScore ≥ 60" },
+      "row4": { "name": "Captura de Oportunidades","desc": "Matching entre liquidez institucional y mandatos verificados. Ejecución diferida con validación fiduciaria.", "access": "IntegrityScore ≥ 75" },
+      "row5": { "name": "Soporte de Validación",  "desc": "Audit trail inmutable para Compliance Officers. Exportación de flujos KYC/AML para auditoría externa.", "access": "Perfil Gatekeeper" }
+    },
+    "principles": {
+      "title": "Principios Operativos",
+      "p1": { "label": "FRICCIÓN DELIBERADA",  "text": "Fricción deliberada como filtro de calidad. El proceso de admisión disuade contrapartes no cualificadas antes de cualquier exposición documental." },
+      "p2": { "label": "SOBERANÍA FIDUCIARIA", "text": "Arquitectura STAK para la disociación legal entre titularidad y derechos económicos. Independencia total de infraestructura bancaria comercial." },
+      "p3": { "label": "TRAZABILIDAD CIEGA",   "text": "Aplicación de watermark dinámico y auditoría criptográfica. El mandante es protegido sin comprometer la transparencia ante reguladores." },
+      "p4": { "label": "ADMISIÓN ANTES QUE VENTA", "text": "Estructuración ad-hoc bajo mandato específico. El acceso al producto es consecuencia de la verificación, no condición de ella." }
+    },
+    "legal": {
+      "title": "Marco Regulatorio",
+      "card1": { "label": "JURISDICCIÓN",    "text": "Países Bajos — Supervisión AFM (Autoridad de Mercados Financieros) y DNB (Banco Central). Registro activo y cumplimiento continuo." },
+      "card2": { "label": "ESTRUCTURA",      "text": "STAK fiduciaria con segregación de activos. Los derechos económicos y los derechos de control están separados por diseño estructural." },
+      "card3": { "label": "MARCO NORMATIVO", "text": "MiFID II · FATF/GAFI · GDPR · Directiva AML5. El cumplimiento normativo es condición estructural, no declaración de intención." },
+      "disclaimer": "<strong>Aviso regulatorio:</strong> AIP Financial & Commodities no actúa como asesor financiero independiente. La información está dirigida exclusivamente a inversores cualificados conforme a la legislación aplicable en su jurisdicción."
+    }
+  },
+  "opportunity": {
+    "hero": {
+      "title":    "MANDATOS ACTIVOS",
+      "subtitle": "Acceso de solo lectura a la cartera de mandatos en fase de ejecución."
+    },
+    "positioning": {
+      "p1": "AIP Opportunity es el canal de acceso a mandatos de inversión verificados por el protocolo fiduciario de AIP. No es un directorio de oportunidades de acceso público ni un marketplace abierto.",
+      "p2": "Cada mandato ha atravesado el proceso de esclusa interna: verificación de origen del capital, evaluación de integridad estructural y validación regulatoria. El acceso al detalle requiere IntegrityScore ≥ 75 y autorización de perfil activo."
+    },
+    "gate": {
+      "blocked": {
+        "title":    "Acceso Restringido",
+        "subtitle": "ESCLUSA FIDUCIARIA ACTIVA. La visualización de mandatos está bloqueada por directiva regulatoria. Requiere atestación de identidad y Clearance mínimo.",
+        "cta":      "SOLICITAR CLEARANCE"
+      }
+    }
+  },
+  "regulatory": {
+    "hero": {
+      "title":    "MARCO JURISDICCIONAL",
+      "subtitle": "Operaciones estructuradas bajo los estándares normativos del Espacio Económico Europeo."
+    },
+    "framework": {
+      "title":       "COMPLIANCE FRAMEWORK",
+      "aml":         "AML — Verificación de origen de fondos y detección de patrones de velocidad/anomalías geográficas bajo Wwft 2018.",
+      "kyc":         "KYC — Verificación documental asíncrona (Tier 1: email, Tier 2: identidad, Tier 3: patrimonio, Tier 4: screening FATF).",
+      "sanctions":   "Sanciones (OFAC/UE/ONU) — Filtro automático contra listas internacionales. Bloqueo inmediato ante coincidencia positiva.",
+      "privilege":   "Privilegio basado en cumplimiento — El acceso a funcionalidades escala con IntegrityScore y KYC Tier. Sin excepciones manuales.",
+      "declaration": "El cumplimiento no es un añadido. Es el motor de ejecución. La plataforma no opera si el estado fiduciario del agente no está certificado."
+    },
+    "jurisdiction": {
+      "title":       "JURISDICTIONAL STANCE",
+      "primary":     "Países Bajos (Kingdom of the Netherlands)",
+      "authorities": "AFM + DNB",
+      "structure":   "STAK — Fideicomiso de administración separada",
+      "mifid":       "Exención MiFID II (matched principal trading)",
+      "aml_law":     "Wwft 2018 (Transacciones)",
+      "threshold":   ">10k EUR → FIU-NL",
+      "disclaimer":  "La presente plataforma no constituye asesoramiento financiero ni ofrece servicios de custodia directa. El usuario opera desde su propia soberanía de activos."
+    },
+    "risk_controls": {
+      "title":                    "RISK CONTROLS",
+      "integrity_gate_title":     "INTEGRITYSCORE HARD GATE",
+      "integrity_gate":           "Motor algorítmico que evalúa capacidad de ejecución y antecedentes fiduciarios antes de cualquier exposición documental. Umbral: 60/100.",
+      "friction_filter_title":    "FRICCIÓN DELIBERADA",
+      "friction_filter":          "Proceso de registro secuencial diseñado para disuadir contrapartes no cualificadas. Latencia fiduciaria intencionada.",
+      "dashboard_status":         "IntegrityScore actual: 45/100 (Umbral: 60) — NO SUPERA"
+    },
+    "badges": { "failed": "ERROR", "passed": "LIMPIO" },
+    "governance": {
+      "title":        "DATA GOVERNANCE",
+      "sovereignty":  "El usuario es el único propietario de sus metadatos. La plataforma no retiene PII post-sesión.",
+      "zero_leak":    "Prohibida la fuga de metadatos a terceros. Las alertas solo emiten eventos agregados.",
+      "traceability": "Cada cambio de estado de cumplimiento se registra con timestamp, agente y hash criptográfico.",
+      "gdpr_notice":  "GDPR art. 13 — Los datos personales tratados se utilizan exclusivamente para fines de cumplimiento AML/KYC. Contacto: admin@breederhub.store"
+    },
+    "footer": { "audit_note": "Procesamiento de datos conforme al RGPD (UE) 2016/679. Trazabilidad inmutable sin cesión a terceros no autorizados." }
+  },
+  "ventures": {
+    "positioning": {
+      "subtitle": "ORIGINACIÓN DE ACTIVOS",
+      "title":    "AIP VENTURES",
+      "p1":       "No es capital riesgo masivo. Es un protocolo fiduciario que prepara documentación técnica, verifica estructuras de propiedad y alinea proyectos embrionarios con mandatos de coinversión cualificados.",
+      "p2":       "La esclusa fiduciaria protege a ambas partes: el fundador no accede directamente a inversores. Primero atraviesa verificación de integridad y matching. Anonimato hasta acuerdo mutuo."
+    },
+    "forwhom": {
+      "title": "DESTINATARIOS",
+      "founder": {
+        "badge": "PERFIL A — FUNDADOR",
+        "title": "Proyecto con estructura verificable",
+        "description": "Fundador con cap table validada, estructura de derechos auditables y KYC del equipo directivo. Busca capital institucional a través del protocolo fiduciario de AIP. Sin exposición comercial hasta completar la esclusa."
+      },
+      "investor": {
+        "badge": "PERFIL B — INVERSOR BA",
+        "title": "Capital con mandato de coinversión",
+        "description": "Inversor cualificado o Business Angel con Clearance activo. Accede al pipeline de proyectos embrionarios bajo NCNDA ejecutada. Matching algorítmico según perfil de riesgo y sector."
+      }
+    },
+    "cta": { "label": "REGISTRAR PROYECTO" }
+  },
   "welcome": {
     "investor": {
       "title": "Bienvenida Institucional",
