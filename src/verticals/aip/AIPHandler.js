@@ -19,6 +19,35 @@ export const AIPHandler = {
     init() {
         console.log('[AIPHandler] Inicializando handlers de vertical...');
         UserFSM.boot();
+
+        // [E6-T08] Persistencia de sesión Firebase Auth — onAuthStateChanged
+        // Si el usuario ya tiene sesión activa al recargar, salta el formulario de acceso.
+        (async () => {
+            try {
+                const { getAuth, onAuthStateChanged } = await import('firebase/auth');
+                const auth = getAuth();
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        console.log('[AIPHandler][E6-T08] Sesión activa restaurada:', user.uid);
+                        const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+                        if (isDev) return; // dev bypass activo, no interferir
+                        UserFSM.transition('LOGIN_SUBMITTED');
+                        PassportValidator.validateAccess({
+                            usr:  user.uid,
+                            rol:  'inv',
+                            tier: 'inst',
+                            jur:  'CH',
+                            kyc:  'pending', // Evolucionará a lectura real de Firestore en E6-T09
+                            pv:   1,
+                            wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                        });
+                    }
+                });
+            } catch (err) {
+                console.error('[AIPHandler][E6-T08] Error inicializando persistencia de Auth:', err);
+            }
+        })();
+
         this._setupListeners();
         this._setupCRMControls();
         this._setupAccessForm();
@@ -373,13 +402,31 @@ export const AIPHandler = {
             }
             formError?.classList.add('hidden');
 
-            // [E6-T06] Formulario = ALTA/REGISTRO — createUserWithEmailAndPassword
+            // [E6-T07b] Formulario = ALTA/REGISTRO — createUserWithEmailAndPassword + Firestore write
             try {
                 const { getAuth, createUserWithEmailAndPassword } = await import('firebase/auth');
+                const { getFirestore, doc, setDoc, serverTimestamp } = await import('firebase/firestore');
+
                 const auth = getAuth();
                 const cred = await createUserWithEmailAndPassword(auth, email, pass);
-                // STUB: guardar solicitud en Firestore (nombre, razon, comms, data) — E6-T07
-                console.log('[AIPHandler] STUB Firestore: solicitud de acceso registrada para UID:', cred.user.uid);
+
+                // Escritura real en Firestore — colección 'users', documento uid
+                const db = getFirestore();
+                await setDoc(doc(db, 'users', cred.user.uid), {
+                    uid:       cred.user.uid,
+                    email:     email,
+                    nombre:    nombre,
+                    razon:     razon,
+                    comms:     comms,
+                    data:      data,
+                    kyc:       'pending',
+                    rol:       'inv',
+                    createdAt: serverTimestamp(),
+                    status:    'REGISTERED',
+                });
+
+                console.log('[AIPHandler] Firestore: solicitud de acceso registrada para UID:', cred.user.uid);
+
                 UserFSM.transition('LOGIN_SUBMITTED');
                 PassportValidator.validateAccess({
                     usr:  cred.user.uid,
@@ -391,7 +438,7 @@ export const AIPHandler = {
                     wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
                 });
             } catch (err) {
-                console.error('[AIPHandler] Firebase Auth registry error:', err.code);
+                console.error('[AIPHandler] Firebase Auth/Firestore registry error:', err.code, err.message);
                 formError?.classList.remove('hidden');
             }
         });
