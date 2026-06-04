@@ -18,9 +18,34 @@
     "request_access": "Request Access"
   },
   "hero": {
-    "title": "Fiduciary Intelligence",
-    "subtitle": "Independent asset structuring. Institutional-grade compliance. Sovereign wealth preservation under Dutch custody framework.",
-    "cta_onboarding": "Begin Onboarding"
+    "title": "Verification precedes access.",
+    "subtitle": "Qualified mandates. Fiduciary access only. Structural intermediation without commercial exposure. Sequential access protocol before any capital allocation.",
+    "cta_onboarding": "BEGIN REGISTRATION"
+  },
+  "markets": {
+    "fallback": {
+      "header": "DEGRADED FEED · STATIC SOURCE",
+      "tags": {
+        "regulatorio": "REGULATORY",
+        "compliance":  "COMPLIANCE",
+        "macro":       "MACRO"
+      },
+      "ecb": {
+        "title":  "ECB raises coverage requirements for structured fiduciary assets",
+        "body":   "New NBFI liquidity guidelines require greater collateralisation in STAK vehicles and cross-border mandates. Active counterparty monitoring enforced.",
+        "source": "ecb.europa.eu/fsr"
+      },
+      "aml": {
+        "title":  "AMLO harmonises VASP cross-border transaction screening",
+        "body":   "Unified EU/EEA framework strengthens fund origin traceability for settlements >€10K. Mandatory UBO reporting pre-execution.",
+        "source": "global-amlcft.eu"
+      },
+      "nbfi": {
+        "title":  "ECB flags funding pressure in non-bank NBFI sectors",
+        "body":   "Financial Stability Report activates structural review protocols for mandate guarantees Q3-Q4.",
+        "source": "bis.org/qtrpdf"
+      }
+    }
   },
   "feed": {
     "market": "Market Pulse",
@@ -35,6 +60,53 @@
   "footer": {
     "ticker": "AIP Firm | Registered in the Netherlands | AFM/DNB supervised | STAK fiduciary structure",
     "copyright": "© 2026 Atlantis International Projects. All rights reserved."
+  },
+  "faq": {
+    "modal": { "title": "Frequently Asked Questions", "close": "Close" },
+    "section_a": "Investor / Business Angel",
+    "section_b": "Founder / Agent",
+    "a": {
+      "q1": "How is identity and assets protected during intermediation?",
+      "a1": "AIP operates under a Dutch STAK structure. Legal title rests with the foundation; economic title is segregated via certificates. Zero-trust architecture and AFM/DNB compliance.",
+      "q2": "What is the fiduciary access lock?",
+      "a2": "Mandatory sequential filter: Institutional KYC → IntegrityScore calculation → proof of closing capacity. It is not a commercial process. It is an operational qualification mechanism.",
+      "q3": "What KYC level is required to view active mandates?",
+      "a3": "Level L4 (Advanced KYC + sanctions screening + UBO verification). Without this level, mandate documentation remains in gestation state.",
+      "q4": "What does the IntegrityScore measure and what is the threshold?",
+      "a4": "Composite index (0-100) of operational reliability. Weights KYC (40%), history (25%), verifications (20%), and behavior (15%). Access to active mandates requires ≥60. Measures execution capacity, not wealth.",
+      "q5": "Is a mandate equivalent to a marketable investment opportunity?",
+      "a5": "No. A mandate is a binding, exclusive, and time-bound instruction. AIP will intermediate structured operations. No commercial teasers or return promises are distributed.",
+      "q6": "How is forensic traceability of documentation guaranteed?",
+      "a6": "Dynamic server-side watermarking (receiver ID, timestamp, distribution code). Immutable access and download ledger. Zero removable DOM layers.",
+      "q7": "Are there entry fees or subscriptions to access the polygon?",
+      "a7": "No. Exploration and access requests are free. Fee structures are defined per specific mandate (IMFPA) post-qualification and execution."
+    },
+    "b": {
+      "q1": "What minimum documentation is required to structure a submission in AIP Ventures?",
+      "a1": "Validated cap table, rights structure, fund use plan, and complete KYC of the executive team. Without these vectors, the mandate does not enter matching phase.",
+      "q2": "Who accesses the project documentation once registered?",
+      "a2": "Exclusively participants with BRONZE Clearance or higher (IntegrityScore ≥60 + KYC L4). Exposure is zero on public channels.",
+      "q3": "How does the access lock operate for founders and originating agents?",
+      "a3": "Documentary qualification filter. Cap table verification → operational IntegrityScore calculation → assignment to qualified investor pool. No unfiltered direct access.",
+      "q4": "Does AIP function as an accelerator or crowdfunding portal?",
+      "a4": "No. It is a fiduciary matching channel. No public equity is issued, no commercial roadshows are conducted, and placement is not guaranteed. Intermediation is structured.",
+      "q5": "What happens after submitting the data-based registration request?",
+      "a5": "Integrity validation → provisional IntegrityScore assignment. If ≥60, the project enters EMBRYONIC state and is exposed to investors with active clearance. If <60, it returns to gestation phase with observations.",
+      "q6": "How is the confidentiality of the project's structural information protected?",
+      "a6": "Dynamic per-view watermarking, executable NCNDA/IMFPA prior to data room opening, and title segregation via STAK. Audited and traceable access.",
+      "q7": "What is the flow from qualification to capital allocation?",
+      "a7": "Qualification → Mandate issuance → Matching with filtered counterparties → Term negotiation → Execution under compliance protocol. Zero open market intervention."
+    }
+  },
+  "contact": {
+    "modal": { "title": "Institutional Contact Channels", "close": "Close" },
+    "btn": {
+      "whatsapp": "WhatsApp",
+      "telegram":  "Telegram",
+      "mail":      "Institutional Mail",
+      "pdf":       "PDF Dossier"
+    },
+    "legal": "Response subject to fiduciary lock validation. Zero return promises."
   },
   "gatekeeper": {
     "idle": {

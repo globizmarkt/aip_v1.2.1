@@ -18,9 +18,34 @@
     "request_access": "Solicitar Acceso"
   },
   "hero": {
-    "title": "Inteligencia Fiduciaria",
-    "subtitle": "Estructuración independiente de activos. Cumplimiento institucional. Preservación de patrimonio soberano bajo marco de custodia neerlandés.",
-    "cta_onboarding": "Iniciar Onboarding"
+    "title": "La verificación precede al acceso.",
+    "subtitle": "Mandatos cualificados bajo ejecución fiduciaria. Intermediación estructural sin exposición comercial. Protocolo de esclusa secuencial antes de cualquier asignación de capital.",
+    "cta_onboarding": "INICIE REGISTRO"
+  },
+  "markets": {
+    "fallback": {
+      "header": "FEED DEGRADADO · FUENTE ESTÁTICA",
+      "tags": {
+        "regulatorio": "REGULATORIO",
+        "compliance":  "COMPLIANCE",
+        "macro":       "MACRO"
+      },
+      "ecb": {
+        "title":  "ECB eleva requisitos de cobertura para activos fiduciarios estructurados",
+        "body":   "Nuevas directrices de liquidez NBFI exigen mayor colateralización en vehículos STAK y mandatos cross-border. Vigilancia activa de contrapartes.",
+        "source": "ecb.europa.eu/fsr"
+      },
+      "aml": {
+        "title":  "AMLO armoniza screening de transacciones VASP transfronterizas",
+        "body":   "Marco unificado UE/EEA refuerza trazabilidad de origen de fondos en liquidaciones >€10K. Obligatorio reporte UBO pre-ejecución.",
+        "source": "global-amlcft.eu"
+      },
+      "nbfi": {
+        "title":  "BCE señala presión de funding en sectores NBFI no bancarios",
+        "body":   "Informe de estabilidad financiera activa protocolos de revisión estructural para garantías en mandatos Q3-Q4.",
+        "source": "bis.org/qtrpdf"
+      }
+    }
   },
   "feed": {
     "market": "Pulso del Mercado",
@@ -35,6 +60,53 @@
   "footer": {
     "ticker": "AIP Firm | Registrada en Países Bajos | Supervisada AFM/DNB | Estructura fiduciaria STAK",
     "copyright": "© 2026 Atlantis International Projects. Todos los derechos reservados."
+  },
+  "faq": {
+    "modal": { "title": "Preguntas Frecuentes", "close": "Cerrar" },
+    "section_a": "Inversor / Business Angel",
+    "section_b": "Fundador / Agente",
+    "a": {
+      "q1": "¿Cómo se protege la identidad y los activos durante la intermediación?",
+      "a1": "AIP opera bajo estructura STAK neerlandesa. La titularidad legal reside en la fundación; la económica se segrega mediante certificados. Arquitectura zero-trust y cumplimiento AFM/DNB.",
+      "q2": "¿En qué consiste la esclusa fiduciaria de acceso?",
+      "a2": "Filtro secuencial obligatorio: KYC institucional → cálculo de IntegrityScore → acreditación de capacidad de cierre. No es un proceso comercial. Es un mecanismo de cualificación operativa.",
+      "q3": "¿Qué nivel de KYC es obligatorio para visualizar mandatos activos?",
+      "a3": "Nivel L4 (KYC avanzado + screening de sanciones + verificación de titular real). Sin este nivel, la documentación del mandato permanece en estado gestación.",
+      "q4": "¿Qué mide el IntegrityScore y cuál es el umbral de corte?",
+      "a4": "Índice compuesto (0-100) de fiabilidad operativa. Pondera KYC (40%), historial (25%), verificaciones (20%) y comportamiento (15%). El acceso a mandatos activos requiere ≥60. Mide ejecución, no patrimonio.",
+      "q5": "¿Un mandato equivale a una oportunidad de inversión comercializable?",
+      "a5": "No. Un mandato es una instrucción vinculante, exclusiva y temporal. AIP intermediará operaciones estructuradas. No se distribuyen teasers comerciales ni promesas de retorno.",
+      "q6": "¿Cómo se garantiza la trazabilidad forense de la documentación?",
+      "a6": "Aplicación de watermark dinámico en servidor (ID receptor, timestamp, código de distribución). Registro inmutable de acceso y descarga. Cero capas DOM eliminables.",
+      "q7": "¿Existen comisiones de entrada o suscripción para acceder al polígono?",
+      "a7": "No. La exploración y solicitud de acceso son gratuitas. La estructura de honorarios se define por mandato específico (IMFPA) tras la cualificación y ejecución."
+    },
+    "b": {
+      "q1": "¿Qué documentación mínima se requiere para estructurar una presentación en AIP Ventures?",
+      "a1": "Cap table validada, estructura de derechos, plan de uso de fondos y KYC completo del equipo directivo. Sin estos vectores, el mandato no entra en fase de matching.",
+      "q2": "¿Quién accede a la documentación del proyecto una vez registrada?",
+      "a2": "Exclusivamente partícipes con Clearance BRONZE o superior (IntegrityScore ≥60 + KYC L4). La exposición es cero en canales públicos.",
+      "q3": "¿Cómo opera la esclusa para fundadores y agentes originadores?",
+      "a3": "Filtro de cualificación documental. Verificación de cap table → cálculo de IntegrityScore operativo → asignación a pool de inversores cualificados. Sin acceso directo no filtrado.",
+      "q4": "¿AIP funciona como aceleradora o portal de crowdfunding?",
+      "a4": "No. Es un canal de matching fiduciario. No se emite equity público, ni se realizan roadshows comerciales, ni se garantiza colocación. Se estructura la intermediación.",
+      "q5": "¿Qué ocurre tras enviar la solicitud de alta por datos?",
+      "a5": "Validación de integridad → asignación provisional de IntegrityScore. Si ≥60, el proyecto entra en estado EMBRIONARIO y se expone a inversores con clearance activo. Si <60, se retorna a fase de gestación con observaciones.",
+      "q6": "¿Cómo se protege la confidencialidad de la información estructural del proyecto?",
+      "a6": "Watermark dinámico por visualización, NCNDA/IMFPA ejecutable antes de apertura de data room, y segregación de titularidad vía STAK. Acceso auditado y trazable.",
+      "q7": "¿Cuál es el flujo desde la cualificación hasta la asignación de capital?",
+      "a7": "Cualificación → Emisión de mandato → Matching con contrapartes filtradas → Negociación de términos → Ejecución bajo protocolo de compliance. Cero intervención de mercado abierto."
+    }
+  },
+  "contact": {
+    "modal": { "title": "Canales de Contacto Institucional", "close": "Cerrar" },
+    "btn": {
+      "whatsapp": "WhatsApp",
+      "telegram":  "Telegram",
+      "mail":      "Correo Institucional",
+      "pdf":       "Dossier PDF"
+    },
+    "legal": "Respuesta sujeta a validación de esclusa fiduciaria. Cero promesas de retorno."
   },
   "gatekeeper": {
     "idle": {

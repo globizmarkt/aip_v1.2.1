@@ -24,6 +24,7 @@ import sessionGC from './01-core/sessionGC.js';                 // [E3-T03] Reco
 import { GenesisWizard } from './03-interface/wizards/GenesisWizard.js'; // [E3-T01] Esclusa del Golden Gate
 import { LegalModal } from './03-interface/wizards/LegalModal.js';    // [E3-T02] Guardián legal fluido
 import './02-infra/firebase/FirebaseConnector.js';                  // [E6-T08-FIX] Inicializar Firebase app singleton ANTES de cualquier getAuth/getFirestore
+import { CRMWelcomeGate } from './03-interface/components/crm-welcome.js'; // [CRM-WP-01] Welcome Gate post-login
 import './gadgets/aip-orbit1-tree.js';                               // [E5-GADGET-7.4] Árbol de mandatos Órbita 1 (auto-wire en Skeleton:Legal:Accepted)
 import './gadgets/aip-crm-home.js';                                // [E5-GADGET-7.4] CRM Home — Portfolio Overview (auto-wire en Skeleton:Legal:Accepted)
 import './gadgets/aip-domain-overview.js';                         // [CRM-VIEWS-01] Vista L1 dominio — Option B reserve (VIBE 1.3+)
@@ -154,6 +155,32 @@ async function boot() {
             document.body.classList.add('crm-mode');                          // Activa paleta CRM + elimina background-image (Bloque A)
             document.getElementById('crm-dashboard')?.classList.remove('hidden');
             console.log('[Main] Atestación legal completada → CRM Dashboard visible. body.crm-mode activado.');
+        }, { once: true });
+
+        // [CRM-WP-01] Welcome Gate — orientación post-login por perfil
+        // Se monta en #crm-orbit-2 (prepend) antes de que aip-crm-home ocupe el slot.
+        // Destroy automático al primer Skeleton:Action:OrbitTab (el usuario navega).
+        document.addEventListener('Skeleton:Legal:Accepted', () => {
+            const orbit2 = document.querySelector('#crm-orbit-2');
+            if (!orbit2) {
+                console.warn('[CRM-WP-01] #crm-orbit-2 no encontrado — Welcome Gate omitida.');
+                return;
+            }
+            // Crear placeholder y prepend (antes del contenido montado por aip-crm-home)
+            const placeholder = document.createElement('div');
+            placeholder.id = 'welcome-gate-placeholder';
+            orbit2.prepend(placeholder);
+
+            // Resolver perfil desde PassportEngine
+            const profile = window.Skeleton?.PassportEngine?.role ?? 'inversor';
+            CRMWelcomeGate.init('welcome-gate-placeholder', profile);
+            console.log(`[CRM-WP-01] Welcome Gate montada. Perfil: ${profile}`);
+
+            // Destroy al primer tab navigate (usuario ya está orientado)
+            document.addEventListener('Skeleton:Action:OrbitTab', () => {
+                CRMWelcomeGate.destroy('welcome-gate-placeholder');
+                console.log('[CRM-WP-01] Welcome Gate desmontada.');
+            }, { once: true });
         }, { once: true });
 
         // [E3-T02] Sincronización de idioma desde el selector de landing

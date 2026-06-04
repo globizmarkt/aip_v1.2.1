@@ -63,7 +63,13 @@
                         'warning-amber':'#C7A24B',
                         'ink':          '#D7DEE7',
                         'ink-dim':      '#9AA7B6',
-                        'ink-ghost':    '#6E7B8B'
+                        'ink-ghost':    '#6E7B8B',
+                        /* [H-04] Tokens gadgets landing — ausentes → colores no renderizaban */
+                        'institutional-gold': 'var(--abyss-gold, #C8A24A)',
+                        'abisal':             'var(--abyss-bg-deep, #070A10)',
+                        'surface-card':       'var(--abyss-surface, #0E1624)',
+                        'surface-muted':      'var(--abyss-text-dim, #6E7B8B)',
+                        'fiduciary-alt':      'var(--abyss-text-secondary, #9AA7B6)'
                     },
                     fontFamily: {
                         serif: ["Noto Serif", "serif"],
@@ -162,6 +168,10 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-color: rgba(199,162,75,0.18) !important;
+        }
+        /* [H-01] Colapso físico orbit-3 — grid colapsa al ancho del rail cuando orbit3-collapsed */
+        .aip-chassis:has(#orbit-3.orbit3-collapsed) {
+            grid-template-columns: 1fr var(--orbita-3-rail-width, 48px) !important;
         }
     </style>
 </head>
@@ -485,6 +495,19 @@
                             <span class="text-xs font-bold font-mono text-green-400">ACTIVE</span>
                         </div>
                     </section>
+                    <!-- [H-03] AIMON Dialog — reubicado sobre terminal log para jerarquía fiduciaria -->
+                    <section id="aimon-dialog-box" class="shrink-0 mx-3 mt-3 mb-1 border border-[#1A2A3F] bg-[#070D18]">
+                        <div class="flex items-center gap-2 px-3 py-1.5 border-b border-[#1A2A3F]">
+                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#C7A24B] animate-pulse"></span>
+                            <span class="text-[8px] font-mono uppercase tracking-widest text-[#C7A24B]">AIMON // CONTEXTUAL ANALYSIS</span>
+                        </div>
+                        <div id="aimon-dialog-content" class="px-3 py-3">
+                            <p class="text-[11.5px] font-mono font-medium text-[#9AA7B6] leading-relaxed">
+                                Sin mandato activo. Selecciona una categoría o mandato en Órbita-2 para análisis contextual predictivo.
+                            </p>
+                        </div>
+                    </section>
+
                     <!-- Terminal Log -->
                     <section class="flex-1 overflow-y-auto pt-2 pb-6 bg-[#05070B] font-mono">
                         <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
@@ -529,18 +552,6 @@
                         </div>
                     </section>
 
-                    <!-- [H-04] AIMON Dialog vivo — contexto Órbita-2 en tiempo real -->
-                    <section id="aimon-dialog-box" class="shrink-0 mx-3 mb-3 mt-1 border border-[#1A2A3F] bg-[#070D18]">
-                        <div class="flex items-center gap-2 px-3 py-1.5 border-b border-[#1A2A3F]">
-                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#C7A24B] animate-pulse"></span>
-                            <span class="text-[8px] font-mono uppercase tracking-widest text-[#C7A24B]">AIMON // CONTEXTUAL ANALYSIS</span>
-                        </div>
-                        <div id="aimon-dialog-content" class="px-3 py-2.5">
-                            <p class="text-[10px] font-mono text-[#6E7B8B] italic leading-relaxed">
-                                Sin mandato activo. Selecciona una categoría o mandato en Órbita-2 para análisis contextual predictivo.
-                            </p>
-                        </div>
-                    </section>
                 </main>
 
                 <!-- ═══ TAB C: ACCESO — Portal de entrada calificado ═══ -->
@@ -555,38 +566,38 @@
                             <button type="button" data-action="OAuthSuccess" data-provider="google"
                                 class="w-full flex items-center gap-3 px-4 py-2.5 bg-white border border-white hover:brightness-95 outline-none transition-all duration-300 cursor-pointer">
                                 <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="shrink-0"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                                <span class="text-[12px] text-[#111827] font-mono font-medium">Google Workspace</span>
+                                <span class="text-[12px] text-[#111827] font-mono font-medium">Accede con Google</span>
                             </button>
                             <!-- Microsoft Entra -->
                             <button type="button" data-action="OAuthSuccess" data-provider="microsoft"
                                 class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#2F2F2F] border border-[#2F2F2F] hover:bg-[#404040] outline-none transition-all duration-300 cursor-pointer">
                                 <svg width="16" height="16" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" class="shrink-0"><rect x="1" y="1" width="9" height="9" fill="#F25022"/><rect x="11" y="1" width="9" height="9" fill="#7FBA00"/><rect x="1" y="11" width="9" height="9" fill="#00A4EF"/><rect x="11" y="11" width="9" height="9" fill="#FFB900"/></svg>
-                                <span class="text-[12px] text-white font-mono font-medium">Microsoft Entra</span>
+                                <span class="text-[12px] text-white font-mono font-medium">Accede con Microsoft</span>
                             </button>
                             <!-- LinkedIn Professional -->
                             <button type="button" data-action="OAuthSuccess" data-provider="linkedin"
                                 class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#0A66C2] border border-[#0A66C2] hover:bg-[#004182] outline-none transition-all duration-300 cursor-pointer">
                                 <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="shrink-0"><rect width="24" height="24" rx="3" fill="#0A66C2"/><path d="M6.5 8.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM5 10.5h3V19H5v-8.5zm5 0h3v1.1c.5-.8 1.5-1.3 2.8-1.3C18.1 10.3 19 11.7 19 14V19h-3v-4.5c0-1.2-.4-1.8-1.4-1.8-1.1 0-1.6.8-1.6 1.8V19h-3v-8.5z" fill="white"/></svg>
-                                <span class="text-[12px] text-white font-mono font-medium">LinkedIn Professional</span>
+                                <span class="text-[12px] text-white font-mono font-medium">Accede con LinkedIn</span>
                             </button>
                             <!-- Apple -->
                             <button type="button" data-action="OAuthSuccess" data-provider="apple"
                                 class="w-full flex items-center gap-3 px-4 py-2.5 bg-black border border-[#333] hover:bg-[#1a1a1a] outline-none transition-all duration-300 cursor-pointer">
                                 <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="shrink-0" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                                <span class="text-[12px] text-white font-mono font-medium">Apple</span>
+                                <span class="text-[12px] text-white font-mono font-medium">Accede con Apple</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- [E6-T11] Toggle Sign-up / Sign-in -->
+                    <!-- [E6-T11] Toggle Sign-up / Sign-in — ACCEDER primero por defecto (H-02) -->
                     <div class="flex border-b border-[#2A3A52]">
-                        <button id="aip-mode-signup" type="button"
-                            class="flex-1 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-[#7FB4FF] border-b-2 border-[#7FB4FF] transition-colors">
-                            Nueva cuenta
-                        </button>
                         <button id="aip-mode-signin" type="button"
-                            class="flex-1 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-[#9AA7B6] border-b-2 border-transparent transition-colors">
+                            class="flex-1 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-[#7FB4FF] border-b-2 border-[#7FB4FF] transition-colors">
                             Acceder
+                        </button>
+                        <button id="aip-mode-signup" type="button"
+                            class="flex-1 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-[#9AA7B6] border-b-2 border-transparent transition-colors">
+                            Nueva cuenta
                         </button>
                     </div>
 
@@ -594,7 +605,7 @@
                     <form id="aip-access-form" class="px-5 py-4 flex flex-col gap-3" novalidate>
 
                         <!-- [E6-T11] Campos exclusivos de registro (ocultos en modo sign-in) -->
-                        <div id="aip-signup-fields">
+                        <div id="aip-signup-fields" class="hidden">
 
                         <!-- Perfil: Inversor / Agente / Fundador — BISTURÍ B3 · 2026-05-29 · LAND-02 -->
                         <div class="flex flex-col gap-1.5">
@@ -657,7 +668,7 @@
                         </div>
 
                         <!-- [E6-T11] Campos extra de registro (ocultos en sign-in) -->
-                        <div id="aip-signup-extra">
+                        <div id="aip-signup-extra" class="hidden">
 
                         <!-- Teléfono: prefijo + número -->
                         <div class="flex flex-col gap-1">
@@ -712,7 +723,7 @@
                         <button type="submit" id="aip-submit"
                             class="w-full mt-1 px-4 py-3 text-[13px] font-bold uppercase tracking-[0.1em] font-mono cursor-pointer border-none transition-colors duration-300"
                             style="background:#7FB4FF;color:#05070B;">
-                            ENVIAR SOLICITUD
+                            ACCEDER
                         </button>
                         <p id="aip-form-error" class="hidden text-[10px] font-mono text-[#FF4757] text-center">Complete todos los campos requeridos correctamente.</p>
                         <p id="aip-signin-error" class="hidden text-[10px] font-mono text-[#FF4757] text-center">Correo o contraseña incorrectos.</p>
@@ -789,6 +800,147 @@
     </style>
     <script type="module" src="./src/ignition-v13.js"></script>
 
+    <!-- ═══ H-05a · FAQ MODAL ═══════════════════════════════════════════════
+         Zona esqueleto — R-GADGET-01 no aplica.
+         Activado por OpenPage data-page="faq" desde footer.
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div id="modal-faq"
+         class="hidden fixed inset-0 z-[9800] flex items-start justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-12 px-4"
+         role="dialog" aria-modal="true" aria-labelledby="modal-faq-title">
+        <div class="relative w-full max-w-3xl bg-[var(--abyss-bg-base)] border border-[var(--abyss-border-strong)] p-8 md:p-12">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-10 border-b border-[var(--abyss-border)] pb-6">
+                <h2 id="modal-faq-title"
+                    class="font-serif text-2xl font-light tracking-wide text-[var(--abyss-text-primary)]"
+                    data-i18n="faq.modal.title">—</h2>
+                <button type="button"
+                        class="modal-close text-[10px] uppercase tracking-[0.25em] font-mono text-[var(--abyss-text-muted)] hover:text-[var(--abyss-gold)] transition-colors"
+                        data-modal="faq" data-i18n="faq.modal.close">—</button>
+            </div>
+
+            <!-- Segmento A -->
+            <h3 class="text-[10px] uppercase tracking-[0.3em] font-mono text-[var(--abyss-gold)] mb-6"
+                data-i18n="faq.section_a">—</h3>
+            <dl class="space-y-6 mb-12">
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.a.q1">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.a.a1">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.a.q2">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.a.a2">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.a.q3">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.a.a3">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.a.q4">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.a.a4">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.a.q5">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.a.a5">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.a.q6">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.a.a6">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.a.q7">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.a.a7">—</dd>
+                </div>
+            </dl>
+
+            <!-- Segmento B -->
+            <h3 class="text-[10px] uppercase tracking-[0.3em] font-mono text-[var(--abyss-gold)] mb-6"
+                data-i18n="faq.section_b">—</h3>
+            <dl class="space-y-6">
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.b.q1">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.b.a1">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.b.q2">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.b.a2">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.b.q3">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.b.a3">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.b.q4">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.b.a4">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.b.q5">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.b.a5">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.b.q6">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.b.a6">—</dd>
+                </div>
+                <div class="border-l-2 border-[var(--abyss-border)] pl-5">
+                    <dt class="text-sm font-medium text-[var(--abyss-text-primary)] mb-2" data-i18n="faq.b.q7">—</dt>
+                    <dd class="text-sm text-[var(--abyss-text-secondary)] leading-relaxed" data-i18n="faq.b.a7">—</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <!-- ═══ H-05b · CONTACT MODAL ════════════════════════════════════════════
+         Activado por OpenPage data-page="contact" desde footer.
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div id="modal-contact"
+         class="hidden fixed inset-0 z-[9800] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
+         role="dialog" aria-modal="true" aria-labelledby="modal-contact-title">
+        <div class="relative w-full max-w-md bg-[var(--abyss-bg-base)] border border-[var(--abyss-border-strong)] p-8">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8 border-b border-[var(--abyss-border)] pb-5">
+                <h2 id="modal-contact-title"
+                    class="font-serif text-xl font-light tracking-wide text-[var(--abyss-text-primary)]"
+                    data-i18n="contact.modal.title">—</h2>
+                <button type="button"
+                        class="modal-close text-[10px] uppercase tracking-[0.25em] font-mono text-[var(--abyss-text-muted)] hover:text-[var(--abyss-gold)] transition-colors"
+                        data-modal="contact" data-i18n="contact.modal.close">—</button>
+            </div>
+
+            <!-- Canales -->
+            <div class="flex flex-col gap-3 mb-8">
+                <a href="https://wa.me/34600000000" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
+                    <span class="material-symbols-outlined text-lg shrink-0">chat</span>
+                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.whatsapp">—</span>
+                    <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                </a>
+                <a href="https://t.me/aipfinancial" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
+                    <span class="material-symbols-outlined text-lg shrink-0">send</span>
+                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.telegram">—</span>
+                    <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                </a>
+                <a href="mailto:contact@aip.financial"
+                   class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
+                    <span class="material-symbols-outlined text-lg shrink-0">mail</span>
+                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.mail">—</span>
+                    <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                </a>
+                <a href="/assets/docs/aip-dossier.pdf" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-gold)]/40 hover:border-[var(--abyss-gold)] text-[var(--abyss-gold)]/70 hover:text-[var(--abyss-gold)] transition-all duration-300 group">
+                    <span class="material-symbols-outlined text-lg shrink-0">picture_as_pdf</span>
+                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.pdf">—</span>
+                    <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">download</span>
+                </a>
+            </div>
+
+            <!-- Nota legal -->
+            <p class="text-[10px] font-mono text-[var(--abyss-text-muted)] leading-relaxed border-t border-[var(--abyss-border)] pt-5"
+               data-i18n="contact.legal">—</p>
+        </div>
+    </div>
+
     <!-- [H-01] Chevron toggle + rail icon open wiring -->
     <!-- [H-04] AIMON dialog — subscripción a eventos Órbita-2 -->
     <script>
@@ -810,28 +962,30 @@
             chevronIcon.style.color = isOpen ? GOLD : MUTED;
         }
 
-        let panelOpen = true;
-        setChevronState(true);
+        setChevronState(false);
 
         chevronBtn?.addEventListener('click', () => {
-            panelOpen = !panelOpen;
-            if (contentVP) contentVP.classList.toggle('hidden', !panelOpen);
-            setChevronState(panelOpen);
+            if (!orbit3?.classList.contains('active')) return;
+            const closing = !orbit3.classList.contains('orbit3-collapsed');
+            if (contentVP) contentVP.classList.toggle('hidden', closing);
+            orbit3.classList.toggle('orbit3-collapsed', closing);
+            setChevronState(!closing);
         });
 
         chevronBtn?.addEventListener('mouseenter', () => {
             if (chevronIcon) chevronIcon.style.color = GOLD;
         });
         chevronBtn?.addEventListener('mouseleave', () => {
-            if (chevronIcon) chevronIcon.style.color = panelOpen ? GOLD : MUTED;
+            const isOpen = orbit3?.classList.contains('active') && !orbit3.classList.contains('orbit3-collapsed');
+            if (chevronIcon) chevronIcon.style.color = isOpen ? GOLD : MUTED;
         });
 
-        // Rail icons → abren el panel si está cerrado + activan su tab
+        // Rail icons → expanden panel si estaba colapsado vía chevron
         document.querySelectorAll('.rail-node[data-rail-tab]').forEach(btn => {
             btn.addEventListener('click', () => {
-                if (!panelOpen) {
-                    panelOpen = true;
+                if (orbit3?.classList.contains('orbit3-collapsed')) {
                     if (contentVP) contentVP.classList.remove('hidden');
+                    orbit3.classList.remove('orbit3-collapsed');
                     setChevronState(true);
                 }
             });
@@ -871,6 +1025,61 @@
 
         document.addEventListener('Skeleton:Action:BackToPortfolio', () => {
             if (dialogContent) dialogContent.innerHTML = '<p class="text-[10px] font-mono text-[#6E7B8B] italic leading-relaxed">Sin mandato activo. Selecciona una categoría o mandato en Órbita-2 para análisis contextual predictivo.</p>';
+        });
+
+        // ── H-05a/b · OpenPage modal handler ─────────────────────────────
+        const MODALS = { faq: 'modal-faq', contact: 'modal-contact' };
+
+        function openModal(page) {
+            const id = MODALS[page];
+            if (!id) return;
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(page) {
+            const id = MODALS[page];
+            if (!id) return;
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Delegación en UIBinder via data-action="OpenPage"
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-action="OpenPage"]');
+            if (btn) {
+                e.preventDefault();
+                openModal(btn.dataset.page);
+                return;
+            }
+            // Cierre por botón .modal-close
+            const closeBtn = e.target.closest('.modal-close');
+            if (closeBtn) {
+                closeModal(closeBtn.dataset.modal);
+                return;
+            }
+            // Cierre por clic en backdrop (el overlay mismo, no el panel interior)
+            for (const [page, id] of Object.entries(MODALS)) {
+                const overlay = document.getElementById(id);
+                if (overlay && !overlay.classList.contains('hidden') && e.target === overlay) {
+                    closeModal(page);
+                }
+            }
+        });
+
+        // Cierre por Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            for (const page of Object.keys(MODALS)) {
+                const el = document.getElementById(MODALS[page]);
+                if (el && !el.classList.contains('hidden')) closeModal(page);
+            }
         });
     });
     </script>
