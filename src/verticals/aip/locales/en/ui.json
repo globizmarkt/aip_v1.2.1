@@ -384,7 +384,12 @@
         "description": "Qualified investor or Business Angel with active Clearance. Accesses the embryonic project pipeline under executed NCNDA. Algorithmic matching by risk profile and sector."
       }
     },
-    "cta": { "label": "REGISTER PROJECT" }
+    "cta": {
+      "label":      "REGISTER PROJECT",
+      "button":     "SUBMIT PROJECT",
+      "subcopy":    "After submission, the project enters internal review. Estimated timeline: 5–10 business days. Admission is not guaranteed.",
+      "disclaimer": "Regulatory information (MiFID II / AIFMD): Investment in private capital projects involves risks, including the possible total loss of capital. No guarantee of return or matching execution. Access restricted to qualified investors under applicable legislation. AIP does not act as an independent financial adviser."
+    }
   },
   "welcome": {
     "investor": {

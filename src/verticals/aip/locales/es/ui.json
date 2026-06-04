@@ -384,7 +384,12 @@
         "description": "Inversor cualificado o Business Angel con Clearance activo. Accede al pipeline de proyectos embrionarios bajo NCNDA ejecutada. Matching algorítmico según perfil de riesgo y sector."
       }
     },
-    "cta": { "label": "REGISTRAR PROYECTO" }
+    "cta": {
+      "label":      "REGISTRAR PROYECTO",
+      "button":     "PRESENTAR PROYECTO",
+      "subcopy":    "Tras el envío, el proyecto pasa a revisión interna. Timeline orientativo: 5–10 días hábiles. No se garantiza admisión.",
+      "disclaimer": "Información regulatoria (MiFID II / AIFMD): La inversión en proyectos de capital privado conlleva riesgos, incluida la posible pérdida total del capital. No existe garantía de rentabilidad ni de ejecución de matching. El acceso está restringido a inversores cualificados conforme a la legislación aplicable. AIP no actúa como asesor financiero independiente."
+    }
   },
   "welcome": {
     "investor": {

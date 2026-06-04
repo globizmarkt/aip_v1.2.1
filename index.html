@@ -64,7 +64,13 @@
                         'ink':          '#D7DEE7',
                         'ink-dim':      '#9AA7B6',
                         'ink-ghost':    '#6E7B8B',
-                        /* [H-04] Tokens gadgets landing — ausentes → colores no renderizaban */
+                        /* [VENTURES-H-03] Legibilidad texto legal ventures — opacity-60 → 0.85
+           Override sin tocar el gadget (R-GADGET-01 respetado — esqueleto) */
+        #tab-aip-ventures [data-i18n="ventures.cta.subcopy"],
+        #tab-aip-ventures [data-i18n="ventures.cta.disclaimer"] {
+            opacity: 0.85 !important;
+        }
+        /* [H-04] Tokens gadgets landing — ausentes → colores no renderizaban */
                         'institutional-gold': 'var(--abyss-gold, #C8A24A)',
                         'abisal':             'var(--abyss-bg-deep, #070A10)',
                         'surface-card':       'var(--abyss-surface, #0E1624)',
@@ -1030,6 +1036,23 @@
         document.addEventListener('Skeleton:Action:BackToPortfolio', () => {
             if (dialogContent) dialogContent.innerHTML = '<p class="text-[10px] font-mono text-[#6E7B8B] italic leading-relaxed">Sin mandato activo. Selecciona una categoría o mandato en Órbita-2 para análisis contextual predictivo.</p>';
         });
+
+        // ── [VENTURES-CTA] Orbit4VenturesSubmit — HALLAZGO-01/02 ─────
+        // El botón "PRESENTAR PROYECTO" en aip-ventures/code.html tiene
+        // data-action="Orbit4VenturesSubmit". UIBinder lo propaga como evento.
+        // Aquí lo interceptamos mediante delegación directa en document.
+        document.addEventListener('click', (ev) => {
+            const btn = ev.target.closest('[data-action="Orbit4VenturesSubmit"]');
+            if (!btn) return;
+            ev.stopPropagation();
+            // 1. Abrir Orbit-3 (mismo mecanismo que REQUEST ACCESS)
+            document.dispatchEvent(new CustomEvent('Skeleton:Action:AuthToggle', { bubbles: true }));
+            // 2. Presetear formulario en modo signup + perfil Fundador
+            document.dispatchEvent(new CustomEvent('Skeleton:Form:PresetSignup', {
+                detail: { profile: 'fundador' },
+                bubbles: true,
+            }));
+        }, true); // capture=true — antes de que UIBinder consuma el click
 
         // ── H-05a/b · OpenPage modal handler ─────────────────────────────
         const MODALS = { faq: 'modal-faq', contact: 'modal-contact' };

@@ -175,6 +175,9 @@ export const AIPHandler = {
         const shouldShow = (forceShow !== null) ? forceShow : !isCurrentlyActive;
 
         if (shouldShow) {
+            orbit3.classList.remove('orbit3-collapsed');
+            const cvp = orbit3.querySelector('.content-viewport');
+            if (cvp) cvp.classList.remove('hidden');
             orbit3.classList.add('active');
             setTimeout(() => {
                 if (handoff) {
@@ -332,8 +335,8 @@ export const AIPHandler = {
     // Trigger: Skeleton:Action:MandateSelected → aip-crm-home._wire()
 
     _setupAccessForm() {
-        // [E6-T11] Toggle Sign-up / Sign-in
-        let _formMode = 'signup'; // 'signup' | 'signin'
+        // [E6-T11] Toggle Sign-up / Sign-in — ACCEDER por defecto (H-02)
+        let _formMode = 'signin'; // 'signup' | 'signin'
         const btnSignup      = document.getElementById('aip-mode-signup');
         const btnSignin      = document.getElementById('aip-mode-signin');
         const signupFields   = document.getElementById('aip-signup-fields');
@@ -360,6 +363,21 @@ export const AIPHandler = {
 
         btnSignup?.addEventListener('click', () => _setMode('signup'));
         btnSignin?.addEventListener('click', () => _setMode('signin'));
+        _setMode('signin'); // estado inicial canónico
+
+        // [VENTURES-CTA] Preset signup desde CTA externo — HALLAZGO-02
+        // Disparado por Orbit4VenturesSubmit en index.html inline script.
+        // Entra en scope de _setMode y de los radios de perfil.
+        document.addEventListener('Skeleton:Form:PresetSignup', (e) => {
+            _setMode('signup');
+            const profile = e.detail?.profile ?? 'inversor';
+            const radio = document.querySelector(`input[name="aip-perfil"][value="${profile}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.dispatchEvent(new Event('change', { bubbles: true })); // activa fundador-hint si aplica
+            }
+            console.log(`[AIPHandler] PresetSignup → modo signup · perfil: ${profile}`);
+        });
 
         document.querySelectorAll('input[name="aip-perfil"]').forEach(input => {
             input.addEventListener('change', () => {
