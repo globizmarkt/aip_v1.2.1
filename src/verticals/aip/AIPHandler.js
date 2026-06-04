@@ -66,7 +66,7 @@ export const AIPHandler = {
 
         document.addEventListener('Skeleton:Action:AuthToggle', () => this.switchGateMode('gatekeeper'));
 
-        document.addEventListener('Skeleton:Action:OAuthSuccess', async () => {
+        document.addEventListener('Skeleton:Action:OAuthSuccess', async (e) => {
             // [DEV-BYPASS] localhost — OAuth buttons entran directamente sin Firebase
             const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
             if (isDev) {
@@ -79,15 +79,27 @@ export const AIPHandler = {
                 });
                 return;
             }
-            const emailEl = document.getElementById('aip-email');
-            const passEl  = document.getElementById('aip-password');
-            const email   = emailEl?.value?.trim();
-            const pass    = passEl?.value;
-            if (!email || !pass) return;
+
+            // [E6-T06] Firebase OAuth real — Google / Microsoft / LinkedIn fallback
+            const providerName = e.detail?.provider; // 'google' | 'microsoft' | 'linkedin'
+
+            if (providerName === 'linkedin') {
+                console.warn('[AIPHandler] LinkedIn requiere Custom Token Backend. Usar Alta por Datos.');
+                return;
+            }
+
             try {
-                const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
+                const { getAuth, signInWithPopup, GoogleAuthProvider, OAuthProvider } = await import('firebase/auth');
                 const auth = getAuth();
-                const cred = await signInWithEmailAndPassword(auth, email, pass);
+                let providerObj;
+                if (providerName === 'google') {
+                    providerObj = new GoogleAuthProvider();
+                } else if (providerName === 'microsoft') {
+                    providerObj = new OAuthProvider('microsoft.com');
+                } else {
+                    return;
+                }
+                const cred = await signInWithPopup(auth, providerObj);
                 UserFSM.transition('LOGIN_SUBMITTED');
                 PassportValidator.validateAccess({
                     usr: cred.user.uid, rol: 'inv', tier: 'inst',
@@ -95,8 +107,7 @@ export const AIPHandler = {
                     wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
                 });
             } catch (err) {
-                console.error('[AIPHandler] Firebase Auth error:', err.code);
-                document.getElementById('aip-form-error')?.classList.remove('hidden');
+                console.error('[AIPHandler] Firebase OAuth error:', err.code, err.message);
             }
         });
 
@@ -362,23 +373,25 @@ export const AIPHandler = {
             }
             formError?.classList.add('hidden');
 
+            // [E6-T06] Formulario = ALTA/REGISTRO — createUserWithEmailAndPassword
             try {
-                const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
+                const { getAuth, createUserWithEmailAndPassword } = await import('firebase/auth');
                 const auth = getAuth();
-                const cred = await signInWithEmailAndPassword(auth, email, pass);
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                // STUB: guardar solicitud en Firestore (nombre, razon, comms, data) — E6-T07
+                console.log('[AIPHandler] STUB Firestore: solicitud de acceso registrada para UID:', cred.user.uid);
                 UserFSM.transition('LOGIN_SUBMITTED');
-                const payload = {
+                PassportValidator.validateAccess({
                     usr:  cred.user.uid,
                     rol:  'inv',
                     tier: 'inst',
                     jur:  'CH',
-                    kyc:  'ok',
+                    kyc:  'pending',
                     pv:   1,
                     wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
-                };
-                PassportValidator.validateAccess(payload);
+                });
             } catch (err) {
-                console.error('[AIPHandler] Firebase Auth error:', err.code);
+                console.error('[AIPHandler] Firebase Auth registry error:', err.code);
                 formError?.classList.remove('hidden');
             }
         });
