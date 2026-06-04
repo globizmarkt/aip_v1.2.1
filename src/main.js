@@ -25,6 +25,9 @@ import { GenesisWizard } from './03-interface/wizards/GenesisWizard.js'; // [E3-
 import { LegalModal } from './03-interface/wizards/LegalModal.js';    // [E3-T02] Guardián legal fluido
 import './gadgets/aip-orbit1-tree.js';                               // [E5-GADGET-7.4] Árbol de mandatos Órbita 1 (auto-wire en Skeleton:Legal:Accepted)
 import './gadgets/aip-crm-home.js';                                // [E5-GADGET-7.4] CRM Home — Portfolio Overview (auto-wire en Skeleton:Legal:Accepted)
+import './gadgets/aip-domain-overview.js';                         // [CRM-VIEWS-01] Vista L1 dominio — Option B reserve (VIBE 1.3+)
+import './gadgets/aip-procedure-view.js';                          // [CRM-VIEWS-01] Vista L2A procedimiento — Option B reserve (VIBE 1.3+)
+import './gadgets/aip-kyc-gate.js';                                // [CRM-VIEWS-01] Vista L2B KYC gate — Option B reserve (VIBE 1.3+)
 
 /**
  * Whitelist de Verticales Autorizadas (COG-64)

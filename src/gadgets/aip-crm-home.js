@@ -409,6 +409,7 @@ class AipCrmHome extends ReactiveElement {
     #selectedMandate  = null;    // [VIBE-03.7] Portfolio ↔ MandateDetail
     #selectedCategory = null;    // [CRM-TREE-03] Portfolio ↔ ProcedureView / OpportunityView
     #selectedLayer    = 'procedure'; // 'procedure' | 'opportunity'
+    #selectedDomain   = null;    // [CRM-VIEWS-01] DomainFocus (L1) → domainOverview view
 
     connectedCallback() {
         super.connectedCallback(); // suscripción al store vía ReactiveElement
@@ -488,7 +489,7 @@ ${CRM_HOME_STYLES}
 
         // Conmutación de vista interna — orden de prioridad:
         // 1. MandateDetail (L3)   2. ProcedureView (L2-PROC)
-        // 3. OpportunityView (L2-OPP)   4. Portfolio (home)
+        // 3. OpportunityView (L2-OPP)   4. DomainOverview (L1)   5. Portfolio (home)
         const container = this.querySelector('#crm-home-view-container');
         if (this.#selectedMandate) {
             this._renderMandateDetail(container, this.#selectedMandate);
@@ -496,6 +497,8 @@ ${CRM_HOME_STYLES}
             this._renderProcedureView(container, this.#selectedCategory);
         } else if (this.#selectedCategory && this.#selectedLayer === 'opportunity') {
             this._renderOpportunityView(container, this.#selectedCategory);
+        } else if (this.#selectedDomain) {
+            this._renderDomainOverview(container, this.#selectedDomain);
         } else {
             this._renderPortfolio(container, s, p);
         }
@@ -1139,14 +1142,128 @@ ${CRM_HOME_STYLES}
         container.appendChild(body);
     }
 
+    // [SEC-04e2] _renderDomainOverview — CRM-VIEWS-01 · 2026-06-04
+    // Vista L1: resumen pedagógico + guía de navegación + KYC notice por dominio.
+    // DT-AIP-05: todos los datos vienen de DOMAIN_CONTENT (deepFrozen) — innerHTML seguro.
+    _renderDomainOverview(container, domainId) {
+        const DOMAIN_CONTENT = Object.freeze({
+            'ma-real-estate': Object.freeze({
+                title:    'M&A & Real Estate',
+                icon:     'business_center',
+                pedagogy: 'Este dominio agrupa operaciones de compraventa de empresas y activos inmobiliarios dentro de AIP. Cubre mandatos de adquisición, desinversión, estructuración de transacciones y coordinación de debida diligencia. Su usuario natural es el inversor corporativo, patrimonial o institucional que busca ejecutar operaciones con gobernanza, documentación y cierre controlado.',
+                nav:      'Encontrará flujos por tipo de operación (M&A, RE comercial, RE premium/residencial) y estado (evaluación, mandato, cierre). Incluye requisitos de información, hitos de proceso y canal de coordinación documental.',
+                kyc:      'Antes de iniciar gestiones, AIP verificará identidad, beneficiario final y origen de fondos conforme a AML/KYC; la información se solicita para cumplir obligaciones legales y de debida diligencia.',
+                categories: ['Compraventa Empresarial', 'Real Estate Comercial', 'Real Estate Premium / Residencial'],
+            }),
+            'commodities-trade': Object.freeze({
+                title:    'Commodities & Trade Finance',
+                icon:     'trending_up',
+                pedagogy: 'Este dominio aborda operaciones vinculadas a commodities y a su financiamiento comercial. Cubre originación y ejecución de compra/venta, logística documental, mitigación de riesgo de contraparte y estructuras de trade finance asociadas. Su usuario natural es el inversor, productor o comercializador que requiere control de riesgos, trazabilidad y disciplina de cumplimiento.',
+                nav:      'Encontrará rutas por vertical (energía, agrícola, metales/minería) y por tipo de instrumento (spot/forward, prefinanciación, cartas de crédito, garantías). Incluye checklist documental, hitos operativos y estándares de verificación.',
+                kyc:      'Por políticas de cumplimiento y prevención de lavado, AIP podrá requerir documentación de contraparte, beneficiario final, actividad económica y trazabilidad de fondos/mercancía antes de avanzar.',
+                categories: ['Energía & Derivados', 'Agrícola & Soft', 'Metales & Minería'],
+            }),
+            'soluciones-financieras': Object.freeze({
+                title:    'Soluciones Financieras',
+                icon:     'account_balance',
+                pedagogy: 'Este dominio reúne estructuras de capital para financiar crecimiento, adquisiciones o reordenamiento financiero. Cubre deuda, equity e instrumentos híbridos, con análisis de riesgo, términos, covenants y coordinación de cierre. Su usuario natural es el inversor profesional o la empresa que necesita una solución alineada a flujo de caja, gobierno corporativo y horizonte.',
+                nav:      'Encontrará módulos por tipo de solución (deuda, equity, híbridos) y por etapa (diagnóstico, estructuración, colocación/cierre). Incluye parámetros clave, documentación requerida y ruta de aprobación interna.',
+                kyc:      'AIP actúa bajo estándares fiduciarios y de debida diligencia; se solicitará información para validar idoneidad, beneficiario final y origen de fondos antes de presentar o ejecutar estructuras.',
+                categories: ['Deuda & Estructurados', 'Equity & Capital', 'Híbridos & Alternativos'],
+            }),
+            'aip-ventures': Object.freeze({
+                title:    'AIP Ventures',
+                icon:     'rocket_launch',
+                pedagogy: 'Este dominio se orienta a inversiones en empresas de alto crecimiento mediante venture equity, growth capital y estructuras. Cubre evaluación, términos de inversión, gobernanza, derechos económicos y escenarios de salida. Su usuario natural es el inversor sofisticado que acepta mayor incertidumbre a cambio de potencial de retorno, con foco en control de riesgos y transparencia.',
+                nav:      'Encontrará oportunidades por etapa (venture/growth) y por tipo de instrumento (equity, convertibles, estructurados). Incluye data room, métricas mínimas, términos preliminares y flujo de aprobación/ejecución.',
+                kyc:      'Antes de habilitar acceso a información o procesos, AIP verificará identidad, perfil y origen de fondos; la validación KYC/AML es condición para continuar y protege a todas las partes.',
+                categories: ['Venture Equity', 'Growth Capital', 'Estructurados Venture'],
+            }),
+        });
+
+        const d = DOMAIN_CONTENT[domainId];
+        if (!d) {
+            container.innerHTML = `<div style="padding:24px;"><p class="label-xs ghost">Dominio desconocido: ${domainId}</p></div>`;
+            return;
+        }
+
+        container.innerHTML = `
+        <!-- Sub-header breadcrumb -->
+        <div class="crm-home__subbar">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="btn-inst" data-action-home="BackToPortfolio" style="padding:4px 12px;font-size:9px;">← VOLVER</button>
+                <span class="label-sm ghost">/</span>
+                <span class="label-sm ghost">CRM</span>
+                <span class="label-sm ghost">/</span>
+                <span class="label-sm" style="color:var(--crm-accent);">${d.title}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span class="badge badge--maturing">NIVEL L1 — DOMINIO</span>
+            </div>
+        </div>
+
+        <!-- Cuerpo de la vista -->
+        <div class="proc-view">
+
+            <!-- Encabezado del dominio -->
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <p class="label-xs ghost">RESUMEN DEL DOMINIO</p>
+                <h2 style="font-size:16px;font-weight:600;">${d.title}</h2>
+                <div class="proc-market-note" style="font-size:12px;line-height:1.7;">${d.pedagogy}</div>
+            </div>
+
+            <!-- Guía de navegación -->
+            <div style="background:var(--crm-surface);border:1px solid var(--crm-border);padding:16px 20px;">
+                <p class="label-xs ghost" style="margin-bottom:10px;">GUÍA DE NAVEGACIÓN</p>
+                <p style="font-size:11px;color:var(--crm-text-secondary);line-height:1.6;margin-bottom:16px;">${d.nav}</p>
+                <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--crm-border);">
+                    ${d.categories.map(cat => `
+                    <div style="padding:10px 14px;border-bottom:1px solid var(--crm-border);display:flex;align-items:center;gap:10px;background:var(--crm-abyss);">
+                        <span style="width:4px;height:4px;border-radius:50%;background:var(--crm-accent);flex-shrink:0;"></span>
+                        <span style="font-size:11px;">${cat}</span>
+                        <span class="badge badge--maturing" style="margin-left:auto;font-size:8px;">PROC</span>
+                        <span class="badge badge--blocked" style="font-size:8px;">🔒 OPP</span>
+                    </div>`).join('')}
+                    <div style="padding:10px 14px;display:flex;align-items:center;gap:10px;background:var(--crm-abyss);">
+                        <span style="width:4px;height:4px;border-radius:50%;background:var(--crm-border);flex-shrink:0;"></span>
+                        <span style="font-size:10px;color:var(--crm-text-secondary);">Última categoría sin borde</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KYC Notice fiduciario -->
+            <div class="notice-plate">
+                <span class="mono" style="font-size:11px;color:var(--crm-warning);flex-shrink:0;margin-top:1px;">⚠</span>
+                <div>
+                    <p class="label-xs" style="color:var(--crm-warning);margin-bottom:3px;">VERIFICACIÓN KYC REQUERIDA</p>
+                    <p style="font-size:11px;color:var(--crm-text-secondary);line-height:1.5;">${d.kyc}</p>
+                </div>
+            </div>
+
+        </div>`;
+    }
+
     // [SEC-04f] _wire — event delegation + listeners globales
     _wire() {
+        // [CRM-VIEWS-01] Listener dominio L1 — domain overview
+        document.addEventListener('Skeleton:Action:DomainFocus', (e) => {
+            const { domain } = e.detail;
+            if (!domain) { console.warn('[CrmHome] DomainFocus sin domain'); return; }
+            this.#selectedDomain   = domain;
+            this.#selectedMandate  = null;
+            this.#selectedCategory = null;
+            this._render();
+            this._wireViewInternal();
+            console.log(`[CrmHome] DomainFocus → ${domain}`);
+        });
+
         // [DT-AIP-07 Cycle 3] Listener mandato individual (L3)
         document.addEventListener('Skeleton:Action:MandateSelected', (e) => {
             const { mandate } = e.detail;
             if (!mandate) { console.warn('[CrmHome] MandateSelected sin payload'); return; }
             this.#selectedMandate  = mandate;
             this.#selectedCategory = null;
+            this.#selectedDomain   = null;
             this._render();
             this._wireViewInternal();
         });
@@ -1159,6 +1276,7 @@ ${CRM_HOME_STYLES}
             if (!data) { console.warn('[CrmHome] CategorySelected: no hay datos para', categoryId); return; }
             this.#selectedMandate  = null;
             this.#selectedCategory = data;
+            this.#selectedDomain   = null;
             this.#selectedLayer    = layer ?? 'procedure';
             this._render();
             this._wireViewInternal();
@@ -1195,6 +1313,7 @@ ${CRM_HOME_STYLES}
                 case 'BackToPortfolio':
                     this.#selectedMandate  = null;
                     this.#selectedCategory = null;
+                    this.#selectedDomain   = null;
                     this._render();
                     this._wireViewInternal();
                     break;

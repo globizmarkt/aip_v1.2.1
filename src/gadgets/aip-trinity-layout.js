@@ -250,6 +250,10 @@ class AipTrinityLayout extends HTMLElement {
         // de chevrones falla silenciosamente allí (getElementById devuelve null).
         // Esta sutura garantiza el vínculo correcto.
         this._wireRailToggles();
+
+        // [E6-T07] Infraestructura de enrutamiento reactivo Orbit-2
+        // _wireViewBus() vacío en Opción A (Option B: VIBE 1.3+)
+        this._wireViewBus();
     }
 
     // ─── Rail Toggle Handlers ─────────────────────────────────────────────────
@@ -282,6 +286,41 @@ class AipTrinityLayout extends HTMLElement {
                     : 'keyboard_double_arrow_right';
             });
         }
+    }
+    // ─── Controlador de Vistas — Infraestructura Orbit-2 [E6-T07] ───────────────
+    // Opción A activa: aip-crm-home maneja DomainFocus/CategorySelected/MandateSelected.
+    // injectView() disponible como API para Option B (VIBE 1.3+).
+    // _wireViewBus() sin listeners hasta activación de Option B.
+
+    /**
+     * Inyecta un Web Component dinámicamente en el contenedor central de Órbita 2.
+     * @param {string} componentTagName - Nombre del custom element (ej. 'aip-domain-overview')
+     * @param {Object} payload - Objeto de contexto pasado como viewContext al componente
+     */
+    injectView(componentTagName, payload = {}) {
+        const container = this.querySelector('#crm-orbit-2');
+        if (!container) {
+            console.warn('[TrinityLayout] Contenedor #crm-orbit-2 no encontrado.');
+            return;
+        }
+        container.innerHTML = '';
+        const viewEl = document.createElement(componentTagName);
+        viewEl.viewContext = payload;
+        if (payload.id) viewEl.dataset.id = payload.id;
+        container.appendChild(viewEl);
+        console.log(`[TrinityLayout] Vista inyectada: <${componentTagName}>`, payload);
+    }
+
+    /**
+     * Bus de enrutamiento reactivo.
+     * OPCIÓN A: vacío — el enrutamiento lo hace aip-crm-home internamente.
+     * OPCIÓN B (VIBE 1.3+): activar listeners DomainFocus / CategorySelected / MandateSelected.
+     */
+    _wireViewBus() {
+        // [PLACEHOLDER Option B — VIBE 1.3+]
+        // document.addEventListener('Skeleton:Action:DomainFocus', (e) => {
+        //     this.injectView('aip-domain-overview', e.detail || {});
+        // });
     }
 }
 
