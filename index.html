@@ -1054,6 +1054,18 @@
             }));
         }, true); // capture=true — antes de que UIBinder consuma el click
 
+        // ── Intelligence CTA → signup Agente ─────────────────────────────
+        document.addEventListener('click', (ev) => {
+            const btn = ev.target.closest('[data-action="OrbitIntelligenceSubmit"]');
+            if (!btn) return;
+            ev.stopPropagation();
+            document.dispatchEvent(new CustomEvent('Skeleton:Action:AuthToggle', { bubbles: true }));
+            document.dispatchEvent(new CustomEvent('Skeleton:Form:PresetSignup', {
+                detail: { profile: 'agente' },
+                bubbles: true,
+            }));
+        }, true);
+
         // ── H-05a/b · OpenPage modal handler ─────────────────────────────
         const MODALS = { faq: 'modal-faq', contact: 'modal-contact' };
 

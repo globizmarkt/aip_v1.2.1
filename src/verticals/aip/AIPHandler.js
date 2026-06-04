@@ -97,7 +97,13 @@ export const AIPHandler = {
             document.dispatchEvent(new CustomEvent('Skeleton:Legal:Accepted', { bubbles: true }));
         });
 
-        document.addEventListener('Skeleton:Action:AuthToggle', () => this.switchGateMode('gatekeeper'));
+        // [HALLAZGO-04] AuthToggle debe abrir Orbit-3, hacer switch a tab acceso
+        // Y LUEGO mostrar el gatekeeper panel. Antes solo hacía switchGateMode sin abrir.
+        document.addEventListener('Skeleton:Action:AuthToggle', () => {
+            this.toggleOrbit3(true);
+            this._switchOrbit3Tab('acceso');
+            this.switchGateMode('gatekeeper');
+        });
 
         document.addEventListener('Skeleton:Action:OAuthSuccess', async (e) => {
             // [DEV-BYPASS] localhost — OAuth buttons entran directamente sin Firebase

@@ -364,6 +364,12 @@
     },
     "footer": { "audit_note": "Data processing compliant with GDPR (EU) 2016/679. Immutable traceability with no transfer to unauthorised third parties." }
   },
+  "intelligence": {
+    "cta": {
+      "button":  "JOIN AS QUALIFIED AGENT",
+      "subcopy": "Access to operational intelligence requires qualified agent verification. Fiduciary gate process: 3–5 business days."
+    }
+  },
   "ventures": {
     "positioning": {
       "subtitle": "ASSET ORIGINATION",

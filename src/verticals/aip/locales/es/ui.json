@@ -364,6 +364,12 @@
     },
     "footer": { "audit_note": "Procesamiento de datos conforme al RGPD (UE) 2016/679. Trazabilidad inmutable sin cesión a terceros no autorizados." }
   },
+  "intelligence": {
+    "cta": {
+      "button":  "INCORPORARME COMO AGENTE",
+      "subcopy": "El acceso a inteligencia operativa requiere verificación de agente cualificado. Proceso de esclusa: 3–5 días hábiles."
+    }
+  },
   "ventures": {
     "positioning": {
       "subtitle": "ORIGINACIÓN DE ACTIVOS",
