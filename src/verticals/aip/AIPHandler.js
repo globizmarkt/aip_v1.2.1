@@ -332,6 +332,35 @@ export const AIPHandler = {
     // Trigger: Skeleton:Action:MandateSelected → aip-crm-home._wire()
 
     _setupAccessForm() {
+        // [E6-T11] Toggle Sign-up / Sign-in
+        let _formMode = 'signup'; // 'signup' | 'signin'
+        const btnSignup      = document.getElementById('aip-mode-signup');
+        const btnSignin      = document.getElementById('aip-mode-signin');
+        const signupFields   = document.getElementById('aip-signup-fields');
+        const signupExtra    = document.getElementById('aip-signup-extra');
+        const submitBtn      = document.getElementById('aip-submit');
+
+        const _setMode = (mode) => {
+            _formMode = mode;
+            const isSignup = mode === 'signup';
+            if (signupFields) signupFields.classList.toggle('hidden', !isSignup);
+            if (signupExtra)  signupExtra.classList.toggle('hidden',  !isSignup);
+            if (submitBtn)    submitBtn.textContent = isSignup ? 'ENVIAR SOLICITUD' : 'ACCEDER';
+            btnSignup?.classList.toggle('text-[#7FB4FF]',  isSignup);
+            btnSignup?.classList.toggle('border-[#7FB4FF]', isSignup);
+            btnSignup?.classList.toggle('text-[#9AA7B6]',  !isSignup);
+            btnSignup?.classList.toggle('border-transparent', !isSignup);
+            btnSignin?.classList.toggle('text-[#7FB4FF]',  !isSignup);
+            btnSignin?.classList.toggle('border-[#7FB4FF]', !isSignup);
+            btnSignin?.classList.toggle('text-[#9AA7B6]',   isSignup);
+            btnSignin?.classList.toggle('border-transparent', isSignup);
+            document.getElementById('aip-form-error')?.classList.add('hidden');
+            document.getElementById('aip-signin-error')?.classList.add('hidden');
+        };
+
+        btnSignup?.addEventListener('click', () => _setMode('signup'));
+        btnSignin?.addEventListener('click', () => _setMode('signin'));
+
         document.querySelectorAll('input[name="aip-perfil"]').forEach(input => {
             input.addEventListener('change', () => {
                 const wrap = document.getElementById('aip-entidad-wrap');
@@ -366,11 +395,37 @@ export const AIPHandler = {
         if (!form) return;
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formError = document.getElementById('aip-form-error');
+            const formError   = document.getElementById('aip-form-error');
+            const signinError = document.getElementById('aip-signin-error');
+            formError?.classList.add('hidden');
+            signinError?.classList.add('hidden');
 
-            // [DEV-BYPASS] localhost only — email dev@aip.local salta TODAS las validaciones y Firebase
             const email  = document.getElementById('aip-email')?.value?.trim();
             const isDev  = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+            // [E6-T11] Rama SIGN-IN — usuario ya registrado
+            if (_formMode === 'signin') {
+                const pass = document.getElementById('aip-password')?.value;
+                if (!email || !pass) { signinError?.classList.remove('hidden'); return; }
+                try {
+                    const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
+                    const auth = getAuth(firebaseApp);
+                    const cred = await signInWithEmailAndPassword(auth, email, pass);
+                    console.log('[AIPHandler][E6-T11] Sign-in exitoso para UID:', cred.user.uid);
+                    UserFSM.transition('LOGIN_SUBMITTED');
+                    PassportValidator.validateAccess({
+                        usr: cred.user.uid, rol: 'inv', tier: 'inst', jur: 'CH',
+                        kyc: 'ok', pv: 1,
+                        wc: ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                    });
+                } catch (err) {
+                    console.error('[AIPHandler][E6-T11] Sign-in error:', err.code);
+                    signinError?.classList.remove('hidden');
+                }
+                return;
+            }
+
+            // [DEV-BYPASS] localhost only — email dev@aip.local salta TODAS las validaciones y Firebase
             if (isDev && email === 'dev@aip.local') {
                 console.warn('[AIPHandler][DEV] Dev bypass activo — saltando Firebase Auth.');
                 UserFSM.transition('LOGIN_SUBMITTED');
@@ -432,18 +487,29 @@ export const AIPHandler = {
                 console.log('[AIPHandler] Firestore: solicitud de acceso registrada para UID:', cred.user.uid);
 
                 UserFSM.transition('LOGIN_SUBMITTED');
+                // [E6-T10] kyc:'ok' para el validador de UI → dispara LegalModal (Attestation).
+                // El documento Firestore guarda 'pending' — ese es el estado real de KYC.
                 PassportValidator.validateAccess({
                     usr:  cred.user.uid,
                     rol:  'inv',
                     tier: 'inst',
                     jur:  'CH',
-                    kyc:  'pending',
+                    kyc:  'ok',
                     pv:   1,
                     wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
                 });
             } catch (err) {
                 console.error('[AIPHandler] Firebase Auth/Firestore registry error:', err.code, err.message);
-                formError?.classList.remove('hidden');
+                if (err.code === 'auth/email-already-in-use') {
+                    // [E6-T11] Redirigir al modo sign-in con mensaje orientativo
+                    _setMode('signin');
+                    if (signinError) {
+                        signinError.textContent = 'Este correo ya tiene cuenta. Introduce tu contraseña para acceder.';
+                        signinError.classList.remove('hidden');
+                    }
+                } else {
+                    formError?.classList.remove('hidden');
+                }
             }
         });
     },
