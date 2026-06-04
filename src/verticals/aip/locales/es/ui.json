@@ -160,5 +160,27 @@
     "modal": { "title": "Canales de Contacto Institucional" },
     "btn": { "whatsapp": "WhatsApp", "telegram": "Telegram", "mail": "Correo Institucional", "pdf": "Dossier PDF" },
     "legal": "Respuesta sujeta a validación de esclusa fiduciaria. Cero promesas de retorno."
+  },
+  "welcome": {
+    "investor": {
+      "title": "Bienvenida Institucional",
+      "body":  "Acceso validado. Sus mandatos cualificados y alertas de mercado residen en el árbol de Portfolio. Inicie la revisión de expedientes desde la navegación maestra.",
+      "cta":   "Navegar a Portfolio"
+    },
+    "agent": {
+      "title": "Registro de Agente",
+      "body":  "Esclusa fiduciaria completada. Trazas de contraparte y expedientes de originación indexados en Operaciones. Consulte el log de cumplimiento para hitos pendientes.",
+      "cta":   "Navegar a Operaciones"
+    },
+    "ba": {
+      "title": "Canal Inversor Cualificado",
+      "body":  "Autorización BA activa. Acceso directo a mandatos embrionarios y salas de datos estructuradas. La asignación de capital se gestiona desde la vista de Mandatos.",
+      "cta":   "Navegar a Mandatos"
+    },
+    "founder": {
+      "title": "Perfil de Originador",
+      "body":  "Presentación recibida y sellada. Su estructura opera en fase de gestación. Documentación técnica y NCNDA centralizados en Presentaciones. Complete KYC de equipo para activar matching.",
+      "cta":   "Navegar a Presentaciones"
+    }
   }
 }

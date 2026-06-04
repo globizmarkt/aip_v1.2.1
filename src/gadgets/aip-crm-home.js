@@ -641,7 +641,7 @@ ${CRM_HOME_STYLES}
                                     <span class="proc-doc-card__type">${doc.type}</span>
                                 </div>
                                 ${isQuestionnaire ? `
-                                <a href="mailto:operations@aip.com?subject=${mailSubject}" class="btn-inst" style="padding:3px 10px;font-size:9px;margin-left:8px;text-decoration:none;">
+                                <a href="mailto:admin@breederhub.store?subject=${mailSubject}" class="btn-inst" style="padding:3px 10px;font-size:9px;margin-left:8px;text-decoration:none;">
                                     ✉ ENVIAR
                                 </a>` : ''}
                                 ${doc.downloadUrl ? `
@@ -779,7 +779,7 @@ ${CRM_HOME_STYLES}
                         Las oportunidades en ${categoryData.labelShort} también se crean ad hoc — no es necesario esperar a que estén publicadas.
                     </p>
                 </div>
-                <a href="mailto:operations@aip.com?subject=[PROPUESTA ${categoryData.labelShort.toUpperCase()}] Posición disponible" class="btn-inst" style="flex-shrink:0;text-decoration:none;padding:8px 16px;">
+                <a href="mailto:admin@breederhub.store?subject=[PROPUESTA ${categoryData.labelShort.toUpperCase()}] Posición disponible" class="btn-inst" style="flex-shrink:0;text-decoration:none;padding:8px 16px;">
                     → PROPONER POSICIÓN
                 </a>
             </div>

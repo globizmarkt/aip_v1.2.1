@@ -355,7 +355,7 @@ const CATEGORY_METALES = {
     propose_cta: {
       label:       'Proponer una operación como vendedor o productor',
       description: 'Si representas material disponible (productor, trader o intermediario con mandato de venta), puedes iniciar el proceso como vendedor. Las oportunidades también se crean ad hoc — no es necesario esperar a que estén publicadas en el catálogo.',
-      contact:     'mailto:operations@aip.com?subject=[PROPUESTA METALES] Solicitud de mandato de venta',
+      contact:     'mailto:admin@breederhub.store?subject=[PROPUESTA METALES] Solicitud de mandato de venta',
     },
   },
 
@@ -382,8 +382,9 @@ const CATEGORY_METALES = {
     mandate_ids: ['AIP-M-2026-004'],
   },
 
+  // [INV-AIMON-VOICE-01 · E6-T10 · 2026-06-02] Strings producción v1.0
   aimon: {
-    procedure:   'El mercado de metales físicos: el filtro real no es el KYC — es el Price Reality Check. Estamos saturados de solicitudes especulativas que exigen LME -10% cuando las mineras venden a Premium. El cuestionario que tienes en pantalla separa operadores reales de brokers sin capacidad de cierre. Si puedes llenarlo con precisión técnica, tienes acceso al metal físico.',
+    procedure:   'El mercado de metales físicos: el filtro real no es el KYC — es el Price Reality Check. Estamos saturados de solicitudes especulativas que exigen LME -10% cuando las mineras venden a Premium. El cuestionario en pantalla separa operadores reales de brokers sin capacidad de cierre. Si puedes llenarlo con precisión técnica, tienes acceso al mercado de metal físico.',
     opportunity: 'Las posiciones activas en metales requieren garantía bancaria ejecutable. El IntegrityScore mínimo refleja eso: buscamos contrapartes que puedan estructurar un DLC MT700 o SBLC MT760, no solo intención de compra. El aluminio no se mueve sin garantía bancaria — tampoco el cobre ni el oro.',
   },
 };
@@ -398,7 +399,7 @@ const CATEGORY_ENERGIA = {
     market_note: 'Contenido operativo en preparación.',
     compliance_doc: null,
     steps: [],
-    propose_cta: { label: 'Proponer operación', description: '', contact: 'mailto:operations@aip.com?subject=[PROPUESTA ENERGÍA]' },
+    propose_cta: { label: 'Proponer operación', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA ENERGÍA]' },
   },
   opportunities: {
     unlock_threshold: { integrityScore: 75, kycTier: 2 },
@@ -406,7 +407,11 @@ const CATEGORY_ENERGIA = {
     teasers: [],
     mandate_ids: ['AIP-2026-003'],
   },
-  aimon: { procedure: '', opportunity: '' },
+  // [INV-AIMON-VOICE-01 · E6-T10 · 2026-06-02]
+  aimon: {
+    procedure:   'El mercado de contratos energéticos a largo plazo opera con contrapartes soberanas y utilities de grado inversor. El cuestionario en pantalla no mide intención — mide capacidad de estructuración de PPA y tolerancia a ciclos de negociación de 18+ meses. Separamos operadores con mandato real de intermediarios sin acceso a offtaker. Si tu volumen es verificable, avanzas.',
+    opportunity: 'Las posiciones en energía requieren contraparte con capacidad de firma de PPA o mandato de utility verificable. Buscamos operadores que puedan sostener un ciclo de negociación de 18 meses con documentación de grado inversor. El IntegrityScore mínimo refleja solidez de mandato. Un contrato de energía no se estructura sin offtaker confirmado — tampoco sin garantía soberana.',
+  },
 };
 
 const CATEGORY_AGRICOLA = {
@@ -416,14 +421,18 @@ const CATEGORY_AGRICOLA = {
     headline: 'Acceso a Operaciones Agrícolas y Soft Commodities',
     market_note: 'Contenido operativo en preparación.',
     compliance_doc: null, steps: [],
-    propose_cta: { label: 'Proponer operación', description: '', contact: 'mailto:operations@aip.com?subject=[PROPUESTA AGRÍCOLA]' },
+    propose_cta: { label: 'Proponer operación', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA AGRÍCOLA]' },
   },
   opportunities: {
     unlock_threshold: { integrityScore: 75, kycTier: 2 },
     empty_state: { text: 'Estamos evaluando mandatos en agrícola y soft commodities.', cta: 'Puedes proponer una operación ad hoc.' },
     teasers: [], mandate_ids: [],
   },
-  aimon: { procedure: '', opportunity: '' },
+  // [INV-AIMON-VOICE-01 · E6-T10 · 2026-06-02]
+  aimon: {
+    procedure:   'El mercado de commodities agrícolas físicos filtra por capacidad logística antes que por volumen declarado. El cuestionario en pantalla evalúa acceso a infraestructura portuaria, contratos de offtake verificados y financiación documentaria. Estamos saturados de mandatos sin capacidad de embarque real. Si puedes demostrar acceso a puerto y LC confirmada, el sistema te cualifica.',
+    opportunity: 'Las posiciones en granos y soft commodities requieren contrato de offtake verificado y acceso a trade finance documentario. Buscamos contrapartes con infraestructura de embarque propia o LC confirmada en banco de primer nivel. El IntegrityScore refleja capacidad logística real. La soja no se estructura sin LC confirmada — tampoco el trigo ni el maíz.',
+  },
 };
 
 const CATEGORY_VENTURES_EQUITY = {
@@ -433,7 +442,7 @@ const CATEGORY_VENTURES_EQUITY = {
     headline: 'Acceso a Operaciones de Venture Equity',
     market_note: 'Contenido operativo en preparación.',
     compliance_doc: null, steps: [],
-    propose_cta: { label: 'Proponer operación', description: '', contact: 'mailto:operations@aip.com?subject=[PROPUESTA VENTURES]' },
+    propose_cta: { label: 'Proponer operación', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA VENTURES]' },
   },
   opportunities: {
     unlock_threshold: { integrityScore: 75, kycTier: 2 },
@@ -441,7 +450,53 @@ const CATEGORY_VENTURES_EQUITY = {
     teasers: [],
     mandate_ids: ['AIP-V-2026-001'],
   },
-  aimon: { procedure: '', opportunity: '' },
+  // [INV-AIMON-VOICE-01 · E6-T10 · 2026-06-02]
+  aimon: {
+    procedure:   'El acceso a operaciones de venture en AIP exige perfil de inversor cualificado con ticket mínimo verificable y experiencia demostrable en rondas anteriores. El formulario en pantalla separa inversores con capacidad de despliegue de capital de consultores sin mandato de inversión. Si puedes documentar participación en rondas Serie A o superior, accedes al deal flow activo.',
+    opportunity: 'Las posiciones en venture requieren inversor cualificado con ticket verificado y tolerancia a horizontes de 5-7 años. Buscamos contrapartes con experiencia en governance de portfolio y capacidad de follow-on documentada. El IntegrityScore refleja sofisticación de inversor — no volumen declarado. Sin track record verificable no hay acceso a deal flow.',
+  },
+};
+
+// [INV-AIMON-VOICE-01 · E6-T10 · 2026-06-02] Stubs M&A y Soluciones Financieras con AIMON
+
+const CATEGORY_MA = {
+  id: 'compraventa-empresarial', domain: 'MA_REAL_ESTATE',
+  label: 'Compraventa Empresarial', labelShort: 'M&A',
+  procedure: {
+    headline: 'Acceso a Operaciones de M&A',
+    market_note: 'Contenido operativo en preparación. Director provee material según INV-PEDAGOGY-01.',
+    compliance_doc: null, steps: [],
+    propose_cta: { label: 'Proponer mandato', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA M&A]' },
+  },
+  opportunities: {
+    unlock_threshold: { integrityScore: 65, kycTier: 2 },
+    empty_state: { text: 'Estamos evaluando mandatos de M&A en mercado medio.', cta: 'Puedes proponer un mandato cualificado.' },
+    teasers: [], mandate_ids: ['AIP-M-2026-001'],
+  },
+  aimon: {
+    procedure:   'Las operaciones de M&A en mercado medio exigen documentación que soporte due diligence de Nivel 2 antes de cualquier introducción a contraparte. El formulario en pantalla filtra mandatos con prueba de fondos de consultas exploratorias sin respaldo. Estamos saturados de LOIs sin capacidad financiera demostrable. Si adjuntas Proof of Funds verificable, el sistema asigna analista.',
+    opportunity: 'La activación de un mandato M&A requiere demostración de capacidad de cierre — no declaración de intención. Buscamos contrapartes con equity ticket verificado o línea de adquisición confirmada por banco de primer nivel. El IntegrityScore aquí refleja solvencia documental. Una LOI sin PoF no activa ningún proceso — tampoco un NDA sin mandato firmado.',
+  },
+};
+
+const CATEGORY_SOLUCIONES_FINANCIERAS = {
+  id: 'deuda-estructurados', domain: 'SOLUCIONES_FINANCIERAS',
+  label: 'Deuda & Estructurados', labelShort: 'Soluciones',
+  procedure: {
+    headline: 'Acceso a Soluciones de Garantía e Instrumentos Financieros',
+    market_note: 'Contenido operativo en preparación. Director provee material según INV-PEDAGOGY-01.',
+    compliance_doc: null, steps: [],
+    propose_cta: { label: 'Proponer estructuración', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA SOLUCIONES]' },
+  },
+  opportunities: {
+    unlock_threshold: { integrityScore: 70, kycTier: 2 },
+    empty_state: { text: 'Evaluando estructuración de instrumentos de garantía.', cta: 'Puedes proponer una estructura.' },
+    teasers: [], mandate_ids: [],
+  },
+  aimon: {
+    procedure:   'La estructuración de instrumentos financieros exige verificación de línea de crédito activa antes de cualquier proceso. El formulario en pantalla separa entidades con capacidad real de emisión de solicitantes sin respaldo bancario. Estamos saturados de consultas sobre SBLC sin línea confirmada. Si puedes demostrar capacidad de emisión bajo formato ICC, accedes al estructurador.',
+    opportunity: 'La activación de soluciones de garantía opera exclusivamente con contrapartes de grado inversor o respaldo bancario de primer nivel. Buscamos entidades que puedan emitir o recibir una SBLC MT760 o BG bajo normativa ICC-UCP600. El IntegrityScore refleja capacidad de emisión real — no intención. Sin línea de crédito activa, no hay estructura posible.',
+  },
 };
 
 /**
@@ -450,11 +505,16 @@ const CATEGORY_VENTURES_EQUITY = {
  */
 // Keys = category IDs del DEFAULT_TAXONOMY en aip-orbit1-tree.js (SSoT del árbol)
 const CATEGORIES_DATA = {
-  'metales-mineria':   CATEGORY_METALES,
-  'energia-derivados': CATEGORY_ENERGIA,
-  'agricola-soft':     CATEGORY_AGRICOLA,
-  'venture-equity':    CATEGORY_VENTURES_EQUITY,
-  // M&A y Soluciones Financieras: stubs pendientes contenido Director
+  // Commodities
+  'metales-mineria':         CATEGORY_METALES,
+  'energia-derivados':       CATEGORY_ENERGIA,
+  'agricola-soft':           CATEGORY_AGRICOLA,
+  // M&A (E6-T10 · 2026-06-02 — stub con AIMON producción)
+  'compraventa-empresarial': CATEGORY_MA,
+  // Soluciones Financieras (E6-T10 · 2026-06-02 — stub con AIMON producción)
+  'deuda-estructurados':     CATEGORY_SOLUCIONES_FINANCIERAS,
+  // AIP Ventures
+  'venture-equity':          CATEGORY_VENTURES_EQUITY,
 };
 
 // ─────────────────────────────────────────────────────────────
