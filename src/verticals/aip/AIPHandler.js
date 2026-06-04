@@ -10,6 +10,10 @@ import { mockState } from './mockState.js';
 import { PassportValidator } from '../../01-core/passportValidator.js';
 import { UserFSM } from '../../01-core/userFSM.js';
 import '../../gadgets/aip-trinity-layout.js';
+// [E6-T08-FIX-2] Importar app explícitamente — garantiza que initializeApp()
+// se haya ejecutado antes de cualquier getAuth(app)/getFirestore(app).
+// No depende de globals ni de orden de evaluación entre scripts paralelos.
+import { app as firebaseApp } from '../../02-infra/firebase/FirebaseConnector.js';
 
 export const AIPHandler = {
     _t(key) {
@@ -25,7 +29,7 @@ export const AIPHandler = {
         (async () => {
             try {
                 const { getAuth, onAuthStateChanged } = await import('firebase/auth');
-                const auth = getAuth();
+                const auth = getAuth(firebaseApp);
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         console.log('[AIPHandler][E6-T08] Sesión activa restaurada:', user.uid);
@@ -119,7 +123,7 @@ export const AIPHandler = {
 
             try {
                 const { getAuth, signInWithPopup, GoogleAuthProvider, OAuthProvider } = await import('firebase/auth');
-                const auth = getAuth();
+                const auth = getAuth(firebaseApp);
                 let providerObj;
                 if (providerName === 'google') {
                     providerObj = new GoogleAuthProvider();
@@ -407,11 +411,11 @@ export const AIPHandler = {
                 const { getAuth, createUserWithEmailAndPassword } = await import('firebase/auth');
                 const { getFirestore, doc, setDoc, serverTimestamp } = await import('firebase/firestore');
 
-                const auth = getAuth();
+                const auth = getAuth(firebaseApp);
                 const cred = await createUserWithEmailAndPassword(auth, email, pass);
 
                 // Escritura real en Firestore — colección 'users', documento uid
-                const db = getFirestore();
+                const db = getFirestore(firebaseApp);
                 await setDoc(doc(db, 'users', cred.user.uid), {
                     uid:       cred.user.uid,
                     email:     email,
