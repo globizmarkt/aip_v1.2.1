@@ -5,6 +5,9 @@
 // ÉPICA    : E5 — CRM Shell · Órbita 1 Navigation Tree
 // TICKET   : E5-GADGET-7.4 (Ruta A — Forja directa)
 //            CRM-TREE-02 — CategorySelected + señalización dual-layer (2026-05-31)
+// [DT-14]  : Diseño cargado + acordeón→Orbit-2 pendiente verificación browser
+//            Diagnóstico: 02_notas_fase_05.4.md línea 1228 · Decisión: Opción A Gmail-style
+//            Acción: simplificar árbol · verificar accordion visible · test real en browser
 // AGENTE   : Claude Code (Sentinel)
 // DOCTRINA : R2 (Light DOM — attachShadow PROHIBIDO)
 //            R3 (Zero-Hex — solo CSS variables en estilos)
