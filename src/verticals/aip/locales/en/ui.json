@@ -171,7 +171,7 @@
     "header": {
       "label": "FIDUCIARY STRUCTURE",
       "title": "AIP FINANCIAL & COMMODITIES",
-      "subtitle": "Institutional asset intermediation and Capital-as-a-Service. Strict execution under mandate."
+      "subtitle": "Institutional intermediation under STAK structure. AFM/DNB supervision. Strict execution under mandate."
     },
     "overview": {
       "challenge": {
@@ -184,7 +184,7 @@
       }
     },
     "mission": {
-      "statement": "Structured Capital-as-a-Service. Intermediation without commercial friction.",
+      "statement": "Admission before sale. Deliberate Friction as a quality filter. Product access is a consequence of verification, not a condition for it.",
       "pos": "STAK fiduciary structure — Netherlands (AFM/DNB)"
     },
     "access": {
@@ -207,12 +207,12 @@
     },
     "principles": {
       "section_title": "OPERATIONAL INFRASTRUCTURE",
-      "friccion":     { "title": "INTEGRITY",   "desc": "Default exclusion protocol." },
-      "soberania":    { "title": "SOVEREIGNTY",  "desc": "Absolute control over the mandate lifecycle." },
-      "trazabilidad": { "title": "TRACER",       "desc": "Cryptographic audit ledger." },
-      "contrato":     { "title": "BUDDING",      "desc": "Parallel asset structuring." }
+      "friccion":     { "title": "DELIBERATE FRICTION",    "desc": "Our processes do not seek speed, but integrity. Operational friction ensures that every step complies with the strictest fiduciary standards." },
+      "soberania":    { "title": "FIDUCIARY SOVEREIGNTY", "desc": "Total independence from commercial banking infrastructure. Asset control resides exclusively within the investor's mandate and the STAK structure." },
+      "trazabilidad": { "title": "TRACEABILITY (BLIND)",  "desc": "Application of dynamic watermark and cryptographic audit. The principal is protected without compromising transparency before regulators. Immutable record of access and download." },
+      "contrato":     { "title": "GEMACIÓN (Parallel Structuring)", "desc": "Parallel asset structuring." }
     },
-    "cta":    { "onboarding": "BEGIN ATTESTATION" },
+    "cta":    { "onboarding": "INITIATE ATTESTATION" },
     "footer": { "access": "Operations restricted to entities with verified Clearance." }
   },
   "services": {
@@ -331,13 +331,13 @@
   },
   "regulatory": {
     "hero": {
-      "title":    "JURISDICTIONAL FRAMEWORK",
-      "subtitle": "Operations structured under the regulatory standards of the European Economic Area."
+      "title":    "REGULATORY FRAMEWORK · AFM/DNB",
+      "subtitle": "AFM and DNB supervision (Netherlands). STAK structure with asset segregation. Sequential compliance gate as a precondition for any operation."
     },
     "framework": {
       "title":       "COMPLIANCE FRAMEWORK",
-      "aml":         "AML — Fund origin verification and detection of velocity/geographic anomaly patterns under Wwft 2018.",
-      "kyc":         "KYC — Asynchronous documentary verification (Tier 1: email, Tier 2: identity, Tier 3: wealth, Tier 4: FATF screening).",
+      "aml":         "AML — Source of funds verification under Wwft 2018. Detection of velocity patterns and geographic anomalies. Reporting obligation to FIU-NL for transactions >10k EUR.",
+      "kyc":         "KYC — Asynchronous documentary verification by tiers: L1 (email/phone), L2 (official identity + biometric), L3 (financial capacity + qualified investor declaration), L4 (UBO + sanctions screening).",
       "sanctions":   "Sanctions (OFAC/EU/UN) — Automatic filter against international lists. Immediate block on positive match.",
       "privilege":   "Compliance-based privilege — Access to features scales with IntegrityScore and KYC Tier. No manual exceptions.",
       "declaration": "Compliance is not an add-on. It is the execution engine. The platform does not operate if the agent's fiduciary status is not certified."
@@ -346,7 +346,7 @@
       "title":       "JURISDICTIONAL STANCE",
       "primary":     "Netherlands (Kingdom of the Netherlands)",
       "authorities": "AFM + DNB",
-      "structure":   "STAK — Separate administration trust",
+      "structure":   "STAK (Stichting Administratiekantoor) — Separate administration trust. Legal ownership resides with the foundation; economic ownership is segregated through certificates.",
       "mifid":       "MiFID II exemption (matched principal trading)",
       "aml_law":     "Wwft 2018 (Transactions)",
       "threshold":   ">10k EUR → FIU-NL",
@@ -360,7 +360,7 @@
       "friction_filter":          "Sequential registration process designed to deter unqualified counterparties. Intentional fiduciary latency.",
       "dashboard_status":         "Current IntegrityScore: 45/100 (Threshold: 60) — NOT MET"
     },
-    "badges": { "failed": "FAILED", "passed": "CLEAR" },
+    "badges": { "failed": "FAILED", "passed": "NO MATCH" },
     "governance": {
       "title":        "DATA GOVERNANCE",
       "sovereignty":  "The user is the sole owner of their metadata. The platform does not retain PII post-session.",
