@@ -16,6 +16,10 @@ import '../../gadgets/aip-trinity-layout.js';
 import { app as firebaseApp } from '../../02-infra/firebase/FirebaseConnector.js';
 
 export const AIPHandler = {
+    // [SEC-VEC-01 · 2026-06-05] Flag de guardia contra race condition en signup nuevo.
+    // true = el hilo de registro está activo; el onAuthStateChanged debe ignorar la esclusa Firestore.
+    _signupInProgress: false,
+
     _t(key) {
         return window.Skeleton?.i18n?.t(key) ?? key;
     },
@@ -30,21 +34,74 @@ export const AIPHandler = {
             try {
                 const { getAuth, onAuthStateChanged } = await import('firebase/auth');
                 const auth = getAuth(firebaseApp);
-                onAuthStateChanged(auth, (user) => {
+                onAuthStateChanged(auth, async (user) => {
                     if (user) {
-                        console.log('[AIPHandler][E6-T08] Sesión activa restaurada:', user.uid);
+                        // [SEC-VEC-01 · 2026-06-05] Esclusa Firestore — reemplaza kyc:'pending' hardcodeado.
+                        // Fix Lead Architect (B_IMPACT_sec_vec_01.md · despachos_04.1.2):
+                        //   FIX-1: Dev bypass → payload sintético (evita limbo visual en desarrollo)
+                        //   FIX-2: Race condition guard → _signupInProgress (evita logout en registro nuevo)
+                        console.log('[AIPHandler][SEC-VEC-01] Sesión detectada. Validando contra SSoT Firestore...');
+
                         const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-                        if (isDev) return; // dev bypass activo, no interferir
+                        if (isDev) {
+                            // [FIX-1] Dev bypass: inyectar payload sintético en lugar de return seco.
+                            // Sin esto, PassportValidator nunca se llama → AccessGranted nunca se emite → limbo visual.
+                            console.warn('[AIPHandler][DEV] Entorno local — usando payload sintético de desarrollo.');
+                            UserFSM.transition('LOGIN_SUBMITTED');
+                            PassportValidator.validateAccess({
+                                usr:  user.uid,
+                                rol:  'inv',
+                                tier: 'inst',
+                                jur:  'CH',
+                                kyc:  'ok',
+                                pv:   1,
+                                wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                                secure_origin: 'DEV_SYNTHETIC',
+                            });
+                            return;
+                        }
+
+                        // [FIX-2] Race condition: si el hilo de registro está activo, el documento
+                        // Firestore puede no existir aún. El signup gestiona su propio PassportValidator.
+                        if (this._signupInProgress) {
+                            console.warn('[AIPHandler][SEC-VEC-01] Registro en progreso — esclusa Firestore diferida.');
+                            return;
+                        }
+
                         UserFSM.transition('LOGIN_SUBMITTED');
-                        PassportValidator.validateAccess({
-                            usr:  user.uid,
-                            rol:  'inv',
-                            tier: 'inst',
-                            jur:  'CH',
-                            kyc:  'pending', // Evolucionará a lectura real de Firestore en E6-T09
-                            pv:   1,
-                            wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
-                        });
+
+                        try {
+                            const { getFirestore, doc, getDoc } = await import('firebase/firestore');
+                            const db = getFirestore(firebaseApp);
+                            const userDocRef = doc(db, 'users', user.uid);
+                            const userSnapshot = await getDoc(userDocRef);
+
+                            if (!userSnapshot.exists()) {
+                                console.error('[AIPHandler][CRITICAL] Identidad fantasma detectada. Forzando purga de sesión.');
+                                const { signOut } = await import('firebase/auth');
+                                await signOut(auth);
+                                PassportValidator.validateAccess(null);
+                                return;
+                            }
+
+                            const userData = userSnapshot.data();
+                            PassportValidator.validateAccess({
+                                usr:  user.uid,
+                                rol:  userData.rol || 'inv',
+                                tier: userData.tier || 'inst',
+                                jur:  userData.jurisdiction || 'CH',
+                                kyc:  userData.kyc === 'approved' ? 'ok' : 'pending',
+                                pv:   1,
+                                wc:   userData.kyc === 'approved'
+                                        ? ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer']
+                                        : [],
+                                secure_origin: 'FIRESTORE_SSOT',
+                            });
+
+                        } catch (err) {
+                            console.error('[AIPHandler][SEC-VEC-01] Error crítico en la esclusa de acceso:', err);
+                            PassportValidator.validateAccess(null);
+                        }
                     }
                 });
             } catch (err) {
@@ -486,6 +543,8 @@ export const AIPHandler = {
             formError?.classList.add('hidden');
 
             // [E6-T07b] Formulario = ALTA/REGISTRO — createUserWithEmailAndPassword + Firestore write
+            // [SEC-VEC-01 · FIX-2] Activar guardia antes de createUser para bloquear esclusa en onAuthStateChanged.
+            this._signupInProgress = true;
             try {
                 const { getAuth, createUserWithEmailAndPassword } = await import('firebase/auth');
                 const { getFirestore, doc, setDoc, serverTimestamp } = await import('firebase/firestore');
@@ -522,7 +581,11 @@ export const AIPHandler = {
                     pv:   1,
                     wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
                 });
+                // [SEC-VEC-01 · FIX-2] Registro completado — liberar guardia.
+                this._signupInProgress = false;
             } catch (err) {
+                // [SEC-VEC-01 · FIX-2] Liberar guardia también en error para no bloquear futuros intentos.
+                this._signupInProgress = false;
                 console.error('[AIPHandler] Firebase Auth/Firestore registry error:', err.code, err.message);
                 if (err.code === 'auth/email-already-in-use') {
                     // [E6-T11] Redirigir al modo sign-in con mensaje orientativo

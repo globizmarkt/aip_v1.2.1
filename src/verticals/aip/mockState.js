@@ -276,6 +276,81 @@ const MANDATE_004 = {
   ],
 };
 
+// [SEC-03-E] Mandate AIP-M-2026-005 — M&A Advisory (CUALIFICADO · KYC Tier 4)
+// Adquisición 100% acciones — Energía Andina S.A.S. (Colombia)
+// Fuente: D_mock_data_enriched.md (Qwen · despachos_04.1.1) — COG-222
+// CRM-MA-01 — inauguración vertical M&A · 2026-06-05
+const MANDATE_005 = {
+  mandateId:      'AIP-M-2026-005',
+  type:           'Advisory',
+  locked:         false,
+
+  parties: {
+    originator:     'BreederHub Advisory SA',
+    client:         'Fondo de Infraestructura Latam IV',
+    counterparties: ['Energía Andina S.A.S. (Target)'],
+  },
+
+  asset: {
+    class:          'M&A Advisory',
+    spec:           'Adquisición 100% acciones — Infraestructura Energética Colombia',
+    quantity:       '100% Equity',
+    estimatedValue: 245_000_000,
+    currency:       'USD',
+    incoterm:       null,
+    trialLot:       null,
+  },
+
+  financials: {
+    enterpriseValue: 245_000_000,
+    ebitdaLTM:       32_500_000,
+    ebitdaMargin:    '13.3%',
+    netDebt:         28_000_000,
+  },
+
+  compliance: {
+    kycTier:         4,
+    amlClear:        true,
+    sanctionsCheck:  true,
+    ncndaSigned:     true,
+    sgsCertificate:  null,
+    sblcProvider:    null,
+    sblcAmount:      null,
+  },
+
+  timeline: {
+    created:        '2026-04-10',
+    targetClose:    '2026-11-30',
+    lastActivity:   '2026-06-04',
+    nextMilestone:  'Fase 2 Due Diligence & SPA Finalization',
+  },
+
+  fiduciaryState: FIDUCIARY_STATES.CUALIFICADO,
+
+  documents: [
+    'Teaser Confidencial',
+    'CIM (Confidential Information Memorandum)',
+    'NDA Bilateral Ejecutado',
+    'LOI No Vinculante',
+    'SPA Draft v2.1',
+    'KYC Tier 4 Package',
+    'AML/OFAC Screening Report',
+    'UBO Declaration Certificate',
+    'Due Diligence Report — Fase 1',
+    'Due Diligence Report — Fase 2',
+  ],
+
+  complianceDocuments: [
+    'compliance-kyc-l4',
+  ],
+
+  notes: [
+    'EBITDA LTM validado por Big4. Margen estable en 13.3%.',
+    'Deuda neta de $28M sujeta a refinanciación post-cierre.',
+    'Proceso de DD Fase 2 en curso — enfoque en permisos ambientales y contratos de offtake.',
+  ],
+};
+
 // ─────────────────────────────────────────────────────────────
 // [SEC-04] Datos mock — TICKER
 // ─────────────────────────────────────────────────────────────
@@ -464,18 +539,82 @@ const CATEGORY_MA = {
   label: 'Compraventa Empresarial', labelShort: 'M&A',
   procedure: {
     headline: 'Acceso a Operaciones de M&A',
-    market_note: 'Contenido operativo en preparación. Director provee material según INV-PEDAGOGY-01.',
-    compliance_doc: null, steps: [],
+    market_note: 'AIP intermedia operaciones de M&A en mercado medio bajo mandato fiduciario verificado. Proceso sell-side institucionalizado con VDD ejecutada y clearance AML como gate previo a apertura de VDR.',
+    compliance_doc: null,
+    // [CRM-MA-01 · 2026-06-05] Pipeline M&A — Fuente: A_PIPELINE_steps_mockState.md (GEM · despachos_04.1.2)
+    steps: [
+      {
+        order:       1,
+        title:       'Engagement & Vendor Due Diligence',
+        description: 'Firma de mandato, estrategia y VDD. Gate: Obligatorio carga de reportes VDD y modelo financiero saneado antes del go-to-market.',
+        kycRequired: 3,
+        documents:   [],
+        sla:         '30-45 días',
+      },
+      {
+        order:       2,
+        title:       'NDA & CIM Distribution',
+        description: 'Distribución de perfil ciego y Memorándum Confidencial (CIM) únicamente a contrapartes cualificadas bajo NDA bilateral ejecutado.',
+        kycRequired: 3,
+        documents:   [],
+        sla:         '5-10 días',
+      },
+      {
+        order:       3,
+        title:       'Indicaciones de Interés (IOI / NBOs)',
+        description: 'Evaluación de ofertas no vinculantes. Gate: Si el spread de IOI es anómalo, se activará revisión de inconsistencias en CIM y buyer targeting.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '15-21 días',
+      },
+      {
+        order:       4,
+        title:       'Due Diligence del Comprador (VDR)',
+        description: 'Apertura de data room virtual. Gate: Alerta de enfriamiento si Q&A presenta >20 open items y tiempo de respuesta promedio >72h.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '30-60 días',
+      },
+      {
+        order:       5,
+        title:       'Binding Offers & Signing',
+        description: 'Recepción de SPA markup y ofertas vinculantes. Gate: Bloqueo estricto si se solicita exclusividad sin tracker de Due Diligence evidenciable.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '14-30 días',
+      },
+      {
+        order:       6,
+        title:       'Closing & Post-Closing',
+        description: 'Cumplimiento de condiciones precedentes, filing regulatorio (antitrust), transferencia mecánica de fondos y cierre del escrow.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '15-60 días',
+      },
+    ],
     propose_cta: { label: 'Proponer mandato', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA M&A]' },
   },
+  // [CRM-MA-01 · 2026-06-05] Inauguración vertical M&A — MANDATE_005 conectado
   opportunities: {
     unlock_threshold: { integrityScore: 65, kycTier: 2 },
     empty_state: { text: 'Estamos evaluando mandatos de M&A en mercado medio.', cta: 'Puedes proponer un mandato cualificado.' },
-    teasers: [], mandate_ids: ['AIP-M-2026-001'],
+    teasers: [
+      {
+        id:             'AIP-M-2026-005',
+        category_label: 'M&A Advisory',
+        value_range:    '$245M EV · EBITDA $32.5M',
+        type:           'Advisory',
+        status:         'Cualificado',
+        dealType:       'Adquisición 100% acciones',
+        locations:      'Colombia',
+      },
+    ],
+    mandate_ids: ['AIP-M-2026-005'],
   },
+  // [CRM-MA-01 · 2026-06-05] Aimon actualizado para reflejar MANDATE_005 activo — GEM despachos_04.1.2
   aimon: {
-    procedure:   'Las operaciones de M&A en mercado medio exigen documentación que soporte due diligence de Nivel 2 antes de cualquier introducción a contraparte. El formulario en pantalla filtra mandatos con prueba de fondos de consultas exploratorias sin respaldo. Estamos saturados de LOIs sin capacidad financiera demostrable. Si adjuntas Proof of Funds verificable, el sistema asigna analista.',
-    opportunity: 'La activación de un mandato M&A requiere demostración de capacidad de cierre — no declaración de intención. Buscamos contrapartes con equity ticket verificado o línea de adquisición confirmada por banco de primer nivel. El IntegrityScore aquí refleja solvencia documental. Una LOI sin PoF no activa ningún proceso — tampoco un NDA sin mandato firmado.',
+    procedure:   'Proceso sell-side institucionalizado. Gate estricto: VDD ejecutada y clearance AML previo a apertura de VDR. Monitoreo pasivo de tracción y Q&A.',
+    opportunity: 'MANDATE_005 en curso: Adquisición 100% de Energía Andina S.A.S. (Colombia). Target de infraestructura crítica. Valoración $245M, EBITDA $32.5M.',
   },
 };
 
@@ -511,7 +650,50 @@ const CATEGORY_RE_COMERCIAL = {
   procedure: {
     headline: 'Acceso a Operaciones de Real Estate Comercial',
     market_note: 'AIP intermedia operaciones de activos comerciales (oficinas, logística, retail) bajo mandato fiduciario verificado. El proceso comienza con la acreditación de capacidad de adquisición y el perfil de mandato del inversor.',
-    compliance_doc: null, steps: [],
+    compliance_doc: null,
+    // [CRM-RE-01 · 2026-06-05] Pipeline RE Comercial — Fuente: A_PIPELINE_steps_mockState.md (GEM · despachos_04.1.2)
+    steps: [
+      {
+        order:       1,
+        title:       'Captación & Due Diligence Técnica',
+        description: 'Firma del mandato de intermediación, verificación de cargas registrales, estado urbanístico y valoración independiente.',
+        kycRequired: 2,
+        documents:   [],
+        sla:         '15-30 días',
+      },
+      {
+        order:       2,
+        title:       'Esclusa Fiduciaria: AML/KYC',
+        description: 'Gate obligatorio: Verificación de beneficiario real y origen de fondos según Ley 10/2010. Bloqueo estricto de go-to-market sin UBO evidence.',
+        kycRequired: 3,
+        documents:   [],
+        sla:         '5-10 días',
+      },
+      {
+        order:       3,
+        title:       'Comercialización & Ofertas',
+        description: 'Distribución de Investment Memorandum a perfiles aprobados, gestión de visitas técnicas y recepción de IOIs formales.',
+        kycRequired: 3,
+        documents:   [],
+        sla:         '30-90 días',
+      },
+      {
+        order:       4,
+        title:       'Negociación & Contrato de Arras',
+        description: 'Negociación de precio, levantamiento de contingencias y firma de arras con depósito de señal (5-10%).',
+        kycRequired: 3,
+        documents:   [],
+        sla:         '10-20 días',
+      },
+      {
+        order:       5,
+        title:       'Condiciones Precedentes & Cierre Notarial',
+        description: 'Aprobación de financiación, firma en notaría, justificación de medios de pago, liquidación impositiva e inscripción registral.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '30-45 días',
+      },
+    ],
     propose_cta: { label: 'Proponer operación', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA RE COMERCIAL]' },
   },
   opportunities: {
@@ -532,7 +714,50 @@ const CATEGORY_RE_PREMIUM = {
   procedure: {
     headline: 'Acceso a Operaciones de Real Estate Premium y Residencial',
     market_note: 'AIP gestiona mandatos de activos residenciales premium bajo protocolo fiduciario STAK. El proceso de cualificación verifica origen de fondos, perfil de inversor y alineamiento regulatorio antes de cualquier introducción a activo.',
-    compliance_doc: null, steps: [],
+    compliance_doc: null,
+    // [CRM-RE-01 · 2026-06-05] Pipeline RE Premium — Fuente: A_PIPELINE_steps_mockState.md (GEM · despachos_04.1.2)
+    steps: [
+      {
+        order:       1,
+        title:       'Onboarding & Estructura STAK',
+        description: 'Recepción del mandato institucional y definición del fideicomiso. Implementación de segregación económica y blindaje de la titularidad legal.',
+        kycRequired: 3,
+        documents:   [],
+        sla:         '5-10 días',
+      },
+      {
+        order:       2,
+        title:       'Esclusa Fiduciaria: FATF, UBO & NCNDA',
+        description: 'Gate obligatorio: Screening estricto, verificación FATF y firma de NCNDA previo a revelación del activo. Enhanced Due Diligence ante pagadores opacos.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '10-15 días',
+      },
+      {
+        order:       3,
+        title:       'Data Room Ciego & Due Diligence Asimétrica',
+        description: 'Auditoría técnica premium y distribución controlada de información. Recepción de Binding Offers de inversores cualificados.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '30-60 días',
+      },
+      {
+        order:       4,
+        title:       'Ejecución del Mandato STAK',
+        description: 'Firma de arras o promesa de compraventa bajo mandato. Transferencia de fondos a cuentas escrow bajo supervisión y bloqueo.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '10-20 días',
+      },
+      {
+        order:       5,
+        title:       'Transferencia Soberana & Cierre',
+        description: 'Emisión de certificados depositarios o cierre notarial directo. Cambio de titularidad con trazabilidad inmutable y clearance regulatorio.',
+        kycRequired: 4,
+        documents:   [],
+        sla:         '1-5 días',
+      },
+    ],
     propose_cta: { label: 'Proponer activo', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA RE PREMIUM]' },
   },
   opportunities: {
@@ -657,6 +882,74 @@ const DOCUMENTS_REGISTRY = {
     version:     'v1.0',
     lastUpdated: '2026-05-31',
   },
+
+  // ── [SEC-07-MA] Documentos M&A — mandato AIP-M-2026-005 ──────────────
+  // Fuente: D_mock_data_enriched.md (Qwen · despachos_04.1.1) — COG-222
+  // CRM-MA-01 · 2026-06-05
+
+  'ma-teaser-005': {
+    id:          'ma-teaser-005',
+    label:       'Teaser Confidencial — Energía Andina S.A.S.',
+    type:        'teaser',
+    category_id: 'compraventa-empresarial',
+    kycRequired: 3,
+    downloadUrl: null,
+    description: 'Resumen ejecutivo anónimo de la oportunidad de adquisición 100% acciones. Infraestructura energética Colombia. EV indicativo $245M.',
+    version:     'v1.0',
+    lastUpdated: '2026-04-10',
+  },
+
+  'ma-cim-005': {
+    id:          'ma-cim-005',
+    label:       'CIM — Infraestructura Energética Colombia',
+    type:        'cim',
+    category_id: 'compraventa-empresarial',
+    kycRequired: 4,
+    downloadUrl: null,
+    description: 'Confidential Information Memorandum. EV $245M · EBITDA LTM $32.5M (margen 13.3%) · Deuda neta $28M. Big4 auditado.',
+    version:     'v1.0',
+    lastUpdated: '2026-04-15',
+  },
+
+  // ── [SEC-07-COMPLIANCE] Paquetes KYC por nivel ───────────────────────
+  // Fuente: D_mock_data_enriched.md (Qwen · despachos_04.1.1) — COG-224
+  // CRM-MA-01 · 2026-06-05
+
+  'compliance-kyc-l2': {
+    id:          'compliance-kyc-l2',
+    label:       'Paquete KYC Nivel 2',
+    type:        'compliance',
+    category_id: 'compliance-general',
+    kycRequired: 2,
+    downloadUrl: null,
+    description: 'Formulario de identidad y screening de sanciones inicial.',
+    version:     'v1.0',
+    lastUpdated: '2026-06-05',
+  },
+
+  'compliance-kyc-l3': {
+    id:          'compliance-kyc-l3',
+    label:       'Paquete KYC Nivel 3',
+    type:        'compliance',
+    category_id: 'compliance-general',
+    kycRequired: 3,
+    downloadUrl: null,
+    description: 'Pasaporte/DNI, selfie biométrica y prueba de domicilio.',
+    version:     'v1.0',
+    lastUpdated: '2026-06-05',
+  },
+
+  'compliance-kyc-l4': {
+    id:          'compliance-kyc-l4',
+    label:       'Paquete KYC Nivel 4',
+    type:        'compliance',
+    category_id: 'compliance-general',
+    kycRequired: 4,
+    downloadUrl: null,
+    description: 'Declaración de patrimonio, Source of Funds (SoF) y test de suitability MiFID II.',
+    version:     'v1.0',
+    lastUpdated: '2026-06-05',
+  },
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -685,7 +978,7 @@ const DOCUMENTS_REGISTRY = {
  * Contrato L2: DOMAIN_BLUEPRINT_05_L2_NODE_CONTRACT.md
  */
 export const mockState = deepFreeze({
-  mandates:   [MANDATE_001, MANDATE_002, MANDATE_003, MANDATE_004],
+  mandates:   [MANDATE_001, MANDATE_002, MANDATE_003, MANDATE_004, MANDATE_005],
   ticker:     TICKER_DATA,
   categories: CATEGORIES_DATA,
   documents:  DOCUMENTS_REGISTRY,
