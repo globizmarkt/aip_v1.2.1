@@ -504,17 +504,100 @@ const CATEGORY_SOLUCIONES_FINANCIERAS = {
  * Acceso: mockState.categories['commodities-metales-mineria']
  */
 // Keys = category IDs del DEFAULT_TAXONOMY en aip-orbit1-tree.js (SSoT del árbol)
+// [CRM-RE-01 · 2026-06-05] Real Estate Comercial — procedimiento + oportunidades
+const CATEGORY_RE_COMERCIAL = {
+  id: 'real-estate-comercial', domain: 'MA_REAL_ESTATE',
+  label: 'Real Estate Comercial', labelShort: 'RE Comercial',
+  procedure: {
+    headline: 'Acceso a Operaciones de Real Estate Comercial',
+    market_note: 'AIP intermedia operaciones de activos comerciales (oficinas, logística, retail) bajo mandato fiduciario verificado. El proceso comienza con la acreditación de capacidad de adquisición y el perfil de mandato del inversor.',
+    compliance_doc: null, steps: [],
+    propose_cta: { label: 'Proponer operación', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA RE COMERCIAL]' },
+  },
+  opportunities: {
+    unlock_threshold: { integrityScore: 60, kycTier: 1 },
+    empty_state: { text: 'Mandatos de activos comerciales en revisión activa.', cta: 'Puedes proponer un activo para evaluación.' },
+    teasers: [], mandate_ids: ['AIP-M-2026-002'],
+  },
+  aimon: {
+    procedure:   'Las operaciones de real estate comercial en AIP requieren verificación de mandato de compra y capacidad de financiación documentada antes de cualquier proceso de introducción. El cuestionario en pantalla filtra compradores sin PoF verificable de consultas de alto volumen sin respaldo. Si tienes equity propio o línea de adquisición bancaria activa, el sistema asigna analista.',
+    opportunity: 'La activación de mandatos de RE comercial requiere contraparte con equity ticket mínimo verificable y horizonte de inversión de 3-7 años. El IntegrityScore mínimo refleja solvencia documental y capacidad de cierre. Un activo comercial no se estructura sin trazabilidad del origen de fondos — tampoco sin due diligence de arrendatario.',
+  },
+};
+
+// [CRM-RE-01 · 2026-06-05] Real Estate Premium / Residencial — procedimiento + oportunidades
+const CATEGORY_RE_PREMIUM = {
+  id: 'real-estate-premium', domain: 'MA_REAL_ESTATE',
+  label: 'Real Estate Premium / Residencial', labelShort: 'RE Premium',
+  procedure: {
+    headline: 'Acceso a Operaciones de Real Estate Premium y Residencial',
+    market_note: 'AIP gestiona mandatos de activos residenciales premium bajo protocolo fiduciario STAK. El proceso de cualificación verifica origen de fondos, perfil de inversor y alineamiento regulatorio antes de cualquier introducción a activo.',
+    compliance_doc: null, steps: [],
+    propose_cta: { label: 'Proponer activo', description: '', contact: 'mailto:admin@breederhub.store?subject=[PROPUESTA RE PREMIUM]' },
+  },
+  opportunities: {
+    unlock_threshold: { integrityScore: 65, kycTier: 1 },
+    empty_state: { text: 'Pipeline de activos residenciales premium activo. Mandatos sujetos a NCNDA.', cta: 'Cualifícate para acceder al deal flow.' },
+    teasers: [], mandate_ids: [],
+  },
+  aimon: {
+    procedure:   'El acceso a activos residenciales premium en AIP opera bajo esclusa fiduciaria completa: verificación de identidad, beneficiario final y origen de fondos conforme a AML/KYC antes de cualquier revelación de activo. Estamos saturados de consultas sin capacidad de cierre documentada. Si puedes acreditar equity disponible y perfil de inversor cualificado, el sistema activa el proceso de matching.',
+    opportunity: 'Los mandatos de RE premium requieren inversor cualificado con capacidad de cierre documentada y tolerancia a estructuras de confidencialidad total hasta matching mutuo. El IntegrityScore refleja trazabilidad del capital y alineamiento regulatorio. Un activo premium no se presenta sin NCNDA ejecutada — tampoco sin verificación de beneficiario final bajo FATF.',
+  },
+};
+
+// [CRM-RE-01 · 2026-06-05] Stubs para categorías huérfanas del árbol (evitan abort silencioso)
+const CATEGORY_EQUITY_CAPITAL = {
+  id: 'equity-capital', domain: 'SOLUCIONES_FINANCIERAS',
+  label: 'Equity & Capital', labelShort: 'Equity',
+  procedure: { headline: 'Equity & Capital', market_note: 'Contenido en preparación.', compliance_doc: null, steps: [],
+    propose_cta: { label: 'Consultar', description: '', contact: 'mailto:admin@breederhub.store?subject=[EQUITY CAPITAL]' } },
+  opportunities: { unlock_threshold: { integrityScore: 65, kycTier: 2 }, empty_state: { text: 'En preparación.', cta: '' }, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Contenido en preparación.', opportunity: 'Contenido en preparación.' },
+};
+const CATEGORY_HIBRIDOS = {
+  id: 'hibridos-alternativos', domain: 'SOLUCIONES_FINANCIERAS',
+  label: 'Híbridos & Alternativos', labelShort: 'Híbridos',
+  procedure: { headline: 'Híbridos & Alternativos', market_note: 'Contenido en preparación.', compliance_doc: null, steps: [],
+    propose_cta: { label: 'Consultar', description: '', contact: 'mailto:admin@breederhub.store?subject=[HIBRIDOS]' } },
+  opportunities: { unlock_threshold: { integrityScore: 65, kycTier: 2 }, empty_state: { text: 'En preparación.', cta: '' }, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Contenido en preparación.', opportunity: 'Contenido en preparación.' },
+};
+const CATEGORY_GROWTH_CAPITAL = {
+  id: 'growth-capital', domain: 'AIP_VENTURES',
+  label: 'Growth Capital', labelShort: 'Growth',
+  procedure: { headline: 'Growth Capital', market_note: 'Contenido en preparación.', compliance_doc: null, steps: [],
+    propose_cta: { label: 'Consultar', description: '', contact: 'mailto:admin@breederhub.store?subject=[GROWTH CAPITAL]' } },
+  opportunities: { unlock_threshold: { integrityScore: 65, kycTier: 2 }, empty_state: { text: 'En preparación.', cta: '' }, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Contenido en preparación.', opportunity: 'Contenido en preparación.' },
+};
+const CATEGORY_ESTRUCTURADOS_VENTURE = {
+  id: 'estructurados-venture', domain: 'AIP_VENTURES',
+  label: 'Estructurados Venture', labelShort: 'Estructurados',
+  procedure: { headline: 'Estructurados Venture', market_note: 'Contenido en preparación.', compliance_doc: null, steps: [],
+    propose_cta: { label: 'Consultar', description: '', contact: 'mailto:admin@breederhub.store?subject=[ESTRUCTURADOS VENTURE]' } },
+  opportunities: { unlock_threshold: { integrityScore: 65, kycTier: 2 }, empty_state: { text: 'En preparación.', cta: '' }, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Contenido en preparación.', opportunity: 'Contenido en preparación.' },
+};
+
 const CATEGORIES_DATA = {
   // Commodities
   'metales-mineria':         CATEGORY_METALES,
   'energia-derivados':       CATEGORY_ENERGIA,
   'agricola-soft':           CATEGORY_AGRICOLA,
-  // M&A (E6-T10 · 2026-06-02 — stub con AIMON producción)
+  // M&A & Real Estate (E6-T10 · 2026-06-02 — stub con AIMON producción)
   'compraventa-empresarial': CATEGORY_MA,
-  // Soluciones Financieras (E6-T10 · 2026-06-02 — stub con AIMON producción)
+  // [CRM-RE-01 · 2026-06-05] Inmobiliarias — procedimiento + oportunidades para demo VIP
+  'real-estate-comercial':   CATEGORY_RE_COMERCIAL,
+  'real-estate-premium':     CATEGORY_RE_PREMIUM,
+  // Soluciones Financieras
   'deuda-estructurados':     CATEGORY_SOLUCIONES_FINANCIERAS,
+  'equity-capital':          CATEGORY_EQUITY_CAPITAL,
+  'hibridos-alternativos':   CATEGORY_HIBRIDOS,
   // AIP Ventures
   'venture-equity':          CATEGORY_VENTURES_EQUITY,
+  'growth-capital':          CATEGORY_GROWTH_CAPITAL,
+  'estructurados-venture':   CATEGORY_ESTRUCTURADOS_VENTURE,
 };
 
 // ─────────────────────────────────────────────────────────────
