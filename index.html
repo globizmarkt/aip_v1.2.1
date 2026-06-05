@@ -64,13 +64,7 @@
                         'ink':          '#D7DEE7',
                         'ink-dim':      '#9AA7B6',
                         'ink-ghost':    '#6E7B8B',
-                        /* [VENTURES-H-03] Legibilidad texto legal ventures — opacity-60 → 0.85
-           Override sin tocar el gadget (R-GADGET-01 respetado — esqueleto) */
-        #tab-aip-ventures [data-i18n="ventures.cta.subcopy"],
-        #tab-aip-ventures [data-i18n="ventures.cta.disclaimer"] {
-            opacity: 0.85 !important;
-        }
-        /* [H-04] Tokens gadgets landing — ausentes → colores no renderizaban */
+                        /* [H-04] Tokens gadgets landing — ausentes → colores no renderizaban */
                         'institutional-gold': 'var(--abyss-gold, #C8A24A)',
                         'abisal':             'var(--abyss-bg-deep, #070A10)',
                         'surface-card':       'var(--abyss-surface, #0E1624)',
@@ -107,6 +101,13 @@
     </script>
     <!-- [NAV-ACTIVE] Estado activo de tabs + [R7] Inhibición orbit-3 en landing -->
     <style>
+        /* [VENTURES-H-03] Legibilidad texto legal ventures — opacity-60 → 0.85
+           Override sin tocar el gadget (R-GADGET-01 respetado — esqueleto) */
+        #tab-aip-ventures [data-i18n="ventures.cta.subcopy"],
+        #tab-aip-ventures [data-i18n="ventures.cta.disclaimer"] {
+            opacity: 0.85 !important;
+        }
+
         .nav-tab--active {
             color: var(--stitch-gold) !important;
             opacity: 1 !important;
