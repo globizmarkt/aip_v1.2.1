@@ -297,56 +297,21 @@ const ORBIT1_STYLES = `
         padding-right: 6px;
     }
 
-    /* Badge PROCEDIMIENTO — siempre accesible */
-    .orbit1-badge-proc {
-        display: inline-flex;
-        align-items: center;
-        padding: 1px 4px;
+    /* [DT-14-FIX] Indicadores minimalistas — reemplaza badges ruidosos */
+    .orbit1-indicator {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 7px;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
+        font-size: 8px;
+        letter-spacing: 0.05em;
         cursor: pointer;
-        background: var(--orbit1-proc-bg);
-        color: var(--crm-success);
-        border: 1px solid var(--orbit1-proc-border);
-        transition: background 0.12s ease;
+        opacity: 0.65;
+        transition: opacity 0.15s ease;
         user-select: none;
+        padding: 2px 4px;
     }
-    .orbit1-badge-proc:hover {
-        background: color-mix(in srgb, var(--crm-success) 18%, transparent);
-    }
-
-    /* Badge OPORTUNIDADES — gateado o disponible */
-    .orbit1-badge-opp {
-        display: inline-flex;
-        align-items: center;
-        gap: 2px;
-        padding: 1px 4px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 7px;
-        letter-spacing: 0.06em;
-        cursor: pointer;
-        border: 1px solid;
-        transition: background 0.12s ease;
-        user-select: none;
-    }
-    .orbit1-badge-opp--locked {
-        background: var(--orbit1-opp-locked-bg);
-        color: var(--crm-text-secondary);
-        border-color: color-mix(in srgb, var(--crm-text-secondary) 20%, transparent);
-    }
-    .orbit1-badge-opp--locked:hover {
-        background: color-mix(in srgb, var(--crm-text-secondary) 10%, transparent);
-    }
-    .orbit1-badge-opp--available {
-        background: var(--orbit1-opp-bg);
-        color: var(--crm-gold);
-        border-color: var(--orbit1-opp-border);
-    }
-    .orbit1-badge-opp--available:hover {
-        background: color-mix(in srgb, var(--crm-gold) 16%, transparent);
-    }
+    .orbit1-indicator:hover { opacity: 1; text-decoration: underline; }
+    .orbit1-indicator--proc { color: var(--crm-success); }
+    .orbit1-indicator--opp-active { color: var(--crm-gold); font-weight: 600; opacity: 0.85; }
+    .orbit1-indicator--opp-locked { color: var(--crm-text-secondary); }
 
     /* ── Chevron animado — EXISTENTE ────────────────────────────────────── */
     .orbit1-chevron {
@@ -572,22 +537,22 @@ class AipOrbit1Tree extends HTMLElement {
                                 <span class="orbit1-category__label">${cat.label}</span>
                             </button>
 
-                            <!-- Zona 3: badges dual-layer -->
-                            <div class="orbit1-category__badges">
-                                <span class="orbit1-badge-proc"
+                            <!-- Zona 3: indicadores dual-layer [DT-14-FIX] -->
+                            <div class="orbit1-category__badges" style="gap: 6px;">
+                                <span class="orbit1-indicator orbit1-indicator--proc"
                                     role="button" tabindex="0"
                                     data-action-orbit1="SelectCategory"
                                     data-category-id="${cat.id}"
                                     data-domain-id="${domain.id}"
                                     data-layer="procedure"
                                     title="Procedimiento — acceso libre">PROC</span>
-                                <span class="${oppBadgeClass}"
+                                <span class="orbit1-indicator ${oppCount > 0 ? 'orbit1-indicator--opp-active' : 'orbit1-indicator--opp-locked'}"
                                     role="button" tabindex="0"
                                     data-action-orbit1="SelectCategory"
                                     data-category-id="${cat.id}"
                                     data-domain-id="${domain.id}"
                                     data-layer="opportunity"
-                                    title="${oppBadgeTitle}">${oppBadgeLabel} 🔒</span>
+                                    title="${oppBadgeTitle}">${oppCount > 0 ? oppCount : '—'} 🔒</span>
                             </div>
 
                         </div>

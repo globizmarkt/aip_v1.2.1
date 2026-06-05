@@ -178,7 +178,7 @@
       }
     },
     "mission": {
-      "statement": "Capital-as-a-Service estructurado. Intermediación sin fricción comercial.",
+      "statement": "Admisión antes que venta. Fricción deliberada como filtro de calidad. El acceso al producto es consecuencia de la verificación, no condición de ella.",
       "pos": "Estructura fiduciaria STAK — Países Bajos (AFM/DNB)"
     },
     "access": {
@@ -201,10 +201,10 @@
     },
     "principles": {
       "section_title": "INFRAESTRUCTURA OPERATIVA",
-      "friccion":     { "title": "INTEGRIDAD",  "desc": "Protocolo de exclusión por defecto." },
-      "soberania":    { "title": "SOBERANÍA",   "desc": "Control absoluto sobre el ciclo de vida del mandato." },
-      "trazabilidad": { "title": "TRACER",      "desc": "Registro de auditoría criptográfica." },
-      "contrato":     { "title": "GEMACIÓN",    "desc": "Estructuración paralela de activos." }
+      "friccion":     { "title": "FRICCIÓN DELIBERADA",   "desc": "Nuestros procesos no buscan la velocidad, sino la integridad. La fricción operativa garantiza que cada paso cumpla con los estándares fiduciarios más estrictos." },
+      "soberania":    { "title": "SOBERANÍA FIDUCIARIA", "desc": "Independencia total de la infraestructura bancaria comercial. El control de los activos reside exclusivamente en el mandato del inversor y la estructura STAK." },
+      "trazabilidad": { "title": "TRAZABILIDAD (CIEGA)", "desc": "Aplicación de watermark dinámico y auditoría criptográfica. El mandante es protegido sin comprometer la transparencia ante reguladores. Registro inmutable de acceso y descarga." },
+      "contrato":     { "title": "GEMACIÓN (Estructuración Paralela)", "desc": "Estructuración de contratos que se adaptan y evolucionan según la madurez del activo, permitiendo una gestión dinámica de la liquidez y el riesgo fiduciario." }
     },
     "cta":    { "onboarding": "INICIE ATESTACIÓN" },
     "footer": { "access": "Operaciones limitadas a entidades con Clearance verificado." }
@@ -325,13 +325,13 @@
   },
   "regulatory": {
     "hero": {
-      "title":    "MARCO JURISDICCIONAL",
-      "subtitle": "Operaciones estructuradas bajo los estándares normativos del Espacio Económico Europeo."
+      "title":    "MARCO REGULATORIO · AFM/DNB",
+      "subtitle": "Supervisión AFM y DNB (Países Bajos). Estructura STAK con segregación de activos. Esclusa de cumplimiento secuencial como condición previa a cualquier operación."
     },
     "framework": {
       "title":       "COMPLIANCE FRAMEWORK",
-      "aml":         "AML — Verificación de origen de fondos y detección de patrones de velocidad/anomalías geográficas bajo Wwft 2018.",
-      "kyc":         "KYC — Verificación documental asíncrona (Tier 1: email, Tier 2: identidad, Tier 3: patrimonio, Tier 4: screening FATF).",
+      "aml":         "AML — Verificación de origen de fondos bajo Wwft 2018. Detección de patrones de velocidad y anomalías geográficas. Obligación de comunicación a FIU-NL para operaciones >10k EUR.",
+      "kyc":         "KYC — Verificación documental asíncrona por niveles: L1 (email/teléfono), L2 (identidad oficial + biométrica), L3 (capacidad financiera + declaración inversor cualificado), L4 (UBO + screening de sanciones).",
       "sanctions":   "Sanciones (OFAC/UE/ONU) — Filtro automático contra listas internacionales. Bloqueo inmediato ante coincidencia positiva.",
       "privilege":   "Privilegio basado en cumplimiento — El acceso a funcionalidades escala con IntegrityScore y KYC Tier. Sin excepciones manuales.",
       "declaration": "El cumplimiento no es un añadido. Es el motor de ejecución. La plataforma no opera si el estado fiduciario del agente no está certificado."
@@ -340,7 +340,7 @@
       "title":       "JURISDICTIONAL STANCE",
       "primary":     "Países Bajos (Kingdom of the Netherlands)",
       "authorities": "AFM + DNB",
-      "structure":   "STAK — Fideicomiso de administración separada",
+      "structure":   "STAK (Stichting Administratiekantoor) — Fideicomiso de administración separada. La titularidad legal reside en la fundación; la económica se segrega mediante certificados.",
       "mifid":       "Exención MiFID II (matched principal trading)",
       "aml_law":     "Wwft 2018 (Transacciones)",
       "threshold":   ">10k EUR → FIU-NL",
@@ -354,7 +354,7 @@
       "friction_filter":          "Proceso de registro secuencial diseñado para disuadir contrapartes no cualificadas. Latencia fiduciaria intencionada.",
       "dashboard_status":         "IntegrityScore actual: 45/100 (Umbral: 60) — NO SUPERA"
     },
-    "badges": { "failed": "ERROR", "passed": "LIMPIO" },
+    "badges": { "failed": "ERROR", "passed": "NO COINCIDENCIA" },
     "governance": {
       "title":        "DATA GOVERNANCE",
       "sovereignty":  "El usuario es el único propietario de sus metadatos. La plataforma no retiene PII post-sesión.",

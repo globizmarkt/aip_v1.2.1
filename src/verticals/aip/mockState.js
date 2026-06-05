@@ -520,8 +520,8 @@ const CATEGORY_RE_COMERCIAL = {
     teasers: [], mandate_ids: ['AIP-M-2026-002'],
   },
   aimon: {
-    procedure:   'Las operaciones de real estate comercial en AIP requieren verificación de mandato de compra y capacidad de financiación documentada antes de cualquier proceso de introducción. El cuestionario en pantalla filtra compradores sin PoF verificable de consultas de alto volumen sin respaldo. Si tienes equity propio o línea de adquisición bancaria activa, el sistema asigna analista.',
-    opportunity: 'La activación de mandatos de RE comercial requiere contraparte con equity ticket mínimo verificable y horizonte de inversión de 3-7 años. El IntegrityScore mínimo refleja solvencia documental y capacidad de cierre. Un activo comercial no se estructura sin trazabilidad del origen de fondos — tampoco sin due diligence de arrendatario.',
+    procedure:   'La intermediación de activos comerciales opera exclusivamente bajo mandato fiduciario verificado y esclusa de cualificación previa. El sistema requiere acreditación de capacidad de cierre y origen de fondos antes de revelar cualquier dato estructural del activo. Las solicitudes sin Proof of Funds documentado o sin perfil MiFID II validado son descartadas automáticamente en esta fase.',
+    opportunity: 'Los mandatos activos en este dominio exigen contrapartes con ticket de equity verificable y horizonte de inversión de 3 a 7 años. El IntegrityScore mínimo refleja solvencia documental y trazabilidad del capital, no volumen declarado. Un activo comercial no se estructura sin due diligence de arrendatario ni sin validación de la cadena de titularidad.',
   },
 };
 
@@ -541,8 +541,8 @@ const CATEGORY_RE_PREMIUM = {
     teasers: [], mandate_ids: [],
   },
   aimon: {
-    procedure:   'El acceso a activos residenciales premium en AIP opera bajo esclusa fiduciaria completa: verificación de identidad, beneficiario final y origen de fondos conforme a AML/KYC antes de cualquier revelación de activo. Estamos saturados de consultas sin capacidad de cierre documentada. Si puedes acreditar equity disponible y perfil de inversor cualificado, el sistema activa el proceso de matching.',
-    opportunity: 'Los mandatos de RE premium requieren inversor cualificado con capacidad de cierre documentada y tolerancia a estructuras de confidencialidad total hasta matching mutuo. El IntegrityScore refleja trazabilidad del capital y alineamiento regulatorio. Un activo premium no se presenta sin NCNDA ejecutada — tampoco sin verificación de beneficiario final bajo FATF.',
+    procedure:   'El acceso a activos residenciales premium, con foco en el cluster portugués de alta gama, opera bajo protocolo fiduciario STAK y esclusa de cumplimiento total. La verificación de identidad, beneficiario final y origen de fondos conforme a AML/KYC es condición ineludible antes de cualquier revelación de activo. Las consultas sin capacidad de cierre documentada o sin perfil MiFID II validado son filtradas automáticamente en esta fase.',
+    opportunity: 'Los mandatos de real estate premium requieren inversor cualificado con tolerancia a estructuras de confidencialidad total hasta el matching mutuo. El IntegrityScore refleja trazabilidad del capital y alineamiento regulatorio, no meras declaraciones de interés. Un activo de esta clase no se presenta sin NCNDA ejecutada ni sin verificación de beneficiario final bajo estándares FATF.',
   },
 };
 
