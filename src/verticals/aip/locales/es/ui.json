@@ -159,6 +159,12 @@
   "contact": {
     "modal": { "title": "Canales de Contacto Institucional" },
     "btn": { "whatsapp": "WhatsApp", "telegram": "Telegram", "mail": "Correo Institucional", "pdf": "Dossier PDF" },
+    "links": {
+      "whatsapp":   "https://wa.me/34637268731",
+      "telegram":   "https://t.me/aip_firm",
+      "email":      "mailto:admin@breederhub.store",
+      "pdf_dossier":"mailto:admin@breederhub.store?subject=%5BAIP%5D%20Solicitud%20de%20Dossier%20Institucional"
+    },
     "legal": "Respuesta sujeta a validación de esclusa fiduciaria. Cero promesas de retorno."
   },
   "about": {

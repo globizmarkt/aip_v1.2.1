@@ -920,25 +920,25 @@
 
             <!-- Canales -->
             <div class="flex flex-col gap-3 mb-8">
-                <a href="https://wa.me/34637268731" target="_blank" rel="noopener noreferrer"
+                <a data-contact-link="whatsapp" target="_blank" rel="noopener noreferrer"
                    class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
                     <span class="material-symbols-outlined text-lg shrink-0">chat</span>
                     <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.whatsapp">—</span>
                     <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </a>
-                <a href="https://t.me/aip_firm" target="_blank" rel="noopener noreferrer"
+                <a data-contact-link="telegram" target="_blank" rel="noopener noreferrer"
                    class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
                     <span class="material-symbols-outlined text-lg shrink-0">send</span>
                     <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.telegram">—</span>
                     <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </a>
-                <a href="mailto:admin@breederhub.store"
+                <a data-contact-link="email"
                    class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
                     <span class="material-symbols-outlined text-lg shrink-0">mail</span>
                     <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.mail">—</span>
                     <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </a>
-                <a href="mailto:admin@breederhub.store?subject=%5BAIP%5D%20Solicitud%20de%20Dossier%20Institucional"
+                <a data-contact-link="pdf_dossier"
                    class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-gold)]/40 hover:border-[var(--abyss-gold)] text-[var(--abyss-gold)]/70 hover:text-[var(--abyss-gold)] transition-all duration-300 group">
                     <span class="material-symbols-outlined text-lg shrink-0">picture_as_pdf</span>
                     <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.pdf">—</span>
@@ -1119,6 +1119,21 @@
             for (const page of Object.keys(MODALS)) {
                 const el = document.getElementById(MODALS[page]);
                 if (el && !el.classList.contains('hidden')) closeModal(page);
+            }
+        });
+    });
+
+    // ── SEC-VEC-03 · 2026-06-05 — Contact links hydration from i18n dictionary ──
+    // Endpoints extirpados del DOM estático (R4/R5). Se inyectan en runtime.
+    // Fuente: B_SEC_contact_modal_diff.md (Bulldozer · despachos_04.1.1)
+    document.addEventListener('Skeleton:DictionaryReady', () => {
+        const i18n = window.Skeleton?.i18n;
+        if (!i18n) return;
+        document.querySelectorAll('[data-contact-link]').forEach(el => {
+            const key = el.dataset.contactLink;
+            const href = i18n.t(`contact.links.${key}`);
+            if (href && href !== '—') {
+                el.setAttribute('href', href);
             }
         });
     });

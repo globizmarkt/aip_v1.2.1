@@ -159,6 +159,12 @@
   "contact": {
     "modal": { "title": "Institutional Contact Channels" },
     "btn": { "whatsapp": "WhatsApp", "telegram": "Telegram", "mail": "Institutional Mail", "pdf": "PDF Dossier" },
+    "links": {
+      "whatsapp":   "https://wa.me/34637268731",
+      "telegram":   "https://t.me/aip_firm",
+      "email":      "mailto:admin@breederhub.store",
+      "pdf_dossier":"mailto:admin@breederhub.store?subject=%5BAIP%5D%20Institutional%20Dossier%20Request"
+    },
     "legal": "Response subject to fiduciary lock validation. Zero return promises."
   },
   "about": {
