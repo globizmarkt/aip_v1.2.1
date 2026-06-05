@@ -1,7 +1,7 @@
 // ============================================================
 // ARCHIVO  : mockState.js
-// VERSIÓN  : 1.1.0
-// FECHA    : 2026-05-31 (v1.1.0 — SEC-06 CATEGORIES + SEC-07 DOCUMENTS añadidos)
+// VERSIÓN  : 1.3.1
+// FECHA    : 2026-06-05 (v1.3.1 — SEC-VEC-02: contrapartes reales sustituidas por placeholders ficticios de demo)
 // PROPÓSITO: Estado mock del CRM — datos de demostración para
 //            validación visual pre-electrificación (Épica 4 · D1)
 // ============================================================
@@ -56,8 +56,8 @@ const MANDATE_001 = {
 
   parties: {
     originator:      'BreederHub Advisory SA',
-    client:          'Iberica Commodities SL',
-    counterparties:  ['Shell Trading International Ltd', 'Vitol SA'],
+    client:          'Alpha Trading & Commodities SL',           // [DEMO — dato ficticio]
+    counterparties:  ['Major Energy Trader A (EU jurisdiction)', 'Major Energy Trader B (CH/NL)'], // [DEMO]
   },
 
   asset: {
@@ -75,8 +75,8 @@ const MANDATE_001 = {
     amlClear:        true,
     sanctionsCheck:  true,
     ncndaSigned:     true,
-    sgsCertificate:  'SGS-2026-NL-4412',
-    sblcProvider:    'Deutsche Bank AG Frankfurt',
+    sgsCertificate:  'INSP-DEMO-2026-NL-0001',               // [DEMO — certificado ficticio]
+    sblcProvider:    'Prime Financial Institution AG',        // [DEMO — entidad ficticia]
     sblcAmount:      '110% FOB value per lot',
   },
 
