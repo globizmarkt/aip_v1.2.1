@@ -34,6 +34,11 @@ ComponentRegistry.registerLazy(
     () => import('./03-interface/components/auth/aip-legal-attestation.js')
 );
 
+ComponentRegistry.registerLazy(
+    'aip-document-upload',
+    () => import('./gadgets/aip-document-upload.js')
+);
+
 // ─── EXIT COOLDOWN — timestamp de la última salida del CRM (BUG-VAL-EXIT-01) ─────────────
 //
 // El mock session de AIPHandler re-dispara Skeleton:Gatekeeper:AccessGranted

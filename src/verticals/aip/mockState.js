@@ -327,17 +327,59 @@ const MANDATE_005 = {
 
   fiduciaryState: FIDUCIARY_STATES.CUALIFICADO,
 
+  /**
+   * Documentos mock del mandato — alineados con esquema DocumentRepository.js
+   * Origen: E6-DOC-04 · GEM Antigravity · ronda 04.2.2
+   */
   documents: [
-    'Teaser Confidencial',
-    'CIM (Confidential Information Memorandum)',
-    'NDA Bilateral Ejecutado',
-    'LOI No Vinculante',
-    'SPA Draft v2.1',
-    'KYC Tier 4 Package',
-    'AML/OFAC Screening Report',
-    'UBO Declaration Certificate',
-    'Due Diligence Report — Fase 1',
-    'Due Diligence Report — Fase 2',
+    {
+      id:           'doc_mock_005_1',
+      mandateId:    'AIP-M-2026-005',
+      name:         'NDA_Bilateral_Ejecutado.pdf',
+      documentType: 'NDA',
+      storagePath:  'mandates/AIP-M-2026-005/documents/1717660000000_NDA_Bilateral_Ejecutado.pdf',
+      url:          'https://mock-storage.example/nda_005',
+      size:         245678,
+      contentType:  'application/pdf',
+      uploadedAt:   '2026-05-15T10:30:00.000Z',
+      uploadedBy:   'mock_user_001',
+    },
+    {
+      id:           'doc_mock_005_2',
+      mandateId:    'AIP-M-2026-005',
+      name:         'CIM_Energia_Andina.pdf',
+      documentType: 'CIM',
+      storagePath:  'mandates/AIP-M-2026-005/documents/1717660000001_CIM_Energia_Andina.pdf',
+      url:          'https://mock-storage.example/cim_005',
+      size:         4560000,
+      contentType:  'application/pdf',
+      uploadedAt:   '2026-05-16T11:00:00.000Z',
+      uploadedBy:   'mock_user_001',
+    },
+    {
+      id:           'doc_mock_005_3',
+      mandateId:    'AIP-M-2026-005',
+      name:         'KYC_Tier4_Package.pdf',
+      documentType: 'KYC',
+      storagePath:  'mandates/AIP-M-2026-005/documents/1717660000002_KYC_Tier4_Package.pdf',
+      url:          'https://mock-storage.example/kyc_005',
+      size:         8900000,
+      contentType:  'application/pdf',
+      uploadedAt:   '2026-05-18T09:15:00.000Z',
+      uploadedBy:   'mock_user_002',
+    },
+    {
+      id:           'doc_mock_005_4',
+      mandateId:    'AIP-M-2026-005',
+      name:         'Teaser_Confidencial.pdf',
+      documentType: 'TEASER',
+      storagePath:  'mandates/AIP-M-2026-005/documents/1717660000003_Teaser_Confidencial.pdf',
+      url:          'https://mock-storage.example/teaser_005',
+      size:         150000,
+      contentType:  'application/pdf',
+      uploadedAt:   '2026-04-10T08:00:00.000Z',
+      uploadedBy:   'mock_user_001',
+    },
   ],
 
   complianceDocuments: [

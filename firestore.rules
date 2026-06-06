@@ -52,6 +52,52 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // ── Funciones Auxiliares de Gobernanza ─────────────────────────────────
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.role in ['superadmin', 'partner', 'desk_manager'];
+    }
+
+    function hasClearanceMember() {
+      // Valida clearance estructural (level >= 1) del Custom Claim fiduciario
+      return isAuthenticated() && request.auth.token.level >= 1;
+    }
+
+    function mandateExists(mandateId) {
+      return exists(/databases/$(database)/documents/mandates/$(mandateId));
+    }
+
+    function isMandateMember(mandateId) {
+      return request.auth.uid in get(/databases/$(database)/documents/mandates/$(mandateId)).data.members;
+    }
+
+    function isMandateAdmin(mandateId) {
+      return request.auth.uid == get(/databases/$(database)/documents/mandates/$(mandateId)).data.ownerId;
+    }
+
+    // ── Regla R2 — Subcolección Documents de Mandatos ──────────────────────
+    // Origen: E6-DOC-03 · Lead Architect · ronda 04.2.2
+    match /mandates/{mandateId}/documents/{documentId} {
+
+      allow read: if isAuthenticated()
+                  && (isMandateMember(mandateId) || isAdmin());
+
+      allow create: if isAuthenticated()
+                    && hasClearanceMember()
+                    && mandateExists(mandateId)
+                    // Zero-Leak: el documento debe inyectarse en el mandato correcto
+                    && request.resource.data.mandateId == mandateId;
+
+      allow delete: if isAuthenticated()
+                    && (isMandateAdmin(mandateId) || isAdmin());
+
+      // Los documentos fiduciarios son inmutables tras su carga (borrar + recrear)
+      allow update: if false;
+    }
+
     // ── Regla por defecto — Negar todo lo no especificado ──────────────────
     match /{document=**} {
       allow read, write: if false;

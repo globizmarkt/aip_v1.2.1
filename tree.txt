@@ -1,357 +1,183 @@
-Listado de rutas de carpetas para el volumen Windows-SSD
-El número de serie del volumen es 1EA7-4366
-C:\BREEDERHUB\01_PRODUCTION\AIP_V1.2.1
-|   .gitignore
-|   index.html
-|   tree.txt
-|   
-+---.claude
-+---.git
-|   |   COMMIT_EDITMSG
-|   |   config
-|   |   description
-|   |   FETCH_HEAD
-|   |   HEAD
-|   |   index
-|   |   
-|   +---hooks
-|   |       applypatch-msg.sample
-|   |       commit-msg.sample
-|   |       fsmonitor-watchman.sample
-|   |       post-update.sample
-|   |       pre-applypatch.sample
-|   |       pre-commit.sample
-|   |       pre-merge-commit.sample
-|   |       pre-push.sample
-|   |       pre-rebase.sample
-|   |       pre-receive.sample
-|   |       prepare-commit-msg.sample
-|   |       push-to-checkout.sample
-|   |       sendemail-validate.sample
-|   |       update.sample
-|   |       
-|   +---info
-|   |       exclude
-|   |       refs
-|   |       
-|   +---logs
-|   |   |   HEAD
-|   |   |   
-|   |   \---refs
-|   |       +---heads
-|   |       |       main
-|   |       |       
-|   |       \---remotes
-|   |           \---origin
-|   |                   HEAD
-|   |                   main
-|   |                   
-|   +---objects
-|   |   +---00
-|   |   |       1d9acd3be33a98bef86c40b2a5c8d2acf46a60
-|   |   |       
-|   |   +---11
-|   |   |       097c21f5bba8c0bd019c90302eec987897599c
-|   |   |       
-|   |   +---13
-|   |   |       a66d039276e367205423582bff400f76f1b632
-|   |   |       
-|   |   +---14
-|   |   |       e3585f00d2c074572fc1850ff5e36f682c693f
-|   |   |       
-|   |   +---1c
-|   |   |       da887235ef5bc40d272026f63a7b7a879c28f2
-|   |   |       
-|   |   +---33
-|   |   |       f221b4766514c712060ac9993ef9918c11662e
-|   |   |       
-|   |   +---36
-|   |   |       8ec67a3e58bec8b26a951463137589cba905b2
-|   |   |       
-|   |   +---46
-|   |   |       de4077ec5c41abb276e2844f36c6e9d5ec3645
-|   |   |       
-|   |   +---5a
-|   |   |       504178622071c75351f1eb35ac821fcdfb415f
-|   |   |       
-|   |   +---83
-|   |   |       00d822c139a720b916aa760d0c306d3db96a75
-|   |   |       
-|   |   +---84
-|   |   |       aaf802acb5c276f90d179f8dec7f82c9e519c4
-|   |   |       
-|   |   +---8c
-|   |   |       66d0abb04721ce0fe5e7b511cf0ec9ec8c7207
-|   |   |       
-|   |   +---93
-|   |   |       76c1262cb7a088f87750101c68bbc80b06a641
-|   |   |       
-|   |   +---a0
-|   |   |       a3edb1a538d22b9b00c6708c9cbb0782af7a6c
-|   |   |       
-|   |   +---a1
-|   |   |       d325cdce27498748239cc84ff34a2e4f356afe
-|   |   |       
-|   |   +---b4
-|   |   |       cccddaf3076d7215c5b74932f7facf22df46ac
-|   |   |       
-|   |   +---ba
-|   |   |       fab57b8361150f57acb50a314ae34ef0850dca
-|   |   |       
-|   |   +---c4
-|   |   |       6b7de2cec70dcd0bfca06b686cd0affa697754
-|   |   |       
-|   |   +---c8
-|   |   |       e4835a88a37be62e2047c0ce0dc8216c398d50
-|   |   |       
-|   |   +---d8
-|   |   |       77c717e81faad79d6ec40e31110256b9e0da88
-|   |   |       
-|   |   +---f1
-|   |   |       efbe6ea5538681eff9b99937449d678a3183c7
-|   |   |       
-|   |   +---info
-|   |   |       packs
-|   |   |       
-|   |   \---pack
-|   |           multi-pack-index
-|   |           pack-3097c859786488d95ead0a7916cf7279ea858b53.idx
-|   |           pack-3097c859786488d95ead0a7916cf7279ea858b53.mtimes
-|   |           pack-3097c859786488d95ead0a7916cf7279ea858b53.pack
-|   |           pack-3097c859786488d95ead0a7916cf7279ea858b53.rev
-|   |           pack-65178564ae71f08f0579ca0a93d668bca2dd8016.idx
-|   |           pack-65178564ae71f08f0579ca0a93d668bca2dd8016.pack
-|   |           pack-65178564ae71f08f0579ca0a93d668bca2dd8016.rev
-|   |           
-|   +---refs
-|   |   +---heads
-|   |   |       main
-|   |   |       
-|   |   +---remotes
-|   |   |   \---origin
-|   |   |           HEAD
-|   |   |           main
-|   |   |           
-|   |   \---tags
-|   \---worktrees
-+---gadgets
-|   \---landing
-|       +---about-aip
-|       |       code.html
-|       |       
-|       +---about-us
-|       |       code.html
-|       |       
-|       +---aip-ventures
-|       |       code.html
-|       |       
-|       +---intelligence
-|       |       code.html
-|       |       
-|       +---markets
-|       |       code.html
-|       |       
-|       +---news
-|       |       code.html
-|       |       
-|       +---opportunity
-|       |       code.html
-|       |       
-|       +---our-services
-|       |       code.html
-|       |       
-|       \---regulatory
-|               code.html
-|               
-+---src
-|   |   ignition-v13.js
-|   |   main.js
-|   |   
-|   +---01-core
-|   |   |   app-actions.js
-|   |   |   app-fsm.js
-|   |   |   app-guards.js
-|   |   |   app-store.js
-|   |   |   passportValidator.js
-|   |   |   sessionGC.js
-|   |   |   userFSM.js
-|   |   |   
-|   |   +---archetype
-|   |   +---contracts
-|   |   |       routes-contract.js
-|   |   |       state-contract.js
-|   |   |       
-|   |   +---i18n
-|   |   |       i18n-engine.js
-|   |   |       
-|   |   +---integrity
-|   |   |       IntegrityEngine.js
-|   |   |       
-|   |   +---passport
-|   |   |       PassportEngine.js
-|   |   |       
-|   |   +---schemas
-|   |   |       AnonProjectState.js
-|   |   |       
-|   |   \---utils
-|   |           deepFreeze.js
-|   |           
-|   +---02-infra
-|   |   +---config
-|   |   +---firebase
-|   |   |       FirebaseConnector.js
-|   |   |       MandateRepository.js
-|   |   |       
-|   |   +---news
-|   |   |       NewsCache.js
-|   |   |       
-|   |   +---storage
-|   |   |       StorageAdapter.js
-|   |   |       
-|   |   \---telegram
-|   +---03-interface
-|   |   |   app-router.js
-|   |   |   register-components.js
-|   |   |   TabLoader.js
-|   |   |   ui-hydrator.js
-|   |   |   
-|   |   +---base
-|   |   |       reactive-element.js
-|   |   |       
-|   |   +---components
-|   |   |   +---auth
-|   |   |   |       aip-legal-attestation.js
-|   |   |   |       
-|   |   |   \---kyc
-|   |   |           aip-acp-flow.js
-|   |   |           aip-kyb-flow.js
-|   |   |           aip-kyc-individual.js
-|   |   |           aip-kyc-setup.js
-|   |   |           aip-l4-qualifier.js
-|   |   |           aip-superadmin-kyc.js
-|   |   |           
-|   |   +---orbit-3-gatekeeper
-|   |   |   |   gateEnforcer.js
-|   |   |   |   
-|   |   |   \---ui-gate
-|   |   |           GoldenGate.js
-|   |   |           
-|   |   +---orchestrator
-|   |   |       Router.js
-|   |   |       
-|   |   +---shared
-|   |   |       UIBinder.js
-|   |   |       
-|   |   \---wizards
-|   |           GenesisWizard.js
-|   |           LegalModal.js
-|   |           
-|   +---gadgets
-|   |       aip-crm-home.js
-|   |       aip-orbit1-tree.js
-|   |       aip-ticker.js
-|   |       aip-trinity-layout.js
-|   |       
-|   +---locales
-|   |       en.json
-|   |       es.json
-|   |       
-|   +---styles
-|   |       crm-tokens-v13.css
-|   |       landing-tokens.css
-|   |       theme-landing.css
-|   |       
-|   \---verticals
-|       +---aip
-|       |   |   AIPHandler.js
-|       |   |   ignition.js
-|       |   |   mockState.js
-|       |   |   theme.css
-|       |   |   vertical.config.js
-|       |   |   
-|       |   +---locales
-|       |   |   +---en
-|       |   |   |       ui.json
-|       |   |   |       
-|       |   |   +---es
-|       |   |   |       ui.json
-|       |   |   |       
-|       |   |   +---fr
-|       |   |   |       ui.json
-|       |   |   |       
-|       |   |   \---pt
-|       |   |           ui.json
-|       |   |           
-|       |   \---schemas
-|       |           offeringSchema.js
-|       |           
-|       +---commodities
-|       |   |   entry.html
-|       |   |   theme.css
-|       |   |   vertical.config.js
-|       |   |   
-|       |   +---locales
-|       |   |   +---en
-|       |   |   |       ui.json
-|       |   |   |       
-|       |   |   +---es
-|       |   |   |       ui.json
-|       |   |   |       
-|       |   |   +---fr
-|       |   |   |       ui.json
-|       |   |   |       
-|       |   |   \---pt
-|       |   |           ui.json
-|       |   |           
-|       |   \---schemas
-|       |           offeringSchema.js
-|       |           
-|       \---_base
-|           |   entry.html
-|           |   theme.css
-|           |   vertical.config.js
-|           |   
-|           +---locales
-|           |   +---en
-|           |   |       ui.json
-|           |   |       
-|           |   +---es
-|           |   |       ui.json
-|           |   |       
-|           |   +---fr
-|           |   |       ui.json
-|           |   |       
-|           |   \---pt
-|           |           ui.json
-|           |           
-|           \---schemas
-|                   offeringSchema.js
-|                   
-\---_archive
-    +---audits
-    |   \---auditoria tolopologia
-    |           00_instrucciones.md
-    |           2026-05-10.1_aip_v1.2.1.md
-    |           2026-05-10.2_aip_v1.2.1.md
-    |           2026-05-10.3_aip_v1.2.1.md
-    |           
-    +---blueprints
-    |       main-blueprint.js
-    |       passport-engine-blueprint.js
-    |       scene-manager-blueprint.js
-    |       storage-adapter-blueprint.js
-    |       ui-binder-blueprint.js
-    |       
-    +---historical
-    +---legacy_html
-    |       aip_demo_seductora.html
-    |       asset-explorer.html
-    |       crm-landing.html
-    |       crm_aip_index.html
-    |       entry.html.archived
-    |       
-    +---processed
-    +---quarantine
-    |       ui-binder.js
-    |       
-    \---visual
+.
+./.claude
+./.git
+./.gitignore
+./_archive
+./_archive/audits
+./_archive/audits/auditoria tolopologia
+./_archive/audits/auditoria tolopologia/00_instrucciones.md
+./_archive/audits/auditoria tolopologia/2026-05-10.1_aip_v1.2.1.md
+./_archive/audits/auditoria tolopologia/2026-05-10.2_aip_v1.2.1.md
+./_archive/audits/auditoria tolopologia/2026-05-10.3_aip_v1.2.1.md
+./_archive/blueprints
+./_archive/blueprints/main-blueprint.js
+./_archive/blueprints/passport-engine-blueprint.js
+./_archive/blueprints/scene-manager-blueprint.js
+./_archive/blueprints/storage-adapter-blueprint.js
+./_archive/blueprints/ui-binder-blueprint.js
+./_archive/historical
+./_archive/legacy_html
+./_archive/legacy_html/aip_demo_seductora.html
+./_archive/legacy_html/asset-explorer.html
+./_archive/legacy_html/crm-landing.html
+./_archive/legacy_html/crm_aip_index.html
+./_archive/legacy_html/entry.html.archived
+./_archive/processed
+./_archive/quarantine
+./_archive/quarantine/ui-binder.js
+./_archive/visual
+./firestore.rules
+./gadgets
+./gadgets/landing
+./gadgets/landing/about-aip
+./gadgets/landing/about-aip/code.html
+./gadgets/landing/about-us
+./gadgets/landing/about-us/code.html
+./gadgets/landing/aip-ventures
+./gadgets/landing/aip-ventures/code.html
+./gadgets/landing/intelligence
+./gadgets/landing/intelligence/code.html
+./gadgets/landing/markets
+./gadgets/landing/markets/code.html
+./gadgets/landing/news
+./gadgets/landing/news/code.html
+./gadgets/landing/opportunity
+./gadgets/landing/opportunity/code.html
+./gadgets/landing/our-services
+./gadgets/landing/our-services/code.html
+./gadgets/landing/regulatory
+./gadgets/landing/regulatory/code.html
+./index.html
+./src
+./src/01-core
+./src/01-core/app-actions.js
+./src/01-core/app-fsm.js
+./src/01-core/app-guards.js
+./src/01-core/app-store.js
+./src/01-core/archetype
+./src/01-core/contracts
+./src/01-core/contracts/routes-contract.js
+./src/01-core/contracts/state-contract.js
+./src/01-core/i18n
+./src/01-core/i18n/i18n-engine.js
+./src/01-core/integrity
+./src/01-core/integrity/IntegrityEngine.js
+./src/01-core/passport
+./src/01-core/passport/PassportEngine.js
+./src/01-core/passportValidator.js
+./src/01-core/schemas
+./src/01-core/schemas/AnonProjectState.js
+./src/01-core/sessionGC.js
+./src/01-core/userFSM.js
+./src/01-core/utils
+./src/01-core/utils/deepFreeze.js
+./src/02-infra
+./src/02-infra/config
+./src/02-infra/firebase
+./src/02-infra/firebase/DocumentRepository.js
+./src/02-infra/firebase/FirebaseConnector.js
+./src/02-infra/firebase/MandateRepository.js
+./src/02-infra/news
+./src/02-infra/news/NewsCache.js
+./src/02-infra/storage
+./src/02-infra/storage/CloudStorageAdapter.js
+./src/02-infra/storage/StorageAdapter.js
+./src/02-infra/telegram
+./src/03-interface
+./src/03-interface/TabLoader.js
+./src/03-interface/app-router.js
+./src/03-interface/base
+./src/03-interface/base/reactive-element.js
+./src/03-interface/components
+./src/03-interface/components/auth
+./src/03-interface/components/auth/aip-legal-attestation.js
+./src/03-interface/components/crm-welcome.js
+./src/03-interface/components/kyc
+./src/03-interface/components/kyc/aip-acp-flow.js
+./src/03-interface/components/kyc/aip-kyb-flow.js
+./src/03-interface/components/kyc/aip-kyc-individual.js
+./src/03-interface/components/kyc/aip-kyc-setup.js
+./src/03-interface/components/kyc/aip-l4-qualifier.js
+./src/03-interface/components/kyc/aip-superadmin-kyc.js
+./src/03-interface/components/market-fallback.js
+./src/03-interface/orbit-3-gatekeeper
+./src/03-interface/orbit-3-gatekeeper/gateEnforcer.js
+./src/03-interface/orbit-3-gatekeeper/ui-gate
+./src/03-interface/orbit-3-gatekeeper/ui-gate/GoldenGate.js
+./src/03-interface/orchestrator
+./src/03-interface/orchestrator/Router.js
+./src/03-interface/register-components.js
+./src/03-interface/shared
+./src/03-interface/shared/UIBinder.js
+./src/03-interface/ui-hydrator.js
+./src/03-interface/wizards
+./src/03-interface/wizards/GenesisWizard.js
+./src/03-interface/wizards/LegalModal.js
+./src/gadgets
+./src/gadgets/aip-crm-home.js
+./src/gadgets/aip-document-upload.js
+./src/gadgets/aip-domain-overview.js
+./src/gadgets/aip-kyc-gate.js
+./src/gadgets/aip-orbit1-tree.js
+./src/gadgets/aip-procedure-view.js
+./src/gadgets/aip-ticker.js
+./src/gadgets/aip-trinity-layout.js
+./src/ignition-v13.js
+./src/locales
+./src/locales/en.json
+./src/locales/es.json
+./src/main.js
+./src/styles
+./src/styles/crm-tokens-v13.css
+./src/styles/landing-tokens.css
+./src/styles/theme-landing.css
+./src/verticals
+./src/verticals/_base
+./src/verticals/_base/entry.html
+./src/verticals/_base/locales
+./src/verticals/_base/locales/en
+./src/verticals/_base/locales/en/ui.json
+./src/verticals/_base/locales/es
+./src/verticals/_base/locales/es/ui.json
+./src/verticals/_base/locales/fr
+./src/verticals/_base/locales/fr/ui.json
+./src/verticals/_base/locales/pt
+./src/verticals/_base/locales/pt/ui.json
+./src/verticals/_base/schemas
+./src/verticals/_base/schemas/offeringSchema.js
+./src/verticals/_base/theme.css
+./src/verticals/_base/vertical.config.js
+./src/verticals/aip
+./src/verticals/aip/AIPHandler.js
+./src/verticals/aip/ignition.js
+./src/verticals/aip/locales
+./src/verticals/aip/locales/en
+./src/verticals/aip/locales/en/ui.json
+./src/verticals/aip/locales/es
+./src/verticals/aip/locales/es/ui.json
+./src/verticals/aip/locales/fr
+./src/verticals/aip/locales/fr/ui.json
+./src/verticals/aip/locales/pt
+./src/verticals/aip/locales/pt/ui.json
+./src/verticals/aip/mockState.js
+./src/verticals/aip/schemas
+./src/verticals/aip/schemas/offeringSchema.js
+./src/verticals/aip/theme.css
+./src/verticals/aip/vertical.config.js
+./src/verticals/commodities
+./src/verticals/commodities/entry.html
+./src/verticals/commodities/locales
+./src/verticals/commodities/locales/en
+./src/verticals/commodities/locales/en/ui.json
+./src/verticals/commodities/locales/es
+./src/verticals/commodities/locales/es/ui.json
+./src/verticals/commodities/locales/fr
+./src/verticals/commodities/locales/fr/ui.json
+./src/verticals/commodities/locales/pt
+./src/verticals/commodities/locales/pt/ui.json
+./src/verticals/commodities/schemas
+./src/verticals/commodities/schemas/offeringSchema.js
+./src/verticals/commodities/theme.css
+./src/verticals/commodities/vertical.config.js
+./tree.txt
+./tree_new.txt
