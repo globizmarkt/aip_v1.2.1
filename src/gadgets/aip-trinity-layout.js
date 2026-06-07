@@ -254,6 +254,16 @@ class AipTrinityLayout extends HTMLElement {
         // [E6-T07] Infraestructura de enrutamiento reactivo Orbit-2
         // _wireViewBus() vacío en Opción A (Option B: VIBE 1.3+)
         this._wireViewBus();
+
+        // [i18n-WC-01] Re-hidratación post-render — 2026-06-07
+        // El motor i18n (UIHydrator) escanea el DOM antes de que connectedCallback()
+        // inyecte este innerHTML. Los nodos data-i18n nacen fuera de la ventana del scan.
+        // setTimeout(0) aplaza el dispatch hasta el siguiente tick, cuando el DOM ya
+        // contiene los nodos nuevos. UIHydrator escucha Skeleton:DictionaryReady
+        // y llama hydrateAll() → document.querySelectorAll('[data-i18n]') los captura.
+        setTimeout(() => {
+            document.dispatchEvent(new CustomEvent('Skeleton:DictionaryReady'));
+        }, 0);
     }
 
     // ─── Rail Toggle Handlers ─────────────────────────────────────────────────
