@@ -78,6 +78,15 @@ service cloud.firestore {
       return request.auth.uid == get(/databases/$(database)/documents/mandates/$(mandateId)).data.ownerId;
     }
 
+    // ── Regla R3 — Colección mandates (lectura para demo + CRM tree) ───────
+    // Usuarios autenticados pueden leer mandatos para poblar Orbit-1.
+    // Escritura reservada a Admin SDK / Cloud Functions.
+    // NOTA: En producción real añadir filtro por clearance o membership.
+    match /mandates/{mandateId} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+    }
+
     // ── Regla R2 — Subcolección Documents de Mandatos ──────────────────────
     // Origen: E6-DOC-03 · Lead Architect · ronda 04.2.2
     match /mandates/{mandateId}/documents/{documentId} {
