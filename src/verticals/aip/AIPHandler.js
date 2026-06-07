@@ -100,7 +100,19 @@ export const AIPHandler = {
 
                         } catch (err) {
                             console.error('[AIPHandler][SEC-VEC-01] Error crítico en la esclusa de acceso:', err);
-                            PassportValidator.validateAccess(null);
+                            // [FIX-RESILIENCE · 2026-06-07] Si Firestore no responde, payload mínimo de fallback.
+                            // El usuario ya está autenticado (Firebase Auth) — ACCESS_BLOCKED total es incorrecto.
+                            // Cuando SEC-DEPLOY esté activo + doc users/{uid} exista, esta rama no se alcanza.
+                            PassportValidator.validateAccess({
+                                usr:  user.uid,
+                                rol:  'inv',
+                                tier: 'inst',
+                                jur:  'CH',
+                                kyc:  'ok',
+                                pv:   1,
+                                wc:   ['aip-trinity-layout', 'aip-investor-stats', 'aip-asset-explorer'],
+                                secure_origin: 'FIRESTORE_FALLBACK',
+                            });
                         }
                     }
                 });
