@@ -136,7 +136,6 @@ export const AIPHandler = {
 
             UserFSM.transition('Skeleton:Legal:Accepted', { wc: this._wcPending });
             this.showCRM(this._wcPending);
-            // [DT-AIP-07] populateCRMTable extirpada — reemplazada por <aip-orbit1-tree>
         }, { once: true });
     },
 
@@ -212,14 +211,10 @@ export const AIPHandler = {
         });
 
         document.addEventListener('Skeleton:Action:OrbitTab', (e) => this._switchOrbit3Tab(e.detail.tab));
-        // [DT-AIP-07] Skeleton:Action:CRMFilter eliminado — filterCRM() nunca existió (dead listener)
 
         document.addEventListener('Skeleton:HydrateVertical', (e) => {
             if (e.detail.vertical === 'aip') this.hydrate(e.detail.data);
         });
-
-        // [DT-AIP-07 Cycle 3 — 2026-05-31] Skeleton:Action:MandateSelected EXTIRPADO de este handler.
-        // Listener migrado a aip-crm-home.js → _wire() → ARQ-FIND-11 cerrado.
 
         // [E6-T05 — 2026-06-03] EXIT → FSM real
         document.addEventListener('Skeleton:Action:Exit', () => {
@@ -316,9 +311,6 @@ export const AIPHandler = {
             dashboard.style.cssText = 'display:flex;width:100%;height:100%;';
         }
 
-        // [DT-AIP-07 Cycle 3 — 2026-05-31] _injectKYCBanner() EXTIRPADA.
-        // El estado KYC es responsabilidad de aip-crm-home.js (notice plate interno).
-
         // Prevención Inception: Filtramos el web component host
         if (dashboard && Array.isArray(wcWhitelist) && wcWhitelist.length > 0) {
             wcWhitelist.forEach(tagName => {
@@ -383,19 +375,7 @@ export const AIPHandler = {
         if (ticker && data.ticker) {
             ticker.textContent = `XAU/USD ${data.ticker.xau} • SOFR ${data.ticker.sofr} • EUR/CHF ${data.ticker.eur_chf}`;
         }
-        // [DT-AIP-07] populateCRMTable extirpada — datos de mandatos via aip-orbit1-tree
     },
-
-    // [DT-AIP-07 — 2026-05-31] populateCRMTable() + _stateKey() EXTIRPADAS.
-    // Reemplazadas por <aip-orbit1-tree> (src/gadgets/aip-orbit1-tree.js).
-    // La taxonomía 3 niveles (Dominio→Categoría→Mandato) vive en el WC reactivo.
-
-    // [DT-AIP-07 Cycle 3 — 2026-05-31] _injectKYCBanner() EXTIRPADA.
-    // El banner de KYC es responsabilidad del layout interno del CRM (notice plate en aip-crm-home.js).
-
-    // [DT-AIP-07 Cycle 3 — 2026-05-31] _showMandateDetail() EXTIRPADA (~320 líneas).
-    // Reemplazada por _renderMandateDetail() en aip-crm-home.js.
-    // Trigger: Skeleton:Action:MandateSelected → aip-crm-home._wire()
 
     _setupAccessForm() {
         // [E6-T11] Toggle Sign-up / Sign-in — ACCEDER por defecto (H-02)

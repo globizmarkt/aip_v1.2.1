@@ -39,6 +39,16 @@ ComponentRegistry.registerLazy(
     () => import('./gadgets/aip-document-upload.js')
 );
 
+ComponentRegistry.registerLazy(
+    'aip-cis-form',
+    () => import('./gadgets/aip-cis-form.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-aimon-panel',
+    () => import('./gadgets/aip-aimon-panel.js')
+);
+
 // ─── EXIT COOLDOWN — timestamp de la última salida del CRM (BUG-VAL-EXIT-01) ─────────────
 //
 // El mock session de AIPHandler re-dispara Skeleton:Gatekeeper:AccessGranted
