@@ -26,6 +26,7 @@
 ./_archive/quarantine
 ./_archive/quarantine/ui-binder.js
 ./_archive/visual
+./firebase.json
 ./firestore.rules
 ./gadgets
 ./gadgets/landing
@@ -114,6 +115,7 @@
 ./src/03-interface/wizards/GenesisWizard.js
 ./src/03-interface/wizards/LegalModal.js
 ./src/gadgets
+./src/gadgets/aip-cis-form.js
 ./src/gadgets/aip-crm-home.js
 ./src/gadgets/aip-document-upload.js
 ./src/gadgets/aip-domain-overview.js
@@ -180,4 +182,4 @@
 ./src/verticals/commodities/theme.css
 ./src/verticals/commodities/vertical.config.js
 ./tree.txt
-./tree_new.txt
+./vercel.json

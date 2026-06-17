@@ -755,6 +755,10 @@
         <div class="flex items-center justify-end gap-6 w-full lg:w-1/3">
             <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity" data-action="OpenPage" data-page="faq">FAQ</button>
             <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity" data-action="OpenPage" data-page="contact">Contacto</button>
+            <!-- ÓRBITA 4 — trigger global de emergencia (DOMAIN_BLUEPRINT_04_CRM_SHELL.md §B3,
+                 ORB4-APPINTENT-01). Footer de Órbita 1: emite "app-intent" con mandate_id
+                 (precargado si hay mandato seleccionado en Órbita 2, null si no). -->
+            <button type="button" id="orb4-appintent-btn" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity">Órbita 4</button>
         </div>
     </footer>
 
@@ -780,6 +784,42 @@
     </button>
 
     <div id="v13-shell"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         Órbita 4 KYC — contenedor exclusivo de kyc-flow-controller.js /
+         aip-superadmin-kyc (yacimiento [N-34], ORB4-MOUNT-01).
+         Mismo patrón de zona exclusiva que #v13-shell, z-index superior
+         (overlay sobre el cimiento v1.3 cuando ambos coexisten).
+         Activación: eventos AIP:KYC:FlowRequested / AIP:Admin:OpenOrbit4
+         (ver ignition-v13.js §6) — el punto de disparo en la UI
+         (Perfil:Agente / nav superadmin) queda en ORB4-TRIGGER-01.
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <div id="orb4-kyc-shell"></div>
+    <style>
+        #orb4-kyc-shell {
+            position: fixed;
+            inset: 0;
+            z-index: 9100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+        #orb4-kyc-shell:not(:empty) {
+            background: rgba(4, 7, 15, 0.93);
+            backdrop-filter: blur(6px);
+            pointer-events: all;
+        }
+        #orb4-kyc-shell > * {
+            display: block;
+            width: 100%;
+            max-width: 720px;
+            flex-shrink: 0;
+        }
+    </style>
+
     <style>
         #v13-shell {
             position: fixed;

@@ -1,7 +1,7 @@
 /**
  * ARCHIVO: aip-l4-qualifier.js
- * VERSIÓN: 1.0.0
- * FECHA: 2026-06-02
+ * VERSIÓN: 1.1.0
+ * FECHA: 2026-06-16
  * PROPÓSITO: Flujo de Cualificación L4 (MiFID II / ESMA). Requiere estado IDENTITY_VERIFIED.
  * BASE NORMATIVA: MiFID II (Directiva 2014/65/UE) · ESMA Guidelines on suitability 2018/1113
  * ÍNDICE: 
@@ -14,8 +14,9 @@
 
 import { ReactiveElement } from '../../base/reactive-element.js';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, setDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, onSnapshot } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // [SEC-01] Configuración y Constantes
 const STEP = Object.freeze({
@@ -207,37 +208,22 @@ class AipL4Qualifier extends ReactiveElement {
                 pofUrl = await getDownloadURL(sRef);
             }
 
-            const db = getFirestore();
-            await Promise.all([
-                // WRITE 1
-                setDoc(doc(db, 'users', uid), {
-                    kyc_l4_status: 'KYC_L4_SUBMITTED',
-                    kyc_l4_submitted_at: serverTimestamp(),
-                    mifid_class: this.#mifidClass,
-                }, { merge: true }),
-
-                // WRITE 2
-                setDoc(doc(db, 'kyc_l4_submissions', uid), {
-                    uid,
+            await httpsCallable(getFunctions(), 'executeUserAction')({
+                action: 'submitKycL4',
+                payload: {
                     income_range: this.#incomeRange,
-                    mifid_class: this.#mifidClass,
-                    pof_doc_type: this.#pofDocType,
-                    pof_url: pofUrl,
-                    exp_years: this.#expYears,
-                    exp_assets: this.#expAssets,
-                    exp_max_ticket: this.#expMaxTicket,
-                    consent: { ...this.#consent },
-                    submitted_at: serverTimestamp(),
-                }, { merge: true }),
-
-                // WRITE 3
-                setDoc(doc(collection(db, 'audit_log', uid, 'events')), {
-                    event: 'KYC_L4_SUBMITTED',
-                    timestamp: serverTimestamp(),
-                    mifid_class: this.#mifidClass,
+                    l4_data: {
+                        mifid_class:    this.#mifidClass,
+                        pof_doc_type:   this.#pofDocType,
+                        pof_url:        pofUrl,
+                        exp_years:      this.#expYears,
+                        exp_assets:     this.#expAssets,
+                        exp_max_ticket: this.#expMaxTicket,
+                        consent:        { ...this.#consent },
+                    },
                     user_agent: navigator.userAgent,
-                })
-            ]);
+                },
+            });
 
             this.#step = STEP.CONFIRMATION;
         } catch (err) {

@@ -208,8 +208,7 @@
         "timeline": "Documentary Traceability",
         "blocked_kyc2": "Requires Clearance Level 2"
       }
-    }
-  },
+    },
   "archetype": {
     "title": "Fiduciary Profile",
     "q1_text": "How would you describe your investment decision structure?",
@@ -227,5 +226,48 @@
     "family_office": { "hero_subtitle": "Institutional & Fiduciary Governance" },
     "agent": { "hero_subtitle": "Infrastructure for Fiduciary Agents" },
     "neutral": { "hero_subtitle": "Fiduciary Technology Infrastructure" }
+  },
+  "account_config": {
+    "title": "Account configuration",
+    "btn": {
+      "close": "✕ Close",
+      "save": "Save",
+      "reset_password": "Send password reset email",
+      "open_admin": "Open SuperAdmin panel",
+      "back": "← Back"
+    },
+    "field": { "username": "Username" },
+    "msg": { "reset_sent": "Password reset email sent" },
+    "timeframe": {
+      "label": "Time horizon",
+      "short": "Short term",
+      "medium": "Medium term",
+      "long": "Long term"
+    },
+    "section": {
+      "admin": "Administrators & AIP Staff",
+      "admin_desc": "Access to the KYC/KYB/L4 review panel for authorized staff.",
+      "agent_desktop": "My Desktop",
+      "agent_desktop_desc": "Manage your documents as an agent."
+    },
+    "auth": { "required": "Sign in to configure your account" }
+  },
+  "agent_desktop": {
+    "title": "Agent Desktop",
+    "auth": { "required": "You do not have access to this panel" },
+    "btn": {
+      "back": "← Back",
+      "upload": "Upload document",
+      "download": "Download",
+      "delete": "Delete"
+    },
+    "section": {
+      "documents": "My Documents",
+      "documents_desc": "Upload, download, or delete your documents."
+    },
+    "msg": {
+      "no_documents": "You haven't uploaded any documents yet.",
+      "upload_error": "Error uploading the document. Please try again."
+    }
   }
 }

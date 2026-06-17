@@ -1,7 +1,7 @@
 // ============================================================
 // ARCHIVO  : aip-kyc-individual.js
-// VERSIÓN  : 1.0.0
-// FECHA    : 2026-06-02
+// VERSIÓN  : 1.1.0
+// FECHA    : 2026-06-16
 // PROPÓSITO: Componente Fase 2 — KYC Individual (L3).
 //            4 pasos: Datos personales → Naturaleza jurídica →
 //            Documentación (upload + QR handoff) → Confirmación.
@@ -40,10 +40,9 @@ import {
     getFirestore,
     doc,
     setDoc,
-    collection,
-    serverTimestamp,
     onSnapshot,
 }                           from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import {
     getStorage,
     ref,
@@ -322,35 +321,19 @@ class AipKycIndividual extends ReactiveElement {
             }
             if (!requireBack) finalBackUrl = null;
 
-            // Triple-Write R11 — atómico via Promise.all()
-            const db = getFirestore();
-            await Promise.all([
-                // WRITE 1 — users/{uid} — estado KYC
-                setDoc(doc(db, 'users', uid), {
-                    kyc_status:       'KYC_SUBMITTED',
-                    kyc_submitted_at:  serverTimestamp(),
-                    requires_kyb:      this.#requiresKYB,
-                }, { merge: true }),
-
-                // WRITE 2 — kyc_submissions/{uid} — registro de la entrega
-                setDoc(doc(db, 'kyc_submissions', uid), {
-                    uid,
+            // Triple-Write R11 — via Cloud Function executeUserAction (08-01.1.9)
+            await httpsCallable(getFunctions(), 'executeUserAction')({
+                action: 'submitKycIndividual',
+                payload: {
                     doc_type:      this.#docType,
                     front_url:     finalFrontUrl,
                     back_url:      finalBackUrl,
-                    submitted_at:  serverTimestamp(),
                     legal_nature:  this.#legalNature,
-                    personal_data: this.#formData,  // NOTE: cifrar PII en producción
-                }, { merge: true }),
-
-                // WRITE 3 — audit_log/{uid}/events — trail de auditoría
-                setDoc(doc(collection(db, 'audit_log', uid, 'events')), {
-                    event:      'KYC_SUBMITTED',
-                    timestamp:   serverTimestamp(),
-                    doc_type:    this.#docType,
-                    user_agent:  navigator.userAgent,
-                }),
-            ]);
+                    requires_kyb:  this.#requiresKYB,
+                    personal_data: this.#formData,
+                    user_agent:    navigator.userAgent,
+                },
+            });
 
             this.#step = STEP.CONFIRMATION;
 

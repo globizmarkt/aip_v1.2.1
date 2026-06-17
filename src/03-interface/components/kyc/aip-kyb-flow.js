@@ -1,7 +1,7 @@
 /**
  * ARCHIVO: aip-kyb-flow.js
- * VERSIÓN: 1.0.0
- * FECHA: 2026-06-02
+ * VERSIÓN: 1.1.0
+ * FECHA: 2026-06-16
  * PROPÓSITO: Flujo KYB corporativo (6 pasos). AMLD5 (Directiva EU 2018/843) · FATF Rec 10 y 24 · umbral UBO: 25%.
  * ÍNDICE: 
  *   [SEC-01] Configuración y Constantes
@@ -13,8 +13,9 @@
 
 import { ReactiveElement } from '../../base/reactive-element.js';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, setDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, onSnapshot } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // [SEC-01] Configuración y Constantes
 const STEP = Object.freeze({
@@ -251,34 +252,22 @@ class AipKybFlow extends ReactiveElement {
 
             await Promise.all(uploads);
 
-            const db = getFirestore();
-            await Promise.all([
-                setDoc(doc(db, 'users', uid), {
-                    kyb_status: 'KYB_SUBMITTED',
-                    kyb_submitted_at: serverTimestamp(),
-                    is_pep: this.#isPEP === 'si'
-                }, { merge: true }),
-
-                setDoc(doc(db, 'kyb_submissions', uid), {
-                    uid,
-                    entity_data: this.#entityData,
-                    representative: { nombre: this.#repData.nombre, cargo: this.#repData.cargo, doc_url: repDocUrl },
-                    corporate_docs: { escritura_url: escrituraUrl, extracto_url: extractoUrl },
-                    ubo_has_owners: this.#uboHasOwners === 'si',
-                    ubos: this.#ubos.map((u, i) => ({ nombre: u.nombre, nacionalidad: u.nacionalidad, porcentaje: u.porcentaje, doc_url: uboUrls[i] })),
-                    no_ubo_declaration: this.#uboNoDeclaration,
-                    is_pep: this.#isPEP === 'si',
-                    submitted_at: serverTimestamp(),
-                }, { merge: true }),
-
-                setDoc(doc(collection(db, 'audit_log', uid, 'events')), {
-                    event: 'KYB_SUBMITTED',
-                    timestamp: serverTimestamp(),
-                    is_pep: this.#isPEP === 'si',
-                    ubo_count: this.#ubos.length,
+            await httpsCallable(getFunctions(), 'executeUserAction')({
+                action: 'submitKyb',
+                payload: {
+                    company_name: this.#entityData.nombre_empresa || '',
+                    kyb_data: {
+                        entity_data:        this.#entityData,
+                        representative:     { nombre: this.#repData.nombre, cargo: this.#repData.cargo, doc_url: repDocUrl },
+                        corporate_docs:     { escritura_url: escrituraUrl, extracto_url: extractoUrl },
+                        ubo_has_owners:     this.#uboHasOwners === 'si',
+                        ubos:               this.#ubos.map((u, i) => ({ nombre: u.nombre, nacionalidad: u.nacionalidad, porcentaje: u.porcentaje, doc_url: uboUrls[i] })),
+                        no_ubo_declaration: this.#uboNoDeclaration,
+                        is_pep:             this.#isPEP === 'si',
+                    },
                     user_agent: navigator.userAgent,
-                })
-            ]);
+                },
+            });
 
             this.#step = STEP.CONFIRMATION;
         } catch (err) {

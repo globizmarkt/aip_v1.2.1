@@ -226,5 +226,48 @@
     "family_office": { "hero_subtitle": "Gobernanza Institucional y Fiduciaria" },
     "agent": { "hero_subtitle": "Infraestructura para Agentes Fiduciarios" },
     "neutral": { "hero_subtitle": "Infraestructura Tecnológica Fiduciaria" }
+  },
+  "account_config": {
+    "title": "Configuración de cuenta",
+    "btn": {
+      "close": "✕ Cerrar",
+      "save": "Guardar",
+      "reset_password": "Enviar email de restablecimiento",
+      "open_admin": "Acceder al panel SuperAdmin",
+      "back": "← Volver"
+    },
+    "field": { "username": "Nombre de usuario" },
+    "msg": { "reset_sent": "Email de restablecimiento enviado" },
+    "timeframe": {
+      "label": "Horizonte temporal",
+      "short": "Corto plazo",
+      "medium": "Medio plazo",
+      "long": "Largo plazo"
+    },
+    "section": {
+      "admin": "Administradores y Personal AIP",
+      "admin_desc": "Acceso al panel de revisión KYC/KYB/L4 para personal autorizado.",
+      "agent_desktop": "Mi Desktop",
+      "agent_desktop_desc": "Gestión de tus documentos como agente."
+    },
+    "auth": { "required": "Inicia sesión para configurar tu cuenta" }
+  },
+  "agent_desktop": {
+    "title": "Desktop del Agente",
+    "auth": { "required": "No tienes acceso a este panel" },
+    "btn": {
+      "back": "← Volver",
+      "upload": "Subir documento",
+      "download": "Descargar",
+      "delete": "Eliminar"
+    },
+    "section": {
+      "documents": "Mis Documentos",
+      "documents_desc": "Sube, descarga o elimina tus documentos."
+    },
+    "msg": {
+      "no_documents": "Aún no has subido ningún documento.",
+      "upload_error": "Error al subir el documento. Inténtalo de nuevo."
+    }
   }
 }

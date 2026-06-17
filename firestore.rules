@@ -107,7 +107,49 @@ service cloud.firestore {
       allow update: if false;
     }
 
+    // ── agent_documents/{docId} — documentos propios del Desktop del Agente
+    // (ORB4-DESKTOP-AGENTE-01, yacimiento [N-34]) — owner-scoped por `uid`,
+    // mismo patrón que R2 ──────────────────────────────────────────────────
+    match /agent_documents/{docId} {
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
+
+      allow create: if isAuthenticated()
+                    && request.resource.data.uid == request.auth.uid;
+
+      allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
+
+      // Inmutables tras su carga (borrar + recrear) — mismo criterio que R2
+      allow update: if false;
+    }
+
+    // ── kyc_submissions / kyc_l4_submissions / kyc_kyb_submissions /
+    // audit_log — READ-ONLY para cliente, owner u admin. La ESCRITURA queda
+    // exclusivamente al dispatcher `executeUserAction` (Cloud Functions,
+    // Admin SDK bypasa estas reglas) — despacho 08-01.1.2, CCD Pregunta 18.
+    match /kyc_submissions/{uid} {
+      allow read: if isAuthenticated() && (request.auth.uid == uid || isAdmin());
+      allow write: if false;
+    }
+
+    match /kyc_l4_submissions/{uid} {
+      allow read: if isAuthenticated() && (request.auth.uid == uid || isAdmin());
+      allow write: if false;
+    }
+
+    match /kyc_kyb_submissions/{uid} {
+      allow read: if isAuthenticated() && (request.auth.uid == uid || isAdmin());
+      allow write: if false;
+    }
+
+    match /audit_log/{uid}/events/{eventId} {
+      allow read: if isAuthenticated() && (request.auth.uid == uid || isAdmin());
+      allow write: if false;
+    }
+
     // ── Regla por defecto — Negar todo lo no especificado ──────────────────
+    // NOTA: qr_tokens (handoff QR móvil) queda FUERA de este bloque a
+    // propósito — modelo de auth del "lado móvil" pendiente (CCD P3,
+    // 01_AUDITORIA_FIRESTORE_RULES.md [SEC-05]).
     match /{document=**} {
       allow read, write: if false;
     }

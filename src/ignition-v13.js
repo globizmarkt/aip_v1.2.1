@@ -26,6 +26,7 @@ import { UserFSM }          from './01-core/app-fsm.js';
 import { ComponentRegistry } from './03-interface/register-components.js';
 import { AppRouter }         from './03-interface/app-router.js';
 import { onStateChange }     from './01-core/app-store.js';
+import { KYCFlowController } from './03-interface/components/kyc/kyc-flow-controller.js';
 
 // ─── 1. Registro de componentes v1.3 (carga lazy — solo cuando el Router los necesite) ───
 
@@ -47,6 +48,55 @@ ComponentRegistry.registerLazy(
 ComponentRegistry.registerLazy(
     'aip-aimon-panel',
     () => import('./gadgets/aip-aimon-panel.js')
+);
+
+// ─── 1bis. Registro pipeline KYC (Fase 0→4) — yacimiento [N-34] ORB4-KYC ──────────────────
+//
+// DIR-AIP-04 (validado por el Director 2026-06-14): los 6 componentes
+// permanecen en components/kyc/, registrados aquí con el mismo patrón
+// registerLazy de §1. El encadenamiento Fase 0→4 lo orquesta
+// kyc-flow-controller.js (componentes/kyc/) — su .init(container) requiere
+// un punto de montaje dedicado todavía no existente en index.html
+// (ver ORB4-MOUNT-01, 00_master_tasks.md §2/§3).
+
+ComponentRegistry.registerLazy(
+    'aip-kyc-setup',
+    () => import('./03-interface/components/kyc/aip-kyc-setup.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-acp-flow',
+    () => import('./03-interface/components/kyc/aip-acp-flow.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-kyc-individual',
+    () => import('./03-interface/components/kyc/aip-kyc-individual.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-kyb-flow',
+    () => import('./03-interface/components/kyc/aip-kyb-flow.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-l4-qualifier',
+    () => import('./03-interface/components/kyc/aip-l4-qualifier.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-superadmin-kyc',
+    () => import('./03-interface/components/kyc/aip-superadmin-kyc.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-account-config',
+    () => import('./03-interface/components/kyc/aip-account-config.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-agent-desktop',
+    () => import('./03-interface/components/kyc/aip-agent-desktop.js')
 );
 
 // ─── EXIT COOLDOWN — timestamp de la última salida del CRM (BUG-VAL-EXIT-01) ─────────────
@@ -253,6 +303,217 @@ if (!shell) {
         }
 
         _bridgePrevState = current;
+    });
+}
+
+// ─── 6. ÓRBITA 4 KYC — bridge forward para kyc-flow-controller / aip-superadmin-kyc ───────
+//
+// Yacimiento [N-34] / ORB4-MOUNT-01. Monta en #orb4-kyc-shell:
+//   - AIP:KYC:FlowRequested  → arranca el pipeline aplicante (Fase 0→4) vía
+//     KYCFlowController, que encadena los 5 componentes ORB4-KYC-01..05.
+//   - AIP:Admin:OpenOrbit4   → monta <aip-superadmin-kyc> (panel SuperAdmin).
+//   - AIP:Admin:KYCActionDone (emitido por aip-superadmin-kyc tras
+//     aprobar/rechazar) → ANEXO R-GADGET-01.1 punto 7: el componente recarga
+//     su propia cola (_loadAudit/_loadUser); este listener solo confirma la
+//     recepción para trazabilidad.
+//
+// Disparo del perfil "Agente" (ORB4-TRIGGER-01) → ver bloque §7 más abajo.
+// Disparo de AIP:Admin:OpenOrbit4 (nav SuperAdmin) sigue pendiente — no existe
+// aún el nav SuperAdmin en index.html (registrado en ORB4-TRIGGER-01).
+
+const _orb4Shell = document.getElementById('orb4-kyc-shell');
+
+if (!_orb4Shell) {
+    console.error('[Ignition v1.3] #orb4-kyc-shell no encontrado — Órbita 4 KYC abortada.');
+} else {
+    document.addEventListener('AIP:KYC:FlowRequested', () => {
+        console.log('[Ignition v1.3] AIP:KYC:FlowRequested → KYCFlowController.init()');
+        KYCFlowController.init(_orb4Shell);
+    });
+
+    document.addEventListener('AIP:KYC:FlowComplete', () => {
+        console.log('[Ignition v1.3] AIP:KYC:FlowComplete → liberando #orb4-kyc-shell');
+        KYCFlowController.destroy();
+    });
+
+    document.addEventListener('AIP:Admin:OpenOrbit4', async () => {
+        console.log('[Ignition v1.3] AIP:Admin:OpenOrbit4 → montando <aip-superadmin-kyc>');
+        await ComponentRegistry.ensureDefined('aip-superadmin-kyc');
+        const el = document.createElement('aip-superadmin-kyc');
+        _orb4Shell.replaceChildren(el);
+    });
+
+    document.addEventListener('AIP:Admin:KYCActionDone', (e) => {
+        console.log('[Ignition v1.3] AIP:Admin:KYCActionDone recibido:', e.detail);
+    });
+}
+
+// ─── 7. ÓRBITA 4 — disparo de bootstrap KYC tras signup (ORB4-TRIGGER-01) ──────────────────
+//
+// Yacimiento [N-34] / ORB4-TRIGGER-01. Corrección 2026-06-14 (spec canónica
+// `01_spec_kyc_v1.md`, PREMISAS SELLADAS): "Todos los usuarios hacen KYC.
+// Todos empiezan como persona física" — el pipeline KYC NO es exclusivo del
+// perfil "agente" (R-CROSS-01-AGENTE sigue vigente como hallazgo de diseño
+// para el "Desktop del Trabajador" post-KYC, pero el disparo no se filtra
+// por perfil).
+//
+// Bridge forward NO INVASIVO — no modifica AIPHandler.js (FROZEN v18.7):
+// observa el submit de #aip-access-form (sin preventDefault — el listener
+// propio de AIPHandler sigue su curso) y Skeleton:Legal:Accepted (disparado
+// por AIPHandler tras aceptar el gate legal post-signup/signin). Cualquier
+// envío del formulario seguido de Legal:Accepted dispara AIP:KYC:FlowRequested.
+//
+// NOTA — trigger canónico pendiente (DOMAIN_BLUEPRINT_04_CRM_SHELL.md §B3):
+// este es un bootstrap de UNA sola vez (post-signup). El trigger real de
+// Órbita 4 es dual vía `app-intent` — (a) contextual desde Órbita 2 con
+// `mandate_id`, (b) global de emergencia desde footer de Órbita 1 con
+// `mandate_id: null` — y permite REABRIR Órbita 4 más adelante (KYC, VDR,
+// SuperAdmin). No implementado aún — ver ORB4-APPINTENT-01.
+
+{
+    const _accessForm = document.getElementById('aip-access-form');
+    let _kycPendingFlow = false;
+
+    _accessForm?.addEventListener('submit', () => {
+        _kycPendingFlow = true;
+    });
+
+    document.addEventListener('Skeleton:Legal:Accepted', () => {
+        if (_kycPendingFlow) {
+            _kycPendingFlow = false;
+            console.log('[Ignition v1.3][ORB4-TRIGGER-01] Signup + Legal:Accepted → AIP:KYC:FlowRequested');
+            document.dispatchEvent(new CustomEvent('AIP:KYC:FlowRequested', { bubbles: true }));
+        }
+    });
+}
+
+// ─── 8. ÓRBITA 4 — trigger dual "app-intent" (ORB4-APPINTENT-01, DOMAIN_BLUEPRINT_04 §B3) ──
+//
+// Yacimiento [N-34]. Implementa el trigger canónico sellado en
+// DOMAIN_BLUEPRINT_04_CRM_SHELL.md §B3 — lógica dual:
+//   - Contextual (principal): Órbita 2, mandato abierto → app-intent con
+//     mandate_id precargado. Se rastrea vía Skeleton:Action:MandateSelected
+//     (ya emitido por index.html al seleccionar mandato).
+//   - Global de emergencia (failsafe): footer de Órbita 1, #orb4-appintent-btn
+//     → app-intent con mandate_id: null si no hay mandato seleccionado.
+//
+// app-intent reabre #orb4-kyc-shell vía KYCFlowController — de momento monta
+// siempre el pipeline KYC (única "app" de Órbita 4 implementada). El "app
+// picker" (KYC / VDR-uploader / SuperAdmin según mandate_id y rol) es deuda
+// técnica para cuando exista más de una app montable — no se construye un
+// picker para una sola opción (R-RSI-01 criterio-guillotina).
+
+{
+    let _lastMandateId = null;
+
+    document.addEventListener('Skeleton:Action:MandateSelected', (e) => {
+        _lastMandateId = e.detail?.mandateId || e.detail?.id || null;
+    });
+
+    document.getElementById('orb4-appintent-btn')?.addEventListener('click', () => {
+        console.log(`[Ignition v1.3][ORB4-APPINTENT-01] footer Órbita 1 → app-intent (mandate_id=${_lastMandateId})`);
+        document.dispatchEvent(new CustomEvent('app-intent', {
+            bubbles: true,
+            detail: { mandate_id: _lastMandateId }
+        }));
+    });
+
+    document.addEventListener('app-intent', (e) => {
+        console.log('[Ignition v1.3][ORB4-APPINTENT-01] app-intent recibido:', e.detail);
+        // Router de "apps" de Órbita 4 por intent (R-RSI-01 criterio-guillotina:
+        // picker real solo cuando exista más de una app montable). Por defecto
+        // (sin intent o intent==='kyc') → pipeline KYC, única app implementada
+        // hoy. intent==='account-config' (ORB4-ACCOUNTCONFIG-01, ver §9) →
+        // evento dedicado, aún sin componente que lo escuche.
+        const intent = e.detail?.intent || 'kyc';
+        if (intent === 'account-config') {
+            document.dispatchEvent(new CustomEvent('AIP:Config:OpenRequested', { bubbles: true, detail: e.detail }));
+        } else {
+            document.dispatchEvent(new CustomEvent('AIP:KYC:FlowRequested', { bubbles: true }));
+        }
+    });
+}
+
+// ─── 9. ÓRBITA 4 — "Configuración de cuenta" desde footer CRM de Órbita 1 (ORB4-ACCOUNTCONFIG-01) ──
+//
+// Yacimiento [N-34]. Corrección 2026-06-14 (Director, "C."): el acceso real a
+// Órbita 4 documentado por el Director es DENTRO del CRM, vía el footer de
+// Órbita 1 (`aip-trinity-layout.js` [SEC inline], botón
+// data-action="OpenUserConfig" → "Configuración de cuenta" — ya presente en el
+// marcado, sin cablear hasta ahora). Este botón es un TERCER punto de entrada a
+// Órbita 4, distinto y complementario a los dos de §B3/§8
+// (contextual-mandato y emergencia-footer-landing).
+//
+// UIBinder traduce el click en Skeleton:RequestGate{action:'OpenUserConfig'} →
+// Router (sin entrada en SEMANTIC_MAP) → passthrough Skeleton:Action:OpenUserConfig.
+// Aquí se traduce a app-intent{intent:'account-config', mandate_id:null}, que
+// §8 enruta a AIP:Config:OpenRequested.
+//
+// RESUELTO (ORB4-ACCOUNTCONFIG-01, 2026-06-15): la "pieza" — componente
+// <aip-account-config> que escucha AIP:Config:OpenRequested y monta el panel
+// de configuración de cuenta (nombre de usuario, renovación de contraseña,
+// selección de timeframe + gate "Administradores y Personal AIP" que dispara
+// AIP:Admin:OpenOrbit4) — ver §10.
+
+document.addEventListener('Skeleton:Action:OpenUserConfig', () => {
+    console.log('[Ignition v1.3][ORB4-ACCOUNTCONFIG-01] footer CRM Órbita 1 "Configuración de cuenta" → app-intent(account-config)');
+    document.dispatchEvent(new CustomEvent('app-intent', {
+        bubbles: true,
+        detail: { mandate_id: null, intent: 'account-config' }
+    }));
+});
+
+// ─── 10. ÓRBITA 4 — panel de configuración de cuenta (ORB4-ACCOUNTCONFIG-01) ───────────────
+//
+// Yacimiento [N-34]. Monta/desmonta <aip-account-config> en #orb4-kyc-shell:
+//   - AIP:Config:OpenRequested  → monta <aip-account-config> (perfil, seguridad,
+//     timeframe + gate SuperAdmin → AIP:Admin:OpenOrbit4, §6).
+//   - AIP:Config:CloseRequested → libera #orb4-kyc-shell (botón "✕" del panel).
+//
+// El botón "← Volver" de <aip-superadmin-kyc> (R-GADGET-01 bisturí funcional)
+// dispara AIP:Config:OpenRequested para regresar a este panel.
+
+{
+    const _orb4ConfigShell = document.getElementById('orb4-kyc-shell');
+
+    document.addEventListener('AIP:Config:OpenRequested', async () => {
+        console.log('[Ignition v1.3][ORB4-ACCOUNTCONFIG-01] AIP:Config:OpenRequested → montando <aip-account-config>');
+        if (!_orb4ConfigShell) return;
+        await ComponentRegistry.ensureDefined('aip-account-config');
+        const el = document.createElement('aip-account-config');
+        _orb4ConfigShell.replaceChildren(el);
+    });
+
+    document.addEventListener('AIP:Config:CloseRequested', () => {
+        console.log('[Ignition v1.3][ORB4-ACCOUNTCONFIG-01] AIP:Config:CloseRequested → liberando #orb4-kyc-shell');
+        _orb4ConfigShell?.replaceChildren();
+    });
+}
+
+// ─── 11. ÓRBITA 4 — Desktop del Agente (ORB4-DESKTOP-AGENTE-01) ────────────────────────────
+//
+// Yacimiento [N-34]. Monta/desmonta <aip-agent-desktop> en #orb4-kyc-shell:
+//   - AIP:Agent:OpenRequested  → monta <aip-agent-desktop> (gate rol 'agente',
+//     sección "Mis Documentos" — subir/listar/descargar/eliminar).
+//   - AIP:Agent:CloseRequested → libera #orb4-kyc-shell.
+//
+// El botón "← Volver" de <aip-agent-desktop> (R-GADGET-01 bisturí funcional)
+// dispara AIP:Config:OpenRequested para regresar al panel de configuración.
+
+{
+    const _orb4AgentShell = document.getElementById('orb4-kyc-shell');
+
+    document.addEventListener('AIP:Agent:OpenRequested', async () => {
+        console.log('[Ignition v1.3][ORB4-DESKTOP-AGENTE-01] AIP:Agent:OpenRequested → montando <aip-agent-desktop>');
+        if (!_orb4AgentShell) return;
+        await ComponentRegistry.ensureDefined('aip-agent-desktop');
+        const el = document.createElement('aip-agent-desktop');
+        _orb4AgentShell.replaceChildren(el);
+    });
+
+    document.addEventListener('AIP:Agent:CloseRequested', () => {
+        console.log('[Ignition v1.3][ORB4-DESKTOP-AGENTE-01] AIP:Agent:CloseRequested → liberando #orb4-kyc-shell');
+        _orb4AgentShell?.replaceChildren();
     });
 }
 

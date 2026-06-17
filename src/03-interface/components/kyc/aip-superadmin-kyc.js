@@ -1,17 +1,25 @@
 /**
  * ARCHIVO: aip-superadmin-kyc.js
- * VERSIÓN: 1.0.0
- * FECHA: 2026-06-02
+ * VERSIÓN: 1.2.0
+ * FECHA: 2026-06-15
  * PROPÓSITO: Panel de administración SuperAdmin para revisión y aprobación/rechazo de flujos KYC/KYB/L4.
- * ÍNDICE: 
+ * ÍNDICE:
  *   [SEC-01] Configuración y Constantes
- *   [SEC-02] Estado Interno y Ciclo de Vida
+ *   [SEC-02] Estado Interno y Ciclo de Vida — MODIFICADA: guard usa
+ *     OrbitPanelElement._fetchUserDoc (forja [N-34], V-2)
  *   [SEC-03] Lógica de Carga de Datos (Vistas A, B, C)
  *   [SEC-04] Lógica de Acciones (Aprobación/Rechazo)
- *   [SEC-05] Motor de Renderizado (Tabs y Vistas)
+ *   [SEC-05] Motor de Renderizado (Tabs y Vistas) — MODIFICADA: añadido botón
+ *     "← Volver" (ORB4-ACCOUNTCONFIG-01) que dispara AIP:Config:OpenRequested
+ *     para regresar al panel de configuración de cuenta; dispatch de
+ *     hidratación vía OrbitPanelElement._hydrated.
+ *
+ * /laparoscopia 2026-06-15: extracción de `_c()` + dispatch de hidratación +
+ * lectura users/{uid} a `../../base/orbit-panel-element.js` (molde mínimo
+ * OrbitPanelElement). Sin cambios de comportamiento ni visuales (R-GADGET-01).
  */
 
-import { ReactiveElement } from '../../base/reactive-element.js';
+import { OrbitPanelElement, _c } from '../../base/orbit-panel-element.js';
 import { getAuth } from 'firebase/auth';
 import {
     getFirestore, doc, getDoc, getDocs, collection,
@@ -21,30 +29,7 @@ import {
 // [SEC-01] Configuración y Constantes
 const TAB = Object.freeze({ QUEUE: 'queue', USER: 'user', AUDIT: 'audit' });
 
-function _c(tag, props = {}, children = []) {
-    const el = document.createElement(tag);
-    for (const [k, v] of Object.entries(props)) {
-        switch (k) {
-            case 'className': el.className = v; break;
-            case 'textContent': el.textContent = v; break;
-            case 'type': el.type = v; break;
-            case 'name': el.name = v; break;
-            case 'value': el.value = v; break;
-            case 'disabled': el.disabled = v; break;
-            case 'readOnly': el.readOnly = v; break;
-            case 'htmlFor': el.htmlFor = v; break;
-            case 'src': el.src = v; break;
-            default: if (v !== false && v !== null && v !== undefined) el.setAttribute(k, v === true ? '' : v);
-        }
-    }
-    for (const child of children) {
-        if (child instanceof Node) el.appendChild(child);
-        else if (child !== null && child !== undefined) el.appendChild(document.createTextNode(String(child)));
-    }
-    return el;
-}
-
-class AipSuperadminKyc extends ReactiveElement {
+class AipSuperadminKyc extends OrbitPanelElement {
     // [SEC-02] Estado Interno y Ciclo de Vida
     #tab = TAB.QUEUE;
     #authorized = false;
@@ -79,9 +64,8 @@ class AipSuperadminKyc extends ReactiveElement {
         }
 
         try {
-            const db = getFirestore();
-            const snap = await getDoc(doc(db, 'users', this.#adminUid));
-            if (snap.data()?.rol === 'superadmin') {
+            const data = await this._fetchUserDoc(this.#adminUid);
+            if (data?.rol === 'superadmin') {
                 this.#authorized = true;
                 this._loadQueue();
             } else {
@@ -487,6 +471,17 @@ class AipSuperadminKyc extends ReactiveElement {
 
         const root = _c('div', { className: 'superadmin-kyc p-6 bg-[var(--theme-surface)] border border-[var(--theme-border)]' });
 
+        // [ORB4-ACCOUNTCONFIG-01] Botón de regreso al panel de configuración de cuenta
+        const btnBack = _c('button', {
+            type: 'button',
+            className: 'mb-4 text-xs uppercase tracking-widest text-[var(--theme-foreground-alt)] hover:text-[var(--theme-accent)]',
+            'data-i18n': 'account_config.btn.back'
+        });
+        btnBack.addEventListener('click', () => {
+            document.dispatchEvent(new CustomEvent('AIP:Config:OpenRequested', { bubbles: true }));
+        });
+        root.appendChild(btnBack);
+
         root.appendChild(_c('h1', { className: 'font-serif text-3xl text-[var(--theme-foreground)] mb-6 tracking-wide', 'data-i18n': 'admin.title' }));
 
         if (this.#error) {
@@ -508,7 +503,7 @@ class AipSuperadminKyc extends ReactiveElement {
         }
 
         this.appendChild(root);
-        this.dispatchEvent(new CustomEvent('Skeleton:DOM:Hydrated', { bubbles: true, detail: { source: 'aip-superadmin-kyc' } }));
+        this._hydrated('aip-superadmin-kyc');
     }
 }
 
