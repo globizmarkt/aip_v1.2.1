@@ -755,10 +755,11 @@
         <div class="flex items-center justify-end gap-6 w-full lg:w-1/3">
             <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity" data-action="OpenPage" data-page="faq">FAQ</button>
             <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity" data-action="OpenPage" data-page="contact">Contacto</button>
-            <!-- ÓRBITA 4 — trigger global de emergencia (DOMAIN_BLUEPRINT_04_CRM_SHELL.md §B3,
-                 ORB4-APPINTENT-01). Footer de Órbita 1: emite "app-intent" con mandate_id
-                 (precargado si hay mandato seleccionado en Órbita 2, null si no). -->
-            <button type="button" id="orb4-appintent-btn" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity">Órbita 4</button>
+            <!-- ÓRBITA 4 — trigger oculto (ORB4-APPINTENT-01). El botón público fue
+                 retirado del footer 2026-06-17: el acceso a Órbita 4 se gestiona
+                 desde dentro del CRM, no desde la landing pública. El id se preserva
+                 para que ignition-v13.js §8 lo encuentre sin error. -->
+            <button type="button" id="orb4-appintent-btn" class="hidden"></button>
         </div>
     </footer>
 
