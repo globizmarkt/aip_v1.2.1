@@ -350,42 +350,11 @@ if (!_orb4Shell) {
 
 // ─── 7. ÓRBITA 4 — disparo de bootstrap KYC tras signup (ORB4-TRIGGER-01) ──────────────────
 //
-// Yacimiento [N-34] / ORB4-TRIGGER-01. Corrección 2026-06-14 (spec canónica
-// `01_spec_kyc_v1.md`, PREMISAS SELLADAS): "Todos los usuarios hacen KYC.
-// Todos empiezan como persona física" — el pipeline KYC NO es exclusivo del
-// perfil "agente" (R-CROSS-01-AGENTE sigue vigente como hallazgo de diseño
-// para el "Desktop del Trabajador" post-KYC, pero el disparo no se filtra
-// por perfil).
-//
-// Bridge forward NO INVASIVO — no modifica AIPHandler.js (FROZEN v18.7):
-// observa el submit de #aip-access-form (sin preventDefault — el listener
-// propio de AIPHandler sigue su curso) y Skeleton:Legal:Accepted (disparado
-// por AIPHandler tras aceptar el gate legal post-signup/signin). Cualquier
-// envío del formulario seguido de Legal:Accepted dispara AIP:KYC:FlowRequested.
-//
-// NOTA — trigger canónico pendiente (DOMAIN_BLUEPRINT_04_CRM_SHELL.md §B3):
-// este es un bootstrap de UNA sola vez (post-signup). El trigger real de
-// Órbita 4 es dual vía `app-intent` — (a) contextual desde Órbita 2 con
-// `mandate_id`, (b) global de emergencia desde footer de Órbita 1 con
-// `mandate_id: null` — y permite REABRIR Órbita 4 más adelante (KYC, VDR,
-// SuperAdmin). No implementado aún — ver ORB4-APPINTENT-01.
-
-{
-    const _accessForm = document.getElementById('aip-access-form');
-    let _kycPendingFlow = false;
-
-    _accessForm?.addEventListener('submit', () => {
-        _kycPendingFlow = true;
-    });
-
-    document.addEventListener('Skeleton:Legal:Accepted', () => {
-        if (_kycPendingFlow) {
-            _kycPendingFlow = false;
-            console.log('[Ignition v1.3][ORB4-TRIGGER-01] Signup + Legal:Accepted → AIP:KYC:FlowRequested');
-            document.dispatchEvent(new CustomEvent('AIP:KYC:FlowRequested', { bubbles: true }));
-        }
-    });
-}
+// DESACTIVADO 2026-06-17 (VIBE-AIP-S-REBORN-08): el KYC se inicia desde dentro
+// del CRM — el usuario entra al CRM con el banner de AIPHandler y avanza el KYC
+// desde allí. El auto-disparo en login bloqueaba la entrada al CRM con un overlay
+// full-screen negro antes de que el usuario pudiera hacer nada.
+// El trigger canónico es ORB4-APPINTENT-01 (§8) + botón dentro del CRM.
 
 // ─── 8. ÓRBITA 4 — trigger dual "app-intent" (ORB4-APPINTENT-01, DOMAIN_BLUEPRINT_04 §B3) ──
 //
