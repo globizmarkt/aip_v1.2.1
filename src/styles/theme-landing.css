@@ -352,7 +352,7 @@ body {
     top: 8px;
     bottom: 8px;
     width: var(--keel-width);
-    background-color: #7FB4FF;
+    background-color: var(--abyss-gold); /* [B1-H3] era #7FB4FF (azul Tailwind) — VR-REBORN-08 */
     opacity: 0;
 }
 

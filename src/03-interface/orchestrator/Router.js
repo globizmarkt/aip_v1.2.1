@@ -27,6 +27,8 @@ const SEMANTIC_MAP = Object.freeze({
     TabIntelligenceClick:'Skeleton:Action:TabNavigate',  // → opportunity/ (slug canónico)
     TabRegulatoryClick:  'Skeleton:Action:TabNavigate',
     TabAipVenturesClick: 'Skeleton:Action:TabNavigate',  // [LAND-01] Tab #6 — AIP Ventures
+    // [B5-H1] CTAs inyectados en tab opportunity/intelligence — VR-REBORN-08
+    OrbitTransitionAdmission: 'Skeleton:Action:GateWake', // abre Orbit-3 en modo registro
     // [E3-T02] Selector de idioma — traducción semántica canónica
     ChangeLanguage:      'Skeleton:Action:LanguageChange',
 });

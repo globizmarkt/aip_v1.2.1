@@ -11,6 +11,8 @@ export const UIHydrator = {
         // Escucha las señales canónicas de actualización de idioma (R20)
         document.addEventListener('Skeleton:DictionaryReady', () => this.hydrateAll());
         document.addEventListener('Skeleton:LocaleChanged', () => this.hydrateAll());
+        // [B4-H2] Re-hidratar cuando TabLoader inyecta nuevo contenido (VR-REBORN-08)
+        document.addEventListener('Skeleton:DOM:Injected', () => this.hydrateAll());
     },
 
     hydrateAll() {

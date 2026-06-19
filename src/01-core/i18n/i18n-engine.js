@@ -8,7 +8,7 @@
 import { deepFreeze } from '../utils/deepFreeze.js'; // [E3-GENESIS] E3-T08 — canónico R27
 
 const STORAGE_KEY = 'skeleton_lang';
-const DEFAULT_LANG = 'en';
+const DEFAULT_LANG = 'es'; // [B1-H1] Selector visual mostraba ES — default alineado (VR-REBORN-08)
 
 /**
  * i18nEngine: El custodio del lenguaje en la Órbita 1.

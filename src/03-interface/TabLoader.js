@@ -116,6 +116,10 @@ class TabLoaderEngine {
             this.#renderContainer(TabLoaderEngine.#sanitizeExternal(this.#cache[slug]));
             // [PASO C] Levantar inhibición visual tras render exitoso
             this.#container.classList.remove('tab-content-container--loading');
+            // [B4-H1] Colapsar Orbit-3 al navegar entre tabs (VR-REBORN-08)
+            document.dispatchEvent(new CustomEvent('Skeleton:Action:GateIdle', { bubbles: true }));
+            // [B4-H2] Re-hidratar i18n con el nuevo contenido inyectado (VR-REBORN-08)
+            document.dispatchEvent(new CustomEvent('Skeleton:DOM:Injected', { bubbles: true }));
             console.log(`[TabLoader] ${slug} → inyectado en #tab-content-container (${this.#cache[slug].length} chars, sanitizado).`);
 
         } catch (err) {

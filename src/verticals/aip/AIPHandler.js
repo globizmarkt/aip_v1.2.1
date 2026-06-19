@@ -143,10 +143,25 @@ export const AIPHandler = {
         document.addEventListener('Skeleton:Action:GateWake', () => {
             this.toggleOrbit3(true);
             this._switchOrbit3Tab('acceso');
+            // [B5-H3] "Request Access" desde landing → nueva cuenta (VR-REBORN-08)
+            document.dispatchEvent(new CustomEvent('Skeleton:Form:PresetSignup', {
+                bubbles: true,
+                detail: { profile: 'inversor' },
+            }));
         });
 
-        document.addEventListener('Skeleton:Action:GateClosed', () => this.toggleOrbit3(false));
-        document.addEventListener('Skeleton:Action:GateIdle',   () => this.toggleOrbit3(false));
+        document.addEventListener('Skeleton:Action:GateClosed', () => {
+            this.toggleOrbit3(false);
+            // [B5-H2] Reset perfil radio al cerrar — evita state leakage (VR-REBORN-08)
+            const defaultRadio = document.querySelector('input[name="aip-perfil"][value="inversor"]');
+            if (defaultRadio) { defaultRadio.checked = true; }
+        });
+        document.addEventListener('Skeleton:Action:GateIdle', () => {
+            this.toggleOrbit3(false);
+            // [B5-H2] Reset perfil radio al cerrar — evita state leakage (VR-REBORN-08)
+            const defaultRadio = document.querySelector('input[name="aip-perfil"][value="inversor"]');
+            if (defaultRadio) { defaultRadio.checked = true; }
+        });
         document.addEventListener('Skeleton:Action:toggleOrbit3', () => this.toggleOrbit3());
 
         document.getElementById('btn-attest-enter')?.addEventListener('click', () => {
@@ -203,6 +218,12 @@ export const AIPHandler = {
                 });
             } catch (err) {
                 console.error('[AIPHandler] Firebase OAuth error:', err.code, err.message);
+                // [B2-H2] Mostrar error visible al usuario — popup vacío sin feedback (VR-REBORN-08)
+                const errEl = document.getElementById('aip-signin-error');
+                if (errEl) {
+                    errEl.textContent = 'Autenticación OAuth no disponible. Usa correo y contraseña.';
+                    errEl.classList.remove('hidden');
+                }
             }
         });
 
