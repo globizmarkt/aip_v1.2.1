@@ -230,6 +230,8 @@ if (!shell) {
         UserFSM.send('LOGIN_SUBMITTED');          // ORBIT_1_GUEST → ORBIT_2_GATEKEEPER
         UserFSM.send('ACCESS_GRANTED', sdui);     // ORBIT_2_GATEKEEPER → ORBIT_3_LEGAL_ATTESTATION
         // Router detecta ORBIT_3_LEGAL_ATTESTATION → monta aip-legal-attestation en #v13-shell
+        // [VR-B2-01] Suprimir attestation gate v1.2.1 — v1.3 toma el control del peaje legal
+        document.getElementById('legal-attestation-gate')?.classList.add('hidden');
     });
 
     // ─── LANG DROPDOWN BRIDGE (LANG-BRIDGE-01) ───────────────────────────────────────────────

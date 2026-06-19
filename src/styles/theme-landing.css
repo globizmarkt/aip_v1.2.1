@@ -640,6 +640,20 @@ body.crm-mode {
     transition: background-color 0.8s ease;
 }
 
+/* ── [VR-B2-02] CRM Dashboard — Anclaje fijo al viewport ───────────────── */
+/* AIPHandler.showCRM() inyecta inline style con width/height:100% pero el   */
+/* elemento vive dentro del grid de landing y queda constreñido.             */
+/* Con position:fixed el dashboard ocupa el viewport completo y el grid de  */
+/* landing deja de interferir.                                               */
+body.crm-mode #crm-dashboard {
+    position: fixed !important;
+    inset: 0 !important;
+    display: flex !important;
+    z-index: 1;
+    width: 100% !important;
+    height: 100% !important;
+}
+
 /* ── TRINITY LAYOUT — 3 Columnas Canónicas ────────────────────────────── */
 /* Orbit 1 (220px) | Orbit 2 (fluid) | Orbit 3 (300px)                    */
 

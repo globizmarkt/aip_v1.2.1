@@ -252,6 +252,28 @@
     },
     "auth": { "required": "Sign in to configure your account" }
   },
+  "welcome": {
+    "investor": {
+      "title": "Institutional Access Confirmed",
+      "body": "Access validated. Your qualified mandates and market alerts are in the Portfolio tree. Begin file review from the master navigation.",
+      "cta": "Go to Portfolio"
+    },
+    "agent": {
+      "title": "Agent Registry Active",
+      "body": "Fiduciary lock cleared. Counterparty traces and origination files indexed under Operations. Review the compliance log for pending milestones.",
+      "cta": "Go to Operations"
+    },
+    "ba": {
+      "title": "Qualified Investor Channel",
+      "body": "BA authorisation active. Direct access to embryonic mandates and structured data rooms. Capital allocation managed from the Mandates view.",
+      "cta": "Go to Mandates"
+    },
+    "founder": {
+      "title": "Originator Profile",
+      "body": "Submission received and sealed. Your structure is in gestation phase. Technical documentation and NCNDA centralised under Submissions. Complete team KYC to activate matching.",
+      "cta": "Go to Submissions"
+    }
+  },
   "agent_desktop": {
     "title": "Agent Desktop",
     "auth": { "required": "You do not have access to this panel" },
