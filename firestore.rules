@@ -79,11 +79,11 @@ service cloud.firestore {
     }
 
     // ── Regla R3 — Colección mandates (lectura para demo + CRM tree) ───────
-    // Usuarios autenticados pueden leer mandatos para poblar Orbit-1.
-    // Escritura reservada a Admin SDK / Cloud Functions.
-    // NOTA: En producción real añadir filtro por clearance o membership.
+    // [SEC-AIP-01] Solo pueden leer mandatos los miembros del mandato o admins.
+    // Eliminado: allow read: if isAuthenticated() — exponía todos los mandatos a
+    // cualquier cuenta autenticada sin verificación de membresía o clearance.
     match /mandates/{mandateId} {
-      allow read: if isAuthenticated();
+      allow read: if isAuthenticated() && (isMandateMember(mandateId) || isAdmin());
       allow write: if false;
     }
 

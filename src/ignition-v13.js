@@ -27,6 +27,7 @@ import { ComponentRegistry } from './03-interface/register-components.js';
 import { AppRouter }         from './03-interface/app-router.js';
 import { onStateChange }     from './01-core/app-store.js';
 import { KYCFlowController } from './03-interface/components/kyc/kyc-flow-controller.js';
+import { getAuth }           from 'firebase/auth'; // [SEC-AIP-03] Guard auth real en Bridge Forward
 
 // ─── 1. Registro de componentes v1.3 (carga lazy — solo cuando el Router los necesite) ───
 
@@ -214,6 +215,15 @@ if (!shell) {
     // hasValidSDUIPayload guard verifica que wc.length > 0.
 
     document.addEventListener('Skeleton:Gatekeeper:AccessGranted', (e) => {
+        // ── [SEC-AIP-03] FIREBASE AUTH GUARD ─────────────────────────────────
+        // El evento es spoofeable desde consola (dispatchEvent). Verificar que
+        // existe sesión Firebase real antes de avanzar el FSM.
+        const _auth = getAuth();
+        if (!_auth.currentUser) {
+            console.warn('[Bridge v1.3 →] AccessGranted rechazado — sin sesión Firebase autenticada.');
+            return;
+        }
+
         // ── EXIT COOLDOWN GUARD (BUG-VAL-EXIT-01) ────────────────────────────
         // El mock session de AIPHandler re-dispara AccessGranted tras _restoreLanding().
         // Si han pasado menos de 800ms desde el último EXIT, se descarta el evento.
