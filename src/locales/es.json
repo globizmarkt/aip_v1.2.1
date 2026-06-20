@@ -290,6 +290,9 @@
     "msg": {
       "no_documents": "Aún no has subido ningún documento.",
       "upload_error": "Error al subir el documento. Inténtalo de nuevo."
+    },
+    "system": {
+      "component_load_error": "Error al cargar el componente. Recarga la página."
     }
   }
 }

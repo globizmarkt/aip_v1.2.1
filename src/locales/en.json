@@ -290,6 +290,9 @@
     "msg": {
       "no_documents": "You haven't uploaded any documents yet.",
       "upload_error": "Error uploading the document. Please try again."
+    },
+    "system": {
+      "component_load_error": "Error loading the component. Please reload the page."
     }
   }
 }
