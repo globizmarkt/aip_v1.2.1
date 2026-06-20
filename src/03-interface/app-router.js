@@ -95,7 +95,12 @@ export const AppRouter = {
             this._container.replaceChildren(el);
         } catch (err) {
             console.error(`[Router v1.3] Error montando <${tag}>:`, err);
-            this._container.replaceChildren();
+            // [FE-UI-01] Estado de error visible — evitar pantalla en blanco silenciosa
+            const errEl = document.createElement('p');
+            errEl.className = 'v13-load-error';
+            errEl.setAttribute('data-i18n', 'system.component_load_error');
+            errEl.textContent = '—';
+            this._container.replaceChildren(errEl);
         }
     }
 };
