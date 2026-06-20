@@ -445,19 +445,19 @@ document.addEventListener('Skeleton:Action:OpenUserConfig', () => {
 // dispara AIP:Config:OpenRequested para regresar a este panel.
 
 {
-    const _orb4ConfigShell = document.getElementById('orb4-kyc-shell');
+    // [P0-ARCH-03] §10 y §11 reutilizan _orb4Shell declarado en §6 — única referencia al nodo
 
     document.addEventListener('AIP:Config:OpenRequested', async () => {
         console.log('[Ignition v1.3][ORB4-ACCOUNTCONFIG-01] AIP:Config:OpenRequested → montando <aip-account-config>');
-        if (!_orb4ConfigShell) return;
+        if (!_orb4Shell) return;
         await ComponentRegistry.ensureDefined('aip-account-config');
         const el = document.createElement('aip-account-config');
-        _orb4ConfigShell.replaceChildren(el);
+        _orb4Shell.replaceChildren(el);
     });
 
     document.addEventListener('AIP:Config:CloseRequested', () => {
         console.log('[Ignition v1.3][ORB4-ACCOUNTCONFIG-01] AIP:Config:CloseRequested → liberando #orb4-kyc-shell');
-        _orb4ConfigShell?.replaceChildren();
+        _orb4Shell?.replaceChildren();
     });
 }
 
@@ -472,19 +472,19 @@ document.addEventListener('Skeleton:Action:OpenUserConfig', () => {
 // dispara AIP:Config:OpenRequested para regresar al panel de configuración.
 
 {
-    const _orb4AgentShell = document.getElementById('orb4-kyc-shell');
+    // [P0-ARCH-03] Reutiliza _orb4Shell declarado en §6 — sin nueva referencia al nodo
 
     document.addEventListener('AIP:Agent:OpenRequested', async () => {
         console.log('[Ignition v1.3][ORB4-DESKTOP-AGENTE-01] AIP:Agent:OpenRequested → montando <aip-agent-desktop>');
-        if (!_orb4AgentShell) return;
+        if (!_orb4Shell) return;
         await ComponentRegistry.ensureDefined('aip-agent-desktop');
         const el = document.createElement('aip-agent-desktop');
-        _orb4AgentShell.replaceChildren(el);
+        _orb4Shell.replaceChildren(el);
     });
 
     document.addEventListener('AIP:Agent:CloseRequested', () => {
         console.log('[Ignition v1.3][ORB4-DESKTOP-AGENTE-01] AIP:Agent:CloseRequested → liberando #orb4-kyc-shell');
-        _orb4AgentShell?.replaceChildren();
+        _orb4Shell?.replaceChildren();
     });
 }
 

@@ -116,6 +116,7 @@ async function boot() {
         const currentLang = i18nEngine.getLocale();
         i18nEngine.setLocale(currentLang);
         window.Skeleton.i18n = i18nEngine; // Exposición canónica (COG-66)
+        window.Skeleton.PassportEngine = PassportEngine; // [P0-ARCH-01] Exposición canónica — requerida por CRMWelcomeGate y cualquier consumer que necesite rol del usuario
         console.log('5. [i18n] Hidratación inicial ejecutada para:', currentLang.toUpperCase());
 
         // 6. Aplicación de Vigilancia Inicial y señal de sistema listo
@@ -151,10 +152,11 @@ async function boot() {
         }, { once: true });
 
         // [E3-T02] Revelación del CRM Dashboard tras atestación legal
+        // [P1-ARCH-06] body.crm-mode eliminado aquí — dueño único: ignition-v13.js §5 (Bridge Back).
+        // ignition-v13 lo activa en el mismo tick que detecta ORBIT_3_CRM_ACTIVE desde la FSM.
         document.addEventListener('Skeleton:Legal:Accepted', () => {
-            document.body.classList.add('crm-mode');                          // Activa paleta CRM + elimina background-image (Bloque A)
             document.getElementById('crm-dashboard')?.classList.remove('hidden');
-            console.log('[Main] Atestación legal completada → CRM Dashboard visible. body.crm-mode activado.');
+            console.log('[Main] Atestación legal completada → CRM Dashboard visible.');
         }, { once: true });
 
         // [CRM-WP-01] Welcome Gate — orientación post-login por perfil
