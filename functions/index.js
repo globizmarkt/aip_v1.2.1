@@ -188,6 +188,43 @@ const ACTIONS = {
         },
     },
 
+    // [S2 — SYS-ADMIN-IS-01] Admin: asignar IntegrityScore manualmente
+    // Solo superadmin. Guard adicional: el dispatcher verifica rol del llamante
+    // en users/{uid} antes de ejecutar — no depende solo de autenticación.
+    // Flujo: panel aip-superadmin-kyc.js → botón "Asignar IntegrityScore" →
+    // executeUserAction({ action:'setIntegrityScore', payload:{ targetUid, score } })
+    setIntegrityScore: {
+        async validate(payload, callerUid) {
+            const callerSnap = await db.doc(`users/${callerUid}`).get();
+            if (callerSnap.data()?.rol !== 'superadmin') {
+                throw new HttpsError('permission-denied', 'Solo superadmin puede asignar IntegrityScore');
+            }
+            const score = Number(payload.score);
+            if (!Number.isFinite(score) || score < 0 || score > 100) {
+                throw new HttpsError('invalid-argument', 'score debe ser un número entre 0 y 100');
+            }
+            if (!payload.targetUid || typeof payload.targetUid !== 'string') {
+                throw new HttpsError('invalid-argument', 'targetUid requerido');
+            }
+            return { targetUid: payload.targetUid, score };
+        },
+        build(callerUid, p) {
+            // userPatch se aplica al targetUid, no al callerUid
+            // El dispatcher normal usa uid del caller — aquí lo sobrescribimos
+            // en el campo __targetOverride para que el dispatcher lo detecte.
+            return {
+                __targetOverride: p.targetUid,
+                userPatch: { integrity_score: p.score },
+                submission: null,
+                auditEvent: {
+                    event: 'INTEGRITY_SCORE_SET',
+                    score: p.score,
+                    set_by: callerUid,
+                },
+            };
+        },
+    },
+
     // Account Config — perfil + preferencia de timeframe (aip-account-config.js)
     // Whitelist de campos: el cliente NUNCA puede tocar kyc_*/role/level/rol
     // vía este dispatcher — solo los campos declarados aquí.
@@ -245,18 +282,22 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
     // Retorna limitRef (para incluir en batch) o null (sin cooldown).
     const limitRef = await assertNotRateLimited(uid, action);
 
-    const validated = handler.validate(payload ?? {});
-    const { userPatch, submission, auditEvent } = handler.build(uid, validated);
+    const validated = await Promise.resolve(handler.validate(payload ?? {}, uid));
+    const built = handler.build(uid, validated);
+    const { userPatch, submission, auditEvent } = built;
+
+    // [S2] Acciones admin pueden escribir sobre un targetUid distinto al caller.
+    const writeUid = built.__targetOverride ?? uid;
 
     const batch = db.batch();
-    batch.set(db.doc(`users/${uid}`), userPatch, { merge: true });
+    batch.set(db.doc(`users/${writeUid}`), userPatch, { merge: true });
 
     if (submission) {
-        batch.set(db.doc(`${submission.collection}/${uid}`), submission.data, { merge: true });
+        batch.set(db.doc(`${submission.collection}/${writeUid}`), submission.data, { merge: true });
     }
 
     // [ARQ-CLEAN-01] Audit event incluye action name — facilita queries por tipo.
-    batch.set(db.collection(`audit_log/${uid}/events`).doc(), {
+    batch.set(db.collection(`audit_log/${writeUid}/events`).doc(), {
         action,
         ...auditEvent,
         timestamp: FieldValue.serverTimestamp(),

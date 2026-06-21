@@ -1,22 +1,18 @@
 /**
  * ARCHIVO: aip-superadmin-kyc.js
- * VERSIÓN: 1.2.0
- * FECHA: 2026-06-15
+ * VERSIÓN: 1.3.0
+ * FECHA: 2026-06-21
  * PROPÓSITO: Panel de administración SuperAdmin para revisión y aprobación/rechazo de flujos KYC/KYB/L4.
  * ÍNDICE:
  *   [SEC-01] Configuración y Constantes
- *   [SEC-02] Estado Interno y Ciclo de Vida — MODIFICADA: guard usa
- *     OrbitPanelElement._fetchUserDoc (forja [N-34], V-2)
+ *   [SEC-02] Estado Interno y Ciclo de Vida
  *   [SEC-03] Lógica de Carga de Datos (Vistas A, B, C)
- *   [SEC-04] Lógica de Acciones (Aprobación/Rechazo)
- *   [SEC-05] Motor de Renderizado (Tabs y Vistas) — MODIFICADA: añadido botón
- *     "← Volver" (ORB4-ACCOUNTCONFIG-01) que dispara AIP:Config:OpenRequested
- *     para regresar al panel de configuración de cuenta; dispatch de
- *     hidratación vía OrbitPanelElement._hydrated.
+ *   [SEC-04] Lógica de Acciones (Aprobación/Rechazo + setIntegrityScore)
+ *   [SEC-05] Motor de Renderizado (Tabs y Vistas)
  *
- * /laparoscopia 2026-06-15: extracción de `_c()` + dispatch de hidratación +
- * lectura users/{uid} a `../../base/orbit-panel-element.js` (molde mínimo
- * OrbitPanelElement). Sin cambios de comportamiento ni visuales (R-GADGET-01).
+ * /laparoscopia 2026-06-21 [S2 — SYS-ADMIN-IS-01]: añadido panel IntegrityScore
+ * en Vista B (campo editable + botón Asignar → executeUserAction setIntegrityScore).
+ * Sin cambios visuales en KYC/KYB/L4. R-GADGET-01 preservado.
  */
 
 import { OrbitPanelElement, _c } from '../../base/orbit-panel-element.js';
@@ -25,6 +21,7 @@ import {
     getFirestore, doc, getDoc, getDocs, collection,
     setDoc, query, orderBy, limit, serverTimestamp
 } from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // [SEC-01] Configuración y Constantes
 const TAB = Object.freeze({ QUEUE: 'queue', USER: 'user', AUDIT: 'audit' });
@@ -47,6 +44,7 @@ class AipSuperadminKyc extends OrbitPanelElement {
     #userProfile = null;
     #submissions = { kyc: null, kyb: null, l4: null };
     #actionLoading = false;
+    #scoreInput = '';
 
     // Vista C
     #auditSearchUid = '';
@@ -183,6 +181,25 @@ class AipSuperadminKyc extends OrbitPanelElement {
     }
 
     // [SEC-04] Lógica de Acciones
+
+    async _handleSetIntegrityScore() {
+        const score = Number(this.#scoreInput);
+        if (!this.#selectedUid || !Number.isFinite(score) || score < 0 || score > 100) return;
+        this.#actionLoading = true;
+        this._render();
+        try {
+            await httpsCallable(getFunctions(), 'executeUserAction')({
+                action: 'setIntegrityScore',
+                payload: { targetUid: this.#selectedUid, score },
+            });
+            await this._loadUser();
+        } catch (err) {
+            console.error('[setIntegrityScore]', err);
+            this.#error = 'admin.error.action';
+            this.#actionLoading = false;
+            this._render();
+        }
+    }
 
     async _handleAction(type, action) {
         if (!this.#selectedUid || this.#actionLoading) return;
@@ -359,6 +376,31 @@ class AipSuperadminKyc extends OrbitPanelElement {
         header.appendChild(_c('p', { className: 'font-mono text-sm text-[var(--theme-accent)]', textContent: `UID: ${this.#selectedUid}` }));
         header.appendChild(_c('p', { className: 'text-xs text-[var(--theme-foreground-alt)]', textContent: `Email: ${this.#userProfile.email || '—'}` }));
         frag.appendChild(header);
+
+        // [S2 — SYS-ADMIN-IS-01] Panel IntegrityScore
+        const isPanel = _c('div', { className: 'mb-6 p-4 border border-[var(--theme-accent)]/30 bg-[var(--theme-surface-alt)]' });
+        isPanel.appendChild(_c('h3', { className: 'text-xs font-bold uppercase mb-3 text-[var(--theme-accent)]', 'data-i18n': 'admin.integrity.title' }));
+        const currentScore = this.#userProfile.integrity_score ?? '—';
+        isPanel.appendChild(_c('p', { className: 'text-xs text-[var(--theme-foreground-alt)] mb-3', textContent: `Current: ${currentScore}` }));
+        const scoreWrap = _c('div', { className: 'flex gap-2 items-center' });
+        const scoreInput = _c('input', {
+            type: 'number',
+            min: '0', max: '100',
+            value: this.#scoreInput,
+            className: 'w-20 p-2 bg-[var(--theme-surface)] border border-[var(--theme-border)] text-xs text-center',
+            'data-i18n-placeholder': 'admin.integrity.placeholder',
+        });
+        scoreInput.addEventListener('input', (e) => { this.#scoreInput = e.target.value; });
+        const btnScore = _c('button', {
+            type: 'button',
+            className: 'px-3 py-1 bg-[var(--theme-accent)] text-[var(--theme-deep-ocean)] font-bold text-[10px] uppercase',
+            'data-i18n': 'admin.integrity.btn',
+        });
+        btnScore.addEventListener('click', () => this._handleSetIntegrityScore());
+        scoreWrap.appendChild(scoreInput);
+        scoreWrap.appendChild(btnScore);
+        isPanel.appendChild(scoreWrap);
+        frag.appendChild(isPanel);
 
         // Sections
         const types = ['kyc', 'kyb', 'l4'];
