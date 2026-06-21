@@ -27,7 +27,7 @@ import { ComponentRegistry } from './03-interface/register-components.js';
 import { AppRouter }         from './03-interface/app-router.js';
 import { onStateChange }     from './01-core/app-store.js';
 import { KYCFlowController } from './03-interface/components/kyc/kyc-flow-controller.js';
-import { getAuth }           from 'firebase/auth'; // [SEC-AIP-03] Guard auth real en Bridge Forward
+import { getAuth, signOut }  from 'firebase/auth'; // [SEC-AIP-03] Guard auth real en Bridge Forward / [DBG-BUG-VAL-EXIT-01] signOut antes de reload
 
 // ─── 1. Registro de componentes v1.3 (carga lazy — solo cuando el Router los necesite) ───
 
@@ -534,6 +534,10 @@ function _restoreLanding() {
     // [FORJA-9+] Si en el futuro se necesita SPA-exit sin reload, implementar
     // AIPHandler.resetToLanding() y llamarlo aquí. Por ahora, reload es correcto.
 
-    console.log('[Bridge v1.3] EXIT → location.reload() — landing virgen.');
-    location.reload();
+    // [DBG-BUG-VAL-EXIT-01] CAUSA RAÍZ: onAuthStateChanged re-dispara AccessGranted
+    // en el nuevo load si la sesión Firebase no fue cerrada antes del reload.
+    // El cooldown guard (_lastExitTimestamp) se resetea con el módulo → siempre bypaseado.
+    // Solución: signOut() limpia la sesión Firebase → onAuthStateChanged(null) post-reload.
+    console.log('[Bridge v1.3] EXIT → signOut() + location.reload() — landing virgen.');
+    signOut(getAuth()).finally(() => location.reload());
 }
