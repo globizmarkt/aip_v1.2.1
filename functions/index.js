@@ -34,7 +34,25 @@ const RATE_LIMIT_MS = {
     patchAccountProfile: 0,        // sin cooldown — operación no destructiva
 };
 
-// [SEC-02] Helpers de validación
+// [SEC-02] Helpers de validación y rate-limit
+
+// [ARQ-CLEAN-01] Responsabilidad única: verifica el cooldown y devuelve la ref
+// para que el dispatcher la añada al batch. Lanza HttpsError si está en cooldown.
+// Retorna null si esta acción no tiene límite (cooldown === 0).
+async function assertNotRateLimited(uid, action) {
+    const cooldown = RATE_LIMIT_MS[action] ?? 0;
+    if (cooldown === 0) return null;
+    const limitRef = db.doc(`rate_limits/${uid}`);
+    const snap = await limitRef.get();
+    if (snap.exists) {
+        const lastAt = snap.data()?.[action]?.toMillis?.() ?? 0;
+        if (Date.now() - lastAt < cooldown) {
+            throw new HttpsError('resource-exhausted', 'Demasiadas solicitudes. Espera antes de reintentarlo.');
+        }
+    }
+    return limitRef;
+}
+
 function requireString(value, field) {
     if (typeof value !== 'string' || !value.trim()) {
         throw new HttpsError('invalid-argument', `Campo requerido: ${field}`);
@@ -223,22 +241,9 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
         throw new HttpsError('invalid-argument', `Acción desconocida: ${action}`);
     }
 
-    // [SYS-RATE-01] Rate limit: lee rate_limits/{uid} antes del batch.
-    // Si el cooldown no ha expirado → rechaza con resource-exhausted.
-    const cooldown = RATE_LIMIT_MS[action] ?? 0;
-    const limitRef = db.doc(`rate_limits/${uid}`);
-    if (cooldown > 0) {
-        const limitSnap = await limitRef.get();
-        if (limitSnap.exists) {
-            const lastAt = limitSnap.data()?.[action]?.toMillis?.() ?? 0;
-            if (Date.now() - lastAt < cooldown) {
-                throw new HttpsError(
-                    'resource-exhausted',
-                    `Demasiadas solicitudes. Espera antes de reintentarlo.`
-                );
-            }
-        }
-    }
+    // [ARQ-CLEAN-01] Rate limit delegado a assertNotRateLimited — responsabilidad única.
+    // Retorna limitRef (para incluir en batch) o null (sin cooldown).
+    const limitRef = await assertNotRateLimited(uid, action);
 
     const validated = handler.validate(payload ?? {});
     const { userPatch, submission, auditEvent } = handler.build(uid, validated);
@@ -250,13 +255,14 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
         batch.set(db.doc(`${submission.collection}/${uid}`), submission.data, { merge: true });
     }
 
+    // [ARQ-CLEAN-01] Audit event incluye action name — facilita queries por tipo.
     batch.set(db.collection(`audit_log/${uid}/events`).doc(), {
+        action,
         ...auditEvent,
         timestamp: FieldValue.serverTimestamp(),
     });
 
-    // [SYS-RATE-01] Actualiza rate_limits/{uid}.{action} en el mismo batch (atómico).
-    if (cooldown > 0) {
+    if (limitRef) {
         batch.set(limitRef, { [action]: FieldValue.serverTimestamp() }, { merge: true });
     }
 
