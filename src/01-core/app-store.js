@@ -13,19 +13,24 @@ import { initialState, isValidStateShape } from './contracts/state-contract.js';
 let currentState = structuredClone(initialState);
 const listeners = new Set();
 let writeCapabilityDelivered = false;
+// [PERF-STORE-01] Caché del último snapshot: elimina structuredClone redundantes
+// en readState() y evita re-renders post-mount sin nuevo commit.
+let _cachedSnapshot = null;
 
 function notifyListeners() {
-    const snapshot = Object.freeze(structuredClone(currentState));
+    _cachedSnapshot = Object.freeze(structuredClone(currentState));
     for (const listener of listeners) {
-        try { listener(snapshot); }
+        try { listener(_cachedSnapshot); }
         catch (err) { console.error('[Store:Error]', err); }
     }
 }
 
+// [PERF-STORE-02] El proxy ya no notifica en cada set individual.
+// Notification exclusiva de commitState → 1 notify por commit (no N por N propiedades).
+// Zero-Trust preservado: solo commitState (claim único) puede escribir en stateProxy.
 const proxyHandler = {
     set(target, property, value) {
         target[property] = value;
-        notifyListeners();
         return true;
     }
 };
@@ -41,7 +46,8 @@ const stateProxy = new Proxy(currentState, proxyHandler);
  * @returns {Object} Snapshot congelado.
  */
 export function readState() {
-    return Object.freeze(structuredClone(currentState));
+    // [PERF-STORE-01] Retorna el snapshot cacheado si está disponible — cero clones extra.
+    return _cachedSnapshot ?? Object.freeze(structuredClone(currentState));
 }
 
 /**
@@ -64,10 +70,10 @@ export function onStateChange(callback) {
  * lanzará un error crítico de seguridad.
  *
  * CONTRATO DOCTRINAL: el llamador (FSM) debe usar Top-Level Replacements
- * al mutar via patchFn para garantizar que el proxy superficial dispare
- * notifyListeners(). Ejemplo correcto:
+ * para que el proxy capture la asignación. notifyListeners() se dispara UNA VEZ
+ * al final de commitState — no por propiedad (PERF-STORE-02). Ejemplo correcto:
  *   commit(proxy => { proxy.auth = { ...proxy.auth, isAuthenticated: true }; })
- * Ejemplo incorrecto (muta en silencio):
+ * Ejemplo incorrecto (mutación profunda silenciosa — no notificará listeners):
  *   commit(proxy => { proxy.auth.isAuthenticated = true; })
  *
  * @returns {Function} commitState(patchFn)
@@ -86,5 +92,8 @@ export function claimWriteCapability() {
         if (!isValidStateShape(currentState)) {
             console.error('[Store:Validation] ESTADO CORRUPTO: Ruptura del schema base.');
         }
+
+        // [PERF-STORE-02] Notificación única post-commit — no por propiedad.
+        notifyListeners();
     };
 }

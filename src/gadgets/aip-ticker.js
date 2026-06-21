@@ -83,6 +83,10 @@ class AipTicker extends HTMLElement {
     _renderFromStore() {
         const state = window.Skeleton?.store?.getState?.() || {};
         const activeMandates = this._getActiveMandates(state);
+        // [PERF-TICKER-01] Skip re-render si los mandatos no cambiaron.
+        const key = activeMandates.map(m => m.mandateId || m.id || '').join(',');
+        if (key === this._lastKey) return;
+        this._lastKey = key;
         this._populateTicker(activeMandates);
     }
 
