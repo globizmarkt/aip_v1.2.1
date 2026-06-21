@@ -25,6 +25,15 @@ const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 initializeApp();
 const db = getFirestore();
 
+// [SYS-RATE-01] Cooldowns de rate-limit por acción (ms). 0 = sin límite.
+// La doc rate_limits/{uid} acumula timestamps por action key (merge atómico en batch).
+const RATE_LIMIT_MS = {
+    submitKycIndividual: 30_000,
+    submitKyb:           30_000,
+    submitKycL4:         30_000,
+    patchAccountProfile: 0,        // sin cooldown — operación no destructiva
+};
+
 // [SEC-02] Helpers de validación
 function requireString(value, field) {
     if (typeof value !== 'string' || !value.trim()) {
@@ -201,7 +210,8 @@ const ACTIONS = {
 // submission (si aplica) + audit_log/{uid}/events. Admin SDK bypasea
 // firestore.rules — R0 (`users.allow update: if false`) permanece intacto
 // para el cliente directo.
-exports.executeUserAction = onCall(async (request) => {
+// [SYS-COLD-01] minInstances:1 — elimina cold start en el path crítico KYC.
+exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
     const uid = request.auth?.uid;
     if (!uid) {
         throw new HttpsError('unauthenticated', 'Requiere usuario autenticado');
@@ -211,6 +221,23 @@ exports.executeUserAction = onCall(async (request) => {
     const handler = ACTIONS[action];
     if (!handler) {
         throw new HttpsError('invalid-argument', `Acción desconocida: ${action}`);
+    }
+
+    // [SYS-RATE-01] Rate limit: lee rate_limits/{uid} antes del batch.
+    // Si el cooldown no ha expirado → rechaza con resource-exhausted.
+    const cooldown = RATE_LIMIT_MS[action] ?? 0;
+    const limitRef = db.doc(`rate_limits/${uid}`);
+    if (cooldown > 0) {
+        const limitSnap = await limitRef.get();
+        if (limitSnap.exists) {
+            const lastAt = limitSnap.data()?.[action]?.toMillis?.() ?? 0;
+            if (Date.now() - lastAt < cooldown) {
+                throw new HttpsError(
+                    'resource-exhausted',
+                    `Demasiadas solicitudes. Espera antes de reintentarlo.`
+                );
+            }
+        }
     }
 
     const validated = handler.validate(payload ?? {});
@@ -227,6 +254,11 @@ exports.executeUserAction = onCall(async (request) => {
         ...auditEvent,
         timestamp: FieldValue.serverTimestamp(),
     });
+
+    // [SYS-RATE-01] Actualiza rate_limits/{uid}.{action} en el mismo batch (atómico).
+    if (cooldown > 0) {
+        batch.set(limitRef, { [action]: FieldValue.serverTimestamp() }, { merge: true });
+    }
 
     await batch.commit();
     return { ok: true };
