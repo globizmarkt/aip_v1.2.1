@@ -763,6 +763,10 @@
         </div>
     </footer>
 
+    <!-- [FOOTER-EXP-01] JSZip vendorizado (UMD → window.JSZip) para el gadget
+         <aip-uploader>. Script clásico, debe cargar antes que los módulos. -->
+    <script src="./src/vendor/jszip.min.js"></script>
+
     <script type="module" src="./src/gadgets/aip-ticker.js"></script>
     <script type="module" src="./src/gadgets/aip-trinity-layout.js"></script>
     <script type="module" src="./src/main.js"></script>
@@ -778,10 +782,15 @@
          Activación: body.crm-mode (CSS) + ignition-v13.js (show/hide por FSM).
          z-index 9500: sobre #v13-shell (9000) y bajo la gate de atestación (9000+).
          Esqueleto puro — no gadget → R-GADGET-01 no aplica. -->
+    <!-- [FOOTER-EXP-01 · 2026-06-22] EXIT CRM reubicado al footer de Órbita 1
+         (aip-trinity-layout.js, data-action="ExitCRM"). Este botón fijo queda
+         NEUTRALIZADO (display:none permanente) — se conserva el id por si algún
+         legacy lo referencia, pero ya no es la vía de salida. -->
     <button type="button" id="crm-exit-btn"
-        style="display:none; position:fixed; top:1rem; right:1rem; z-index:9500;"
-        class="px-4 py-2 text-[10px] uppercase tracking-[0.25em] font-mono border border-[var(--crm-border-strong)] text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent-uk-gold)] hover:border-[var(--crm-accent-uk-gold)] bg-[var(--crm-bg-orbit-1)] transition-all duration-200 cursor-pointer">
-        ← EXIT CRM
+        style="display:none !important;"
+        class="hidden"
+        aria-hidden="true">
+        ← EXIT CRM (legacy)
     </button>
 
     <div id="v13-shell"></div>

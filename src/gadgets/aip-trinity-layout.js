@@ -9,6 +9,13 @@
 //            (bisturí funcional únicamente — marcado visual inmutable)
 //            DT-AIP-05 (this.innerHTML estático — cero datos externos — 0 XSS)
 // SESIÓN   : VIBE-AIP-S-REBORN-03.6 · 2026-05-26
+// ----------------------------------------------------------------------------
+// BISTURÍ [FOOTER-EXP-01] · 2026-06-22 · Sentinel (/laparoscopia)
+//   Footer Órbita 3 (#crm-orbit-3-panel) → AMPLIADA: añadido bloque-footer con
+//   botones data-action="OpenUploader" y data-action="ExitCRM". Inaugura el banco
+//   de funciones experimentales del CRM en el footer de Órbita 3 (ubicación
+//   indicada por el Director — excepción R-GADGET-01 autorizada por él). Solo
+//   atributos funcionales + marcado mimético al existente.
 // ============================================================================
 //
 // SDD — Especificación Técnica (Software Design Document)
@@ -241,6 +248,26 @@ class AipTrinityLayout extends HTMLElement {
                     <p style="font-size:9px;color:var(--crm-text-secondary);margin-top:8px;line-height:1.5;">
                         La vinculación de wallet añade +5 pts al IntegrityScore (componente Verificaciones).
                     </p>
+                </div>
+
+                <!-- [FOOTER-EXP-01 · 2026-06-22] Footer de Órbita 3 — banco de funciones
+                     experimentales del CRM (excepción R-GADGET-01 autorizada por el Director).
+                     Ubicación canónica de wizards/artifacts/gadgets en pruebas dentro del CRM. -->
+                <div class="border-t border-[var(--crm-border)] shrink-0" style="margin-top:auto;">
+                    <!-- Uploader de ingesta — visible a todos; gate KYC en el clic (ignition §13) -->
+                    <button type="button" data-action="OpenUploader"
+                            title="Uploader de Ingesta — carga documentos y archivos al sistema AIP (requiere KYC)"
+                            class="w-full flex items-center gap-2 px-3 py-2 text-[8px] font-mono uppercase tracking-[0.12em] text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 bg-transparent cursor-pointer">
+                        <span class="material-symbols-outlined" style="font-size:13px">upload_file</span>
+                        <span>Uploader de ingesta</span>
+                    </button>
+                    <!-- Salir del CRM — reubicado desde botón fijo (DIR-AIP-14 → footer Órbita 3 2026-06-22) -->
+                    <button type="button" data-action="ExitCRM"
+                            title="Cerrar sesión y volver a la landing"
+                            class="w-full flex items-center gap-2 px-3 py-2 text-[8px] font-mono uppercase tracking-[0.12em] text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 border-t border-[var(--crm-border-subtle)] bg-transparent cursor-pointer">
+                        <span class="material-symbols-outlined" style="font-size:13px">logout</span>
+                        <span>Salir del CRM</span>
+                    </button>
                 </div>
             </aside>
         `;

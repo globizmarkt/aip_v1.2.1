@@ -25,7 +25,7 @@
 import { UserFSM }          from './01-core/app-fsm.js';
 import { ComponentRegistry } from './03-interface/register-components.js';
 import { AppRouter }         from './03-interface/app-router.js';
-import { onStateChange }     from './01-core/app-store.js';
+import { onStateChange, readState } from './01-core/app-store.js';
 import { KYCFlowController } from './03-interface/components/kyc/kyc-flow-controller.js';
 import { getAuth, signOut }  from 'firebase/auth'; // [SEC-AIP-03] Guard auth real en Bridge Forward / [DBG-BUG-VAL-EXIT-01] signOut antes de reload
 
@@ -105,6 +105,11 @@ ComponentRegistry.registerLazy(
     () => import('./gadgets/aip-output-generator.js')
 );
 
+ComponentRegistry.registerLazy(
+    'aip-uploader',
+    () => import('./gadgets/aip-uploader.js')
+);
+
 // ─── EXIT COOLDOWN — timestamp de la última salida del CRM (BUG-VAL-EXIT-01) ─────────────
 //
 // El mock session de AIPHandler re-dispara Skeleton:Gatekeeper:AccessGranted
@@ -134,9 +139,10 @@ if (!shell) {
 
     // ─── EXIT CRM BUTTON (BUG-VAL-04 · DIR-AIP-14) ───────────────────────────────────────
     //
-    // Botón fijo #crm-exit-btn (index.html) — oculto por defecto (style="display:none").
-    // Visibilidad controlada en §5 onStateChange según estado FSM.
-    // Dispara: LOGOUT_REQUESTED → ORBIT_3_CRM_ACTIVE → ORBIT_1_GUEST (resetSession).
+    // [FOOTER-EXP-01 · 2026-06-22] El botón fijo #crm-exit-btn fue NEUTRALIZADO:
+    // el EXIT ahora vive en el footer de Órbita 1 (data-action="ExitCRM", §14).
+    // Se conserva este wiring defensivo por si el id legacy sigue en el DOM, pero
+    // §5 onStateChange YA NO togglea su visibilidad (permanece display:none).
 
     const _exitBtn = document.getElementById('crm-exit-btn');
     if (_exitBtn) {
@@ -279,10 +285,8 @@ if (!shell) {
     onStateChange(state => {
         const current = state.ui?.fsmState;
 
-        // ── Mostrar / ocultar botón de salida del CRM ─────────────────────────
-        if (_exitBtn) {
-            _exitBtn.style.display = (current === 'ORBIT_3_CRM_ACTIVE') ? 'block' : 'none';
-        }
+        // ── [FOOTER-EXP-01] EXIT reubicado al footer Órbita 1 — el botón fijo
+        //    legacy permanece oculto; ya no se togglea su visibilidad aquí. ──────
 
         if (_bridgePrevState === 'ORBIT_3_LEGAL_ATTESTATION') {
 
@@ -525,6 +529,49 @@ document.addEventListener('Skeleton:Action:OpenUserConfig', () => {
     document.addEventListener('Skeleton:Output:Cancelled', () => {
         console.log('[Ignition v1.3][OUTPUT-GEN-AIP-01] Skeleton:Output:Cancelled → liberando #orb4-kyc-shell');
         _orb4Shell?.replaceChildren();
+    });
+}
+
+// ─── §13. UPLOADER-AIP-01 — Monta/desmonta <aip-uploader> en #orb4-kyc-shell ──────────────
+//
+// Banco de funciones experimentales del footer Órbita 1 (FOOTER-EXP-01).
+//   - Skeleton:Action:OpenUploader → lee kycStatus del store; monta <aip-uploader>
+//     y le pasa el flag kycOk. Si kycOk=false el gadget muestra pantalla explicativa
+//     bloqueada (el Director: "lo ve todo el mundo, quien no pasa el KYC no puede
+//     acceder pero un tooltip le explica para qué sirve").
+//   - Skeleton:Uploader:Cancelled → libera #orb4-kyc-shell (botón ✕ del panel).
+//
+// Reutiliza _orb4Shell declarado en §6.
+{
+    document.addEventListener('Skeleton:Action:OpenUploader', async () => {
+        if (!_orb4Shell) { console.error('[Ignition v1.3] #orb4-kyc-shell no encontrado — Uploader abortado.'); return; }
+        const kycOk = readState()?.auth?.kycStatus === 'ok';
+        await ComponentRegistry.ensureDefined('aip-uploader');
+        const el = document.createElement('aip-uploader');
+        _orb4Shell.replaceChildren(el);
+        // El gadget existe ya en el DOM — abrir con el gate KYC resuelto.
+        el._open({ kycOk });
+        console.log('[Ignition v1.3][UPLOADER-AIP-01] <aip-uploader> montado en #orb4-kyc-shell (kycOk=%s)', kycOk);
+    });
+
+    document.addEventListener('Skeleton:Uploader:Cancelled', () => {
+        console.log('[Ignition v1.3][UPLOADER-AIP-01] Skeleton:Uploader:Cancelled → liberando #orb4-kyc-shell');
+        _orb4Shell?.replaceChildren();
+    });
+}
+
+// ─── §14. EXIT CRM desde footer Órbita 1 (FOOTER-EXP-01) ──────────────────────────────────
+//
+// El botón EXIT se reubicó del botón fijo #crm-exit-btn al footer del CRM
+// (data-action="ExitCRM" → Skeleton:Action:ExitCRM vía UIBinder/Router passthrough).
+// Reutiliza el mismo camino de salida que el botón fijo: _restoreLanding()
+// (signOut + reload). El timestamp de cooldown se registra igual que en §1.
+{
+    document.addEventListener('Skeleton:Action:ExitCRM', () => {
+        // Mismo camino que el botón fijo #crm-exit-btn (§1): FSM + _restoreLanding (signOut+reload).
+        console.log('[Ignition v1.3][FOOTER-EXP-01] Skeleton:Action:ExitCRM → LOGOUT_REQUESTED + landing restore');
+        UserFSM.send('LOGOUT_REQUESTED');
+        _restoreLanding();
     });
 }
 
