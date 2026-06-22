@@ -100,6 +100,11 @@ ComponentRegistry.registerLazy(
     () => import('./03-interface/components/kyc/aip-agent-desktop.js')
 );
 
+ComponentRegistry.registerLazy(
+    'aip-output-generator',
+    () => import('./gadgets/aip-output-generator.js')
+);
+
 // ─── EXIT COOLDOWN — timestamp de la última salida del CRM (BUG-VAL-EXIT-01) ─────────────
 //
 // El mock session de AIPHandler re-dispara Skeleton:Gatekeeper:AccessGranted
@@ -494,6 +499,31 @@ document.addEventListener('Skeleton:Action:OpenUserConfig', () => {
 
     document.addEventListener('AIP:Agent:CloseRequested', () => {
         console.log('[Ignition v1.3][ORB4-DESKTOP-AGENTE-01] AIP:Agent:CloseRequested → liberando #orb4-kyc-shell');
+        _orb4Shell?.replaceChildren();
+    });
+}
+
+// ─── §12. OUTPUT-GEN-AIP-01 — Monta/desmonta <aip-output-generator> en #orb4-kyc-shell ──────
+//
+//   - Skeleton:Output:ContentSelected → monta el simulador en #orb4-kyc-shell.
+//     El gadget recibe el mismo evento vía su propio listener y auto-puebla el canvas.
+//   - Skeleton:Output:Cancelled       → libera #orb4-kyc-shell (botón ✕ del simulador).
+//
+// Reutiliza _orb4Shell declarado en §6.
+{
+    document.addEventListener('Skeleton:Output:ContentSelected', async (e) => {
+        if (!_orb4Shell) { console.error('[Ignition v1.3] #orb4-kyc-shell no encontrado — OutputGenerator abortado.'); return; }
+        await ComponentRegistry.ensureDefined('aip-output-generator');
+        const el = document.createElement('aip-output-generator');
+        _orb4Shell.replaceChildren(el);
+        // El evento ya se disparó antes de que el gadget existiera en el DOM —
+        // reenviarlo directamente al gadget una vez montado.
+        el._handleContentSelected(e.detail);
+        console.log('[Ignition v1.3][OUTPUT-GEN-AIP-01] <aip-output-generator> montado en #orb4-kyc-shell');
+    });
+
+    document.addEventListener('Skeleton:Output:Cancelled', () => {
+        console.log('[Ignition v1.3][OUTPUT-GEN-AIP-01] Skeleton:Output:Cancelled → liberando #orb4-kyc-shell');
         _orb4Shell?.replaceChildren();
     });
 }

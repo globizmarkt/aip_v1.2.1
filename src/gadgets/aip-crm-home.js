@@ -1,7 +1,7 @@
 // ============================================================
 // ARCHIVO  : aip-crm-home.js
-// VERSIÓN  : 1.2.0
-// FECHA    : 2026-05-31
+// VERSIÓN  : 1.2.1
+// FECHA    : 2026-06-22
 // PROPÓSITO: Web Component del HOME de Órbita 2 (CRM Dashboard).
 //            Vista de Portfolio Overview + Detalle de Mandato.
 //            Montado cuando layer_2_document === null (sin mandato abierto).
@@ -672,9 +672,14 @@ ${CRM_HOME_STYLES}
                     <p class="label-xs" style="color:var(--crm-gold);">${proc.propose_cta.label}</p>
                     <p style="font-size:11px;color:var(--crm-text-secondary);">${proc.propose_cta.description}</p>
                 </div>
-                <a href="${proc.propose_cta.contact}" class="btn-inst btn-primary" style="flex-shrink:0;text-decoration:none;padding:8px 20px;">
-                    → PROPONER OPERACIÓN
-                </a>
+                <div style="display:flex;gap:8px;flex-shrink:0;">
+                    <button class="btn-inst" data-action-home="OpenOutputSimulator" data-category-id="${categoryData.id}" style="padding:8px 14px;">
+                        ◎ SIMULAR OUTPUT
+                    </button>
+                    <a href="${proc.propose_cta.contact}" class="btn-inst btn-primary" style="text-decoration:none;padding:8px 20px;">
+                        → PROPONER OPERACIÓN
+                    </a>
+                </div>
             </div>
 
         </div>`;
@@ -1331,7 +1336,23 @@ ${CRM_HOME_STYLES}
                     }
                     break;
                 }
+
+                case 'OpenOutputSimulator': {
+                    const categoryId = btn.dataset.categoryId;
+                    this._onOpenOutputSimulator(categoryId);
+                    break;
+                }
             }
+        });
+    }
+
+    // [SEC-04f2] _onOpenOutputSimulator — dispara Skeleton:Output:ContentSelected
+    _onOpenOutputSimulator(categoryId) {
+        if (!categoryId) { console.warn('[CrmHome] OpenOutputSimulator: sin categoryId'); return; }
+        this._emit('Skeleton:Output:ContentSelected', {
+            type:   'procedimiento',
+            origin: 'category',
+            refId:  categoryId,
         });
     }
 
