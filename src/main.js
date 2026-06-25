@@ -16,7 +16,7 @@ const gateEnforcer = {
     enforce: (identity) => enforceProjectGate({ clearanceRequired: identity?.clearanceLevel || 'BRONZE' })
 };
 import { GoldenGate } from './03-interface/orbit-3-gatekeeper/ui-gate/GoldenGate.js';
-import { UIHydrator } from './03-interface/ui-hydrator.js'; // [E3-GENESIS] PV-04 sutura
+import './03-interface/ui-hydrator.js'; // [E3-GENESIS] PV-04 sutura — auto-init via UIHydrator.init() al cargar [P5-ARCH-01]
 import { deepFreeze } from './01-core/utils/deepFreeze.js'; // [E3-GENESIS] E3-T08 — canónico R27
 import { Router } from './03-interface/orchestrator/Router.js'; // [REBORN-02] Orquestador de bus R20
 import { TabLoader } from './03-interface/TabLoader.js';        // [TAB-INJ-01] Inyección de gadgets de landing
