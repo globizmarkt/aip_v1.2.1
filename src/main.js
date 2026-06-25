@@ -216,6 +216,13 @@ async function boot() {
     console.groupEnd();
 }
 
+// [P3-DBG-05] Handler de último recurso — Skeleton:BootFailed no tenía listener,
+// usuario veía pantalla en blanco sin feedback. Muestra mensaje mínimo en <body>.
+document.addEventListener('Skeleton:BootFailed', (e) => {
+    const msg = e.detail?.error ?? 'Error desconocido';
+    document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:monospace;color:#c9a84c;background:#0a1628;flex-direction:column;gap:12px"><p style="font-size:1.2rem">⚠ Error de inicialización</p><p style="font-size:.85rem;opacity:.6">${msg}</p><p style="font-size:.75rem;opacity:.4">Recarga la página o contacta soporte.</p></div>`;
+});
+
 // Auto-ejecución Segura tras carga del DOM
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
