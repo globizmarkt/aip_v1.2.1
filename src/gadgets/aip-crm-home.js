@@ -413,46 +413,53 @@ class AipCrmHome extends ReactiveElement {
 
     connectedCallback() {
         super.connectedCallback(); // suscripción al store vía ReactiveElement
+        // [ACC-02-FIX] Hidratación síncrona post-mount: AIPHandler ya resolvió contra Firestore
+        // antes de que el componente se monte. super.connectedCallback() llama stateChanged(readState())
+        // pero app-fsm es el único holder de claimWriteCapability — AIPHandler no puede actualizar
+        // state.auth.isAuthenticated. Por eso la condición original nunca se cumplía.
+        // Leemos PassportEngine directamente (fuente que AIPHandler SÍ puede escribir).
+        this._hydrateIdentity();
+        if (this.#rendered) this._render();
+        // Refresh si la identidad se actualiza después (e.g. updateIntegrityScore desde Forja 9+)
+        document.addEventListener('Skeleton:IdentityUpdated', () => {
+            this._hydrateIdentity();
+            if (this.#rendered) this._render();
+        });
         console.log('[CrmHome] Portfolio Overview montado.');
     }
 
-    // [ACC-02] Hidrata #session desde identidad real en PassportEngine + store.
-    // Preserva el shape de MOCK_SESSION para campos que aún no tienen fuente real (Forja 9+).
+    // [ACC-02-FIX] Hidrata #session desde PassportEngine (fuente real — AIPHandler escribe aquí).
+    // state es opcional: se lee readState() si no se proporciona (llamadas desde connectedCallback).
+    // Preserva el shape de MOCK_SESSION para campos sin fuente real hasta Forja 9+.
     _hydrateIdentity(state) {
         const LEVEL_LABELS = ['GUEST', 'BRONZE', 'SILVER', 'GOLD', 'PLATINUM'];
-        const identity = window.Skeleton?.PassportEngine?.getIdentity?.();
-        if (!identity) return;
-        const clearanceIdx  = Math.min(identity.clearance ?? 0, 4);
-        const ROLE_LABELS   = { inv: 'Inversor AIP', agent: 'Agente AIP', admin: 'Admin AIP', guest: 'Invitado' };
+        const ROLE_LABELS  = { inv: 'Inversor AIP', agent: 'Agente AIP', admin: 'Admin AIP', guest: 'Invitado' };
+        const identity      = window.Skeleton?.PassportEngine?.getIdentity?.();
+        // identity.archetype === 'GUEST' significa que PassportEngine aún no tiene datos reales.
+        // Usuarios autenticados reciben BRONZE como floor hasta que IntegrityEngine los calibre (Forja 9+).
+        const hasRealId    = identity && identity.archetype !== 'GUEST';
+        const clearanceIdx = hasRealId ? Math.min(identity.clearance ?? 0, 4) : (identity ? 1 : 0);
+        // role: preferimos state.auth si disponible, fallback a 'inv' (AIPHandler lo hardcodea así)
+        const role         = state?.auth?.role ?? 'inv';
         this.#session = {
             ...MOCK_SESSION,
-            operador:       ROLE_LABELS[state.auth.role] ?? 'Operador AIP',
+            operador:       ROLE_LABELS[role] ?? 'Operador AIP',
             clearanceLevel: LEVEL_LABELS[clearanceIdx],
             clearanceTier:  clearanceIdx,
-            integrityScore: identity.integrity_score ?? 0,
+            integrityScore: hasRealId ? (identity.integrity_score ?? 0) : 0,
         };
     }
 
-    // [SEC-04b] stateChanged — reactividad al store
+    // [SEC-04b] stateChanged — reactividad al store (se mantiene como fallback)
     stateChanged(state) {
         if (!state) return;
 
-        // [ACC-02] Hidratar identidad real antes de cualquier render
-        if (state.auth?.isAuthenticated) {
-            this._hydrateIdentity(state);
-        }
-
-        // Primer render: construir DOM completo
+        // Primer render: construir DOM completo (connectedCallback ya hidrata antes del primer render)
         if (!this.#rendered) {
             this._render();
             this._wire();
             this.#rendered = true;
             return;
-        }
-
-        // Re-renders parciales: refrescar si la identidad cambió
-        if (state.auth?.isAuthenticated) {
-            this._render();
         }
     }
 

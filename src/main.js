@@ -178,15 +178,16 @@ async function boot() {
             CRMWelcomeGate.init('welcome-gate-placeholder', profile);
             console.log(`[CRM-WP-01] Welcome Gate montada. Perfil: ${profile}`);
 
-            // [ACC-02] Destroy al primer navigate de cualquier tipo — tab O árbol de categorías.
+            // [ACC-02-FIX] Destroy al primer navigate — DomainFocus es el evento real del primer clic
+            // en el árbol (expansión de dominio). CategorySelected y MandateSelected son clics posteriores.
             // { once:true } no sirve con múltiples eventos; usamos guard manual.
             const _destroyWelcomeGate = () => {
                 CRMWelcomeGate.destroy('welcome-gate-placeholder');
-                ['Skeleton:Action:OrbitTab', 'Skeleton:Action:CategorySelected', 'Skeleton:Action:MandateSelected']
+                ['Skeleton:Action:OrbitTab', 'Skeleton:Action:DomainFocus', 'Skeleton:Action:CategorySelected', 'Skeleton:Action:MandateSelected']
                     .forEach(e => document.removeEventListener(e, _destroyWelcomeGate));
                 console.log('[CRM-WP-01] Welcome Gate desmontada.');
             };
-            ['Skeleton:Action:OrbitTab', 'Skeleton:Action:CategorySelected', 'Skeleton:Action:MandateSelected']
+            ['Skeleton:Action:OrbitTab', 'Skeleton:Action:DomainFocus', 'Skeleton:Action:CategorySelected', 'Skeleton:Action:MandateSelected']
                 .forEach(e => document.addEventListener(e, _destroyWelcomeGate));
         }, { once: true });
 
