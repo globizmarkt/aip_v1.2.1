@@ -395,6 +395,12 @@ const ORBIT1_STYLES = `
 </style>
 `;
 
+// [SEC-08] escHtml — helper XSS Zero-Trust (FE-UI-02 / DT-AIP-05)
+// Escapa los 5 caracteres HTML peligrosos antes de insertar datos externos
+// via innerHTML. Necesario cuando domain/category/mandate data venga de Firestore (Forja 9+).
+const _escMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+const escHtml = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => _escMap[c]);
+
 // ─── WEB COMPONENT ───────────────────────────────────────────────────────────
 class AipOrbit1Tree extends HTMLElement {
 
@@ -466,6 +472,8 @@ class AipOrbit1Tree extends HTMLElement {
     _render() {
         const taxonomy = this._getTaxonomy();
         const mandates = this._getMandates();
+        // [SEC-08] alias local — escapa todos los datos externos antes de insertar en innerHTML
+        const _e = escHtml;
 
         const domainsHtml = taxonomy.map(domain => {
             const domainMandates = mandates.filter(m =>
@@ -494,14 +502,14 @@ class AipOrbit1Tree extends HTMLElement {
                     ? catMandates.map(m => `
                         <button type="button"
                             class="orbit1-mandate"
-                            data-mandate-id="${m.id}"
-                            data-category-id="${m.categoryId}"
-                            data-domain-id="${domain.id}"
+                            data-mandate-id="${_e(m.id)}"
+                            data-category-id="${_e(m.categoryId)}"
+                            data-domain-id="${_e(domain.id)}"
                             data-action-orbit1="SelectMandate"
-                            title="${m.id} — IntegrityScore ${m.score}">
-                            <span class="orbit1-mandate__id">${m.id}</span>
-                            <span class="orbit1-mandate__label">${m.label}</span>
-                            <span class="orbit1-score ${this._scoreClass(m.score)}" aria-label="IntegrityScore ${m.score}">IS:${m.score}</span>
+                            title="${_e(m.id)} — IntegrityScore ${_e(m.score)}">
+                            <span class="orbit1-mandate__id">${_e(m.id)}</span>
+                            <span class="orbit1-mandate__label">${_e(m.label)}</span>
+                            <span class="orbit1-score ${this._scoreClass(m.score)}" aria-label="IntegrityScore ${_e(m.score)}">IS:${_e(m.score)}</span>
                         </button>`
                     ).join('')
                     : '<p class="orbit1-empty">Sin mandatos activos</p>';
@@ -510,8 +518,8 @@ class AipOrbit1Tree extends HTMLElement {
                 // Tres zonas separadas: toggle | nav (→procedure) | badges
                 return `
                     <div class="orbit1-category"
-                        data-category-id="${cat.id}"
-                        data-domain-id="${domain.id}">
+                        data-category-id="${_e(cat.id)}"
+                        data-domain-id="${_e(domain.id)}">
 
                         <div class="orbit1-category__row">
 
@@ -519,8 +527,8 @@ class AipOrbit1Tree extends HTMLElement {
                             <button type="button"
                                 class="orbit1-category__toggle"
                                 data-action-orbit1="ToggleCategory"
-                                data-category-id="${cat.id}"
-                                data-domain-id="${domain.id}"
+                                data-category-id="${_e(cat.id)}"
+                                data-domain-id="${_e(domain.id)}"
                                 aria-expanded="false"
                                 title="Expandir / colapsar">
                                 <span class="material-symbols-outlined orbit1-chevron" style="font-size:11px">chevron_right</span>
@@ -530,11 +538,11 @@ class AipOrbit1Tree extends HTMLElement {
                             <button type="button"
                                 class="orbit1-category__nav"
                                 data-action-orbit1="SelectCategory"
-                                data-category-id="${cat.id}"
-                                data-domain-id="${domain.id}"
+                                data-category-id="${_e(cat.id)}"
+                                data-domain-id="${_e(domain.id)}"
                                 data-layer="procedure"
-                                title="${cat.label} — procedimiento operativo">
-                                <span class="orbit1-category__label">${cat.label}</span>
+                                title="${_e(cat.label)} — procedimiento operativo">
+                                <span class="orbit1-category__label">${_e(cat.label)}</span>
                             </button>
 
                             <!-- Zona 3: indicadores dual-layer [DT-14-FIX] -->
@@ -542,17 +550,17 @@ class AipOrbit1Tree extends HTMLElement {
                                 <span class="orbit1-indicator orbit1-indicator--proc"
                                     role="button" tabindex="0"
                                     data-action-orbit1="SelectCategory"
-                                    data-category-id="${cat.id}"
-                                    data-domain-id="${domain.id}"
+                                    data-category-id="${_e(cat.id)}"
+                                    data-domain-id="${_e(domain.id)}"
                                     data-layer="procedure"
                                     title="Procedimiento — acceso libre">PROC</span>
                                 <span class="orbit1-indicator ${oppCount > 0 ? 'orbit1-indicator--opp-active' : 'orbit1-indicator--opp-locked'}"
                                     role="button" tabindex="0"
                                     data-action-orbit1="SelectCategory"
-                                    data-category-id="${cat.id}"
-                                    data-domain-id="${domain.id}"
+                                    data-category-id="${_e(cat.id)}"
+                                    data-domain-id="${_e(domain.id)}"
                                     data-layer="opportunity"
-                                    title="${oppBadgeTitle}">${oppCount > 0 ? oppCount : '—'} 🔒</span>
+                                    title="${_e(oppBadgeTitle)}">${oppCount > 0 ? oppCount : '—'} 🔒</span>
                             </div>
 
                         </div>
@@ -565,15 +573,15 @@ class AipOrbit1Tree extends HTMLElement {
 
             const hasDomainMandates = domainMandates.length > 0;
             return `
-                <div class="orbit1-domain" data-domain-id="${domain.id}">
+                <div class="orbit1-domain" data-domain-id="${_e(domain.id)}">
                     <button type="button"
                         class="orbit1-domain__header"
                         data-action-orbit1="ToggleDomain"
-                        data-domain-id="${domain.id}"
+                        data-domain-id="${_e(domain.id)}"
                         aria-expanded="false">
                         <span class="material-symbols-outlined orbit1-chevron" style="font-size:12px">chevron_right</span>
-                        <span class="material-symbols-outlined orbit1-domain__icon">${domain.icon}</span>
-                        <span class="orbit1-domain__label">${domain.label}</span>
+                        <span class="material-symbols-outlined orbit1-domain__icon">${_e(domain.icon)}</span>
+                        <span class="orbit1-domain__label">${_e(domain.label)}</span>
                         ${hasDomainMandates ? `<span class="orbit1-badge" aria-label="${domainMandates.length} mandatos activos">${domainMandates.length}</span>` : ''}
                     </button>
                     <div class="orbit1-domain__body hidden" aria-hidden="true">
@@ -582,7 +590,7 @@ class AipOrbit1Tree extends HTMLElement {
                 </div>`;
         }).join('');
 
-        // DT-AIP-05: template con datos controlados internamente
+        // [SEC-08] DT-AIP-05 conforme: todos los datos externos escapados via _e() / escHtml()
         this.innerHTML = `${ORBIT1_STYLES}<div class="orbit1-tree" role="tree">${domainsHtml}</div>`;
     }
 

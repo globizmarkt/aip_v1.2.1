@@ -4,7 +4,7 @@
 // ============================================================================
 // ORIGEN  : SEC-VEC-01 patch — Lead Architect (despachos_04.1.2 · B_IMPACT_sec_vec_01.md)
 // SESIÓN  : VIBE-AIP-S-REBORN-04.1 · 2026-06-05
-// ESTADO  : PENDIENTE DE DEPLOY (firebase deploy --only firestore:rules)
+// ESTADO  : DEPLOYADO 2026-06-24 (SEC-AIP-02 ✅) · Actualizado 2026-06-25 (SEC-AIP-05 size limit)
 // ============================================================================
 // NOTA DE DEPLOY:
 //   1. Instalar Firebase CLI: npm install -g firebase-tools
@@ -113,8 +113,10 @@ service cloud.firestore {
     match /agent_documents/{docId} {
       allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
 
+      // [SEC-AIP-05] Límite 1 MB por documento — evita abuse de Storage vía Firestore metadata
       allow create: if isAuthenticated()
-                    && request.resource.data.uid == request.auth.uid;
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.size < 1_000_000;
 
       allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
 

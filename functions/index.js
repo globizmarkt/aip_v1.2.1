@@ -31,7 +31,7 @@ const RATE_LIMIT_MS = {
     submitKycIndividual: 30_000,
     submitKyb:           30_000,
     submitKycL4:         30_000,
-    patchAccountProfile: 0,        // sin cooldown — operación no destructiva
+    patchAccountProfile: 5_000,    // [SEC-FUNC-02] 5s cooldown — evita write abuse
 };
 
 // [SEC-02] Helpers de validación y rate-limit
@@ -369,6 +369,11 @@ exports.seedMandatePilot = onRequest({ cors: false }, async (req, res) => {
         },
         documents:       [],
         legacyId:        'AIP-M-2026-004',
+        // [SEED-RULE-01] members[] requerido por isMandateMember() en firestore.rules R3.
+        // Sin este campo ningún usuario no-admin puede leer el mandato.
+        // Añadir UID del Director/CEO antes del seed para acceso inmediato.
+        ownerId:         'AIP_COMMODITIES_DESK',
+        members:         [],   // IMPORTANTE: añadir UID del primer usuario (CEO) antes de deployar
     });
 
     return res.json({ ok: true, skipped: false, id: MANDATE_ID });
