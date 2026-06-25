@@ -354,10 +354,67 @@ class AipTrinityLayout extends HTMLElement {
      * OPCIÓN B (VIBE 1.3+): activar listeners DomainFocus / CategorySelected / MandateSelected.
      */
     _wireViewBus() {
-        // [PLACEHOLDER Option B — VIBE 1.3+]
-        // document.addEventListener('Skeleton:Action:DomainFocus', (e) => {
-        //     this.injectView('aip-domain-overview', e.detail || {});
-        // });
+        document.addEventListener('Skeleton:Action:CategorySelected', (e) => {
+            this._updateAimonContext(e.detail?.aimonContext, e.detail?.categoryData ?? null);
+        });
+        document.addEventListener('Skeleton:Action:MandateSelected', (e) => {
+            this._updateAimonContext(e.detail?.aimonContext, null, e.detail?.mandate ?? null);
+        });
+        document.addEventListener('Skeleton:Action:BackToPortfolio', () => {
+            this._resetAimonContext();
+        });
+    }
+
+    // ─── AIMON Context Helpers ────────────────────────────────────────────────
+    // R32/DT-AIP-05: datos externos solo via textContent, nunca innerHTML.
+    // Actualiza el log de Órbita 3 cuando el contexto de Orbit-2 cambia.
+
+    _updateAimonContext(ctx, categoryData = null, mandate = null) {
+        const log = this.querySelector('.crm-aimon-log');
+        if (!log || !ctx) return;
+
+        const _e = (text, mod = 'system') => {
+            const p = document.createElement('p');
+            p.className = `crm-aimon-entry crm-aimon-entry--${mod}`;
+            p.textContent = text;
+            return p;
+        };
+
+        const entries = [];
+
+        if (ctx.layer_2_document && mandate) {
+            entries.push(_e('AIMON · Mandato cargado.'));
+            entries.push(_e(`ID: ${ctx.layer_2_document}`, 'reminder'));
+            if (mandate.fiduciaryState) entries.push(_e(`Estado: ${mandate.fiduciaryState}`));
+            if (mandate.asset?.class)   entries.push(_e(`Clase activo: ${mandate.asset.class}`));
+        } else if (ctx.contentLayer === 'procedure') {
+            const label = categoryData?.label ?? categoryData?.title ?? ctx.category ?? '—';
+            entries.push(_e('AIMON · Procedimiento activo.'));
+            entries.push(_e(label, 'reminder'));
+            if (ctx.layer_1_domain) entries.push(_e(`Dominio: ${ctx.layer_1_domain.replace(/_/g, ' ')}`));
+        } else if (ctx.category) {
+            const label = categoryData?.label ?? categoryData?.title ?? ctx.category ?? '—';
+            entries.push(_e('AIMON · Categoría activa.'));
+            entries.push(_e(label, 'reminder'));
+        }
+
+        if (entries.length) log.replaceChildren(...entries);
+    }
+
+    _resetAimonContext() {
+        const log = this.querySelector('.crm-aimon-log');
+        if (!log) return;
+        const _e = (text, mod = 'system') => {
+            const p = document.createElement('p');
+            p.className = `crm-aimon-entry crm-aimon-entry--${mod}`;
+            p.textContent = text;
+            return p;
+        };
+        log.replaceChildren(
+            _e('AIMON v1.2 · Modo Mandato Activo'),
+            _e('Atestación legal completada. Clearance: BRONZE.', 'reminder'),
+            _e('Seleccione un mandato para análisis contextual.'),
+        );
     }
 }
 
