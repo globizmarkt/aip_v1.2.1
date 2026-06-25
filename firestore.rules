@@ -148,6 +148,13 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // ── rate_limits/{uid} — solo escritura Admin SDK (Cloud Function), cliente: DENY
+    // [P2-ARCH-08] Declaración explícita de intención — evita ambigüedad futura.
+    // Las escrituras llegan SOLO via executeUserAction (Admin SDK bypasa estas reglas).
+    match /rate_limits/{uid} {
+      allow read, write: if false;
+    }
+
     // ── Regla por defecto — Negar todo lo no especificado ──────────────────
     // NOTA: qr_tokens (handoff QR móvil) queda FUERA de este bloque a
     // propósito — modelo de auth del "lado móvil" pendiente (CCD P3,
