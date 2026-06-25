@@ -4,7 +4,7 @@
 // ============================================================================
 // ORIGEN  : SEC-VEC-01 patch — Lead Architect (despachos_04.1.2 · B_IMPACT_sec_vec_01.md)
 // SESIÓN  : VIBE-AIP-S-REBORN-04.1 · 2026-06-05
-// ESTADO  : DEPLOYADO 2026-06-24 (SEC-AIP-02 ✅) · Actualizado 2026-06-25 (SEC-AIP-05 size limit)
+// ESTADO  : DEPLOYADO 2026-06-24 (SEC-AIP-02 ✅) · Actualizado 2026-06-25 (SEC-AIP-05 size limit · CRM-BHUB-02 breederhub_items)
 // ============================================================================
 // NOTA DE DEPLOY:
 //   1. Instalar Firebase CLI: npm install -g firebase-tools
@@ -153,6 +153,26 @@ service cloud.firestore {
     // Las escrituras llegan SOLO via executeUserAction (Admin SDK bypasa estas reglas).
     match /rate_limits/{uid} {
       allow read, write: if false;
+    }
+
+    // ── breederhub_items — Panel de control del polígono (CRM-BHUB-02) ───────
+    // [CRM-BHUB-02 · 2026-06-25] Ítems accionables del polígono (decisiones,
+    // despachos, tickets, investigaciones, hitos, nodos, doctrina).
+    // Lectura/escritura restringida a ADMIN (superadmin/partner/desk_manager).
+    // El Director aprueba/rechaza/delega desde el gadget <crm-breederhub>.
+    match /breederhub_items/{itemId} {
+      allow read: if isAdmin();
+
+      // Creación: solo ADMIN — el gadget y Sentinel crean los ítems
+      allow create: if isAdmin()
+                    && request.resource.data.keys().hasAll(['tipo', 'vertical', 'titulo', 'prioridad', 'autonomia', 'estado', 'creado_por', 'fecha_creacion'])
+                    && request.resource.data.estado == 'PENDIENTE';
+
+      // Actualización: solo ADMIN — flujo de validación (PENDIENTE → EN_REVISION → *)
+      allow update: if isAdmin();
+
+      // Borrado: BLOQUEADO — los ítems son inmutables históricos (R19 / trazabilidad)
+      allow delete: if false;
     }
 
     // ── Regla por defecto — Negar todo lo no especificado ──────────────────

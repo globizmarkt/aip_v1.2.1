@@ -261,6 +261,13 @@ class AipTrinityLayout extends HTMLElement {
                         <span class="material-symbols-outlined" style="font-size:13px">upload_file</span>
                         <span>Uploader de ingesta</span>
                     </button>
+                    <!-- [CRM-BHUB-02 · 2026-06-25] Breederhub — Panel de control del polígono (ignition §15) -->
+                    <button type="button" data-action="OpenBreederHub"
+                            title="Breederhub — Panel de control del polígono"
+                            class="w-full flex items-center gap-2 px-3 py-2 text-[8px] font-mono uppercase tracking-[0.12em] text-[var(--crm-text-secondary)] hover:text-[var(--crm-accent)] transition-colors border-0 border-t border-[var(--crm-border-subtle)] bg-transparent cursor-pointer">
+                        <span class="material-symbols-outlined" style="font-size:13px">dashboard</span>
+                        <span>Breederhub</span>
+                    </button>
                     <!-- Salir del CRM — reubicado desde botón fijo (DIR-AIP-14 → footer Órbita 3 2026-06-22) -->
                     <button type="button" data-action="ExitCRM"
                             title="Cerrar sesión y volver a la landing"

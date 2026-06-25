@@ -575,6 +575,37 @@ document.addEventListener('Skeleton:Action:OpenUserConfig', () => {
     });
 }
 
+// ─── §15. BREEDERHUB — Monta/desmonta <crm-breederhub> en #orb4-kyc-shell ──────────────────
+//
+// [CRM-BHUB-02 · 2026-06-25] Panel de control del polígono — Decision Inbox.
+//   - Skeleton:Action:OpenBreederHub → verifica rol ADMIN; monta <crm-breederhub>
+//     en #orb4-kyc-shell. Gate: solo ADMIN/DIRECTOR (mismo patrón que aip-agent-desktop).
+//   - Skeleton:Breederhub:Cancelled → libera #orb4-kyc-shell (botón ✕ del panel).
+//
+// Reutiliza _orb4Shell declarado en §6.
+{
+    ComponentRegistry.registerLazy(
+        'crm-breederhub',
+        () => import('./gadgets/crm-breederhub.js')
+    );
+
+    document.addEventListener('Skeleton:Action:OpenBreederHub', async () => {
+        if (!_orb4Shell) { console.error('[Ignition v1.3] #orb4-kyc-shell no encontrado — Breederhub abortado.'); return; }
+        const state = readState();
+        const isAdmin = state?.auth?.role === 'ADMIN' || state?.auth?.role === 'DIRECTOR';
+        if (!isAdmin) { console.warn('[Ignition v1.3][CRM-BHUB-02] Acceso denegado — rol ADMIN requerido.'); return; }
+        await ComponentRegistry.ensureDefined('crm-breederhub');
+        const el = document.createElement('crm-breederhub');
+        _orb4Shell.replaceChildren(el);
+        console.log('[Ignition v1.3][CRM-BHUB-02] <crm-breederhub> montado en #orb4-kyc-shell');
+    });
+
+    document.addEventListener('Skeleton:Breederhub:Cancelled', () => {
+        console.log('[Ignition v1.3][CRM-BHUB-02] Skeleton:Breederhub:Cancelled → liberando #orb4-kyc-shell');
+        _orb4Shell?.replaceChildren();
+    });
+}
+
 // ─── Helper: Restaurar DOM v1.2.1 ─────────────────────────────────────────────────────────
 //
 // Rutas de invocación:
