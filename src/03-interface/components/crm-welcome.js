@@ -152,6 +152,10 @@ export const CRMWelcomeGate = {
         const section = this._buildSection(cfg, profile);
         host.appendChild(section);
 
+        // Re-trigger UIHydrator para hidratar los data-i18n del Gate recién montado.
+        // WelcomeGate monta después de Skeleton:DictionaryReady → UIHydrator no los ve en el sweep inicial.
+        document.dispatchEvent(new CustomEvent('Skeleton:DOM:Injected', { bubbles: true }));
+
         console.log(`[CRMWelcomeGate] Perfil "${profile}" montado en #${containerId}`);
     },
 
@@ -183,12 +187,12 @@ export const CRMWelcomeGate = {
         const h1 = document.createElement('h1');
         h1.className = 'crm-welcome__title';
         h1.setAttribute('data-i18n', cfg.title);
-        h1.textContent = '—';
+        h1.textContent = '';
 
         const p = document.createElement('p');
         p.className = 'crm-welcome__body';
         p.setAttribute('data-i18n', cfg.body);
-        p.textContent = '—';
+        p.textContent = '';
 
         wrap.append(h1, p);
         header.append(icon, wrap);
@@ -204,7 +208,7 @@ export const CRMWelcomeGate = {
 
         const txt = document.createElement('span');
         txt.setAttribute('data-i18n', cfg.cta);
-        txt.textContent = '—';
+        txt.textContent = '';
 
         const ico = document.createElement('span');
         ico.className = 'material-symbols-outlined';
