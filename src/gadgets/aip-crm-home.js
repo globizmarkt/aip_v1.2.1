@@ -416,9 +416,31 @@ class AipCrmHome extends ReactiveElement {
         console.log('[CrmHome] Portfolio Overview montado.');
     }
 
+    // [ACC-02] Hidrata #session desde identidad real en PassportEngine + store.
+    // Preserva el shape de MOCK_SESSION para campos que aún no tienen fuente real (Forja 9+).
+    _hydrateIdentity(state) {
+        const LEVEL_LABELS = ['GUEST', 'BRONZE', 'SILVER', 'GOLD', 'PLATINUM'];
+        const identity = window.Skeleton?.PassportEngine?.getIdentity?.();
+        if (!identity) return;
+        const clearanceIdx  = Math.min(identity.clearance ?? 0, 4);
+        const ROLE_LABELS   = { inv: 'Inversor AIP', agent: 'Agente AIP', admin: 'Admin AIP', guest: 'Invitado' };
+        this.#session = {
+            ...MOCK_SESSION,
+            operador:       ROLE_LABELS[state.auth.role] ?? 'Operador AIP',
+            clearanceLevel: LEVEL_LABELS[clearanceIdx],
+            clearanceTier:  clearanceIdx,
+            integrityScore: identity.integrity_score ?? 0,
+        };
+    }
+
     // [SEC-04b] stateChanged — reactividad al store
     stateChanged(state) {
         if (!state) return;
+
+        // [ACC-02] Hidratar identidad real antes de cualquier render
+        if (state.auth?.isAuthenticated) {
+            this._hydrateIdentity(state);
+        }
 
         // Primer render: construir DOM completo
         if (!this.#rendered) {
@@ -428,10 +450,9 @@ class AipCrmHome extends ReactiveElement {
             return;
         }
 
-        // Re-renders parciales: actualizar solo lo que cambió
-        const kycStatus = state?.auth?.kycStatus;
-        if (kycStatus) {
-            // Placeholder para lógica real — en v1.3 el mock no cambia
+        // Re-renders parciales: refrescar si la identidad cambió
+        if (state.auth?.isAuthenticated) {
+            this._render();
         }
     }
 

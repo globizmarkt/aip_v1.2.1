@@ -178,11 +178,16 @@ async function boot() {
             CRMWelcomeGate.init('welcome-gate-placeholder', profile);
             console.log(`[CRM-WP-01] Welcome Gate montada. Perfil: ${profile}`);
 
-            // Destroy al primer tab navigate (usuario ya está orientado)
-            document.addEventListener('Skeleton:Action:OrbitTab', () => {
+            // [ACC-02] Destroy al primer navigate de cualquier tipo — tab O árbol de categorías.
+            // { once:true } no sirve con múltiples eventos; usamos guard manual.
+            const _destroyWelcomeGate = () => {
                 CRMWelcomeGate.destroy('welcome-gate-placeholder');
+                ['Skeleton:Action:OrbitTab', 'Skeleton:Action:CategorySelected', 'Skeleton:Action:MandateSelected']
+                    .forEach(e => document.removeEventListener(e, _destroyWelcomeGate));
                 console.log('[CRM-WP-01] Welcome Gate desmontada.');
-            }, { once: true });
+            };
+            ['Skeleton:Action:OrbitTab', 'Skeleton:Action:CategorySelected', 'Skeleton:Action:MandateSelected']
+                .forEach(e => document.addEventListener(e, _destroyWelcomeGate));
         }, { once: true });
 
         // [E3-T02] Sincronización de idioma desde el selector de landing
