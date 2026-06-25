@@ -320,7 +320,7 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
 // ─────────────────────────────────────────────────────────────
 const { onRequest } = require('firebase-functions/v2/https');
 
-exports.seedMandatePilot = onRequest({ cors: false }, async (req, res) => {
+exports.seedMandatePilot = onRequest({ cors: false, invoker: 'public' }, async (req, res) => {
     if (req.query.secret !== 'BREEDERHUB2026') {
         return res.status(403).json({ error: 'Forbidden' });
     }
