@@ -545,7 +545,9 @@ document.addEventListener('Skeleton:Action:OpenUserConfig', () => {
 {
     document.addEventListener('Skeleton:Action:OpenUploader', async () => {
         if (!_orb4Shell) { console.error('[Ignition v1.3] #orb4-kyc-shell no encontrado — Uploader abortado.'); return; }
-        const kycOk = readState()?.auth?.kycStatus === 'ok';
+        const _s = readState();
+        const _adminBypass = ['superadmin', 'partner', 'desk_manager'].includes(_s?.auth?.role);
+        const kycOk = _adminBypass || _s?.auth?.kycStatus === 'ok';
         await ComponentRegistry.ensureDefined('aip-uploader');
         const el = document.createElement('aip-uploader');
         _orb4Shell.replaceChildren(el);
