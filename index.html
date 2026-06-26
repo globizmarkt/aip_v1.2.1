@@ -373,6 +373,13 @@
                         <span class="rail-node__icon material-symbols-outlined" style="font-size:16px">login</span>
                         <span class="rail-node__tooltip">ACCESO</span>
                     </button>
+                    <!-- [CRM-CRONOGRAMA-01 · 2026-06-26] CRONOGRAMA — Visión estratégica AIP (solo ADMIN) -->
+                    <button role="tab" class="rail-node" data-rail-tab="cronograma"
+                        onclick="document.dispatchEvent(new CustomEvent('Skeleton:Action:OrbitTab',{detail:{tab:'cronograma'}}))">
+                        <span class="rail-node__keel"></span>
+                        <span class="rail-node__icon material-symbols-outlined" style="font-size:16px">timeline</span>
+                        <span class="rail-node__tooltip">CRONOGRAMA</span>
+                    </button>
                 </div>
             </nav>
 
@@ -741,6 +748,14 @@
 
                 </main>
 
+                <!-- ═══ TAB D: CRONOGRAMA — Visión estratégica AIP · solo ADMIN ═══ -->
+                <!-- [CRM-CRONOGRAMA-01 · 2026-06-26] Web Component aip-cronograma montado aquí.
+                     Gate: rol ADMIN (verificado en connectedCallback del gadget).
+                     Fuente: AIP_cronograma_v1.0.md — Fases 0, 1, 2&3. -->
+                <main id="orbit3-tab-cronograma" class="hidden flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E]">
+                    <aip-cronograma></aip-cronograma>
+                </main>
+
             </section>
 
         </aside>
@@ -772,6 +787,8 @@
 
     <script type="module" src="./src/gadgets/aip-ticker.js"></script>
     <script type="module" src="./src/gadgets/aip-trinity-layout.js"></script>
+    <!-- [CRM-CRONOGRAMA-01 · 2026-06-26] Timeline estratégico AIP — TAB D Órbita 3 -->
+    <script type="module" src="./src/gadgets/aip-cronograma.js"></script>
     <script type="module" src="./src/main.js"></script>
     <script type="module" src="/src/verticals/aip/ignition.js"></script>
 

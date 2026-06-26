@@ -575,7 +575,18 @@ document.addEventListener('Skeleton:Action:OpenUserConfig', () => {
     });
 }
 
-// ─── §15. BREEDERHUB — Monta/desmonta <crm-breederhub> en #orb4-kyc-shell ──────────────────
+// ─── §15. CRONOGRAMA-AIP-01 — Registro lazy <aip-cronograma> ───────────────────────────────
+//
+// [CRM-CRONOGRAMA-01 · 2026-06-26] Timeline estratégico AIP — TAB D de Órbita 3.
+// Montado directamente en index.html (<aip-cronograma> en #orbit3-tab-cronograma).
+// El gate de acceso (rol ADMIN) se gestiona dentro del propio componente.
+// No requiere listeners de montaje/desmontaje — el tab system de AIPHandler lo controla.
+ComponentRegistry.registerLazy(
+    'aip-cronograma',
+    () => import('./gadgets/aip-cronograma.js')
+);
+
+// ─── §16. BREEDERHUB — Monta/desmonta <crm-breederhub> en #orb4-kyc-shell ──────────────────
 //
 // [CRM-BHUB-02 · 2026-06-25] Panel de control del polígono — Decision Inbox.
 //   - Skeleton:Action:OpenBreederHub → verifica rol ADMIN; monta <crm-breederhub>

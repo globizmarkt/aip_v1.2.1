@@ -275,9 +275,10 @@ export const AIPHandler = {
 
     _switchOrbit3Tab(tab) {
         const tabs = {
-            sistema: document.getElementById('orbit3-tab-sistema'),
-            aimon:   document.getElementById('orbit3-tab-aimon'),
-            acceso:  document.getElementById('orbit3-tab-acceso'),
+            sistema:    document.getElementById('orbit3-tab-sistema'),
+            aimon:      document.getElementById('orbit3-tab-aimon'),
+            acceso:     document.getElementById('orbit3-tab-acceso'),
+            cronograma: document.getElementById('orbit3-tab-cronograma'), // [CRM-CRONOGRAMA-01 · 2026-06-26]
         };
         const buttons  = document.querySelectorAll('.mode-dial__option');
         const railBtns = document.querySelectorAll('[data-rail-tab]');
