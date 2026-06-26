@@ -605,7 +605,7 @@ ComponentRegistry.registerLazy(
     document.addEventListener('Skeleton:Action:OpenBreederHub', async () => {
         if (!_orb4Shell) { console.error('[Ignition v1.3] #orb4-kyc-shell no encontrado — Breederhub abortado.'); return; }
         const state = readState();
-        const isAdmin = state?.auth?.role === 'ADMIN' || state?.auth?.role === 'DIRECTOR';
+        const isAdmin = ['ADMIN', 'DIRECTOR', 'superadmin', 'desk_manager'].includes(state?.auth?.role);
         if (!isAdmin) { console.warn('[Ignition v1.3][CRM-BHUB-02] Acceso denegado — rol ADMIN requerido.'); return; }
         await ComponentRegistry.ensureDefined('crm-breederhub');
         const el = document.createElement('crm-breederhub');

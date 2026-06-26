@@ -42,6 +42,14 @@ export const AIPHandler = {
                         //   FIX-2: Race condition guard → _signupInProgress (evita logout en registro nuevo)
                         console.log('[AIPHandler][SEC-VEC-01] Sesión detectada. Validando contra SSoT Firestore...');
 
+                        // [FSM-ESCAPE-01] Si userFSM está atascado en ACCESS_BLOCKED (sesión anterior
+                        // denegada) llamar reset() antes de LOGIN_SUBMITTED, que solo es válido desde
+                        // ORBIT_1_GUEST. Sin esto el login queda ignorado silenciosamente (R0 warning).
+                        if (UserFSM.getState() === 'ACCESS_BLOCKED') {
+                            console.warn('[AIPHandler][FSM-ESCAPE-01] ACCESS_BLOCKED detectado — reset forzado antes de LOGIN_SUBMITTED.');
+                            UserFSM.reset();
+                        }
+
                         const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
                         if (isDev) {
                             // [FIX-1] Dev bypass: inyectar payload sintético en lugar de return seco.
