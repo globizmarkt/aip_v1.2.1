@@ -276,6 +276,47 @@ const ITEMS = [
         agente_asignado:  'Qwen Doc-to-MD',
     },
 
+    // ── P1 — Nuevos detectados en barrido 2026-06-26 ─────────
+    {
+        ref_id:           'HUE-16-AUTOCONCIENCIA-BIFURCADA',
+        tipo:             'TICKET',
+        vertical:         'DEMIURGO',
+        titulo:           'AUTOCONCIENCIA_FACTORIA bifurcada — memoria viva en dos lugares',
+        descripcion:      '00_FACTORY_CORE/doctrine/memory/ tiene 64KB (real, Sentinel escribe aquí). 01.2_DOCTRINA_2026/memory/ tiene 485 bytes (baliza vacía). R-GEO-01 dice que el canónico es 01.2_DOCTRINA pero el contenido real está en 00_FACTORY_CORE. Cualquier escritura nueva en el lugar equivocado amplifica la bifurcación.',
+        accion_propuesta: 'Director decide epicentro (R-EPICENTRO-01): ¿00_FACTORY_CORE o 01.2_DOCTRINA_2026? Sentinel ejecuta fusión + baliza en origen.',
+        referencia_disco: '00_FACTORY_CORE/doctrine/memory/AUTOCONCIENCIA_FACTORIA.md',
+        prioridad:        'P1',
+        autonomia:        'Alert',
+        creado_por:       'SENTINEL',
+        agente_asignado:  null,
+    },
+    {
+        ref_id:           'OP-01-DEPOSITO-LEGACY-MASIVO',
+        tipo:             'DESPACHO',
+        vertical:         'TRANSVERSAL',
+        titulo:           'DEPÓSITO-LEGACY-MASIVO-01: 7 lotes a 04_ARCHIVE (READY)',
+        descripcion:      'Operación aprobada pendiente de ejecución. 7 lotes: compliance×3 (congeladas abr 2026), translate, flujo_orquestacion, undo_arqueologo (en refactor/), breederhub-legacy, cpii_crm_legacy, aip_legacy_archive. 7 balizas [D-*-LEG-01]. R19: preservar no eliminar.',
+        accion_propuesta: 'Sentinel: ejecutar git mv + balizas en sesión dedicada de limpieza de disco.',
+        referencia_disco: '02_LABORATORY/research/legacy_prompts_analysis/refactor/',
+        prioridad:        'P1',
+        autonomia:        'Act',
+        creado_por:       'SENTINEL',
+        agente_asignado:  'Sentinel',
+    },
+    {
+        ref_id:           'HUE-18-AIP-FASES-01-07',
+        tipo:             'INVESTIGACION',
+        vertical:         'AIP',
+        titulo:           'AIP fases 01-07: 277 archivos sin destilar (19.5MB)',
+        descripcion:      'Las 7 fases legacy de AIP v1.2.1 (fase_01_second_reborn → fase_07_procedimientos) nunca han pasado por VAULT ni destilación R-ARQ-02. fase_05 sola son 72 archivos, 11MB. Mayor reserva de conocimiento no destilado del polígono.',
+        accion_propuesta: 'Orden R-ARQ-02 10/25: empezar por fase_07 (más reciente, 42 archivos, 772KB). Agente: VAULT o Almacén en sesión dedicada.',
+        referencia_disco: '03_INBOX/AIP_legacy_logs/tactical_logs/AIP_v1.2.1/fase_07_procedimientos/',
+        prioridad:        'P1',
+        autonomia:        'Suggest',
+        creado_por:       'SENTINEL',
+        agente_asignado:  'VAULT',
+    },
+
     // ── P3 — Deuda futura, sin urgencia activa ────────────────
     {
         ref_id:           'DEUDA-MALLA-L3-FUENTES-01',
