@@ -1,8 +1,8 @@
 // ============================================================
 // ARCHIVO  : seed-breederhub-items.js
-// VERSIÓN  : 1.0.0
-// FECHA    : 2026-06-26
-// PROPÓSITO: Poblar Firestore /breederhub_items con los 19 tickets
+// VERSIÓN  : 1.1.0
+// FECHA    : 2026-06-28
+// PROPÓSITO: Poblar Firestore /breederhub_items con los 20 tickets
 //            abiertos del polígono (P0/P1/P2/P3) para el Decision
 //            Inbox del CRM Breederhub. Solo inserta si el ítem no
 //            existe aún (idempotente por campo `ref_id`).
@@ -36,9 +36,12 @@ initializeApp({ credential: cert(require(serviceAccountPath)) });
 const db = getFirestore();
 
 // ─────────────────────────────────────────────────────
-// [SEC-02] Dataset — 19 ítems del polígono
+// [SEC-02] Dataset — 20 ítems del polígono
 // Estructura canónica: breederhub_items schema v1.0.0
 // (CRM-BHUB-02_despacho_bulldozer.md §BLOQUE B)
+// v1.1.0 — eliminados CRM-BHUB-02 (completado) e INV-DIGESTION-01 (validado)
+//         — añadidos GOB-CONCURRENCIA-01, DEUDA-NODO-MATRIZ-FIRESTORE-01,
+//           DEUDA-METRICAS-AUTO-01 (sesión 2026-06-28)
 // ─────────────────────────────────────────────────────
 
 /** @typedef {'DECISION'|'DESPACHO'|'INVESTIGACION'|'TICKET'|'HITO'|'NODO'|'DOCTRINA'} ItemTipo */
@@ -130,32 +133,6 @@ const ITEMS = [
     },
 
     // ── P1 — Alta prioridad, no bloqueante inmediato ──────────
-    {
-        ref_id:           'CRM-BHUB-02',
-        tipo:             'DESPACHO',
-        vertical:         'AIP',
-        titulo:           'Bulldozer [A-02] debe construir crm-breederhub.js',
-        descripcion:      'Brief completo emitido y validado por Director (2026-06-25). Bulldozer debe crear src/gadgets/crm-breederhub.js: Decision Inbox del polígono. Es el gadget que muestra ESTOS ítems.',
-        accion_propuesta: 'Ejecutar despacho CRM-BHUB-02 con Bulldozer [A-02].',
-        referencia_disco: '03_INBOX/BREEDERHUB_legacy_logs/.../Breeder_fase_01.3_crm/CRM-BHUB-02_despacho_bulldozer.md',
-        prioridad:        'P1',
-        autonomia:        'Suggest',
-        creado_por:       'SENTINEL',
-        agente_asignado:  'Bulldozer [A-02]',
-    },
-    {
-        ref_id:           'INV-DIGESTION-01',
-        tipo:             'INVESTIGACION',
-        vertical:         'DEMIURGO',
-        titulo:           'Transporte 4 fuentes a Lead Architect — bloqueado por Director',
-        descripcion:      'INV-DIGESTION-01 requiere que el Director transporte 4 archivos de investigación al Lead Architect [A-04]. Sin este transporte, la investigación está bloqueada.',
-        accion_propuesta: 'Director: transportar las 4 fuentes al Lead Architect en próxima sesión Demiurgo.',
-        referencia_disco: '.demiurgo/tactical-logs/00_transversal/01_master_tasks.md §6',
-        prioridad:        'P1',
-        autonomia:        'Alert',
-        creado_por:       'SENTINEL',
-        agente_asignado:  'Lead Architect [A-04]',
-    },
     {
         ref_id:           'GOB-14b',
         tipo:             'TICKET',
@@ -315,6 +292,47 @@ const ITEMS = [
         autonomia:        'Suggest',
         creado_por:       'SENTINEL',
         agente_asignado:  'VAULT',
+    },
+
+    // ── Nuevos 2026-06-28 ─────────────────────────────────────
+    {
+        ref_id:           'GOB-CONCURRENCIA-01',
+        tipo:             'TICKET',
+        vertical:         'TRANSVERSAL',
+        titulo:           'Dos sesiones Claude Code sin lock — conflictos de commits',
+        descripcion:      'Patrón detectado 2 veces (Caso 1: colisión IDs [N-46]; Caso 2: sesión AITOR absorbió forja [N-65] en commits no relacionados). Capa A resuelta: allocator atómico assign-node-id.ps1. Capa B pendiente: SESSION_LOCK.md + Vector 3 (detección sesión activa). Causa raíz: repo compartido sin mecanismo de checkout de trabajo.',
+        accion_propuesta: 'Implementar SESSION_LOCK.md + hook en PRE_IGNICION. Migrar a Firestore session registry cuando CRM esté vivo.',
+        referencia_disco: '00_FACTORY_CORE/tools/assign-node-id.ps1',
+        prioridad:        'P1',
+        autonomia:        'Suggest',
+        creado_por:       'SENTINEL',
+        agente_asignado:  'Sentinel',
+    },
+    {
+        ref_id:           'DEUDA-NODO-MATRIZ-FIRESTORE-01',
+        tipo:             'TICKET',
+        vertical:         'TRANSVERSAL',
+        titulo:           '[N-65] emite en markdown — migrar a Firestore poligono_salud',
+        descripcion:      'El NODO-MATRIZ [N-65] computa y emite el estado del polígono en SEC-05 (markdown). Contrato Firestore ya definido (colección poligono_salud, doc snapshot_actual). Migración pendiente hasta que crm-breederhub.js tenga datos vivos.',
+        accion_propuesta: 'Cuando CRM tenga datos reales: crear script emit-salud.js que lea [N-62]+[N-65] y escriba a Firestore poligono_salud.',
+        referencia_disco: '00_FACTORY_CORE/breederhub_v2.0/00_arquitectura_poligono/03_NODO_MATRIZ_SALUD_POLIGONO.md §4',
+        prioridad:        'P2',
+        autonomia:        'Suggest',
+        creado_por:       'SENTINEL',
+        agente_asignado:  null,
+    },
+    {
+        ref_id:           'DEUDA-METRICAS-AUTO-01',
+        tipo:             'TICKET',
+        vertical:         'TRANSVERSAL',
+        titulo:           'Autonomia y Claridad de [N-65] aun no son mecanicas (N/D)',
+        descripcion:      'Primer computo [N-65] (2026-06-28): Respiracion calculada automaticamente via [N-62]; Autonomia requiere escala L0-L3 de protocolos (barrido manual pendiente); Claridad requiere grep automatico de 6 verificaciones A-F (CCD/RIZOMA/GLOSARIO/balizas). Ambas marcan N/D hasta que se construyan los scripts.',
+        accion_propuesta: 'Forjar check-claridad.ps1 (6 greps: CCD abiertos, HUEs sin agente, balizas muertas, RIZOMA desincronizado, terminos inconsistentes, duplicacion SSOT). Escala L0-L3 para Autonomia: mapear protocolos existentes.',
+        referencia_disco: '00_FACTORY_CORE/breederhub_v2.0/00_arquitectura_poligono/03_NODO_MATRIZ_SALUD_POLIGONO.md §3',
+        prioridad:        'P2',
+        autonomia:        'Suggest',
+        creado_por:       'SENTINEL',
+        agente_asignado:  null,
     },
 
     // ── P3 — Deuda futura, sin urgencia activa ────────────────
