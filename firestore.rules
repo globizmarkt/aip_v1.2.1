@@ -1,10 +1,10 @@
 // ============================================================================
 // firestore.rules
-// Reglas de seguridad Firestore — AIP_v1.2.1
+// Reglas de seguridad Firestore â€” AIP_v1.2.1
 // ============================================================================
-// ORIGEN  : SEC-VEC-01 patch — Lead Architect (despachos_04.1.2 · B_IMPACT_sec_vec_01.md)
-// SESIÓN  : VIBE-AIP-S-REBORN-04.1 · 2026-06-05
-// ESTADO  : DEPLOYADO 2026-06-24 (SEC-AIP-02 ✅) · Actualizado 2026-06-25 (SEC-AIP-05 size limit · CRM-BHUB-02 breederhub_items)
+// ORIGEN  : SEC-VEC-01 patch â€” Lead Architect (despachos_04.1.2 Â· B_IMPACT_sec_vec_01.md)
+// SESIÃ“N  : VIBE-AIP-S-REBORN-04.1 Â· 2026-06-05
+// ESTADO  : DEPLOYADO 2026-06-24 (SEC-AIP-02 âœ…) Â· Actualizado 2026-06-25 (SEC-AIP-05 size limit Â· CRM-BHUB-02 breederhub_items)
 // ============================================================================
 // NOTA DE DEPLOY:
 //   1. Instalar Firebase CLI: npm install -g firebase-tools
@@ -17,42 +17,42 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ── Regla R0 — Colección users ─────────────────────────────────────────
+    // â”€â”€ Regla R0 â€” ColecciÃ³n users â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // El cliente solo puede leer y crear su propio documento.
-    // La actualización de KYC queda reservada exclusivamente a Cloud Functions.
+    // La actualizaciÃ³n de KYC queda reservada exclusivamente a Cloud Functions.
     match /users/{userId} {
       // Lectura: solo el propio usuario autenticado
       allow read: if request.auth != null && request.auth.uid == userId;
 
-      // Creación: solo el propio usuario, solo con kyc:'pending'
-      // Impide auto-aprobación de KYC en el momento del registro.
+      // CreaciÃ³n: solo el propio usuario, solo con kyc:'pending'
+      // Impide auto-aprobaciÃ³n de KYC en el momento del registro.
       allow create: if request.auth != null
                     && request.auth.uid == userId
                     && request.resource.data.kyc == 'pending'
                     && request.resource.data.status == 'REGISTERED';
 
-      // Actualización: BLOQUEADA para el cliente.
-      // Solo modificable vía Cloud Functions con privilegios de Admin SDK.
+      // ActualizaciÃ³n: BLOQUEADA para el cliente.
+      // Solo modificable vÃ­a Cloud Functions con privilegios de Admin SDK.
       allow update: if false;
 
       // Borrado: BLOQUEADO.
       allow delete: if false;
     }
 
-    // ── Regla R1 — Colección assets ────────────────────────────────────────
+    // â”€â”€ Regla R1 â€” ColecciÃ³n assets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // Acceso restringido a usuarios autenticados del mismo tenant con KYC verificado.
     // La lectura de activos exige kyc_verified: true en los Custom Claims del token.
-    // (Precondición: kyc aprobado por Cloud Function → setCustomUserClaims)
+    // (PrecondiciÃ³n: kyc aprobado por Cloud Function â†’ setCustomUserClaims)
     match /assets/{assetId} {
       allow read: if request.auth != null
                   && request.auth.token.kyc_verified == true;
 
       // Escritura: BLOQUEADA para el cliente.
-      // Solo modificable vía Cloud Functions firmadas (ed25519 o Admin SDK).
+      // Solo modificable vÃ­a Cloud Functions firmadas (ed25519 o Admin SDK).
       allow write: if false;
     }
 
-    // ── Funciones Auxiliares de Gobernanza ─────────────────────────────────
+    // â”€â”€ Funciones Auxiliares de Gobernanza â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function isAuthenticated() {
       return request.auth != null;
     }
@@ -78,17 +78,17 @@ service cloud.firestore {
       return request.auth.uid == get(/databases/$(database)/documents/mandates/$(mandateId)).data.ownerId;
     }
 
-    // ── Regla R3 — Colección mandates (lectura para demo + CRM tree) ───────
+    // â”€â”€ Regla R3 â€” ColecciÃ³n mandates (lectura para demo + CRM tree) â”€â”€â”€â”€â”€â”€â”€
     // [SEC-AIP-01] Solo pueden leer mandatos los miembros del mandato o admins.
-    // Eliminado: allow read: if isAuthenticated() — exponía todos los mandatos a
-    // cualquier cuenta autenticada sin verificación de membresía o clearance.
+    // Eliminado: allow read: if isAuthenticated() â€” exponÃ­a todos los mandatos a
+    // cualquier cuenta autenticada sin verificaciÃ³n de membresÃ­a o clearance.
     match /mandates/{mandateId} {
       allow read: if isAuthenticated() && (isMandateMember(mandateId) || isAdmin());
       allow write: if false;
     }
 
-    // ── Regla R2 — Subcolección Documents de Mandatos ──────────────────────
-    // Origen: E6-DOC-03 · Lead Architect · ronda 04.2.2
+    // â”€â”€ Regla R2 â€” SubcolecciÃ³n Documents de Mandatos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Origen: E6-DOC-03 Â· Lead Architect Â· ronda 04.2.2
     match /mandates/{mandateId}/documents/{documentId} {
 
       allow read: if isAuthenticated()
@@ -107,27 +107,27 @@ service cloud.firestore {
       allow update: if false;
     }
 
-    // ── agent_documents/{docId} — documentos propios del Desktop del Agente
-    // (ORB4-DESKTOP-AGENTE-01, yacimiento [N-34]) — owner-scoped por `uid`,
-    // mismo patrón que R2 ──────────────────────────────────────────────────
+    // â”€â”€ agent_documents/{docId} â€” documentos propios del Desktop del Agente
+    // (ORB4-DESKTOP-AGENTE-01, yacimiento [N-34]) â€” owner-scoped por `uid`,
+    // mismo patrÃ³n que R2 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     match /agent_documents/{docId} {
       allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
 
-      // [SEC-AIP-05] Límite 1 MB por documento — evita abuse de Storage vía Firestore metadata
+      // [SEC-AIP-05] LÃ­mite 1 MB por documento â€” evita abuse de Storage vÃ­a Firestore metadata
       allow create: if isAuthenticated()
                     && request.resource.data.uid == request.auth.uid
-                    && request.resource.size < 1_000_000;
+                    && request.resource.size < 1000000;
 
       allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
 
-      // Inmutables tras su carga (borrar + recrear) — mismo criterio que R2
+      // Inmutables tras su carga (borrar + recrear) â€” mismo criterio que R2
       allow update: if false;
     }
 
-    // ── kyc_submissions / kyc_l4_submissions / kyc_kyb_submissions /
-    // audit_log — READ-ONLY para cliente, owner u admin. La ESCRITURA queda
+    // â”€â”€ kyc_submissions / kyc_l4_submissions / kyc_kyb_submissions /
+    // audit_log â€” READ-ONLY para cliente, owner u admin. La ESCRITURA queda
     // exclusivamente al dispatcher `executeUserAction` (Cloud Functions,
-    // Admin SDK bypasa estas reglas) — despacho 08-01.1.2, CCD Pregunta 18.
+    // Admin SDK bypasa estas reglas) â€” despacho 08-01.1.2, CCD Pregunta 18.
     match /kyc_submissions/{uid} {
       allow read: if isAuthenticated() && (request.auth.uid == uid || isAdmin());
       allow write: if false;
@@ -148,36 +148,52 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // ── rate_limits/{uid} — solo escritura Admin SDK (Cloud Function), cliente: DENY
-    // [P2-ARCH-08] Declaración explícita de intención — evita ambigüedad futura.
+    // â”€â”€ rate_limits/{uid} â€” solo escritura Admin SDK (Cloud Function), cliente: DENY
+    // [P2-ARCH-08] DeclaraciÃ³n explÃ­cita de intenciÃ³n â€” evita ambigÃ¼edad futura.
     // Las escrituras llegan SOLO via executeUserAction (Admin SDK bypasa estas reglas).
     match /rate_limits/{uid} {
       allow read, write: if false;
     }
 
-    // ── breederhub_items — Panel de control del polígono (CRM-BHUB-02) ───────
-    // [CRM-BHUB-02 · 2026-06-25] Ítems accionables del polígono (decisiones,
+    // â”€â”€ breederhub_items â€” Panel de control del polÃ­gono (CRM-BHUB-02) â”€â”€â”€â”€â”€â”€â”€
+    // [CRM-BHUB-02 Â· 2026-06-25] Ãtems accionables del polÃ­gono (decisiones,
     // despachos, tickets, investigaciones, hitos, nodos, doctrina).
     // Lectura/escritura restringida a ADMIN (superadmin/partner/desk_manager).
     // El Director aprueba/rechaza/delega desde el gadget <crm-breederhub>.
     match /breederhub_items/{itemId} {
       allow read: if isAdmin();
 
-      // Creación: solo ADMIN — el gadget y Sentinel crean los ítems
+      // CreaciÃ³n: solo ADMIN â€” el gadget y Sentinel crean los Ã­tems
       allow create: if isAdmin()
                     && request.resource.data.keys().hasAll(['tipo', 'vertical', 'titulo', 'prioridad', 'autonomia', 'estado', 'creado_por', 'fecha_creacion'])
                     && request.resource.data.estado == 'PENDIENTE';
 
-      // Actualización: solo ADMIN — flujo de validación (PENDIENTE → EN_REVISION → *)
+      // ActualizaciÃ³n: solo ADMIN â€” flujo de validaciÃ³n (PENDIENTE â†’ EN_REVISION â†’ *)
       allow update: if isAdmin();
 
-      // Borrado: BLOQUEADO — los ítems son inmutables históricos (R19 / trazabilidad)
+      // Borrado: BLOQUEADO â€” los Ã­tems son inmutables histÃ³ricos (R19 / trazabilidad)
       allow delete: if false;
     }
 
-    // ── Regla por defecto — Negar todo lo no especificado ──────────────────
-    // NOTA: qr_tokens (handoff QR móvil) queda FUERA de este bloque a
-    // propósito — modelo de auth del "lado móvil" pendiente (CCD P3,
+    // â”€â”€ Ingesta Multi-Canal (BHUB-INGESTA-01 / A1 Schema) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // [BHUB-EMAIL-01 Â· 2026-07-01] Colecciones para inbox por cliente.
+    // Inyectado por despacho .03 EMAIL-DEPLOY Â· Lead Architect validaciÃ³n.
+    match /bhub_clients/{clientId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin();
+    }
+
+    match /bhub_inbox/{clientId}/documents/{docId} {
+      // El cliente puede ver su propio inbox; los admins ven todo
+      allow read: if isAuthenticated() && (request.auth.uid == clientId || isAdmin());
+      // La creaciÃ³n estÃ¡ delegada 100% a los Webhooks/Bots vÃ­a Admin SDK
+      allow create: if false;
+      allow update: if isAdmin();
+    }
+
+    // â”€â”€ Regla por defecto â€” Negar todo lo no especificado â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // NOTA: qr_tokens (handoff QR mÃ³vil) queda FUERA de este bloque a
+    // propÃ³sito â€” modelo de auth del "lado mÃ³vil" pendiente (CCD P3,
     // 01_AUDITORIA_FIRESTORE_RULES.md [SEC-05]).
     match /{document=**} {
       allow read, write: if false;

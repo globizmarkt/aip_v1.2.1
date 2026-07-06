@@ -2,3 +2,5 @@
 _archive/
 .aip_inbox/
 serviceAccountKey.json
+.env
+**/.env
