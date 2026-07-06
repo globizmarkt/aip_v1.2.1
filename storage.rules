@@ -1,0 +1,61 @@
+rules_version = '2';
+
+// ============================================================
+// ARCHIVO  : storage.rules
+// PROPOSITO: Reglas de Firebase Storage para AIP_v1.2.1 — cierra R05 A-01
+//            (ausencia total de reglas versionadas para Storage, donde
+//            suben los documentos de identidad KYC/KYB).
+// DOCTRINA : Mismo patron que firestore.rules — deny-all por defecto,
+//            dueno de la ruta (uid en el path) puede subir/leer sus
+//            propios documentos, admin (via custom claim token.role,
+//            mismo patron que isAdmin() de firestore.rules) puede leer
+//            para verificacion.
+// DEPENDENCIA CONOCIDA: la rama admin depende de request.auth.token.role,
+//            que hoy NADIE produce (R05 C-01, CCD-P63 sin resolver). Esto
+//            es una postura fail-closed correcta: mientras C-01 no se
+//            resuelva, ningun admin puede leer via estas reglas (mejor
+//            que el estado anterior — Storage sin reglas, todo abierto/
+//            cerrado segun default de Firebase). Cuando se resuelva C-01,
+//            la rama admin empieza a funcionar sin tocar este archivo.
+// ============================================================
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.role in ['superadmin', 'partner', 'desk_manager'];
+    }
+
+    // kyc/{uid}/documents/... — aip-kyc-individual.js
+    match /kyc/{uid}/documents/{fileName} {
+      allow read, write: if isOwner(uid) || isAdmin();
+    }
+
+    // kyb/{uid}/representative|corporate|ubo/... — aip-kyb-flow.js
+    match /kyb/{uid}/{subpath=**} {
+      allow read, write: if isOwner(uid) || isAdmin();
+    }
+
+    // mandates/{mandateId}/documents/... — CloudStorageAdapter.js
+    // mandateId no es necesariamente el uid del propietario (relacion N:1
+    // usuario-mandato via Firestore) — hasta que exista un check cruzado
+    // mandato->uid, solo admin puede acceder. Documentado como limitacion
+    // conocida, no como bug: es fail-closed, no fail-open.
+    match /mandates/{mandateId}/documents/{fileName} {
+      allow read, write: if isAdmin();
+    }
+
+    // Regla por defecto — negar todo lo no especificado (Zero-Trust R0)
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
