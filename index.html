@@ -7,9 +7,13 @@
     <title data-i18n="meta.title">Skeleton — Vertical Base</title>
 
     <!-- CONTRATO DE VERTICALIZACIÓN (COG-64) -->
+    <!-- [BHUB-LINKEDIN-01] Inyección de Client ID público OAuth (No es un secret) -->
     <script>
         window.Skeleton = window.Skeleton || {};
-        window.Skeleton.ENV = { vertical: 'aip' };
+        window.Skeleton.ENV = {
+            vertical: 'aip',
+            linkedin_client_id: 'TU_LINKEDIN_CLIENT_ID_AQUI' // Reemplazar en deploy o vía Firebase Hosting config
+        };
     </script>
 
     <script type="importmap">

@@ -1,4 +1,4 @@
-// %[CARRIL-AIP-INTERFACE] - [Fase 18.7]
+// %[CARRIL-AIP-INTERFACE] - [Fase 18.8] - anade OAuth real LinkedIn (BHUB-LINKEDIN-01)
 /**
  * AIPHandler.js
  * Orquestador de interacción específico para la Vertical AIP.
@@ -202,7 +202,22 @@ export const AIPHandler = {
             const providerName = e.detail?.provider; // 'google' | 'microsoft' | 'linkedin'
 
             if (providerName === 'linkedin') {
-                console.warn('[AIPHandler] LinkedIn requiere Custom Token Backend. Usar Alta por Datos.');
+                // [BHUB-LINKEDIN-01] Custom Token Backend - Fase 1 Self-Service
+                const clientId = window.Skeleton?.ENV?.linkedin_client_id;
+                if (!clientId) {
+                    console.error('[AIPHandler] LinkedIn OAuth: Client ID no configurado en window.Skeleton.ENV');
+                    return;
+                }
+                // Generar state anti-CSRF (Zero-Trust R0)
+                const state = crypto.randomUUID();
+                sessionStorage.setItem('linkedin_oauth_state', state);
+
+                const redirectUri = `${location.origin}/linkedin-callback.html`;
+                const scope = 'r_liteprofile%20w_member_social';
+                const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&scope=${scope}`;
+
+                console.log('[AIPHandler] Redirigiendo a LinkedIn OAuth...');
+                location.assign(authUrl);
                 return;
             }
 

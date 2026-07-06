@@ -1,6 +1,6 @@
 // ============================================================
 // ARCHIVO  : index.js
-// VERSIÃ“N  : 1.0.0
+// VERSION  : 1.1.0 (2026-07-06 - anade ApproveKycAction, SEC-CUSTOM-CLAIMS-01)
 // FECHA    : 2026-06-15
 // PROPÃ“SITO: Dispatcher Ãºnico `executeUserAction` (Cloud Functions 2nd gen,
 //            firebase-functions v5 + Admin SDK) â€” sustituye las escrituras
@@ -14,7 +14,8 @@
 // ÃNDICE
 // [SEC-01] Imports e inicializaciÃ³n Admin SDK
 // [SEC-02] Helpers de validaciÃ³n
-// [SEC-03] Registro ACTIONS (handler por flujo) â€” punto de extensiÃ³n
+// [SEC-03] Registro ACTIONS (handler por flujo) - punto de extension
+//   [SEC-03a] ApproveKycAction (2026-07-06, SEC-CUSTOM-CLAIMS-01) - setea custom claims via Auth
 // [SEC-04] Dispatcher executeUserAction (onCall)
 
 // [SEC-01] Imports e inicializaciÃ³n Admin SDK

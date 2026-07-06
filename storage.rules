@@ -19,9 +19,17 @@ rules_version = '2';
 //            la rama admin empieza a funcionar sin tocar este archivo.
 // ============================================================
 
+// INDICE
+// [SEC-01] Funciones auxiliares (isAuthenticated/isOwner/isAdmin)
+// [SEC-02] kyc/{uid}/documents/ - owner-scoped
+// [SEC-03] kyb/{uid}/** - owner-scoped
+// [SEC-04] mandates/{mandateId}/documents/ - admin-only (limitacion conocida)
+// [SEC-05] Regla por defecto - deny-all (Zero-Trust R0)
+
 service firebase.storage {
   match /b/{bucket}/o {
 
+    // [SEC-01] Funciones auxiliares
     function isAuthenticated() {
       return request.auth != null;
     }
@@ -34,26 +42,26 @@ service firebase.storage {
       return isAuthenticated() && request.auth.token.role in ['superadmin', 'partner', 'desk_manager'];
     }
 
-    // kyc/{uid}/documents/... — aip-kyc-individual.js
+    // [SEC-02] kyc/{uid}/documents/... - aip-kyc-individual.js
     match /kyc/{uid}/documents/{fileName} {
       allow read, write: if isOwner(uid) || isAdmin();
     }
 
-    // kyb/{uid}/representative|corporate|ubo/... — aip-kyb-flow.js
+    // [SEC-03] kyb/{uid}/representative|corporate|ubo/... - aip-kyb-flow.js
     match /kyb/{uid}/{subpath=**} {
       allow read, write: if isOwner(uid) || isAdmin();
     }
 
-    // mandates/{mandateId}/documents/... — CloudStorageAdapter.js
+    // [SEC-04] mandates/{mandateId}/documents/... - CloudStorageAdapter.js
     // mandateId no es necesariamente el uid del propietario (relacion N:1
-    // usuario-mandato via Firestore) — hasta que exista un check cruzado
+    // usuario-mandato via Firestore) - hasta que exista un check cruzado
     // mandato->uid, solo admin puede acceder. Documentado como limitacion
     // conocida, no como bug: es fail-closed, no fail-open.
     match /mandates/{mandateId}/documents/{fileName} {
       allow read, write: if isAdmin();
     }
 
-    // Regla por defecto — negar todo lo no especificado (Zero-Trust R0)
+    // [SEC-05] Regla por defecto - negar todo lo no especificado (Zero-Trust R0)
     match /{allPaths=**} {
       allow read, write: if false;
     }
