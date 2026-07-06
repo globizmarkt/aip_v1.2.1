@@ -1,44 +1,45 @@
 // ============================================================
 // ARCHIVO  : index.js
-// VERSIÓN  : 1.0.0
+// VERSIÃ“N  : 1.0.0
 // FECHA    : 2026-06-15
-// PROPÓSITO: Dispatcher único `executeUserAction` (Cloud Functions 2nd gen,
-//            firebase-functions v5 + Admin SDK) — sustituye las escrituras
+// PROPÃ“SITO: Dispatcher Ãºnico `executeUserAction` (Cloud Functions 2nd gen,
+//            firebase-functions v5 + Admin SDK) â€” sustituye las escrituras
 //            directas de cliente sobre `users/{uid}` que violan R0
-//            (`firestore.rules: allow update: if false`). Diseñado en
-//            despacho 08-01.1.2 (CCD Pregunta 18, decisión Director
+//            (`firestore.rules: allow update: if false`). DiseÃ±ado en
+//            despacho 08-01.1.2 (CCD Pregunta 18, decisiÃ³n Director
 //            2026-06-15: "infraestructura actual (firebase-functions) +
 //            escalabilidad futura, sin hipotecar el presente").
 // ============================================================
 
-// ÍNDICE
-// [SEC-01] Imports e inicialización Admin SDK
-// [SEC-02] Helpers de validación
-// [SEC-03] Registro ACTIONS (handler por flujo) — punto de extensión
+// ÃNDICE
+// [SEC-01] Imports e inicializaciÃ³n Admin SDK
+// [SEC-02] Helpers de validaciÃ³n
+// [SEC-03] Registro ACTIONS (handler por flujo) â€” punto de extensiÃ³n
 // [SEC-04] Dispatcher executeUserAction (onCall)
 
-// [SEC-01] Imports e inicialización Admin SDK
+// [SEC-01] Imports e inicializaciÃ³n Admin SDK
 const { onCall, HttpsError } = require('firebase-functions/v2/https');
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
+const { getAuth } = require('firebase-admin/auth');
 
 initializeApp();
 const db = getFirestore();
 
-// [SYS-RATE-01] Cooldowns de rate-limit por acción (ms). 0 = sin límite.
-// La doc rate_limits/{uid} acumula timestamps por action key (merge atómico en batch).
+// [SYS-RATE-01] Cooldowns de rate-limit por acciÃ³n (ms). 0 = sin lÃ­mite.
+// La doc rate_limits/{uid} acumula timestamps por action key (merge atÃ³mico en batch).
 const RATE_LIMIT_MS = {
     submitKycIndividual: 30_000,
     submitKyb:           30_000,
     submitKycL4:         30_000,
-    patchAccountProfile: 5_000,    // [SEC-FUNC-02] 5s cooldown — evita write abuse
+    patchAccountProfile: 5_000,    // [SEC-FUNC-02] 5s cooldown â€” evita write abuse
 };
 
-// [SEC-02] Helpers de validación y rate-limit
+// [SEC-02] Helpers de validaciÃ³n y rate-limit
 
-// [ARQ-CLEAN-01] Responsabilidad única: verifica el cooldown y devuelve la ref
-// para que el dispatcher la añada al batch. Lanza HttpsError si está en cooldown.
-// Retorna null si esta acción no tiene límite (cooldown === 0).
+// [ARQ-CLEAN-01] Responsabilidad Ãºnica: verifica el cooldown y devuelve la ref
+// para que el dispatcher la aÃ±ada al batch. Lanza HttpsError si estÃ¡ en cooldown.
+// Retorna null si esta acciÃ³n no tiene lÃ­mite (cooldown === 0).
 async function assertNotRateLimited(uid, action) {
     const cooldown = RATE_LIMIT_MS[action] ?? 0;
     if (cooldown === 0) return null;
@@ -63,24 +64,24 @@ function requireString(value, field) {
 function optionalString(value, field) {
     if (value === undefined || value === null) return null;
     if (typeof value !== 'string') {
-        throw new HttpsError('invalid-argument', `Campo inválido: ${field}`);
+        throw new HttpsError('invalid-argument', `Campo invÃ¡lido: ${field}`);
     }
     return value;
 }
 
-// [SEC-03] Registro ACTIONS — punto de extensión para V-4..V-7 y futuros
-// flujos. Cada acción declara:
-//   - validate(payload)        → payload saneado o lanza HttpsError
-//   - build(uid, payload)       → { userPatch, submission, auditEvent }
+// [SEC-03] Registro ACTIONS â€” punto de extensiÃ³n para V-4..V-7 y futuros
+// flujos. Cada acciÃ³n declara:
+//   - validate(payload)        â†’ payload saneado o lanza HttpsError
+//   - build(uid, payload)       â†’ { userPatch, submission, auditEvent }
 //       userPatch   : objeto a fusionar en users/{uid} (merge:true)
-//       submission  : { collection, data } | null — doc owner-scoped
-//                      (id = uid) en una colección kyc_*_submissions
-//       auditEvent  : objeto a añadir en audit_log/{uid}/events
-// Añadir un flujo nuevo = registrar una entrada aquí. CERO nuevas Cloud
-// Functions desplegadas — el dispatcher es el único punto de entrada.
+//       submission  : { collection, data } | null â€” doc owner-scoped
+//                      (id = uid) en una colecciÃ³n kyc_*_submissions
+//       auditEvent  : objeto a aÃ±adir en audit_log/{uid}/events
+// AÃ±adir un flujo nuevo = registrar una entrada aquÃ­. CERO nuevas Cloud
+// Functions desplegadas â€” el dispatcher es el Ãºnico punto de entrada.
 const ACTIONS = {
 
-    // Triple-Write R11 — KYC individual (aip-kyc-individual.js)
+    // Triple-Write R11 â€” KYC individual (aip-kyc-individual.js)
     submitKycIndividual: {
         validate(payload) {
             return {
@@ -109,7 +110,7 @@ const ACTIONS = {
                         back_url:      p.back_url,
                         submitted_at:  FieldValue.serverTimestamp(),
                         legal_nature:  p.legal_nature,
-                        personal_data: p.personal_data, // NOTE: cifrar PII en producción (heredado del código cliente)
+                        personal_data: p.personal_data, // NOTE: cifrar PII en producciÃ³n (heredado del cÃ³digo cliente)
                     },
                 },
                 auditEvent: {
@@ -121,10 +122,10 @@ const ACTIONS = {
         },
     },
 
-    // Triple-Write R11 — KYB (aip-kyb-flow.js)
-    // FIX Hallazgo B (01_AUDITORIA_FIRESTORE_RULES.md [SEC-04]): la colección
-    // canónica es `kyc_kyb_submissions` (la que lee aip-superadmin-kyc.js),
-    // no `kyb_submissions` (la que escribía el cliente hasta ahora).
+    // Triple-Write R11 â€” KYB (aip-kyb-flow.js)
+    // FIX Hallazgo B (01_AUDITORIA_FIRESTORE_RULES.md [SEC-04]): la colecciÃ³n
+    // canÃ³nica es `kyc_kyb_submissions` (la que lee aip-superadmin-kyc.js),
+    // no `kyb_submissions` (la que escribÃ­a el cliente hasta ahora).
     submitKyb: {
         validate(payload) {
             return {
@@ -156,7 +157,7 @@ const ACTIONS = {
         },
     },
 
-    // Triple-Write R11 — KYC L4 (aip-l4-qualifier.js)
+    // Triple-Write R11 â€” KYC L4 (aip-l4-qualifier.js)
     submitKycL4: {
         validate(payload) {
             return {
@@ -188,10 +189,10 @@ const ACTIONS = {
         },
     },
 
-    // [S2 — SYS-ADMIN-IS-01] Admin: asignar IntegrityScore manualmente
+    // [S2 â€” SYS-ADMIN-IS-01] Admin: asignar IntegrityScore manualmente
     // Solo superadmin. Guard adicional: el dispatcher verifica rol del llamante
-    // en users/{uid} antes de ejecutar — no depende solo de autenticación.
-    // Flujo: panel aip-superadmin-kyc.js → botón "Asignar IntegrityScore" →
+    // en users/{uid} antes de ejecutar â€” no depende solo de autenticaciÃ³n.
+    // Flujo: panel aip-superadmin-kyc.js â†’ botÃ³n "Asignar IntegrityScore" â†’
     // executeUserAction({ action:'setIntegrityScore', payload:{ targetUid, score } })
     setIntegrityScore: {
         async validate(payload, callerUid) {
@@ -201,7 +202,7 @@ const ACTIONS = {
             }
             const score = Number(payload.score);
             if (!Number.isFinite(score) || score < 0 || score > 100) {
-                throw new HttpsError('invalid-argument', 'score debe ser un número entre 0 y 100');
+                throw new HttpsError('invalid-argument', 'score debe ser un nÃºmero entre 0 y 100');
             }
             if (!payload.targetUid || typeof payload.targetUid !== 'string') {
                 throw new HttpsError('invalid-argument', 'targetUid requerido');
@@ -210,7 +211,7 @@ const ACTIONS = {
         },
         build(callerUid, p) {
             // userPatch se aplica al targetUid, no al callerUid
-            // El dispatcher normal usa uid del caller — aquí lo sobrescribimos
+            // El dispatcher normal usa uid del caller â€” aquÃ­ lo sobrescribimos
             // en el campo __targetOverride para que el dispatcher lo detecte.
             return {
                 __targetOverride: p.targetUid,
@@ -225,9 +226,105 @@ const ACTIONS = {
         },
     },
 
-    // Account Config — perfil + preferencia de timeframe (aip-account-config.js)
+    // Account Config â€” perfil + preferencia de timeframe (aip-account-config.js)
     // Whitelist de campos: el cliente NUNCA puede tocar kyc_*/role/level/rol
-    // vía este dispatcher — solo los campos declarados aquí.
+    // vÃ­a este dispatcher â€” solo los campos declarados aquÃ­.
+    // [SEC-CUSTOM-CLAIMS-01] Cierre de cadena: KYC aprobado -> Custom Claims -> Acceso
+    // Reemplaza la escritura directa client-side de aip-superadmin-kyc.js.
+    // Al aprobar, setea los claims en el token de Auth para que firestore.rules
+    // (isAdmin, hasClearanceMember, assets read) funcionen.
+    ApproveKycAction: {
+        async validate(payload, callerUid) {
+            // 1. Guardia de Rol (Zero-Trust)
+            const callerSnap = await db.doc(`users/${callerUid}`).get();
+            if (callerSnap.data()?.rol !== 'superadmin') {
+                throw new HttpsError('permission-denied', 'Solo superadmin puede aprobar KYC');
+            }
+            // 2. Validacion del target
+            if (!payload.targetUid || typeof payload.targetUid !== 'string') {
+                throw new HttpsError('invalid-argument', 'targetUid requerido');
+            }
+            if (!['kyc', 'kyb', 'l4'].includes(payload.type)) {
+                throw new HttpsError('invalid-argument', 'Tipo de flujo invalido');
+            }
+            if (!['approve', 'reject'].includes(payload.action)) {
+                throw new HttpsError('invalid-argument', 'Accion invalida');
+            }
+            return {
+                targetUid: payload.targetUid,
+                type: payload.type,
+                action: payload.action,
+                user_agent: payload.user_agent || null
+            };
+        },
+        async build(callerUid, p) {
+            const isApprove = p.action === 'approve';
+            const statusKeyMap = { kyc: 'kyc_status', kyb: 'kyb_status', l4: 'kyc_l4_status' };
+            const statusValMap = {
+                kyc: isApprove ? 'KYC_APPROVED' : 'KYC_REJECTED',
+                kyb: isApprove ? 'KYB_APPROVED' : 'KYB_REJECTED',
+                l4: isApprove ? 'KYC_L4_APPROVED' : 'KYC_L4_REJECTED'
+            };
+            const eventMap = {
+                kyc: isApprove ? 'KYC_APPROVED' : 'KYC_REJECTED',
+                kyb: isApprove ? 'KYB_APPROVED' : 'KYB_REJECTED',
+                l4: isApprove ? 'KYC_L4_APPROVED' : 'KYC_L4_REJECTED'
+            };
+
+            const typeKey = p.type === 'l4' ? 'kyc_l4' : p.type;
+
+            // Construir el payload base para Firestore (misma logica que el draft SEC-NEW-03)
+            const result = {
+                __targetOverride: p.targetUid,
+                userPatch: {
+                    [statusKeyMap[p.type]]: statusValMap[p.type],
+                    [`${typeKey}_approved_at`]: FieldValue.serverTimestamp(),
+                    [`${typeKey}_approved_by`]: callerUid
+                },
+                submission: null,
+                auditEvent: {
+                    event: eventMap[p.type],
+                    approved_by: callerUid,
+                    user_agent: p.user_agent
+                }
+            };
+
+            // [SEC-CUSTOM-CLAIMS-01] Logica de Promocion de Claims
+            // Si se aprueba el KYC individual (la puerta de entrada), promovemos claims.
+            // NOTA: kyb y l4 son flujos posteriores, no activan el claim kyc_verified.
+            if (isApprove && p.type === 'kyc') {
+                // Leer el documento del usuario para obtener su rol actual en Firestore
+                const targetSnap = await db.doc(`users/${p.targetUid}`).get();
+                const targetData = targetSnap.data();
+
+                // Mapeo de roles de Firestore a claims esperados por firestore.rules
+                // Regla :61 -> request.auth.token.role in ['superadmin', 'partner', 'desk_manager']
+                const currentRole = targetData?.rol || 'inv';
+                const validClaimRoles = ['superadmin', 'partner', 'desk_manager', 'inv'];
+                const claimRole = validClaimRoles.includes(currentRole) ? currentRole : 'inv';
+
+                result.__setClaims = {
+                    kyc_verified: true,       // Usado en assets read (:48)
+                    role: claimRole,          // Usado en isAdmin() (:61)
+                    level: 1                  // Usado en hasClearanceMember() (:66) - Clearance base miembro
+                };
+            }
+
+            // Si se RECHAZA el KYC, asegurarnos de revocar el acceso por si acaso
+            // (ej. un admin aprobo por error y ahora rechaza)
+            if (!isApprove && p.type === 'kyc') {
+                result.__setClaims = {
+                    kyc_verified: false,
+                    level: 0
+                };
+                // No tocamos 'role' aqui para no degradar a un admin por un rechazo de KYC de un usuario normal,
+                // a menos que el Director indique lo contrario.
+            }
+
+            return result;
+        }
+    },
+
     patchAccountProfile: {
         validate(payload) {
             const patch = {};
@@ -237,12 +334,12 @@ const ACTIONS = {
             if (payload.timeframe_pref !== undefined) {
                 const allowed = ['short', 'medium', 'long'];
                 if (!allowed.includes(payload.timeframe_pref)) {
-                    throw new HttpsError('invalid-argument', 'timeframe_pref inválido');
+                    throw new HttpsError('invalid-argument', 'timeframe_pref invÃ¡lido');
                 }
                 patch.timeframe_pref = payload.timeframe_pref;
             }
             if (Object.keys(patch).length === 0) {
-                throw new HttpsError('invalid-argument', 'Sin campos válidos para actualizar');
+                throw new HttpsError('invalid-argument', 'Sin campos vÃ¡lidos para actualizar');
             }
             return patch;
         },
@@ -261,11 +358,11 @@ const ACTIONS = {
 };
 
 // [SEC-04] Dispatcher executeUserAction (onCall)
-// Escritura atómica vía batch: users/{uid} (merge) + colección de
+// Escritura atÃ³mica vÃ­a batch: users/{uid} (merge) + colecciÃ³n de
 // submission (si aplica) + audit_log/{uid}/events. Admin SDK bypasea
-// firestore.rules — R0 (`users.allow update: if false`) permanece intacto
+// firestore.rules â€” R0 (`users.allow update: if false`) permanece intacto
 // para el cliente directo.
-// [SYS-COLD-01] minInstances:1 — elimina cold start en el path crítico KYC.
+// [SYS-COLD-01] minInstances:1 â€” elimina cold start en el path crÃ­tico KYC.
 exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
     const uid = request.auth?.uid;
     if (!uid) {
@@ -275,19 +372,33 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
     const { action, payload } = request.data ?? {};
     const handler = ACTIONS[action];
     if (!handler) {
-        throw new HttpsError('invalid-argument', `Acción desconocida: ${action}`);
+        throw new HttpsError('invalid-argument', `AcciÃ³n desconocida: ${action}`);
     }
 
-    // [ARQ-CLEAN-01] Rate limit delegado a assertNotRateLimited — responsabilidad única.
+    // [ARQ-CLEAN-01] Rate limit delegado a assertNotRateLimited â€” responsabilidad Ãºnica.
     // Retorna limitRef (para incluir en batch) o null (sin cooldown).
     const limitRef = await assertNotRateLimited(uid, action);
 
     const validated = await Promise.resolve(handler.validate(payload ?? {}, uid));
     const built = handler.build(uid, validated);
-    const { userPatch, submission, auditEvent } = built;
+    const { userPatch, submission, auditEvent, __setClaims } = built;
 
     // [S2] Acciones admin pueden escribir sobre un targetUid distinto al caller.
     const writeUid = built.__targetOverride ?? uid;
+
+    // [SEC-CUSTOM-CLAIMS-01] Ejecutar promocion de Custom Claims en Auth
+    if (__setClaims) {
+        try {
+            await getAuth().setCustomUserClaims(writeUid, __setClaims);
+            console.log(`[Claims] Actualizados para ${writeUid}:`, __setClaims);
+            // Forzar refresh del token del usuario si tiene una sesion activa
+            // (Opcional pero recomendado para que el cambio sea inmediato sin re-login)
+            await getAuth().revokeRefreshTokens(writeUid);
+        } catch (err) {
+            console.error(`[Claims] ERROR critico seteando claims para ${writeUid}:`, err);
+            throw new HttpsError('internal', 'Error interno al asignar permisos de acceso.');
+        }
+    }
 
     const batch = db.batch();
     batch.set(db.doc(`users/${writeUid}`), userPatch, { merge: true });
@@ -296,7 +407,7 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
         batch.set(db.doc(`${submission.collection}/${writeUid}`), submission.data, { merge: true });
     }
 
-    // [ARQ-CLEAN-01] Audit event incluye action name — facilita queries por tipo.
+    // [ARQ-CLEAN-01] Audit event incluye action name â€” facilita queries por tipo.
     batch.set(db.collection(`audit_log/${writeUid}/events`).doc(), {
         action,
         ...auditEvent,
@@ -311,6 +422,15 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
     return { ok: true };
 });
 
-// [SEC-05-TEMP] seedMandatePilot — ELIMINADO 2026-06-25
-// Siembra ejecutada localmente vía Admin SDK (.agents/tools/seed-mandate.js).
-// MND-2026-06-24-0001 confirmado en Firestore producción { "ok": true }.
+// [SEC-05-TEMP] seedMandatePilot â€” ELIMINADO 2026-06-25
+// Siembra ejecutada localmente vÃ­a Admin SDK (.agents/tools/seed-mandate.js).
+// MND-2026-06-24-0001 confirmado en Firestore producciÃ³n { "ok": true }.
+
+// [SEC-06] Webhook EMAIL-INGEST (BHUB-EMAIL-01)
+// Inyectado 2026-07-01 â€” email-ingest.js contiene lÃ³gica webhook SendGrid
+exports.emailWebhook = require('./email-ingest').emailWebhook;
+
+
+// [BHUB-INGESTA] Exportacion de webhooks multicanal
+exports.emailWebhook = require('./email-ingest').emailWebhook;
+exports.whatsappWebhook = require('./whatsapp-ingest').whatsappWebhook;
