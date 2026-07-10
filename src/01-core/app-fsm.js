@@ -79,6 +79,14 @@ export const UserFSM = {
      * @param {Object} payload   - Datos de la transición.
      */
     send(eventName, payload = {}) {
+        // [FSM-ESCAPE-01] Auto-escape: si LOGIN_SUBMITTED desde ACCESS_BLOCKED,
+        // ejecutar RESET_FLOW implícito antes de proceder (fusión .04 — 2026-07-09,
+        // absorbe el parche que antes vivía en AIPHandler.js).
+        if (eventName === 'LOGIN_SUBMITTED' && currentMachineState === 'ACCESS_BLOCKED') {
+            console.warn('[FSM][ESCAPE-01] ACCESS_BLOCKED — auto-reset previo.');
+            this.send('RESET_FLOW');
+        }
+
         const stateDef = MACHINE_DEF.states[currentMachineState];
 
         // 1. Verificar si el evento existe en el estado actual (No Leapfrogging)

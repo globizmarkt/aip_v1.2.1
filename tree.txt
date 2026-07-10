@@ -1,185 +1,258 @@
-.
-./.claude
-./.git
-./.gitignore
-./_archive
-./_archive/audits
-./_archive/audits/auditoria tolopologia
-./_archive/audits/auditoria tolopologia/00_instrucciones.md
-./_archive/audits/auditoria tolopologia/2026-05-10.1_aip_v1.2.1.md
-./_archive/audits/auditoria tolopologia/2026-05-10.2_aip_v1.2.1.md
-./_archive/audits/auditoria tolopologia/2026-05-10.3_aip_v1.2.1.md
-./_archive/blueprints
-./_archive/blueprints/main-blueprint.js
-./_archive/blueprints/passport-engine-blueprint.js
-./_archive/blueprints/scene-manager-blueprint.js
-./_archive/blueprints/storage-adapter-blueprint.js
-./_archive/blueprints/ui-binder-blueprint.js
-./_archive/historical
-./_archive/legacy_html
-./_archive/legacy_html/aip_demo_seductora.html
-./_archive/legacy_html/asset-explorer.html
-./_archive/legacy_html/crm-landing.html
-./_archive/legacy_html/crm_aip_index.html
-./_archive/legacy_html/entry.html.archived
-./_archive/processed
-./_archive/quarantine
-./_archive/quarantine/ui-binder.js
-./_archive/visual
-./firebase.json
-./firestore.rules
-./gadgets
-./gadgets/landing
-./gadgets/landing/about-aip
-./gadgets/landing/about-aip/code.html
-./gadgets/landing/about-us
-./gadgets/landing/about-us/code.html
-./gadgets/landing/aip-ventures
-./gadgets/landing/aip-ventures/code.html
-./gadgets/landing/intelligence
-./gadgets/landing/intelligence/code.html
-./gadgets/landing/markets
-./gadgets/landing/markets/code.html
-./gadgets/landing/news
-./gadgets/landing/news/code.html
-./gadgets/landing/opportunity
-./gadgets/landing/opportunity/code.html
-./gadgets/landing/our-services
-./gadgets/landing/our-services/code.html
-./gadgets/landing/regulatory
-./gadgets/landing/regulatory/code.html
-./index.html
-./src
-./src/01-core
-./src/01-core/app-actions.js
-./src/01-core/app-fsm.js
-./src/01-core/app-guards.js
-./src/01-core/app-store.js
-./src/01-core/archetype
-./src/01-core/contracts
-./src/01-core/contracts/routes-contract.js
-./src/01-core/contracts/state-contract.js
-./src/01-core/i18n
-./src/01-core/i18n/i18n-engine.js
-./src/01-core/integrity
-./src/01-core/integrity/IntegrityEngine.js
-./src/01-core/passport
-./src/01-core/passport/PassportEngine.js
-./src/01-core/passportValidator.js
-./src/01-core/schemas
-./src/01-core/schemas/AnonProjectState.js
-./src/01-core/sessionGC.js
-./src/01-core/userFSM.js
-./src/01-core/utils
-./src/01-core/utils/deepFreeze.js
-./src/02-infra
-./src/02-infra/config
-./src/02-infra/firebase
-./src/02-infra/firebase/DocumentRepository.js
-./src/02-infra/firebase/FirebaseConnector.js
-./src/02-infra/firebase/MandateRepository.js
-./src/02-infra/news
-./src/02-infra/news/NewsCache.js
-./src/02-infra/storage
-./src/02-infra/storage/CloudStorageAdapter.js
-./src/02-infra/storage/StorageAdapter.js
-./src/02-infra/telegram
-./src/03-interface
-./src/03-interface/TabLoader.js
-./src/03-interface/app-router.js
-./src/03-interface/base
-./src/03-interface/base/reactive-element.js
-./src/03-interface/components
-./src/03-interface/components/auth
-./src/03-interface/components/auth/aip-legal-attestation.js
-./src/03-interface/components/crm-welcome.js
-./src/03-interface/components/kyc
-./src/03-interface/components/kyc/aip-acp-flow.js
-./src/03-interface/components/kyc/aip-kyb-flow.js
-./src/03-interface/components/kyc/aip-kyc-individual.js
-./src/03-interface/components/kyc/aip-kyc-setup.js
-./src/03-interface/components/kyc/aip-l4-qualifier.js
-./src/03-interface/components/kyc/aip-superadmin-kyc.js
-./src/03-interface/components/market-fallback.js
-./src/03-interface/orbit-3-gatekeeper
-./src/03-interface/orbit-3-gatekeeper/gateEnforcer.js
-./src/03-interface/orbit-3-gatekeeper/ui-gate
-./src/03-interface/orbit-3-gatekeeper/ui-gate/GoldenGate.js
-./src/03-interface/orchestrator
-./src/03-interface/orchestrator/Router.js
-./src/03-interface/register-components.js
-./src/03-interface/shared
-./src/03-interface/shared/UIBinder.js
-./src/03-interface/ui-hydrator.js
-./src/03-interface/wizards
-./src/03-interface/wizards/GenesisWizard.js
-./src/03-interface/wizards/LegalModal.js
-./src/gadgets
-./src/gadgets/aip-cis-form.js
-./src/gadgets/aip-crm-home.js
-./src/gadgets/aip-document-upload.js
-./src/gadgets/aip-domain-overview.js
-./src/gadgets/aip-kyc-gate.js
-./src/gadgets/aip-orbit1-tree.js
-./src/gadgets/aip-procedure-view.js
-./src/gadgets/aip-ticker.js
-./src/gadgets/aip-trinity-layout.js
-./src/ignition-v13.js
-./src/locales
-./src/locales/en.json
-./src/locales/es.json
-./src/main.js
-./src/styles
-./src/styles/crm-tokens-v13.css
-./src/styles/landing-tokens.css
-./src/styles/theme-landing.css
-./src/verticals
-./src/verticals/_base
-./src/verticals/_base/entry.html
-./src/verticals/_base/locales
-./src/verticals/_base/locales/en
-./src/verticals/_base/locales/en/ui.json
-./src/verticals/_base/locales/es
-./src/verticals/_base/locales/es/ui.json
-./src/verticals/_base/locales/fr
-./src/verticals/_base/locales/fr/ui.json
-./src/verticals/_base/locales/pt
-./src/verticals/_base/locales/pt/ui.json
-./src/verticals/_base/schemas
-./src/verticals/_base/schemas/offeringSchema.js
-./src/verticals/_base/theme.css
-./src/verticals/_base/vertical.config.js
-./src/verticals/aip
-./src/verticals/aip/AIPHandler.js
-./src/verticals/aip/ignition.js
-./src/verticals/aip/locales
-./src/verticals/aip/locales/en
-./src/verticals/aip/locales/en/ui.json
-./src/verticals/aip/locales/es
-./src/verticals/aip/locales/es/ui.json
-./src/verticals/aip/locales/fr
-./src/verticals/aip/locales/fr/ui.json
-./src/verticals/aip/locales/pt
-./src/verticals/aip/locales/pt/ui.json
-./src/verticals/aip/mockState.js
-./src/verticals/aip/schemas
-./src/verticals/aip/schemas/offeringSchema.js
-./src/verticals/aip/theme.css
-./src/verticals/aip/vertical.config.js
-./src/verticals/commodities
-./src/verticals/commodities/entry.html
-./src/verticals/commodities/locales
-./src/verticals/commodities/locales/en
-./src/verticals/commodities/locales/en/ui.json
-./src/verticals/commodities/locales/es
-./src/verticals/commodities/locales/es/ui.json
-./src/verticals/commodities/locales/fr
-./src/verticals/commodities/locales/fr/ui.json
-./src/verticals/commodities/locales/pt
-./src/verticals/commodities/locales/pt/ui.json
-./src/verticals/commodities/schemas
-./src/verticals/commodities/schemas/offeringSchema.js
-./src/verticals/commodities/theme.css
-./src/verticals/commodities/vertical.config.js
-./tree.txt
-./vercel.json
+﻿AIP_v1.2.1/ (excluye node_modules, .git, dist, .vercel)
+Generado: 2026-07-10
+
+├── .agents
+│   └── tools
+│       ├── seed-breederhub-items.js
+│       ├── seed-ceo.js
+│       ├── seed-mandate.js
+│       └── sync-breederhub.js
+├── _archive
+│   ├── audits
+│   │   └── auditoria tolopologia
+│   │       ├── 00_instrucciones.md
+│   │       ├── 2026-05-10.1_aip_v1.2.1.md
+│   │       ├── 2026-05-10.2_aip_v1.2.1.md
+│   │       └── 2026-05-10.3_aip_v1.2.1.md
+│   ├── blueprints
+│   │   ├── main-blueprint.js
+│   │   ├── passport-engine-blueprint.js
+│   │   ├── scene-manager-blueprint.js
+│   │   ├── storage-adapter-blueprint.js
+│   │   └── ui-binder-blueprint.js
+│   ├── historical
+│   ├── legacy_html
+│   │   ├── aip_demo_seductora.html
+│   │   ├── asset-explorer.html
+│   │   ├── crm_aip_index.html
+│   │   ├── crm-landing.html
+│   │   └── entry.html.archived
+│   ├── processed
+│   ├── quarantine
+│   │   └── ui-binder.js
+│   └── visual
+├── docs
+│   ├── landing_optimizations
+│   │   ├── c0_contexto.md
+│   │   ├── C1_auditoria_landing_aip.md
+│   │   ├── C2_propuesta_mejoras_priorizadas.md
+│   │   └── C3_copy_rsi_sociotecnica_landing.md
+│   ├── 00 adn narrativo y brief.md
+│   ├── 00_DESPACHOS_04.3.4.1.md
+│   ├── 01 Fundamentos Estructurales CIFI-AIP.md
+│   ├── 02 Atlantis International Project.md
+│   ├── 03 F.AGEN-arr-01.CIFI-1.1 spec del cliente.md
+│   ├── A1_cost_aip_prod01_presupuesto.md
+│   ├── A2_cost_aip_prod01_presupuesto.md
+│   ├── ATLANTIS INTERNATIONAL PROJECTS BV.md
+│   ├── B_team_aip01_equipo_minimo.md
+│   ├── C_domain_aip01_estrategia.md
+│   └── Portafolio AIP con Agentes.md
+├── doctrine
+│   ├── architecture
+│   │   ├── 03_geometria_trinity.md
+│   │   ├── 05_procesos_hidratacion.md
+│   │   ├── ADR_002_MIGRACION_NL.md
+│   │   ├── AIP_Trinity_Doctrine.md
+│   │   ├── DOMAIN_BLUEPRINT_SYNTHESIS.md
+│   │   └── SFS_INTEGRITY_Trinity_Doctrine_v1.md
+│   ├── operations
+│   │   └── 07_procedimientos_operativos.md
+│   ├── product
+│   │   ├── 01_vision_estrategica.md
+│   │   └── 02_identidad_negocio.md
+│   └── security
+│       ├── 04_seguridad_compliance.md
+│       └── DEC-IAM-01.md
+├── functions
+│   ├── .env
+│   ├── .gitignore
+│   ├── email-ingest.js
+│   ├── index.js
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── seed-mandate-pilot.js
+│   └── whatsapp-ingest.js
+├── gadgets
+│   └── landing
+│       ├── about-aip
+│       │   └── code.html
+│       ├── about-us
+│       │   └── code.html
+│       ├── aip-ventures
+│       │   └── code.html
+│       ├── intelligence
+│       │   └── code.html
+│       ├── markets
+│       │   └── code.html
+│       ├── news
+│       │   └── code.html
+│       ├── opportunity
+│       │   └── code.html
+│       ├── our-services
+│       │   └── code.html
+│       └── regulatory
+│           └── code.html
+├── src
+│   ├── 01-core
+│   │   ├── archetype
+│   │   ├── contracts
+│   │   │   ├── routes-contract.js
+│   │   │   └── state-contract.js
+│   │   ├── i18n
+│   │   │   └── i18n-engine.js
+│   │   ├── integrity
+│   │   │   └── IntegrityEngine.js
+│   │   ├── passport
+│   │   │   └── PassportEngine.js
+│   │   ├── schemas
+│   │   │   └── AnonProjectState.js
+│   │   ├── utils
+│   │   │   └── deepFreeze.js
+│   │   ├── app-actions.js
+│   │   ├── app-fsm.js
+│   │   ├── app-guards.js
+│   │   ├── app-store.js
+│   │   ├── mergeAnonData.js
+│   │   ├── passportValidator.js
+│   │   └── sessionGC.js
+│   ├── 02-infra
+│   │   ├── config
+│   │   ├── firebase
+│   │   │   ├── DocumentRepository.js
+│   │   │   ├── FirebaseConnector.js
+│   │   │   └── MandateRepository.js
+│   │   ├── news
+│   │   │   └── NewsCache.js
+│   │   ├── storage
+│   │   │   ├── CloudStorageAdapter.js
+│   │   │   └── StorageAdapter.js
+│   │   └── telegram
+│   ├── 03-interface
+│   │   ├── base
+│   │   │   ├── orbit-panel-element.js
+│   │   │   └── reactive-element.js
+│   │   ├── components
+│   │   │   ├── auth
+│   │   │   │   └── aip-legal-attestation.js
+│   │   │   ├── kyc
+│   │   │   │   ├── aip-account-config.js
+│   │   │   │   ├── aip-acp-flow.js
+│   │   │   │   ├── aip-agent-desktop.js
+│   │   │   │   ├── aip-kyb-flow.js
+│   │   │   │   ├── aip-kyc-individual.js
+│   │   │   │   ├── aip-kyc-mobile-handoff.js
+│   │   │   │   ├── aip-kyc-setup.js
+│   │   │   │   ├── aip-l4-qualifier.js
+│   │   │   │   ├── aip-superadmin-kyc.js
+│   │   │   │   └── kyc-flow-controller.js
+│   │   │   ├── crm-welcome.js
+│   │   │   └── market-fallback.js
+│   │   ├── orbit-3-gatekeeper
+│   │   │   ├── ui-gate
+│   │   │   │   └── GoldenGate.js
+│   │   │   └── gateEnforcer.js
+│   │   ├── orchestrator
+│   │   │   └── Router.js
+│   │   ├── shared
+│   │   │   └── UIBinder.js
+│   │   ├── wizards
+│   │   │   ├── GenesisWizard.js
+│   │   │   └── LegalModal.js
+│   │   ├── app-router.js
+│   │   ├── register-components.js
+│   │   ├── TabLoader.js
+│   │   └── ui-hydrator.js
+│   ├── gadgets
+│   │   ├── aip-aimon-panel.js
+│   │   ├── aip-cis-form.js
+│   │   ├── aip-crm-home.js
+│   │   ├── aip-cronograma.js
+│   │   ├── aip-document-upload.js
+│   │   ├── aip-domain-overview.js
+│   │   ├── aip-kyc-gate.js
+│   │   ├── aip-orbit1-tree.js
+│   │   ├── aip-output-generator.js
+│   │   ├── aip-procedure-view.js
+│   │   ├── aip-ticker.js
+│   │   ├── aip-trinity-layout.js
+│   │   ├── aip-uploader.js
+│   │   ├── crm-breederhub.js
+│   │   └── output-export.js
+│   ├── locales
+│   │   ├── en.json
+│   │   └── es.json
+│   ├── styles
+│   │   ├── crm-tokens-v13.css
+│   │   ├── landing-tokens.css
+│   │   └── theme-landing.css
+│   ├── tools
+│   │   └── seed-mandate-pilot.js
+│   ├── vendor
+│   │   └── jszip.min.js
+│   ├── verticals
+│   │   ├── _base
+│   │   │   ├── locales
+│   │   │   │   ├── en
+│   │   │   │   │   └── ui.json
+│   │   │   │   ├── es
+│   │   │   │   │   └── ui.json
+│   │   │   │   ├── fr
+│   │   │   │   │   └── ui.json
+│   │   │   │   └── pt
+│   │   │   │       └── ui.json
+│   │   │   ├── schemas
+│   │   │   │   └── offeringSchema.js
+│   │   │   ├── entry.html
+│   │   │   ├── theme.css
+│   │   │   └── vertical.config.js
+│   │   ├── aip
+│   │   │   ├── locales
+│   │   │   │   ├── en
+│   │   │   │   │   └── ui.json
+│   │   │   │   ├── es
+│   │   │   │   │   └── ui.json
+│   │   │   │   ├── fr
+│   │   │   │   │   └── ui.json
+│   │   │   │   └── pt
+│   │   │   │       └── ui.json
+│   │   │   ├── schemas
+│   │   │   │   └── offeringSchema.js
+│   │   │   ├── AIPHandler.js
+│   │   │   ├── ignition.js
+│   │   │   ├── mockState.js
+│   │   │   ├── theme.css
+│   │   │   └── vertical.config.js
+│   │   └── commodities
+│   │       ├── locales
+│   │       │   ├── en
+│   │       │   │   └── ui.json
+│   │       │   ├── es
+│   │       │   │   └── ui.json
+│   │       │   ├── fr
+│   │       │   │   └── ui.json
+│   │       │   └── pt
+│   │       │       └── ui.json
+│   │       ├── schemas
+│   │       │   └── offeringSchema.js
+│   │       ├── entry.html
+│   │       ├── theme.css
+│   │       └── vertical.config.js
+│   ├── ignition-v13.js
+│   └── main.js
+├── test
+│   └── smoke.test.mjs
+├── .firebaserc
+├── .gitignore
+├── firebase.json
+├── firebase-debug.log
+├── firestore.rules
+├── index.html
+├── package.json
+├── package-lock.json
+├── serviceAccountKey.json
+├── storage.rules
+├── test-email-webhook.js
+├── tree.txt
+├── tree_new.txt
+└── vercel.json

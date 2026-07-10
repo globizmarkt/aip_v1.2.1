@@ -39,7 +39,6 @@ import { getAuth }          from 'firebase/auth';
 import {
     getFirestore,
     doc,
-    setDoc,
     onSnapshot,
 }                           from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
@@ -215,33 +214,28 @@ class AipKycIndividual extends ReactiveElement {
         this._render();
     }
 
-    // [SEC-04e] Lógica QR Handoff (por cara, Google Charts, cero polling)
+    // [SEC-04e] Lógica QR Handoff (despacho .68 Fase 3, 2026-07-09)
+    // Reemplaza el patrón cliente-escribe-directo-a-qr_tokens (bloqueado por
+    // firestore.rules deny-all + bug serverTimestamp no importado) por sesión
+    // server-side vía Cloud Function createKycSession.
     async _initQRHandoff(face) {
         this.#error = '';
         this._teardownQR(face);
         this._render();
 
         try {
-            const uid   = getAuth().currentUser?.uid;
+            const uid = getAuth().currentUser?.uid;
             if (!uid) throw new Error('No authenticated user');
 
-            const token = crypto.randomUUID();
-            const db    = getFirestore();
+            const { data } = await httpsCallable(getFunctions(), 'createKycSession')();
+            const sessionId = data.sessionId;
 
-            await setDoc(doc(db, 'qr_tokens', token), {
-                uid,
-                face,
-                created_at: serverTimestamp(),
-                expires_at: Date.now() + QR_TTL_SECS * 1000,
-                status:     'pending',
-            });
-
-            this.#qrStates[face].token = token;
+            this.#qrStates[face].token = sessionId;
             this._startQRCountdown(face);
-            this._listenMobileUpload(face, token);
+            this._listenMobileUpload(face, sessionId);
 
         } catch (err) {
-            console.error('[KYC:QR] Error generando token:', err);
+            console.error('[KYC:QR] Error generando sesión handoff:', err);
             this.#error = 'kyc.qr.error.generation';
         } finally {
             this._render();
@@ -261,16 +255,21 @@ class AipKycIndividual extends ReactiveElement {
         }, 1000);
     }
 
-    _listenMobileUpload(face, token) {
+    _listenMobileUpload(face, sessionId) {
         const db    = getFirestore();
         const state = this.#qrStates[face];
 
-        state.unsub = onSnapshot(doc(db, 'qr_tokens', token), (snap) => {
+        state.unsub = onSnapshot(doc(db, 'kyc_sessions', sessionId), (snap) => {
             const data = snap.data();
-            if (data?.status === 'uploaded' && data?.download_url) {
+            // Estados: pending -> scanned -> attested -> in_progress -> completed
+            if (data?.status === 'completed' && data?.download_url) {
                 if (face === 'front') { this.#frontUrl = data.download_url; this.#frontFile = null; }
                 else                  { this.#backUrl  = data.download_url; this.#backFile  = null; }
                 this._teardownQR(face);
+                this._render();
+            } else if (data?.status === 'expired') {
+                this._teardownQR(face);
+                this.#error = 'kyc.qr.error.expired';
                 this._render();
             }
         });

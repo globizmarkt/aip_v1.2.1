@@ -191,10 +191,34 @@ service cloud.firestore {
       allow update: if isAdmin();
     }
 
+    // â”€â”€ KYC Handoff QR de sesion unica (despacho .68 Fase 3, 2026-07-09) â”€â”€â”€â”€
+    // Reemplaza el modelo qr_tokens (cliente escribe directo, sin regla propia,
+    // caia en deny-all) por sesiones creadas exclusivamente por Cloud Functions.
+    match /kyc_sessions/{sessionId} {
+      allow read: if request.auth != null
+                  && request.auth.uid == resource.data.userId;
+      allow write: if false; // solo Cloud Functions (Admin SDK)
+
+      match /audit/{auditId} {
+        allow read: if request.auth.uid == get(/databases/$(database)/documents/kyc_sessions/$(sessionId)).data.userId;
+        allow create: if false;
+        allow update, delete: if false;
+      }
+    }
+
+    match /handoff_tokens/{shortCode} {
+      allow read, write: if false; // solo Cloud Functions
+    }
+
+    match /audit_events/{eventId} {
+      allow read: if request.auth != null
+                  && request.auth.token.admin == true;
+      allow write: if false;
+    }
+
     // â”€â”€ Regla por defecto â€” Negar todo lo no especificado â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    // NOTA: qr_tokens (handoff QR mÃ³vil) queda FUERA de este bloque a
-    // propÃ³sito â€” modelo de auth del "lado mÃ³vil" pendiente (CCD P3,
-    // 01_AUDITORIA_FIRESTORE_RULES.md [SEC-05]).
+    // NOTA: qr_tokens ya NO se usa (migrado a kyc_sessions arriba, .68 Fase 3).
+    // Cualquier escritura residual a qr_tokens cae aqui y se deniega (correcto).
     match /{document=**} {
       allow read, write: if false;
     }

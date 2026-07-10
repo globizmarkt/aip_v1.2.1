@@ -427,6 +427,130 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
 // Siembra ejecutada localmente vÃ­a Admin SDK (.agents/tools/seed-mandate.js).
 // MND-2026-06-24-0001 confirmado en Firestore producciÃ³n { "ok": true }.
 
+// [SEC-07] Flujo KYC Handoff QR (auth movil de un solo uso)
+// Despacho .68 Fase 3 (2026-07-09) - reemplaza el patron cliente-escribe-directo
+// a qr_tokens (bloqueado por firestore.rules deny-all + bug serverTimestamp no
+// importado en aip-kyc-individual.js) por sesiones server-side via Cloud Function.
+const crypto = require('crypto');
+const { onSchedule } = require('firebase-functions/v2/scheduler');
+
+exports.createKycSession = onCall({ minInstances: 1 }, async (request) => {
+    const uid = request.auth?.uid;
+    if (!uid) throw new HttpsError('unauthenticated', 'Requiere usuario autenticado');
+
+    const sessionId = crypto.randomUUID();
+    const secret = crypto.randomBytes(32).toString('hex');
+    const salt = crypto.randomBytes(16).toString('hex');
+    const tokenHash = crypto.createHash('sha256').update(secret + salt).digest('hex');
+    const nonce = crypto.randomUUID();
+
+    const sessionData = {
+        sessionId,
+        userId: uid,
+        tenantId: request.auth.token.tenant_id || 'default',
+        status: 'pending',
+        tokenHash,
+        salt,
+        nonce,
+        createdAt: FieldValue.serverTimestamp(),
+        // TTL nativo: expira en 10 minutos
+        expiresAt: new Date(Date.now() + 10 * 60000),
+        attempts: 0,
+        maxAttempts: 3,
+        desktopFingerprint: {
+            userAgent: request.rawRequest?.headers['user-agent'] || 'unknown',
+            ip: request.rawRequest?.ip || 'unknown'
+        },
+        audit: {
+            createdIp: request.rawRequest?.ip || 'unknown',
+            userAgent: request.rawRequest?.headers['user-agent'] || 'unknown',
+            riskFlags: []
+        }
+    };
+
+    await db.doc(`kyc_sessions/${sessionId}`).set(sessionData);
+
+    // Solo se devuelve el sessionId al cliente desktop. NUNCA el secreto.
+    return { sessionId };
+});
+
+exports.kycInit = onCall({ minInstances: 1 }, async (request) => {
+    const { sessionId, deviceInfo } = request.data ?? {};
+    if (!sessionId) throw new HttpsError('invalid-argument', 'sessionId requerido');
+
+    const sessionRef = db.doc(`kyc_sessions/${sessionId}`);
+    const sessionSnap = await sessionRef.get();
+
+    if (!sessionSnap.exists) throw new HttpsError('not-found', 'SESSION_NOT_FOUND');
+    const data = sessionSnap.data();
+
+    if (data.status !== 'pending') throw new HttpsError('failed-precondition', 'SESSION_ALREADY_USED');
+    if (data.expiresAt.toDate() < new Date()) {
+        await sessionRef.update({ status: 'expired' });
+        throw new HttpsError('deadline-exceeded', 'SESSION_EXPIRED');
+    }
+    if (data.attempts >= data.maxAttempts) throw new HttpsError('resource-exhausted', 'RATE_LIMIT_EXCEEDED');
+
+    const challenge = crypto.randomBytes(32).toString('hex');
+
+    await sessionRef.update({
+        status: 'scanned',
+        challenge,
+        mobileFingerprint: deviceInfo || {},
+        attempts: FieldValue.increment(1)
+    });
+
+    return { challenge, nonce: data.nonce };
+});
+
+exports.kycAttest = onCall({ minInstances: 1 }, async (request) => {
+    const { sessionId, signedChallenge, mobilePubKey } = request.data ?? {};
+    if (!sessionId || !signedChallenge) throw new HttpsError('invalid-argument', 'Faltan parametros de atestacion');
+
+    const sessionRef = db.doc(`kyc_sessions/${sessionId}`);
+
+    await db.runTransaction(async (t) => {
+        const doc = await t.get(sessionRef);
+        if (!doc.exists) throw new HttpsError('not-found', 'SESSION_NOT_FOUND');
+        const data = doc.data();
+
+        if (data.status !== 'scanned') throw new HttpsError('failed-precondition', 'Estado invalido para atestacion');
+
+        // TODO: verificacion criptografica real del signedChallenge con mobilePubKey.
+        // Placeholder documentado -- no usar en produccion sin cerrar este TODO.
+        const signatureValid = true;
+
+        if (!signatureValid) {
+            t.update(sessionRef, { attempts: FieldValue.increment(1) });
+            throw new HttpsError('unauthenticated', 'INVALID_SIGNATURE');
+        }
+
+        t.update(sessionRef, {
+            status: 'attested',
+            attempts: 0
+        });
+    });
+
+    return { ok: true };
+});
+
+// Fallback de limpieza estricta (Sweep Job)
+exports.cleanupKycSessions = onSchedule('every 10 minutes', async (event) => {
+    const now = new Date();
+    const expiredQuery = await db.collection('kyc_sessions')
+        .where('expiresAt', '<', now)
+        .where('status', 'in', ['pending', 'scanned'])
+        .get();
+
+    const batch = db.batch();
+    expiredQuery.docs.forEach(doc => {
+        batch.update(doc.ref, { status: 'expired' });
+    });
+
+    if (expiredQuery.size > 0) await batch.commit();
+    console.log(`[Cleanup] ${expiredQuery.size} sesiones expiradas marcadas.`);
+});
+
 // [SEC-06] Webhook EMAIL-INGEST (BHUB-EMAIL-01)
 // Inyectado 2026-07-01 â€” email-ingest.js contiene lÃ³gica webhook SendGrid
 exports.emailWebhook = require('./email-ingest').emailWebhook;

@@ -847,6 +847,92 @@ const CATEGORY_ESTRUCTURADOS_VENTURE = {
   aimon: { procedure: 'Contenido en preparación.', opportunity: 'Contenido en preparación.' },
 };
 
+// ── [SEC-06-PROC-AIP] 23 Procedimientos AIP Fase 07.1 ──────────────
+// Despacho .42 C1 — Carga real en CRM
+
+const CATEGORY_PROC_FIN_DIR = {
+  id: 'proc-fin-dir', domain: 'AIP_PROCEDIMIENTOS',
+  label: 'Instrumentos Financieros', labelShort: 'FIN-DIR',
+  procedure: { headline: 'Procedimientos Financieros Directos', market_note: 'Transferencias y liquidación bancaria internacional (SWIFT, SEPA, GPI, KTT).', compliance_doc: null, steps: [], propose_cta: {} },
+  opportunities: { unlock_threshold: { integrityScore: 60, kycTier: 1 }, empty_state: {}, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Acceso a infraestructura SWIFT y rails de pago.', opportunity: 'Operaciones de tesorería.' },
+  procedures: [
+    { id: 'P-01', titulo: 'Cash Transfer MT103', version: 'V1', senal_riesgo: 'ALTO', descripcion: 'Transferencia bancaria internacional vía SWIFT MT103.', flujo_pasos: ['CIS', 'Importe', 'NCNDA', 'DD 36h', 'Meet 24h', 'POF', 'Retorno', 'DOA/PGL'], docs: ['CIS', 'POF', 'NCNDA'] },
+    { id: 'P-02', titulo: 'GPI-V1', version: 'V1', senal_riesgo: 'MEDIO', descripcion: 'Transferencia internacional SWIFT GPI (Global Payments Innovation).', flujo_pasos: ['CIS', 'Importe', 'NCNDA', 'DD 36h', 'Meet 24h', 'POF', 'Retorno', 'DOA/PGL'], docs: ['CIS', 'POF', 'NCNDA'] },
+    { id: 'P-03', titulo: 'IBAN to IBAN', version: 'V1', senal_riesgo: 'BAJO', descripcion: 'Transferencia bancaria estándar IBAN a IBAN.', flujo_pasos: ['CIS', 'Importe', 'NCNDA', 'DD 36h', 'Meet 24h', 'POF', 'Retorno', 'DOA/PGL'], docs: ['CIS', 'POF', 'NCNDA'] },
+    { id: 'P-04', titulo: 'KTT', version: 'V1', senal_riesgo: 'MEDIO', descripcion: 'Korea Telegraphic Transfer (KTT).', flujo_pasos: ['CIS', 'Importe', 'NCNDA', 'DD 36h', 'Meet 24h', 'POF', 'Retorno', 'DOA/PGL'], docs: ['CIS', 'POF', 'NCNDA'] },
+    { id: 'P-05', titulo: 'SEPA B2B', version: 'V1', senal_riesgo: 'BAJO', descripcion: 'Procedimiento SEPA Business to Business.', flujo_pasos: ['CIS sender', 'CIS receiver', 'DD', 'POF', 'Importe', 'Contrato', 'Abono SEPA'], docs: ['CIS', 'POF', 'Contrato'] },
+    { id: 'P-06', titulo: 'SEPA-V1', version: 'V1', senal_riesgo: 'BAJO', descripcion: 'Procedimiento SEPA general (M0-M5, CID, B2B).', flujo_pasos: ['CIS', 'Importe', 'NCNDA', 'DD 36h', 'Meet 24h', 'POF', 'Retorno', 'DOA/PGL'], docs: ['CIS', 'POF', 'NCNDA'] },
+    { id: 'P-07', titulo: 'Global Operaciones Financieras (ES)', version: 'V1', senal_riesgo: 'MEDIO', descripcion: 'Flujograma 8 pasos + 11 tipos de operaciones.', flujo_pasos: ['CIS', 'Importe', 'NCNDA', 'DD 36h', 'Meet 24h', 'POF', 'Retorno', 'DOA/PGL'], docs: ['CIS', 'POF', 'NCNDA'] },
+    { id: 'P-08', titulo: 'Global Operaciones Financieras (EN)', version: 'V1', senal_riesgo: 'MEDIO', descripcion: 'Flujograma 8 pasos + 11 tipos (English).', flujo_pasos: ['CIS', 'Amount', 'NCNDA', 'DD 36h', 'Meet 24h', 'POF', 'Return', 'DOA/PGL'], docs: ['CIS', 'POF', 'NCNDA'] },
+    { id: 'P-21', titulo: 'Transacciones Servidor Global', version: 'V1', senal_riesgo: 'MUY ALTO', descripcion: 'Protocolo técnico IPIP, GPI, MT103 STP/FTP. Anexo técnico.', flujo_pasos: ['Capturas', 'Código alfanumérico', 'Pantalla negra', 'Activación 72h'], docs: ['Capturas', 'Código'] }
+  ]
+};
+
+const CATEGORY_PROC_FIN_CRED = {
+  id: 'proc-fin-cred', domain: 'AIP_PROCEDIMIENTOS',
+  label: 'Crédito y Monetización', labelShort: 'FIN-CRÉD',
+  procedure: { headline: 'Crédito y Monetización', market_note: 'Instrumentos bancarios y monetización (LC, SBLC, BG).', compliance_doc: null, steps: [], propose_cta: {} },
+  opportunities: { unlock_threshold: { integrityScore: 60, kycTier: 2 }, empty_state: {}, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Estructuración de garantías y monetización.', opportunity: 'Operaciones SBLC/BG.' },
+  procedures: [
+    { id: 'P-09', titulo: 'Carta Credito-SBLC', version: 'V0', senal_riesgo: 'MUY ALTO', descripcion: 'Carta de crédito irrevocable (LC/DLC/SBLC). 19 bancos emisores.', flujo_pasos: ['Solicitud', 'Viabilidad', 'Wording', 'Aprobación', 'Distribución', 'Recepción', 'Pago', 'Entrega'], docs: ['Pasaporte', 'Escritura', 'PFI'] },
+    { id: 'P-10', titulo: 'Monetización SBLC-BG', version: 'V1', senal_riesgo: 'MUY ALTO', descripcion: 'Monetización de SBLC o BG. KYC + POL + verbiage.', flujo_pasos: ['KYC', 'POL', 'Verbiage', 'Plataforma', 'LTV', 'Simulación', 'Meet'], docs: ['KYC', 'POL', 'Verbiage'] }
+  ]
+};
+
+const CATEGORY_PROC_ALT_REND = {
+  id: 'proc-alt-rend', domain: 'AIP_PROCEDIMIENTOS',
+  label: 'Programas de Alto Rendimiento', labelShort: 'ALT-REND',
+  procedure: { headline: 'Programas de Alto Rendimiento', market_note: 'PPP sobre cash, cripto y commodities.', compliance_doc: null, steps: [], propose_cta: {} },
+  opportunities: { unlock_threshold: { integrityScore: 75, kycTier: 3 }, empty_state: {}, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Programas de alto rendimiento institucionales.', opportunity: 'PPP.' },
+  procedures: [
+    { id: 'P-11', titulo: 'Comisiones Alto Rendimiento', version: 'V1', senal_riesgo: 'ALTO', descripcion: 'Estructura comisiones IMPFA (5%-5%-5%).', flujo_pasos: ['KYC', 'IMPFA', 'División', 'Pago agente'], docs: ['KYC', 'IMPFA'] },
+    { id: 'P-12', titulo: 'Cripto-V1', version: 'V1', senal_riesgo: 'MUY ALTO', descripcion: 'PPP Cripto histórico. Min 100M USD.', flujo_pasos: ['Invitación', 'KYC', 'Wallet', 'Vida', 'Meet', 'AB Test', 'Contrato'], docs: ['KYC', 'IMPFA', 'Wallet'] },
+    { id: 'P-13', titulo: 'Cripto-V2', version: 'V2', senal_riesgo: 'MUY ALTO', descripcion: 'PPP Cripto actual. Reunión previa trader-inversor.', flujo_pasos: ['Reunión previa', 'CIS', 'Invitación', 'KYC', 'Wallet', 'Vida', 'Meet', 'AB Test', 'Contrato'], docs: ['CIS', 'KYC', 'IMPFA', 'Wallet'] }
+  ]
+};
+
+const CATEGORY_PROC_COMM = {
+  id: 'proc-comm', domain: 'AIP_PROCEDIMIENTOS',
+  label: 'Commodities', labelShort: 'COMM-MIN/OTROS',
+  procedure: { headline: 'Commodities y Minas', market_note: 'Entrada de activos físicos en PPP.', compliance_doc: null, steps: [], propose_cta: {} },
+  opportunities: { unlock_threshold: { integrityScore: 70, kycTier: 2 }, empty_state: {}, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Monetización de activos físicos vía PPP.', opportunity: 'Oro, diamantes, cobre, níquel.' },
+  procedures: [
+    { id: 'P-14', titulo: 'Entrada Minas 2024-2025', version: '2024-2025', senal_riesgo: 'ALTO', descripcion: 'Entrada minas oro. POL con periódico + tinta azul.', flujo_pasos: ['KYC', 'NI 43-101', 'Permisos', 'Escritura', 'ISO', 'POL', 'Notarización', 'Firma'], docs: ['NI 43-101', 'Permisos', 'POL'] },
+    { id: 'P-15', titulo: 'Detallado Minas de Oro', version: 'V1', senal_riesgo: 'ALTO', descripcion: 'Procedimiento detallado (6 pasos). LTV 30-45%.', flujo_pasos: ['CIS', 'DD preliminar', 'Contrato', 'LTV', 'KYC', 'DD final', 'Bancos', 'Contrato final', 'Bloqueo', 'Monetización'], docs: ['CIS', 'NI 43-101', 'JORC'] },
+    { id: 'P-16', titulo: 'Abreviado PPP Minas', version: 'V1', senal_riesgo: 'ALTO', descripcion: 'Procedimiento abreviado (5 pasos).', flujo_pasos: ['CIS', 'NI 43-101', 'Declaración', 'KYC', 'DD', 'Contrato'], docs: ['CIS', 'NI 43-101', 'JORC'] },
+    { id: 'P-18', titulo: 'Diamantes y Piedras', version: 'V1', senal_riesgo: 'ALTO', descripcion: 'PPP diamantes. LTV 70%. Min 300M USD.', flujo_pasos: ['CIS', 'GIA', 'Gemológico', 'SKR', 'Propiedad', 'LTV', 'KYC', 'DD', 'Bancos', 'Contrato', 'Bloqueo'], docs: ['CIS', 'GIA', 'SKR'] },
+    { id: 'P-19', titulo: 'Hilo Niquel', version: '2025-09-09', senal_riesgo: 'MEDIO', descripcion: 'PPP hilo níquel. LTV 40-50%.', flujo_pasos: ['CIS', 'Pureza', 'SKR', 'Propiedad', 'LTV', 'KYC', 'DD', 'Bancos', 'Contrato', 'Bloqueo'], docs: ['CIS', 'Pureza', 'SKR'] },
+    { id: 'P-20', titulo: 'Polvo Cobre', version: '2025-09-09', senal_riesgo: 'MEDIO', descripcion: 'PPP polvo cobre. LTV 40-50%.', flujo_pasos: ['CIS', 'Pureza', 'SKR', 'Propiedad', 'LTV', 'KYC', 'DD', 'Bancos', 'Contrato', 'Bloqueo'], docs: ['CIS', 'Pureza', 'SKR'] }
+  ]
+};
+
+const CATEGORY_PROC_TEORIA = {
+  id: 'proc-teoria', domain: 'AIP_PROCEDIMIENTOS',
+  label: 'Estructura Corporativa', labelShort: 'TEORÍA',
+  procedure: { headline: 'Teoría y Estructura Corporativa', market_note: 'Comparativas jurisdiccionales y fiscales.', compliance_doc: null, steps: [], propose_cta: {} },
+  opportunities: { unlock_threshold: { integrityScore: 50, kycTier: 1 }, empty_state: {}, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Estructura corporativa y holding.', opportunity: 'SOPARFI vs LIS.' },
+  procedures: [
+    { id: 'P-22', titulo: 'Comparativa Tipos Empresa', version: '2024-2025', senal_riesgo: 'BAJO', descripcion: 'LTD (UK) vs SL (ES). 17 dimensiones.', flujo_pasos: ['Análisis 17 dimensiones'], docs: [] },
+    { id: 'P-23', titulo: 'SOPARFI', version: 'V1', senal_riesgo: 'BAJO', descripcion: 'SOPARFI (LU) vs Holding (ES). Ejemplos numéricos.', flujo_pasos: ['Estructura SOPARFI', 'Comparativa', 'Ejemplo', 'Persona física'], docs: [] }
+  ]
+};
+
+const CATEGORY_PROC_COMERCIAL = {
+  id: 'proc-comercial', domain: 'AIP_PROCEDIMIENTOS',
+  label: 'Servicios (Brochure)', labelShort: 'COMERCIAL',
+  procedure: { headline: 'Servicios y Brochure', market_note: 'Materiales corporativos y red de agentes.', compliance_doc: null, steps: [], propose_cta: {} },
+  opportunities: { unlock_threshold: { integrityScore: 50, kycTier: 1 }, empty_state: {}, teasers: [], mandate_ids: [] },
+  aimon: { procedure: 'Brochure corporativo.', opportunity: 'Servicios AIP.' },
+  procedures: [
+    { id: 'P-24', titulo: 'SERVICIOS Brochure - V2', version: 'V2', senal_riesgo: 'MEDIO', descripcion: 'Brochure Atlantis Intl Projects. Red agentes.', flujo_pasos: ['Presentación', 'Agentes'], docs: [] }
+  ]
+};
+
 const CATEGORIES_DATA = {
   // Commodities
   'metales-mineria':         CATEGORY_METALES,
@@ -865,6 +951,13 @@ const CATEGORIES_DATA = {
   'venture-equity':          CATEGORY_VENTURES_EQUITY,
   'growth-capital':          CATEGORY_GROWTH_CAPITAL,
   'estructurados-venture':   CATEGORY_ESTRUCTURADOS_VENTURE,
+  // [SEC-06-PROC-AIP] Procedimientos Fase 07.1 (despacho .42 C1, 2026-07-09)
+  'proc-fin-dir':            CATEGORY_PROC_FIN_DIR,
+  'proc-fin-cred':           CATEGORY_PROC_FIN_CRED,
+  'proc-alt-rend':           CATEGORY_PROC_ALT_REND,
+  'proc-comm':               CATEGORY_PROC_COMM,
+  'proc-teoria':             CATEGORY_PROC_TEORIA,
+  'proc-comercial':          CATEGORY_PROC_COMERCIAL,
 };
 
 // ─────────────────────────────────────────────────────────────

@@ -8,7 +8,7 @@
 
 import { mockState } from './mockState.js';
 import { PassportValidator } from '../../01-core/passportValidator.js';
-import { UserFSM } from '../../01-core/userFSM.js';
+import { UserFSM } from '../../01-core/app-fsm.js';
 import '../../gadgets/aip-trinity-layout.js';
 // [E6-T08-FIX-2] Importar app explícitamente — garantiza que initializeApp()
 // se haya ejecutado antes de cualquier getAuth(app)/getFirestore(app).
@@ -26,7 +26,8 @@ export const AIPHandler = {
 
     init() {
         console.log('[AIPHandler] Inicializando handlers de vertical...');
-        UserFSM.boot();
+        const _hasSession = !!localStorage.getItem('aip_session_token');
+        UserFSM.send(_hasSession ? 'SESSION_TOKEN_FOUND' : 'NO_SESSION_FOUND');
 
         // [E6-T08] Persistencia de sesión Firebase Auth — onAuthStateChanged
         // Si el usuario ya tiene sesión activa al recargar, salta el formulario de acceso.
@@ -42,20 +43,12 @@ export const AIPHandler = {
                         //   FIX-2: Race condition guard → _signupInProgress (evita logout en registro nuevo)
                         console.log('[AIPHandler][SEC-VEC-01] Sesión detectada. Validando contra SSoT Firestore...');
 
-                        // [FSM-ESCAPE-01] Si userFSM está atascado en ACCESS_BLOCKED (sesión anterior
-                        // denegada) llamar reset() antes de LOGIN_SUBMITTED, que solo es válido desde
-                        // ORBIT_1_GUEST. Sin esto el login queda ignorado silenciosamente (R0 warning).
-                        if (UserFSM.getState() === 'ACCESS_BLOCKED') {
-                            console.warn('[AIPHandler][FSM-ESCAPE-01] ACCESS_BLOCKED detectado — reset forzado antes de LOGIN_SUBMITTED.');
-                            UserFSM.reset();
-                        }
-
                         const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
                         if (isDev) {
                             // [FIX-1] Dev bypass: inyectar payload sintético en lugar de return seco.
                             // Sin esto, PassportValidator nunca se llama → AccessGranted nunca se emite → limbo visual.
                             console.warn('[AIPHandler][DEV] Entorno local — usando payload sintético de desarrollo.');
-                            UserFSM.transition('LOGIN_SUBMITTED');
+                            UserFSM.send('LOGIN_SUBMITTED');
                             PassportValidator.validateAccess({
                                 usr:  user.uid,
                                 rol:  'inv',
@@ -76,7 +69,7 @@ export const AIPHandler = {
                             return;
                         }
 
-                        UserFSM.transition('LOGIN_SUBMITTED');
+                        UserFSM.send('LOGIN_SUBMITTED');
 
                         try {
                             const { getFirestore, doc, getDoc } = await import('firebase/firestore');
@@ -127,13 +120,13 @@ export const AIPHandler = {
     _initGatekeeperSubscribers() {
         document.addEventListener('Skeleton:Gatekeeper:AccessGranted', (e) => {
             const { wc } = e.detail;
-            UserFSM.transition('Skeleton:Gatekeeper:AccessGranted', { wc });
+            UserFSM.send('ACCESS_GRANTED', { wc });
             this._showLegalAttestation(wc);
         });
 
         document.addEventListener('Skeleton:Gatekeeper:AccessDenied', (e) => {
             const { reason } = e.detail;
-            UserFSM.transition('Skeleton:Gatekeeper:AccessDenied', { reason });
+            UserFSM.send('ACCESS_DENIED', { reason });
             this._showAccessDenied(reason);
         });
 
@@ -142,7 +135,7 @@ export const AIPHandler = {
         document.addEventListener('Skeleton:Legal:Accepted', () => {
             document.getElementById('legal-attestation-gate')?.classList.add('hidden');
 
-            UserFSM.transition('Skeleton:Legal:Accepted', { wc: this._wcPending });
+            UserFSM.send('LEGAL_ACCEPTED', { wc: this._wcPending });
             this.showCRM(this._wcPending);
         }, { once: true });
     },
@@ -189,7 +182,7 @@ export const AIPHandler = {
             const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
             if (isDev) {
                 console.warn('[AIPHandler][DEV] OAuth dev bypass activo — saltando Firebase.');
-                UserFSM.transition('LOGIN_SUBMITTED');
+                UserFSM.send('LOGIN_SUBMITTED');
                 PassportValidator.validateAccess({
                     usr: 'dev-usr-001', rol: 'inv', tier: 'inst',
                     jur: 'CH', kyc: 'ok', pv: 1,
@@ -233,7 +226,7 @@ export const AIPHandler = {
                     return;
                 }
                 const cred = await signInWithPopup(auth, providerObj);
-                UserFSM.transition('LOGIN_SUBMITTED');
+                UserFSM.send('LOGIN_SUBMITTED');
                 PassportValidator.validateAccess({
                     usr: cred.user.uid, rol: 'inv', tier: 'inst',
                     jur: 'CH', kyc: 'ok', pv: 1,
@@ -262,7 +255,7 @@ export const AIPHandler = {
 
         // [E6-T05 — 2026-06-03] EXIT → FSM real
         document.addEventListener('Skeleton:Action:Exit', () => {
-            UserFSM.transition('LOGOUT');
+            UserFSM.send('LOGOUT_REQUESTED'); // CORREGIDO: antes 'LOGOUT' (transición fantasma, no existía en TRANSITION_MAP)
             document.dispatchEvent(new CustomEvent('Skeleton:State:OrbitReset', { bubbles: true }));
             // Restablece orbit-3 a estado GUEST sin recargar página
         });
@@ -338,7 +331,7 @@ export const AIPHandler = {
     },
 
     showCRM(wcWhitelist = []) {
-        const currentState = UserFSM.getState();
+        const currentState = UserFSM.getMachineState(); // CORREGIDO: antes getState() (API de userFSM.js, ahora eliminado)
         if (currentState !== 'ORBIT_3_CRM_ACTIVE') {
             console.error(`[AIPHandler] showCRM abortado: estado inválido ${currentState}. Se requiere ORBIT_3_CRM_ACTIVE.`);
             return;
@@ -518,7 +511,7 @@ export const AIPHandler = {
                     const auth = getAuth(firebaseApp);
                     const cred = await signInWithEmailAndPassword(auth, email, pass);
                     console.log('[AIPHandler][E6-T11] Sign-in exitoso para UID:', cred.user.uid);
-                    UserFSM.transition('LOGIN_SUBMITTED');
+                    UserFSM.send('LOGIN_SUBMITTED');
                     PassportValidator.validateAccess({
                         usr: cred.user.uid, rol: 'inv', tier: 'inst', jur: 'CH',
                         kyc: 'ok', pv: 1,
@@ -534,7 +527,7 @@ export const AIPHandler = {
             // [DEV-BYPASS] localhost only — email dev@aip.local salta TODAS las validaciones y Firebase
             if (isDev && email === 'dev@aip.local') {
                 console.warn('[AIPHandler][DEV] Dev bypass activo — saltando Firebase Auth.');
-                UserFSM.transition('LOGIN_SUBMITTED');
+                UserFSM.send('LOGIN_SUBMITTED');
                 const devPayload = {
                     usr:  'dev-usr-001',
                     rol:  'inv',
@@ -594,7 +587,7 @@ export const AIPHandler = {
 
                 console.log('[AIPHandler] Firestore: solicitud de acceso registrada para UID:', cred.user.uid);
 
-                UserFSM.transition('LOGIN_SUBMITTED');
+                UserFSM.send('LOGIN_SUBMITTED');
                 // [E6-T10] kyc:'ok' para el validador de UI → dispara LegalModal (Attestation).
                 // El documento Firestore guarda 'pending' — ese es el estado real de KYC.
                 PassportValidator.validateAccess({

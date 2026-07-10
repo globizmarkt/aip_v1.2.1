@@ -1,0 +1,9 @@
+/* ============================================================
+   ARCHIVO  : tailwind-input.css
+   VERSIÓN  : 1.0.0
+   FECHA    : 2026-07-10
+   PROPÓSITO: Punto de entrada de directivas Tailwind para Vite (DO-01)
+   ============================================================ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

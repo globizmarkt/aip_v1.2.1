@@ -262,6 +262,21 @@
     --crm-success:          #3a9b68;  /* = crm-success-border dark */
     --crm-warning:          #d8a23a;  /* = crm-warning-border dark */
     --crm-danger:           #c85b63;  /* = crm-error-border dark */
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SECCIÓN 14 — PALETA ABISAL (Tailwind JIT Tokens)
+       Migración desde index.html inline a variables CSS (R3 Zero-Hex, DO-01).
+       ═══════════════════════════════════════════════════════════════════════ */
+    --tw-void:         #05070B;
+    --tw-abyss:        #070A10;
+    --tw-steel:        #0E1624;
+    --tw-line:         #223044;
+    --tw-line-strong:  #2B3D58;
+    --tw-accent-cold:  #7FB4FF;
+    --tw-warning-amber:#C7A24B;
+    --tw-ink:          #D7DEE7;
+    --tw-ink-dim:      #9AA7B6;
+    --tw-ink-ghost:    #6E7B8B;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════

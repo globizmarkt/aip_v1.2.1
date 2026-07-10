@@ -5,6 +5,9 @@
  * Doctrina: Cascada Fiduciaria | Ley II (Re-hidratación)
  */
 
+// Tailwind CSS bundle (Vite) — DO-01, reemplaza CDN
+import './styles/tailwind-input.css';
+
 // [Saneamiento Fase 18 — bare specifiers → rutas relativas nativas ES6]
 import { StorageAdapter } from './02-infra/storage/StorageAdapter.js';
 import { i18nEngine } from './01-core/i18n/i18n-engine.js';
@@ -25,11 +28,8 @@ import { GenesisWizard } from './03-interface/wizards/GenesisWizard.js'; // [E3-
 import { LegalModal } from './03-interface/wizards/LegalModal.js';    // [E3-T02] Guardián legal fluido
 import './02-infra/firebase/FirebaseConnector.js';                  // [E6-T08-FIX] Inicializar Firebase app singleton ANTES de cualquier getAuth/getFirestore
 import { CRMWelcomeGate } from './03-interface/components/crm-welcome.js'; // [CRM-WP-01] Welcome Gate post-login
-import './gadgets/aip-orbit1-tree.js';                               // [E5-GADGET-7.4] Árbol de mandatos Órbita 1 (auto-wire en Skeleton:Legal:Accepted)
-import './gadgets/aip-crm-home.js';                                // [E5-GADGET-7.4] CRM Home — Portfolio Overview (auto-wire en Skeleton:Legal:Accepted)
-import './gadgets/aip-domain-overview.js';                         // [CRM-VIEWS-01] Vista L1 dominio — Option B reserve (VIBE 1.3+)
-import './gadgets/aip-procedure-view.js';                          // [CRM-VIEWS-01] Vista L2A procedimiento — Option B reserve (VIBE 1.3+)
-import './gadgets/aip-kyc-gate.js';                                // [CRM-VIEWS-01] Vista L2B KYC gate — Option B reserve (VIBE 1.3+)
+// [PERF-LAZY-01] Los 5 gadgets CRM (aip-orbit1-tree/crm-home/domain-overview/procedure-view/kyc-gate)
+// se cargan vía dynamic import tras Skeleton:Action:GateCrossed — ver listener más abajo.
 
 /**
  * Whitelist de Verticales Autorizadas (COG-64)
@@ -149,6 +149,16 @@ async function boot() {
             document.getElementById('orbit-2-main-content')?.classList.add('hidden');
             document.getElementById('tab-content-container')?.classList.add('hidden');
             console.log('[Main] Golden Gate cruzado → Guardián legal fluido activado.');
+
+            // [PERF-LAZY-01] Dynamic import de 5 gadgets CRM tras cruzar el gate.
+            // Se difiere la carga para mejorar el First Load. Se ejecutan en background
+            // y estarán listos antes de que se emita Skeleton:Legal:Accepted.
+            import('./gadgets/aip-orbit1-tree.js');
+            import('./gadgets/aip-crm-home.js');
+            import('./gadgets/aip-domain-overview.js');
+            import('./gadgets/aip-procedure-view.js');
+            import('./gadgets/aip-kyc-gate.js');
+            console.log('[PERF-LAZY-01] Carga diferida de gadgets CRM iniciada.');
         }, { once: true });
 
         // [E3-T02] Revelación del CRM Dashboard tras atestación legal

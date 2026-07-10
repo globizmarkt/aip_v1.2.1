@@ -1,18 +1,20 @@
 /**
  * ARCHIVO: aip-superadmin-kyc.js
- * VERSIÓN: 1.3.0
- * FECHA: 2026-06-21
- * PROPÓSITO: Panel de administración SuperAdmin para revisión y aprobación/rechazo de flujos KYC/KYB/L4.
+ * VERSIÓN: 1.4.0
+ * FECHA: 2026-07-07
+ * PROPÓSITO: Panel de administración SuperAdmin para revisión y aprobación/rechazo de flujos KYC/KYB/L4 + Zero-Trust R0 custom claims dispatcher.
  * ÍNDICE:
  *   [SEC-01] Configuración y Constantes
  *   [SEC-02] Estado Interno y Ciclo de Vida
  *   [SEC-03] Lógica de Carga de Datos (Vistas A, B, C)
- *   [SEC-04] Lógica de Acciones (Aprobación/Rechazo + setIntegrityScore)
+ *   [SEC-04] Lógica de Acciones (Aprobación/Rechazo + setIntegrityScore + ApproveKycAction dispatcher)
  *   [SEC-05] Motor de Renderizado (Tabs y Vistas)
  *
  * /laparoscopia 2026-06-21 [S2 — SYS-ADMIN-IS-01]: añadido panel IntegrityScore
  * en Vista B (campo editable + botón Asignar → executeUserAction setIntegrityScore).
  * Sin cambios visuales en KYC/KYB/L4. R-GADGET-01 preservado.
+ * /laparoscopia 2026-07-07 [C-01 Zero-Trust R0]: añadir dispatcher executeUserAction('ApproveKycAction')
+ * en _handleAction cuando isApprove=true — cierra el bucle custom claims. Fallback graceful si falla.
  */
 
 import { OrbitPanelElement, _c } from '../../base/orbit-panel-element.js';
@@ -230,6 +232,23 @@ class AipSuperadminKyc extends OrbitPanelElement {
         };
 
         try {
+            // [C-01 Zero-Trust] Setear custom claims si es aprobación KYC
+            if (isApprove) {
+                try {
+                    await httpsCallable(getFunctions(), 'executeUserAction')({
+                        action: 'ApproveKycAction',
+                        payload: {
+                            targetUid: this.#selectedUid,
+                            type: type,
+                            approverUid: this.#adminUid
+                        }
+                    });
+                } catch (err) {
+                    console.warn('[ApproveKycAction] Custom claims setup:', err.message);
+                    // No bloquear — status update en Firestore sigue adelante (fallback graceful)
+                }
+            }
+
             await Promise.all([
                 setDoc(uidRef, updatePayload, { merge: true }),
                 setDoc(doc(collection(db, 'audit_log', this.#selectedUid, 'events')), {

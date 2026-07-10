@@ -78,6 +78,51 @@ class AipProcedureView extends ReactiveElement {
         crumb.textContent = 'PROCEDIMIENTO';
 
         breadcrumb.append(backBtn, sep, crumb);
+        wrap.appendChild(breadcrumb);
+
+        // [SEC-06-PROC-AIP] Listado de procedimientos (despacho .42 C1, 2026-07-09)
+        // Si la categoría trae procedures[], renderiza lista navegable en vez de vista única
+        if (ctx.categoryData?.procedures && ctx.categoryData.procedures.length > 0) {
+            const listHeader = document.createElement('h3');
+            listHeader.style.cssText = 'font-size:12px;font-weight:600;margin-bottom:12px;color:var(--crm-text-secondary);';
+            listHeader.textContent = `${ctx.categoryData.procedures.length} PROCEDIMIENTOS DISPONIBLES`;
+            wrap.appendChild(listHeader);
+
+            const list = document.createElement('div');
+            list.className = 'proc-list';
+
+            ctx.categoryData.procedures.forEach(proc => {
+                const card = document.createElement('div');
+                card.className = 'proc-card';
+                card.style.cssText = 'background:var(--crm-surface-raised);border:1px solid var(--crm-border);padding:12px;margin-bottom:8px;cursor:pointer;border-radius:6px;';
+
+                const procTitle = document.createElement('p');
+                procTitle.style.cssText = 'font-size:12px;font-weight:600;color:var(--crm-text);margin:0 0 4px 0;';
+                procTitle.textContent = `${proc.id} — ${proc.titulo}`;
+
+                const desc = document.createElement('p');
+                desc.style.cssText = 'font-size:10px;color:var(--crm-text-secondary);margin:0 0 8px 0;';
+                desc.textContent = proc.descripcion;
+
+                const risk = document.createElement('span');
+                risk.style.cssText = 'font-size:9px;font-weight:600;color:var(--crm-gold);border:1px solid var(--crm-border);padding:2px 6px;border-radius:3px;display:inline-block;';
+                risk.textContent = `RIESGO: ${proc.senal_riesgo}`;
+
+                card.append(procTitle, desc, risk);
+
+                card.addEventListener('click', () => {
+                    document.dispatchEvent(new CustomEvent('Skeleton:Action:ProcedureSelected', {
+                        bubbles: true,
+                        detail: { procId: proc.id, categoryId: ctx.categoryId }
+                    }));
+                });
+
+                list.appendChild(card);
+            });
+            wrap.appendChild(list);
+            this.appendChild(wrap);
+            return; // Salir temprano — ya renderizamos la lista, no el flujo de procedimiento único
+        }
 
         // Título
         const title = document.createElement('h2');
@@ -151,7 +196,7 @@ class AipProcedureView extends ReactiveElement {
 
         ctaZone.append(ctaInfo, ctaBtn);
 
-        wrap.append(breadcrumb, title, note, kycBlock, ctaZone);
+        wrap.append(title, note, kycBlock, ctaZone);
         this.appendChild(wrap);
     }
 }
