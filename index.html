@@ -38,8 +38,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Cormorant Garamond: títulos · Inter: cuerpo · JetBrains Mono: números/métricas · Fira Code: hashes/cripto -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+        rel="stylesheet">
     <!-- ── SISTEMA DE TOKENS (orden: base → override vertical → contrato v1.3) ── -->
     <link rel="stylesheet" href="./src/styles/theme-landing.css">
     <link rel="stylesheet" href="./src/verticals/aip/theme.css">
@@ -77,70 +81,114 @@
             color: var(--stitch-gold) !important;
             opacity: 1 !important;
         }
+
         /* orbit-3 visible en landing (SISTEMA/AIMON/ACCESO) — se oculta en CRM donde Trinity Layout toma el control */
         body.crm-mode #orbit-3 {
             display: none;
         }
+
         /* crm-orbit-2 (crm-home__main) — flex:1 garantiza que ocupa el espacio central */
         body.crm-mode #crm-orbit-2 {
             flex: 1;
         }
+
         /* orbit-3-panel VISIBLE — hidratado con actividad reciente + acciones desde trinity */
         /* [MODELO-B] Orbit-3 landing — Grid estructurado con micro-badges · 2026-05-31 */
         @keyframes dot-pulse {
-            0%,100% { transform:scale(1);opacity:1; }
-            50%      { transform:scale(1.6);opacity:0.5; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.6);
+                opacity: 0.5;
+            }
         }
+
         .dot-pulse {
-            display:inline-block;width:5px;height:5px;border-radius:50%;
-            background:#4ade80;animation:dot-pulse 1.5s infinite;flex-shrink:0;
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: dot-pulse 1.5s infinite;
+            flex-shrink: 0;
         }
+
         .orbit3-ticker-card {
-            background:#0E1624;border:1px solid #223044;padding:12px;
-            display:flex;flex-direction:column;gap:4px;
+            background: #0E1624;
+            border: 1px solid #223044;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
+
         .orbit3-notice {
-            display:flex;align-items:stretch;border:1px solid #2B3D58;
-            background:#070A10;font-family:'DM Mono',monospace;
+            display: flex;
+            align-items: stretch;
+            border: 1px solid #2B3D58;
+            background: #070A10;
+            font-family: 'DM Mono', monospace;
         }
+
         .orbit3-notice__tag {
-            display:flex;align-items:center;padding:0 8px;
-            font-size:8px;font-weight:700;letter-spacing:0.08em;
-            writing-mode:horizontal-tb;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            writing-mode: horizontal-tb;
         }
+
         .orbit3-status-row {
-            display:flex;justify-content:space-between;align-items:center;
-            padding:11px 0;border-bottom:1px solid #223044;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid #223044;
         }
-        .orbit3-status-row:last-child { border-bottom:none; }
+
+        .orbit3-status-row:last-child {
+            border-bottom: none;
+        }
+
         /* [FIX-2.1] Radio buttons abisal — appearance-none + diseño manual */
         input[type="radio"].accent-secondary {
             appearance: none;
             -webkit-appearance: none;
             width: 13px;
             height: 13px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             background: transparent;
             flex-shrink: 0;
             cursor: pointer;
             transition: border-color 0.2s, background 0.2s;
         }
+
         input[type="radio"].accent-secondary:checked {
             border-color: var(--stitch-gold, #C7A24B);
             background: var(--stitch-gold, #C7A24B);
             box-shadow: inset 0 0 0 3px var(--background, #0B1422);
         }
+
         input[type="radio"].accent-secondary:hover:not(:checked) {
-            border-color: rgba(199,162,75,0.5);
+            border-color: rgba(199, 162, 75, 0.5);
         }
+
         /* [FIX-2.3] Panel dropdown idioma — fondo opaco para legibilidad */
-        #lang-selector > div {
+        #lang-selector>div {
             background: rgba(10, 18, 34, 0.97) !important;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-color: rgba(199,162,75,0.18) !important;
+            border-color: rgba(199, 162, 75, 0.18) !important;
         }
+
         /* [H-01] Colapso físico orbit-3 — grid colapsa al ancho del rail cuando orbit3-collapsed */
         .aip-chassis:has(#orbit-3.orbit3-collapsed) {
             grid-template-columns: 1fr var(--orbita-3-rail-width, 48px) !important;
@@ -148,13 +196,15 @@
     </style>
 </head>
 
-<body class="m-0 p-0 h-screen overflow-hidden bg-background text-on-background font-sans flex flex-col min-w-[1200px] overflow-x-auto">
+<body
+    class="m-0 p-0 h-screen overflow-hidden bg-background text-on-background font-sans flex flex-col min-w-[1200px] overflow-x-auto">
     <header
         class="flex-none z-50 flex justify-between items-center px-8 py-5 border-b border-outline-variant bg-background/60 backdrop-blur-xl">
         <span class="font-serif text-2xl tracking-[0.25em] uppercase text-secondary" data-i18n="header.brand">—</span>
         <nav class="flex items-center gap-6">
             <!-- [LAND-07] about-us/ — fusión de about-aip + our-services · 2026-05-30 -->
-            <button type="button" class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
+            <button type="button"
+                class="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-[var(--stitch-gold)] transition-colors duration-300"
                 data-action="TabAboutUsClick" data-tab="about-us" data-i18n="nav.about">—</button>
             <!-- [LAND-05] TabOurServicesClick + our-services/ → DEPRECADO (fusionado en about-us) -->
             <!-- [LAND-06] markets/ → news/ (slug canónico) · 2026-05-30 -->
@@ -175,12 +225,18 @@
 
             <!-- SELECTOR DE IDIOMA — izquierda del botón Inicio (Forja Visual II) -->
             <details id="lang-selector" class="relative ml-4 group">
-                <summary class="cursor-pointer text-[10px] uppercase tracking-[0.2em] font-mono text-white/70 hover:text-[var(--stitch-gold)] list-none flex items-center gap-1 py-2 transition-colors">
+                <summary
+                    class="cursor-pointer text-[10px] uppercase tracking-[0.2em] font-mono text-white/70 hover:text-[var(--stitch-gold)] list-none flex items-center gap-1 py-2 transition-colors">
                     ES <span class="text-[8px]">▼</span>
                 </summary>
-                <div class="absolute right-0 top-full mt-4 w-20 z-[100] stitch-panel border border-[var(--stitch-border)] rounded-sm flex flex-col py-2 opacity-0 invisible group-open:opacity-100 group-open:visible transition-all">
-                    <button type="button" class="text-[10px] uppercase font-mono tracking-widest text-[var(--stitch-gold)] py-1.5 px-4 text-left hover:bg-white/5" data-action="ChangeLanguage" data-lang="es">ES</button>
-                    <button type="button" class="text-[10px] uppercase font-mono tracking-widest text-white/50 py-1.5 px-4 text-left hover:bg-white/5 hover:text-[var(--stitch-gold)]" data-action="ChangeLanguage" data-lang="en">EN</button>
+                <div
+                    class="absolute right-0 top-full mt-4 w-20 z-[100] stitch-panel border border-[var(--stitch-border)] rounded-sm flex flex-col py-2 opacity-0 invisible group-open:opacity-100 group-open:visible transition-all">
+                    <button type="button"
+                        class="text-[10px] uppercase font-mono tracking-widest text-[var(--stitch-gold)] py-1.5 px-4 text-left hover:bg-white/5"
+                        data-action="ChangeLanguage" data-lang="es">ES</button>
+                    <button type="button"
+                        class="text-[10px] uppercase font-mono tracking-widest text-white/50 py-1.5 px-4 text-left hover:bg-white/5 hover:text-[var(--stitch-gold)]"
+                        data-action="ChangeLanguage" data-lang="en">EN</button>
                 </div>
             </details>
 
@@ -196,102 +252,137 @@
     </header>
 
     <main class="aip-chassis">
-        <section id="orbit-2" class="orbit-2 overflow-y-auto p-8 md:p-12 pb-24 border-r border-outline-variant scroll-smooth">
+        <section id="orbit-2"
+            class="orbit-2 overflow-y-auto p-8 md:p-12 pb-24 border-r border-outline-variant scroll-smooth">
             <!-- [TAB-INJ-01] Contenedor principal de landing -->
             <div id="orbit-2-main-content">
-            <div class="hero-container mb-16 pt-8 pb-12 border-b border-outline-variant">
-                <h1 class="font-serif text-5xl md:text-6xl font-light tracking-[0.08em] text-on-background mb-6 leading-tight"
-                    data-i18n="hero.title">—</h1>
-                <p class="text-sm md:text-base text-on-surface-variant tracking-wide leading-relaxed mb-8 max-w-2xl"
-                    data-i18n="hero.subtitle">—</p>
-                <button type="button"
-                    class="px-8 py-4 bg-secondary/10 border border-secondary text-secondary text-[11px] uppercase tracking-[0.4em] hover:bg-secondary hover:text-background transition-all duration-500"
-                    data-action="GateWake" data-i18n="hero.cta_onboarding">—</button>
-            </div>
+                <div class="hero-container mb-16 pt-8 pb-12 border-b border-outline-variant">
+                    <h1 class="font-serif text-5xl md:text-6xl font-light tracking-[0.08em] text-on-background mb-6 leading-tight"
+                        data-i18n="hero.title">—</h1>
+                    <p class="text-sm md:text-base text-on-surface-variant tracking-wide leading-relaxed mb-8 max-w-2xl"
+                        data-i18n="hero.subtitle">—</p>
+                    <button type="button"
+                        class="px-8 py-4 bg-secondary/10 border border-secondary text-secondary text-[11px] uppercase tracking-[0.4em] hover:bg-secondary hover:text-background transition-all duration-500"
+                        data-action="GateWake" data-i18n="hero.cta_onboarding">—</button>
+                </div>
 
-            <!-- FASE 17.4: Cuestionario de Arquetipos (R29) -->
-            <section id="archetype-questionnaire" class="mb-16 pb-8 border-b border-outline-variant">
-                <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6" data-i18n="archetype.title">—</h2>
+                <!-- FASE 17.4: Cuestionario de Arquetipos (R29) -->
+                <section id="archetype-questionnaire" class="mb-16 pb-8 border-b border-outline-variant">
+                    <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6"
+                        data-i18n="archetype.title">—</h2>
 
-                <div class="space-y-8">
-                    <!-- Pregunta 1 -->
-                    <div class="question-block">
-                        <p class="text-sm text-on-surface-variant mb-4" data-i18n="archetype.q1_text">—</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
-                                <input type="radio" name="decisionStructure" value="opt_solo" class="accent-secondary">
-                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q1_optA">—</span>
-                            </label>
-                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
-                                <input type="radio" name="decisionStructure" value="opt_comite" class="accent-secondary">
-                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q1_optB">—</span>
-                            </label>
-                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
-                                <input type="radio" name="decisionStructure" value="opt_refiere" class="accent-secondary">
-                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q1_optC">—</span>
-                            </label>
-                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
-                                <input type="radio" name="decisionStructure" value="opt_no_sabe" class="accent-secondary">
-                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q1_optD">—</span>
-                            </label>
+                    <div class="space-y-8">
+                        <!-- Pregunta 1 -->
+                        <div class="question-block">
+                            <p class="text-sm text-on-surface-variant mb-4" data-i18n="archetype.q1_text">—</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                    <input type="radio" name="decisionStructure" value="opt_solo"
+                                        class="accent-secondary">
+                                    <span
+                                        class="text-xs text-on-background group-hover:text-secondary transition-colors"
+                                        data-i18n="archetype.q1_optA">—</span>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                    <input type="radio" name="decisionStructure" value="opt_comite"
+                                        class="accent-secondary">
+                                    <span
+                                        class="text-xs text-on-background group-hover:text-secondary transition-colors"
+                                        data-i18n="archetype.q1_optB">—</span>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                    <input type="radio" name="decisionStructure" value="opt_refiere"
+                                        class="accent-secondary">
+                                    <span
+                                        class="text-xs text-on-background group-hover:text-secondary transition-colors"
+                                        data-i18n="archetype.q1_optC">—</span>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                    <input type="radio" name="decisionStructure" value="opt_no_sabe"
+                                        class="accent-secondary">
+                                    <span
+                                        class="text-xs text-on-background group-hover:text-secondary transition-colors"
+                                        data-i18n="archetype.q1_optD">—</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Tiebreaker (oculto por defecto) -->
+                        <div id="tiebreaker-container" class="hidden space-y-4">
+                            <p class="text-sm text-on-surface-variant mb-4" data-i18n="archetype.q_tie1_text">—</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                    <input type="radio" name="tiebreaker_executor" value="tb1_opt_yo"
+                                        class="accent-secondary tiebreaker-question">
+                                    <span
+                                        class="text-xs text-on-background group-hover:text-secondary transition-colors"
+                                        data-i18n="archetype.q_tie1_optA">—</span>
+                                </label>
+                                <label
+                                    class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
+                                    <input type="radio" name="tiebreaker_executor" value="tb1_opt_comite"
+                                        class="accent-secondary tiebreaker-question">
+                                    <span
+                                        class="text-xs text-on-background group-hover:text-secondary transition-colors"
+                                        data-i18n="archetype.q_tie1_optB">—</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
+                </section>
 
-                    <!-- Tiebreaker (oculto por defecto) -->
-                    <div id="tiebreaker-container" class="hidden space-y-4">
-                        <p class="text-sm text-on-surface-variant mb-4" data-i18n="archetype.q_tie1_text">—</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
-                                <input type="radio" name="tiebreaker_executor" value="tb1_opt_yo" class="accent-secondary tiebreaker-question">
-                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q_tie1_optA">—</span>
-                            </label>
-                            <label class="flex items-center gap-3 p-4 border border-outline-variant bg-surface/20 hover:border-secondary transition-all cursor-pointer group">
-                                <input type="radio" name="tiebreaker_executor" value="tb1_opt_comite" class="accent-secondary tiebreaker-question">
-                                <span class="text-xs text-on-background group-hover:text-secondary transition-colors" data-i18n="archetype.q_tie1_optB">—</span>
-                            </label>
-                        </div>
+                <section class="feed-container mb-16 pb-8 border-b border-outline-variant">
+                    <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6"
+                        data-i18n="feed.market">—</h2>
+                    <div class="flex gap-8 mb-6 text-sm font-mono text-on-surface-variant tracking-wider">
+                        <span data-i18n="feed.ticker_xau">—</span>
+                        <span data-i18n="feed.ticker_sofr">—</span>
                     </div>
-                </div>
-            </section>
+                    <article
+                        class="p-5 mb-4 border-l-2 border-secondary bg-surface/30 backdrop-blur-sm hover:bg-surface/50 transition-all duration-300 cursor-default"
+                        data-i18n="feed.news_q3">—</article>
+                    <article
+                        class="p-5 mb-4 border-l-2 border-secondary bg-surface/30 backdrop-blur-sm hover:bg-surface/50 transition-all duration-300 cursor-default"
+                        data-i18n="feed.news_kyc">—</article>
+                </section>
 
-            <section class="feed-container mb-16 pb-8 border-b border-outline-variant">
-                <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6"
-                    data-i18n="feed.market">—</h2>
-                <div class="flex gap-8 mb-6 text-sm font-mono text-on-surface-variant tracking-wider">
-                    <span data-i18n="feed.ticker_xau">—</span>
-                    <span data-i18n="feed.ticker_sofr">—</span>
-                </div>
-                <article
-                    class="p-5 mb-4 border-l-2 border-secondary bg-surface/30 backdrop-blur-sm hover:bg-surface/50 transition-all duration-300 cursor-default"
-                    data-i18n="feed.news_q3">—</article>
-                <article
-                    class="p-5 mb-4 border-l-2 border-secondary bg-surface/30 backdrop-blur-sm hover:bg-surface/50 transition-all duration-300 cursor-default"
-                    data-i18n="feed.news_kyc">—</article>
-            </section>
-
-            <section class="legislation-container pb-8">
-                <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6"
-                    data-i18n="feed.legislation">—</h2>
-                <p class="text-sm text-on-surface-variant leading-relaxed mb-6 max-w-xl" data-i18n="feed.basel_desc">—</p>
-                <button type="button"
-                    class="text-xs uppercase tracking-[0.2em] text-secondary hover:text-secondary-hover transition-colors duration-300 border-b border-secondary/30 pb-0.5 hover:border-secondary"
-                    data-action="DirectivesView" data-i18n="feed.directives_link">—</button>
-            </section>
+                <section class="legislation-container pb-8">
+                    <h2 class="font-serif text-2xl font-medium tracking-wide text-on-background mb-6"
+                        data-i18n="feed.legislation">—</h2>
+                    <p class="text-sm text-on-surface-variant leading-relaxed mb-6 max-w-xl"
+                        data-i18n="feed.basel_desc">—</p>
+                    <button type="button"
+                        class="text-xs uppercase tracking-[0.2em] text-secondary hover:text-secondary-hover transition-colors duration-300 border-b border-secondary/30 pb-0.5 hover:border-secondary"
+                        data-action="DirectivesView" data-i18n="feed.directives_link">—</button>
+                </section>
             </div><!-- /#orbit-2-main-content -->
 
             <!-- [TAB-INJ-01] Target de inyección de gadgets -->
             <div id="tab-content-container" class="hidden w-full"></div>
 
             <!-- ═══ PEAJE LEGAL FIDUCIARIO (E4-LEGAL-GATE-01 · 2026-05-26) ═══ -->
-            <div id="legal-attestation-gate" class="hidden fixed inset-0 z-[100] bg-[var(--crm-bg-canvas)] flex items-center justify-center">
-                <div class="max-w-xl w-full mx-4 p-8 border border-[var(--crm-border)] rounded-xl bg-[var(--crm-bg-surface)] backdrop-blur-md shadow-2xl">
-                    <p class="text-[9px] uppercase tracking-[0.3em] text-[var(--crm-text-secondary)] font-mono mb-2">COMPLIANCE · AIP PLATFORM</p>
-                    <h2 class="font-serif text-2xl font-light tracking-[0.1em] text-[var(--crm-accent)] mb-6">INSTITUTIONAL ATTESTATION</h2>
-                    <div class="space-y-4 text-xs text-[var(--crm-text-primary)] leading-relaxed font-mono opacity-80 mb-8">
-                        <p>By entering this platform you acknowledge that AIP operates under strict fiduciary and regulatory protocols.</p>
-                        <p>All interactions are recorded in an immutable compliance ledger. This environment is restricted to qualified investors and authorized agents.</p>
+            <div id="legal-attestation-gate"
+                class="hidden fixed inset-0 z-[100] bg-[var(--crm-bg-canvas)] flex items-center justify-center">
+                <div
+                    class="max-w-xl w-full mx-4 p-8 border border-[var(--crm-border)] rounded-xl bg-[var(--crm-bg-surface)] backdrop-blur-md shadow-2xl">
+                    <p class="text-[9px] uppercase tracking-[0.3em] text-[var(--crm-text-secondary)] font-mono mb-2">
+                        COMPLIANCE · AIP PLATFORM</p>
+                    <h2 class="font-serif text-2xl font-light tracking-[0.1em] text-[var(--crm-accent)] mb-6">
+                        INSTITUTIONAL ATTESTATION</h2>
+                    <div
+                        class="space-y-4 text-xs text-[var(--crm-text-primary)] leading-relaxed font-mono opacity-80 mb-8">
+                        <p>By entering this platform you acknowledge that AIP operates under strict fiduciary and
+                            regulatory protocols.</p>
+                        <p>All interactions are recorded in an immutable compliance ledger. This environment is
+                            restricted to qualified investors and authorized agents.</p>
                     </div>
-                    <button type="button" id="btn-attest-enter" class="w-full py-4 border border-[var(--crm-border-subtle)] hover:border-[var(--crm-accent)] hover:text-[var(--crm-accent)] text-[var(--crm-text-primary)] text-[10px] uppercase tracking-[0.3em] font-mono transition-all duration-300">
+                    <button type="button" id="btn-attest-enter"
+                        class="w-full py-4 border border-[var(--crm-border-subtle)] hover:border-[var(--crm-accent)] hover:text-[var(--crm-accent)] text-[var(--crm-text-primary)] text-[10px] uppercase tracking-[0.3em] font-mono transition-all duration-300">
                         [ I ATTEST AND ENTER ]
                     </button>
                 </div>
@@ -355,98 +446,115 @@
                 <main id="orbit3-tab-sistema" class="flex flex-col flex-1 min-h-0 overflow-y-auto bg-[#0A0F1E]">
                     <!-- Zona A: Market Signals (60%) -->
                     <section class="p-4 flex flex-col gap-3 flex-[3]">
-                        <h2 class="text-[11px] uppercase tracking-[0.2em] text-[#C7A24B] font-serif mb-1">Market Signals</h2>
+                        <h2 class="text-[11px] uppercase tracking-[0.2em] text-[#C7A24B] font-serif mb-1">Market Signals
+                        </h2>
                         <div class="grid grid-cols-2 gap-2">
                             <!-- XAU/USD -->
                             <div class="orbit3-ticker-card">
                                 <div class="flex justify-between items-start">
-                                    <span class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
+                                    <span
+                                        class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
                                         <span class="dot-pulse"></span>LIVE
                                     </span>
                                     <span class="text-[9px] text-[#6E7B8B] font-mono tracking-tighter">XAU/USD</span>
                                 </div>
                                 <span class="text-white text-[18px] font-bold font-mono mt-1">2,341.20</span>
                                 <span class="text-[10px] text-green-400">▲ +0.84%</span>
-                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Basel III reclassification — institutional demand</span>
+                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Basel III
+                                    reclassification — institutional demand</span>
                             </div>
                             <!-- SOFR -->
                             <div class="orbit3-ticker-card">
                                 <div class="flex justify-between items-start">
-                                    <span class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
+                                    <span
+                                        class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
                                         <span class="dot-pulse"></span>LIVE
                                     </span>
                                     <span class="text-[9px] text-[#6E7B8B] font-mono tracking-tighter">SOFR</span>
                                 </div>
                                 <span class="text-white text-[18px] font-bold font-mono mt-1">5.32%</span>
                                 <span class="text-[10px] text-[#6E7B8B]">— 0.00</span>
-                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Active in 6 AIP Trade Finance mandates</span>
+                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Active in 6 AIP Trade
+                                    Finance mandates</span>
                             </div>
                             <!-- EUR/CHF -->
                             <div class="orbit3-ticker-card">
                                 <div class="flex justify-between items-start">
-                                    <span class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
+                                    <span
+                                        class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
                                         <span class="dot-pulse"></span>LIVE
                                     </span>
                                     <span class="text-[9px] text-[#6E7B8B] font-mono tracking-tighter">EUR/CHF</span>
                                 </div>
                                 <span class="text-white text-[18px] font-bold font-mono mt-1">0.9620</span>
                                 <span class="text-[10px] text-red-400">▼ -0.12%</span>
-                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Swiss jurisdiction — 3 active mandates</span>
+                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Swiss jurisdiction — 3
+                                    active mandates</span>
                             </div>
                             <!-- BRENT -->
                             <div class="orbit3-ticker-card">
                                 <div class="flex justify-between items-start">
-                                    <span class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
+                                    <span
+                                        class="flex items-center gap-1 text-[8px] px-1.5 py-0.5 bg-green-500/10 text-green-400 font-bold uppercase">
                                         <span class="dot-pulse"></span>LIVE
                                     </span>
                                     <span class="text-[9px] text-[#6E7B8B] font-mono tracking-tighter">BRENT</span>
                                 </div>
                                 <span class="text-white text-[18px] font-bold font-mono mt-1">82.15</span>
                                 <span class="text-[10px] text-green-400">▲ +1.20%</span>
-                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Commodity off-take pipeline: 2 qualified</span>
+                                <span class="text-[9px] italic text-[#9AA7B6] mt-1 leading-tight">Commodity off-take
+                                    pipeline: 2 qualified</span>
                             </div>
                         </div>
                         <!-- Notices: ALERT / INFO / INTEL -->
                         <div class="orbit3-notice mt-1">
                             <div class="orbit3-notice__tag bg-[#C7A24B]/15 text-[#C7A24B]">ALERT</div>
                             <div class="w-px bg-[#2B3D58]"></div>
-                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">EU AML/CFT ADVISORY: ENHANCED DUE DILIGENCE TRIGGERED FOR CROSS-BORDER VASP SETTLEMENTS.</p>
+                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">EU AML/CFT ADVISORY:
+                                ENHANCED DUE DILIGENCE TRIGGERED FOR CROSS-BORDER VASP SETTLEMENTS.</p>
                         </div>
                         <div class="orbit3-notice">
                             <div class="orbit3-notice__tag bg-[#7FB4FF]/10 text-[#7FB4FF]">INFO</div>
                             <div class="w-px bg-[#2B3D58]"></div>
-                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">AIP Q3-Q4 MANDATE ALLOCATIONS OPEN — CROSS-BORDER LIQUIDITY AGGREGATION ENABLED.</p>
+                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">AIP Q3-Q4 MANDATE
+                                ALLOCATIONS OPEN — CROSS-BORDER LIQUIDITY AGGREGATION ENABLED.</p>
                         </div>
                         <div class="orbit3-notice">
                             <div class="orbit3-notice__tag bg-[#C7A24B]/10 text-[#C7A24B]/80">INTEL</div>
                             <div class="w-px bg-[#2B3D58]"></div>
-                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">PORTUGAL INVESTMENT CLUSTER: RWA + LOGISTICS OPPORTUNITIES UNDER STAK STRUCTURES.</p>
+                            <p class="p-2 flex-1 font-mono text-white text-[10px] leading-tight">PORTUGAL INVESTMENT
+                                CLUSTER: RWA + LOGISTICS OPPORTUNITIES UNDER STAK STRUCTURES.</p>
                         </div>
                     </section>
                     <!-- Zona B: Operations Status (40%) -->
                     <section class="p-4 bg-[#070A10] border-t border-[#2B3D58] flex-[2] flex flex-col justify-center">
-                        <h2 class="text-[11px] uppercase tracking-[0.2em] text-[#C7A24B] font-serif mb-3">Operations Status</h2>
+                        <h2 class="text-[11px] uppercase tracking-[0.2em] text-[#C7A24B] font-serif mb-3">Operations
+                            Status</h2>
                         <div>
                             <div class="orbit3-status-row">
                                 <div class="flex items-center gap-2">
-                                    <span class="text-[8px] px-2 py-0.5 bg-green-500/20 text-green-400 font-bold uppercase">ACTIVE</span>
+                                    <span
+                                        class="text-[8px] px-2 py-0.5 bg-green-500/20 text-green-400 font-bold uppercase">ACTIVE</span>
                                     <span class="text-[10px] text-[#9AA7B6] font-mono">MANDATES IN PIPELINE</span>
                                 </div>
                                 <span class="text-white font-bold text-[12px] font-mono">14</span>
                             </div>
                             <div class="orbit3-status-row">
                                 <div class="flex items-center gap-2">
-                                    <span class="text-[8px] px-2 py-0.5 bg-blue-500/20 text-blue-400 font-bold uppercase">3</span>
+                                    <span
+                                        class="text-[8px] px-2 py-0.5 bg-blue-500/20 text-blue-400 font-bold uppercase">3</span>
                                     <span class="text-[10px] text-[#9AA7B6] font-mono">JURISDICTIONS MONITORED</span>
                                 </div>
                                 <span class="text-white font-bold text-[11px] font-mono">EU · CH · UAE</span>
                             </div>
                             <div class="orbit3-status-row">
                                 <div class="flex items-center gap-2">
-                                    <span class="text-[8px] px-2 py-0.5 bg-yellow-500/20 text-yellow-400 font-bold uppercase">SECURE</span>
+                                    <span
+                                        class="text-[8px] px-2 py-0.5 bg-yellow-500/20 text-yellow-400 font-bold uppercase">SECURE</span>
                                     <span class="text-[10px] text-[#9AA7B6] font-mono">INTELLIGENCE ENGINE</span>
                                 </div>
-                                <span class="text-white font-bold text-[11px] font-mono tracking-tighter">OPERATIONAL</span>
+                                <span
+                                    class="text-white font-bold text-[11px] font-mono tracking-tighter">OPERATIONAL</span>
                             </div>
                         </div>
                     </section>
@@ -478,11 +586,13 @@
                     <section id="aimon-dialog-box" class="shrink-0 mx-3 mt-3 mb-1 border border-[#1A2A3F] bg-[#070D18]">
                         <div class="flex items-center gap-2 px-3 py-1.5 border-b border-[#1A2A3F]">
                             <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#C7A24B] animate-pulse"></span>
-                            <span class="text-[8px] font-mono uppercase tracking-widest text-[#C7A24B]">AIMON // CONTEXTUAL ANALYSIS</span>
+                            <span class="text-[8px] font-mono uppercase tracking-widest text-[#C7A24B]">AIMON //
+                                CONTEXTUAL ANALYSIS</span>
                         </div>
                         <div id="aimon-dialog-content" class="px-3 py-3">
                             <p class="text-[11.5px] font-mono font-medium text-[#9AA7B6] leading-relaxed">
-                                Sin mandato activo. Selecciona una categoría o mandato en Órbita-2 para análisis contextual predictivo.
+                                Sin mandato activo. Selecciona una categoría o mandato en Órbita-2 para análisis
+                                contextual predictivo.
                             </p>
                         </div>
                     </section>
@@ -491,42 +601,52 @@
                     <section class="flex-1 overflow-y-auto pt-2 pb-6 bg-[#05070B] font-mono">
                         <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
                             <span class="text-[9px] text-[#6E7B8B]">[00:00:01]</span>
-                            <span class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">SYS</span>
+                            <span
+                                class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">SYS</span>
                             <span class="text-[10px] text-[#9AA7B6]">VISITOR SESSION INITIALIZED — UNVERIFIED</span>
                         </div>
                         <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
                             <span class="text-[9px] text-[#6E7B8B]">[00:00:02]</span>
-                            <span class="text-[8px] px-1 py-0.5 bg-green-500/10 text-green-400 uppercase font-bold">GEO</span>
+                            <span
+                                class="text-[8px] px-1 py-0.5 bg-green-500/10 text-green-400 uppercase font-bold">GEO</span>
                             <span class="text-[10px] text-[#9AA7B6]">GEO CONTEXT: EU JURISDICTION DETECTED</span>
                         </div>
                         <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
                             <span class="text-[9px] text-[#6E7B8B]">[00:00:03]</span>
-                            <span class="text-[8px] px-1 py-0.5 bg-yellow-500/10 text-yellow-400 uppercase font-bold">MKT</span>
-                            <span class="text-[10px] text-[#9AA7B6]">MARKET CONTEXT: LOADED — XAU VOLATILITY ELEVATED</span>
+                            <span
+                                class="text-[8px] px-1 py-0.5 bg-yellow-500/10 text-yellow-400 uppercase font-bold">MKT</span>
+                            <span class="text-[10px] text-[#9AA7B6]">MARKET CONTEXT: LOADED — XAU VOLATILITY
+                                ELEVATED</span>
                         </div>
                         <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
                             <span class="text-[9px] text-[#6E7B8B]">[00:00:04]</span>
-                            <span class="text-[8px] px-1 py-0.5 bg-red-500/10 text-red-400 uppercase font-bold">GATE</span>
+                            <span
+                                class="text-[8px] px-1 py-0.5 bg-red-500/10 text-red-400 uppercase font-bold">GATE</span>
                             <span class="text-[10px] text-[#9AA7B6]">INTEGRITY_SCORE: 0 — ACCESO GATE REQUIRED</span>
                         </div>
                         <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
                             <span class="text-[9px] text-[#6E7B8B]">[00:00:05]</span>
-                            <span class="text-[8px] px-1 py-0.5 bg-gray-500/10 text-[#6E7B8B] uppercase font-bold">MON</span>
+                            <span
+                                class="text-[8px] px-1 py-0.5 bg-gray-500/10 text-[#6E7B8B] uppercase font-bold">MON</span>
                             <span class="text-[10px] text-[#9AA7B6]">MANDATE TREE: LOCKED — CLEARANCE LEVEL: NONE</span>
                         </div>
                         <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
                             <span class="text-[9px] text-[#6E7B8B]">[00:00:06]</span>
-                            <span class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">SYS</span>
+                            <span
+                                class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">SYS</span>
                             <span class="text-[10px] text-[#9AA7B6]">AIMON: PASSIVE MONITORING ACTIVE</span>
                         </div>
                         <div class="grid items-center gap-2 px-3 py-1.5" style="grid-template-columns:55px 50px 1fr">
                             <span class="text-[9px] text-[#6E7B8B]">[00:00:07]</span>
                             <span class="text-[8px] px-1 py-0.5 bg-white/10 text-white uppercase font-bold">ACT</span>
-                            <span class="text-[10px] text-white font-bold">NEXT ACTION: COMPLETE ACCESO → VERIFY IDENTITY</span>
+                            <span class="text-[10px] text-white font-bold">NEXT ACTION: COMPLETE ACCESO → VERIFY
+                                IDENTITY</span>
                         </div>
-                        <div class="grid items-center gap-2 px-3 py-1.5 border-l-2 border-[#7FB4FF] bg-[#7FB4FF]/[0.03]" style="grid-template-columns:55px 50px 1fr">
+                        <div class="grid items-center gap-2 px-3 py-1.5 border-l-2 border-[#7FB4FF] bg-[#7FB4FF]/[0.03]"
+                            style="grid-template-columns:55px 50px 1fr">
                             <span class="text-[9px] text-[#6E7B8B]">[00:00:08]</span>
-                            <span class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">MON</span>
+                            <span
+                                class="text-[8px] px-1 py-0.5 bg-blue-500/10 text-blue-400 uppercase font-bold">MON</span>
                             <span class="text-[10px] text-[#9AA7B6]">AWAITING INSTITUTIONAL QUALIFICATION…</span>
                         </div>
                     </section>
@@ -538,31 +658,62 @@
 
                     <!-- SSO visible por defecto — BISTURÍ B2 · 2026-05-29 · LAND-02 -->
                     <div class="px-5 py-4 border-b border-[#2A3A52] shrink-0">
-                        <p class="text-[10px] uppercase tracking-[0.15em] text-[#9AA7B6] font-mono mb-3">ACCESO INSTITUCIONAL</p>
+                        <p class="text-[10px] uppercase tracking-[0.15em] text-[#9AA7B6] font-mono mb-3">ACCESO
+                            INSTITUCIONAL</p>
                         <!-- [H-02] OAuth buttons con branding SVG institucional + Apple -->
                         <div class="flex flex-col gap-2">
                             <!-- Google Workspace -->
                             <button type="button" data-action="OAuthSuccess" data-provider="google"
                                 class="w-full flex items-center gap-3 px-4 py-2.5 bg-white border border-white hover:brightness-95 outline-none transition-all duration-300 cursor-pointer">
-                                <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="shrink-0"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                    class="shrink-0">
+                                    <path
+                                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                        fill="#4285F4" />
+                                    <path
+                                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                        fill="#34A853" />
+                                    <path
+                                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                        fill="#FBBC05" />
+                                    <path
+                                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                        fill="#EA4335" />
+                                </svg>
                                 <span class="text-[12px] text-[#111827] font-mono font-medium">Accede con Google</span>
                             </button>
                             <!-- Microsoft Entra -->
                             <button type="button" data-action="OAuthSuccess" data-provider="microsoft"
                                 class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#2F2F2F] border border-[#2F2F2F] hover:bg-[#404040] outline-none transition-all duration-300 cursor-pointer">
-                                <svg width="16" height="16" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" class="shrink-0"><rect x="1" y="1" width="9" height="9" fill="#F25022"/><rect x="11" y="1" width="9" height="9" fill="#7FBA00"/><rect x="1" y="11" width="9" height="9" fill="#00A4EF"/><rect x="11" y="11" width="9" height="9" fill="#FFB900"/></svg>
+                                <svg width="16" height="16" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"
+                                    class="shrink-0">
+                                    <rect x="1" y="1" width="9" height="9" fill="#F25022" />
+                                    <rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
+                                    <rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
+                                    <rect x="11" y="11" width="9" height="9" fill="#FFB900" />
+                                </svg>
                                 <span class="text-[12px] text-white font-mono font-medium">Accede con Microsoft</span>
                             </button>
                             <!-- LinkedIn Professional -->
                             <button type="button" data-action="OAuthSuccess" data-provider="linkedin"
                                 class="w-full flex items-center gap-3 px-4 py-2.5 bg-[#0A66C2] border border-[#0A66C2] hover:bg-[#004182] outline-none transition-all duration-300 cursor-pointer">
-                                <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="shrink-0"><rect width="24" height="24" rx="3" fill="#0A66C2"/><path d="M6.5 8.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM5 10.5h3V19H5v-8.5zm5 0h3v1.1c.5-.8 1.5-1.3 2.8-1.3C18.1 10.3 19 11.7 19 14V19h-3v-4.5c0-1.2-.4-1.8-1.4-1.8-1.1 0-1.6.8-1.6 1.8V19h-3v-8.5z" fill="white"/></svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                    class="shrink-0">
+                                    <rect width="24" height="24" rx="3" fill="#0A66C2" />
+                                    <path
+                                        d="M6.5 8.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM5 10.5h3V19H5v-8.5zm5 0h3v1.1c.5-.8 1.5-1.3 2.8-1.3C18.1 10.3 19 11.7 19 14V19h-3v-4.5c0-1.2-.4-1.8-1.4-1.8-1.1 0-1.6.8-1.6 1.8V19h-3v-8.5z"
+                                        fill="white" />
+                                </svg>
                                 <span class="text-[12px] text-white font-mono font-medium">Accede con LinkedIn</span>
                             </button>
                             <!-- Apple -->
                             <button type="button" data-action="OAuthSuccess" data-provider="apple"
                                 class="w-full flex items-center gap-3 px-4 py-2.5 bg-black border border-[#333] hover:bg-[#1a1a1a] outline-none transition-all duration-300 cursor-pointer">
-                                <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="shrink-0" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                    class="shrink-0" fill="white">
+                                    <path
+                                        d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                                </svg>
                                 <span class="text-[12px] text-white font-mono font-medium">Accede con Apple</span>
                             </button>
                         </div>
@@ -586,62 +737,70 @@
                         <!-- [E6-T11] Campos exclusivos de registro (ocultos en modo sign-in) -->
                         <div id="aip-signup-fields" class="hidden">
 
-                        <!-- Perfil: Inversor / Agente / Fundador — BISTURÍ B3 · 2026-05-29 · LAND-02 -->
-                        <div class="flex flex-col gap-1.5">
-                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono">Perfil *</label>
-                            <div class="flex gap-5">
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="aip-perfil" value="inversor" class="accent-[#7FB4FF]" checked>
-                                    <span class="text-[12px] text-[#D7DEE7] font-mono">Inversor</span>
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="aip-perfil" value="agente" class="accent-[#7FB4FF]">
-                                    <span class="text-[12px] text-[#D7DEE7] font-mono">Agente</span>
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="aip-perfil" value="fundador" class="accent-[#7FB4FF]">
-                                    <span class="text-[12px] text-[#D7DEE7] font-mono">Fundador</span>
-                                </label>
+                            <!-- Perfil: Inversor / Agente / Fundador — BISTURÍ B3 · 2026-05-29 · LAND-02 -->
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono">Perfil
+                                    *</label>
+                                <div class="flex gap-5">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="aip-perfil" value="inversor" class="accent-[#7FB4FF]"
+                                            checked>
+                                        <span class="text-[12px] text-[#D7DEE7] font-mono">Inversor</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="aip-perfil" value="agente" class="accent-[#7FB4FF]">
+                                        <span class="text-[12px] text-[#D7DEE7] font-mono">Agente</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="aip-perfil" value="fundador" class="accent-[#7FB4FF]">
+                                        <span class="text-[12px] text-[#D7DEE7] font-mono">Fundador</span>
+                                    </label>
+                                </div>
+                                <!-- Hint Fundador — toggle: ignition pendiente de wiring -->
+                                <div id="aip-fundador-hint"
+                                    class="hidden text-[9px] italic text-[#C7A24B] mt-1 font-mono">
+                                    ¿Tienes un proyecto? AIP Ventures está abierto a presentaciones cualificadas.
+                                </div>
                             </div>
-                            <!-- Hint Fundador — toggle: ignition pendiente de wiring -->
-                            <div id="aip-fundador-hint" class="hidden text-[9px] italic text-[#C7A24B] mt-1 font-mono">
-                                ¿Tienes un proyecto? AIP Ventures está abierto a presentaciones cualificadas.
+
+                            <!-- Entidad (visible solo si perfil=Agente) -->
+                            <div id="aip-entidad-wrap" class="hidden flex-col gap-1">
+                                <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono"
+                                    for="aip-entidad">Entidad / Persona Representada *</label>
+                                <input id="aip-entidad" type="text" placeholder="Nombre de la entidad o persona"
+                                    class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
                             </div>
-                        </div>
 
-                        <!-- Entidad (visible solo si perfil=Agente) -->
-                        <div id="aip-entidad-wrap" class="hidden flex-col gap-1">
-                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-entidad">Entidad / Persona Representada *</label>
-                            <input id="aip-entidad" type="text" placeholder="Nombre de la entidad o persona"
-                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
-                        </div>
+                            <!-- Nombre y Apellidos -->
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono"
+                                    for="aip-nombre">Nombre y Apellidos *</label>
+                                <input id="aip-nombre" type="text" placeholder="Nombre completo"
+                                    class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                            </div>
 
-                        <!-- Nombre y Apellidos -->
-                        <div class="flex flex-col gap-1">
-                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-nombre">Nombre y Apellidos *</label>
-                            <input id="aip-nombre" type="text" placeholder="Nombre completo"
-                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
-                        </div>
-
-                        <!-- Razón Social -->
-                        <div class="flex flex-col gap-1">
-                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-razon">Razón Social *</label>
-                            <input id="aip-razon" type="text" placeholder="Empresa o institución"
-                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
-                        </div>
+                            <!-- Razón Social -->
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono"
+                                    for="aip-razon">Razón Social *</label>
+                                <input id="aip-razon" type="text" placeholder="Empresa o institución"
+                                    class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                            </div>
 
                         </div><!-- /aip-signup-fields -->
 
                         <!-- Correo Electrónico — visible en ambos modos -->
                         <div class="flex flex-col gap-1">
-                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-email">Correo Electrónico *</label>
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono"
+                                for="aip-email">Correo Electrónico *</label>
                             <input id="aip-email" type="email" placeholder="nombre@empresa.com" autocomplete="off"
                                 class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
                         </div>
 
                         <!-- Contraseña -->
                         <div class="flex flex-col gap-1">
-                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-password">Contraseña *</label>
+                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono"
+                                for="aip-password">Contraseña *</label>
                             <input id="aip-password" type="password" placeholder="••••••••"
                                 class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
                         </div>
@@ -649,52 +808,59 @@
                         <!-- [E6-T11] Campos extra de registro (ocultos en sign-in) -->
                         <div id="aip-signup-extra" class="hidden">
 
-                        <!-- Teléfono: prefijo + número -->
-                        <div class="flex flex-col gap-1">
-                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono">Teléfono *</label>
-                            <div class="flex gap-2">
-                                <select id="aip-tel-prefix"
-                                    class="w-20 shrink-0 px-2 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono focus:border-[#7FB4FF] outline-none transition-colors">
-                                    <option value="+1">+1</option>
-                                    <option value="+34" selected>+34</option>
-                                    <option value="+44">+44</option>
-                                    <option value="+41">+41</option>
-                                    <option value="+33">+33</option>
-                                    <option value="+49">+49</option>
-                                    <option value="+39">+39</option>
-                                    <option value="+55">+55</option>
-                                    <option value="+52">+52</option>
-                                    <option value="+971">+971</option>
-                                    <option value="+65">+65</option>
-                                </select>
-                                <input id="aip-tel-num" type="tel" placeholder="600 000 000"
-                                    class="flex-1 px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                            <!-- Teléfono: prefijo + número -->
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono">Teléfono
+                                    *</label>
+                                <div class="flex gap-2">
+                                    <select id="aip-tel-prefix"
+                                        class="w-20 shrink-0 px-2 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono focus:border-[#7FB4FF] outline-none transition-colors">
+                                        <option value="+1">+1</option>
+                                        <option value="+34" selected>+34</option>
+                                        <option value="+44">+44</option>
+                                        <option value="+41">+41</option>
+                                        <option value="+33">+33</option>
+                                        <option value="+49">+49</option>
+                                        <option value="+39">+39</option>
+                                        <option value="+55">+55</option>
+                                        <option value="+52">+52</option>
+                                        <option value="+971">+971</option>
+                                        <option value="+65">+65</option>
+                                    </select>
+                                    <input id="aip-tel-num" type="tel" placeholder="600 000 000"
+                                        class="flex-1 px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors">
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Motivos con contador en tiempo real -->
-                        <div class="flex flex-col gap-1">
-                            <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono" for="aip-motivos">Motivos de la solicitud *</label>
-                            <textarea id="aip-motivos" rows="4"
-                                placeholder="Describa brevemente su interés en acceder a la plataforma AIP..."
-                                class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors resize-none"></textarea>
-                            <div class="flex items-center justify-between mt-0.5">
-                                <p id="aip-motivos-error" class="hidden text-[10px] font-mono text-[#FF4757]">Mín. 12 palabras, máx. 45.</p>
-                                <p id="aip-motivos-count" class="text-[10px] font-mono text-[#9AA7B6] ml-auto">Palabras: 0 / 45</p>
+                            <!-- Motivos con contador en tiempo real -->
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] uppercase tracking-[0.1em] text-[#9AA7B6] font-mono"
+                                    for="aip-motivos">Motivos de la solicitud *</label>
+                                <textarea id="aip-motivos" rows="4"
+                                    placeholder="Describa brevemente su interés en acceder a la plataforma AIP..."
+                                    class="w-full px-3 py-2 bg-[#111827] border border-[#2A3A52] text-[12px] text-[#FFFFFF] font-mono placeholder:text-[#9AA7B6]/40 focus:border-[#7FB4FF] outline-none transition-colors resize-none"></textarea>
+                                <div class="flex items-center justify-between mt-0.5">
+                                    <p id="aip-motivos-error" class="hidden text-[10px] font-mono text-[#FF4757]">Mín.
+                                        12 palabras, máx. 45.</p>
+                                    <p id="aip-motivos-count" class="text-[10px] font-mono text-[#9AA7B6] ml-auto">
+                                        Palabras: 0 / 45</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Checkboxes de compliance -->
-                        <div class="flex flex-col gap-2 pt-1">
-                            <label class="flex items-start gap-2 cursor-pointer">
-                                <input id="aip-check-comms" type="checkbox" class="accent-[#7FB4FF] mt-0.5 shrink-0">
-                                <span class="text-[11px] text-[#9AA7B6] font-mono leading-relaxed">Acepto recibir comunicaciones operativas</span>
-                            </label>
-                            <label class="flex items-start gap-2 cursor-pointer">
-                                <input id="aip-check-data" type="checkbox" class="accent-[#7FB4FF] mt-0.5 shrink-0">
-                                <span class="text-[11px] text-[#9AA7B6] font-mono leading-relaxed">Acepto el tratamiento de datos fiduciarios</span>
-                            </label>
-                        </div>
+                            <!-- Checkboxes de compliance -->
+                            <div class="flex flex-col gap-2 pt-1">
+                                <label class="flex items-start gap-2 cursor-pointer">
+                                    <input id="aip-check-comms" type="checkbox"
+                                        class="accent-[#7FB4FF] mt-0.5 shrink-0">
+                                    <span class="text-[11px] text-[#9AA7B6] font-mono leading-relaxed">Acepto recibir
+                                        comunicaciones operativas</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer">
+                                    <input id="aip-check-data" type="checkbox" class="accent-[#7FB4FF] mt-0.5 shrink-0">
+                                    <span class="text-[11px] text-[#9AA7B6] font-mono leading-relaxed">Acepto el
+                                        tratamiento de datos fiduciarios</span>
+                                </label>
+                            </div>
 
                         </div><!-- /aip-signup-extra -->
 
@@ -704,8 +870,10 @@
                             style="background:#7FB4FF;color:#05070B;">
                             ACCEDER
                         </button>
-                        <p id="aip-form-error" class="hidden text-[10px] font-mono text-[#FF4757] text-center">Complete todos los campos requeridos correctamente.</p>
-                        <p id="aip-signin-error" class="hidden text-[10px] font-mono text-[#FF4757] text-center">Correo o contraseña incorrectos.</p>
+                        <p id="aip-form-error" class="hidden text-[10px] font-mono text-[#FF4757] text-center">Complete
+                            todos los campos requeridos correctamente.</p>
+                        <p id="aip-signin-error" class="hidden text-[10px] font-mono text-[#FF4757] text-center">Correo
+                            o contraseña incorrectos.</p>
                     </form>
 
                 </main>
@@ -723,7 +891,8 @@
         </aside>
     </main>
 
-    <footer class="flex-none z-40 flex flex-col lg:flex-row justify-between gap-4 items-center px-8 py-3 text-[10px] uppercase tracking-[0.2em] border-t border-[var(--stitch-border)] bg-[var(--stitch-bg-dark)]/90 backdrop-blur-md">
+    <footer
+        class="flex-none z-40 flex flex-col lg:flex-row justify-between gap-4 items-center px-8 py-3 text-[10px] uppercase tracking-[0.2em] border-t border-[var(--stitch-border)] bg-[var(--stitch-bg-dark)]/90 backdrop-blur-md">
         <div class="hidden lg:block lg:w-1/3">
             <p class="text-white/30 whitespace-nowrap" data-i18n="footer.copyright">—</p>
         </div>
@@ -733,8 +902,10 @@
 
         <!-- ENLACES INSTITUCIONALES -->
         <div class="flex items-center justify-end gap-6 w-full lg:w-1/3">
-            <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity" data-action="OpenPage" data-page="faq">FAQ</button>
-            <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity" data-action="OpenPage" data-page="contact">Contacto</button>
+            <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity"
+                data-action="OpenPage" data-page="faq">FAQ</button>
+            <button type="button" class="text-[var(--stitch-gold)] opacity-70 hover:opacity-100 transition-opacity"
+                data-action="OpenPage" data-page="contact">Contacto</button>
             <!-- ÓRBITA 4 — trigger oculto (ORB4-APPINTENT-01). El botón público fue
                  retirado del footer 2026-06-17: el acceso a Órbita 4 se gestiona
                  desde dentro del CRM, no desde la landing pública. El id se preserva
@@ -745,7 +916,7 @@
 
     <!-- [FOOTER-EXP-01] JSZip vendorizado (UMD → window.JSZip) para el gadget
          <aip-uploader>. Script clásico, debe cargar antes que los módulos. -->
-    <script src="./src/vendor/jszip.min.js"></script>
+    <script type="module" src="./src/vendor/jszip.min.js"></script>
 
     <script type="module" src="./src/gadgets/aip-ticker.js"></script>
     <script type="module" src="./src/gadgets/aip-trinity-layout.js"></script>
@@ -768,10 +939,7 @@
          (aip-trinity-layout.js, data-action="ExitCRM"). Este botón fijo queda
          NEUTRALIZADO (display:none permanente) — se conserva el id por si algún
          legacy lo referencia, pero ya no es la vía de salida. -->
-    <button type="button" id="crm-exit-btn"
-        style="display:none !important;"
-        class="hidden"
-        aria-hidden="true">
+    <button type="button" id="crm-exit-btn" style="display:none !important;" class="hidden" aria-hidden="true">
         ← EXIT CRM (legacy)
     </button>
 
@@ -799,12 +967,14 @@
             box-sizing: border-box;
             pointer-events: none;
         }
+
         #orb4-kyc-shell:not(:empty) {
             background: rgba(4, 7, 15, 0.93);
             backdrop-filter: blur(6px);
             pointer-events: all;
         }
-        #orb4-kyc-shell > * {
+
+        #orb4-kyc-shell>* {
             display: block;
             width: 100%;
             max-width: 720px;
@@ -824,13 +994,15 @@
             box-sizing: border-box;
             pointer-events: none;
         }
+
         #v13-shell:not(:empty) {
             background: rgba(4, 7, 15, 0.93);
             backdrop-filter: blur(6px);
             pointer-events: all;
         }
+
         /* Garantiza que cualquier Web Component montado en el shell sea bloque centrado */
-        #v13-shell > * {
+        #v13-shell>* {
             display: block;
             width: 100%;
             max-width: 600px;
@@ -844,9 +1016,10 @@
          Activado por OpenPage data-page="faq" desde footer.
          ═══════════════════════════════════════════════════════════════════ -->
     <div id="modal-faq"
-         class="hidden fixed inset-0 z-[9800] flex items-start justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-12 px-4"
-         role="dialog" aria-modal="true" aria-labelledby="modal-faq-title">
-        <div class="relative w-full max-w-3xl bg-[var(--abyss-bg-base)] border border-[var(--abyss-border-strong)] p-8 md:p-12">
+        class="hidden fixed inset-0 z-[9800] flex items-start justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-12 px-4"
+        role="dialog" aria-modal="true" aria-labelledby="modal-faq-title">
+        <div
+            class="relative w-full max-w-3xl bg-[var(--abyss-bg-base)] border border-[var(--abyss-border-strong)] p-8 md:p-12">
 
             <!-- Header -->
             <div class="flex items-center justify-between mb-10 border-b border-[var(--abyss-border)] pb-6">
@@ -854,8 +1027,8 @@
                     class="font-serif text-2xl font-light tracking-wide text-[var(--abyss-text-primary)]"
                     data-i18n="faq.modal.title">—</h2>
                 <button type="button"
-                        class="modal-close flex items-center gap-1.5 text-[var(--abyss-text-muted)] hover:text-[var(--abyss-gold)] transition-colors"
-                        data-modal="faq" aria-label="Cerrar">
+                    class="modal-close flex items-center gap-1.5 text-[var(--abyss-text-muted)] hover:text-[var(--abyss-gold)] transition-colors"
+                    data-modal="faq" aria-label="Cerrar">
                     <span class="material-symbols-outlined text-[18px]">close</span>
                 </button>
             </div>
@@ -934,8 +1107,8 @@
          Activado por OpenPage data-page="contact" desde footer.
          ═══════════════════════════════════════════════════════════════════ -->
     <div id="modal-contact"
-         class="hidden fixed inset-0 z-[9800] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
-         role="dialog" aria-modal="true" aria-labelledby="modal-contact-title">
+        class="hidden fixed inset-0 z-[9800] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
+        role="dialog" aria-modal="true" aria-labelledby="modal-contact-title">
         <div class="relative w-full max-w-md bg-[var(--abyss-bg-base)] border border-[var(--abyss-border-strong)] p-8">
 
             <!-- Header -->
@@ -944,8 +1117,8 @@
                     class="font-serif text-xl font-light tracking-wide text-[var(--abyss-text-primary)]"
                     data-i18n="contact.modal.title">—</h2>
                 <button type="button"
-                        class="modal-close flex items-center gap-1.5 text-[var(--abyss-text-muted)] hover:text-[var(--abyss-gold)] transition-colors"
-                        data-modal="contact" aria-label="Cerrar">
+                    class="modal-close flex items-center gap-1.5 text-[var(--abyss-text-muted)] hover:text-[var(--abyss-gold)] transition-colors"
+                    data-modal="contact" aria-label="Cerrar">
                     <span class="material-symbols-outlined text-[18px]">close</span>
                 </button>
             </div>
@@ -953,222 +1126,229 @@
             <!-- Canales -->
             <div class="flex flex-col gap-3 mb-8">
                 <a data-contact-link="whatsapp" target="_blank" rel="noopener noreferrer"
-                   class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
+                    class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
                     <span class="material-symbols-outlined text-lg shrink-0">chat</span>
-                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.whatsapp">—</span>
-                    <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono"
+                        data-i18n="contact.btn.whatsapp">—</span>
+                    <span
+                        class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </a>
                 <a data-contact-link="telegram" target="_blank" rel="noopener noreferrer"
-                   class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
+                    class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
                     <span class="material-symbols-outlined text-lg shrink-0">send</span>
-                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.telegram">—</span>
-                    <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono"
+                        data-i18n="contact.btn.telegram">—</span>
+                    <span
+                        class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </a>
                 <a data-contact-link="email"
-                   class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
+                    class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-border-strong)] hover:border-[var(--abyss-gold)] text-[var(--abyss-text-secondary)] hover:text-[var(--abyss-gold)] transition-all duration-300 group">
                     <span class="material-symbols-outlined text-lg shrink-0">mail</span>
-                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.mail">—</span>
-                    <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                    <span class="text-[11px] uppercase tracking-[0.25em] font-mono"
+                        data-i18n="contact.btn.mail">—</span>
+                    <span
+                        class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
                 </a>
                 <a data-contact-link="pdf_dossier"
-                   class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-gold)]/40 hover:border-[var(--abyss-gold)] text-[var(--abyss-gold)]/70 hover:text-[var(--abyss-gold)] transition-all duration-300 group">
+                    class="flex items-center gap-4 px-5 py-3.5 border border-[var(--abyss-gold)]/40 hover:border-[var(--abyss-gold)] text-[var(--abyss-gold)]/70 hover:text-[var(--abyss-gold)] transition-all duration-300 group">
                     <span class="material-symbols-outlined text-lg shrink-0">picture_as_pdf</span>
                     <span class="text-[11px] uppercase tracking-[0.25em] font-mono" data-i18n="contact.btn.pdf">—</span>
-                    <span class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">download</span>
+                    <span
+                        class="material-symbols-outlined text-sm ml-auto opacity-0 group-hover:opacity-100 transition-opacity">download</span>
                 </a>
             </div>
 
             <!-- Nota legal -->
             <p class="text-[10px] font-mono text-[var(--abyss-text-muted)] leading-relaxed border-t border-[var(--abyss-border)] pt-5"
-               data-i18n="contact.legal">—</p>
+                data-i18n="contact.legal">—</p>
         </div>
     </div>
 
     <!-- [H-01] Chevron toggle + rail icon open wiring -->
     <!-- [H-04] AIMON dialog — subscripción a eventos Órbita-2 -->
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
 
-        // ── Chevron toggle ────────────────────────────────────────────────
-        const orbit3        = document.getElementById('orbit-3');
-        const chevronBtn    = document.getElementById('orbit3-chevron-btn');
-        const chevronIcon   = document.getElementById('orbit3-chevron-icon');
-        const contentVP     = orbit3?.querySelector('.content-viewport');
+            // ── Chevron toggle ────────────────────────────────────────────────
+            const orbit3 = document.getElementById('orbit-3');
+            const chevronBtn = document.getElementById('orbit3-chevron-btn');
+            const chevronIcon = document.getElementById('orbit3-chevron-icon');
+            const contentVP = orbit3?.querySelector('.content-viewport');
 
-        const GOLD = 'var(--crm-gold, #C7A24B)';
-        const MUTED = 'rgba(255,255,255,0.4)';
+            const GOLD = 'var(--crm-gold, #C7A24B)';
+            const MUTED = 'rgba(255,255,255,0.4)';
 
-        function setChevronState(isOpen) {
-            if (!chevronIcon) return;
-            // Abierto → apunta derecha (exterior) | Cerrado → apunta izquierda (interior)
-            chevronIcon.textContent = isOpen ? 'chevron_right' : 'chevron_left';
-            chevronIcon.style.color = isOpen ? GOLD : MUTED;
-        }
+            function setChevronState(isOpen) {
+                if (!chevronIcon) return;
+                // Abierto → apunta derecha (exterior) | Cerrado → apunta izquierda (interior)
+                chevronIcon.textContent = isOpen ? 'chevron_right' : 'chevron_left';
+                chevronIcon.style.color = isOpen ? GOLD : MUTED;
+            }
 
-        setChevronState(false);
+            setChevronState(false);
 
-        chevronBtn?.addEventListener('click', () => {
-            if (!orbit3?.classList.contains('active')) return;
-            const closing = !orbit3.classList.contains('orbit3-collapsed');
-            if (contentVP) contentVP.classList.toggle('hidden', closing);
-            orbit3.classList.toggle('orbit3-collapsed', closing);
-            setChevronState(!closing);
-        });
+            chevronBtn?.addEventListener('click', () => {
+                if (!orbit3?.classList.contains('active')) return;
+                const closing = !orbit3.classList.contains('orbit3-collapsed');
+                if (contentVP) contentVP.classList.toggle('hidden', closing);
+                orbit3.classList.toggle('orbit3-collapsed', closing);
+                setChevronState(!closing);
+            });
 
-        chevronBtn?.addEventListener('mouseenter', () => {
-            if (chevronIcon) chevronIcon.style.color = GOLD;
-        });
-        chevronBtn?.addEventListener('mouseleave', () => {
-            const isOpen = orbit3?.classList.contains('active') && !orbit3.classList.contains('orbit3-collapsed');
-            if (chevronIcon) chevronIcon.style.color = isOpen ? GOLD : MUTED;
-        });
+            chevronBtn?.addEventListener('mouseenter', () => {
+                if (chevronIcon) chevronIcon.style.color = GOLD;
+            });
+            chevronBtn?.addEventListener('mouseleave', () => {
+                const isOpen = orbit3?.classList.contains('active') && !orbit3.classList.contains('orbit3-collapsed');
+                if (chevronIcon) chevronIcon.style.color = isOpen ? GOLD : MUTED;
+            });
 
-        // Rail icons → expanden panel si estaba colapsado vía chevron
-        document.querySelectorAll('.rail-node[data-rail-tab]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (orbit3?.classList.contains('orbit3-collapsed')) {
-                    if (contentVP) contentVP.classList.remove('hidden');
-                    orbit3.classList.remove('orbit3-collapsed');
-                    setChevronState(true);
+            // Rail icons → expanden panel si estaba colapsado vía chevron
+            document.querySelectorAll('.rail-node[data-rail-tab]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (orbit3?.classList.contains('orbit3-collapsed')) {
+                        if (contentVP) contentVP.classList.remove('hidden');
+                        orbit3.classList.remove('orbit3-collapsed');
+                        setChevronState(true);
+                    }
+                });
+            });
+
+            // ── AIMON dialog — subscripción a bus Órbita-2 ───────────────────
+            const dialogContent = document.getElementById('aimon-dialog-content');
+
+            const AIMON_MESSAGES = {
+                'ma-real-estate': 'Dominio activo: <strong>M&A Real Estate</strong>. Mandatos con exposición a RWA inmobiliario en jurisdicciones EU/CH. Due diligence multi-capa disponible.',
+                'commodities-trade': 'Dominio activo: <strong>Commodities Trade Finance</strong>. Oportunidades de off-take en materias primas estratégicas. Estructuras STAK y SPV disponibles.',
+                'soluciones-financieras': 'Dominio activo: <strong>Soluciones Financieras</strong>. Instrumentación de deuda privada y capital institucional. Clearance KYC-L2 recomendado.',
+                'aip-ventures': 'Dominio activo: <strong>AIP Ventures</strong>. Presentaciones de proyectos en fase de screening. Acceso a pipeline de equity early-stage.',
+            };
+
+            function updateAimonDialog(message) {
+                if (!dialogContent) return;
+                dialogContent.innerHTML = `<p class="text-[10px] font-mono text-[#D7DEE7] leading-relaxed">${message}</p>`;
+            }
+
+            document.addEventListener('Skeleton:Action:DomainFocus', (e) => {
+                const domain = e.detail?.id || e.detail?.domain;
+                const msg = AIMON_MESSAGES[domain];
+                if (msg) updateAimonDialog(msg);
+            });
+
+            document.addEventListener('Skeleton:Action:CategorySelected', (e) => {
+                const cat = e.detail?.categoryId || e.detail?.category;
+                updateAimonDialog(`Categoría seleccionada: <strong>${cat || '—'}</strong>. Analizando mandatos disponibles en pipeline…`);
+            });
+
+            document.addEventListener('Skeleton:Action:MandateSelected', (e) => {
+                const id = e.detail?.mandateId || e.detail?.id || '—';
+                const ttl = e.detail?.title || '';
+                updateAimonDialog(`Mandato activo: <strong>${id}</strong>${ttl ? ' — ' + ttl : ''}. Iniciando análisis contextual fiduciario…`);
+            });
+
+            document.addEventListener('Skeleton:Action:BackToPortfolio', () => {
+                if (dialogContent) dialogContent.innerHTML = '<p class="text-[10px] font-mono text-[#6E7B8B] italic leading-relaxed">Sin mandato activo. Selecciona una categoría o mandato en Órbita-2 para análisis contextual predictivo.</p>';
+            });
+
+            // ── [VENTURES-CTA] Orbit4VenturesSubmit — HALLAZGO-01/02 ─────
+            // El botón "PRESENTAR PROYECTO" en aip-ventures/code.html tiene
+            // data-action="Orbit4VenturesSubmit". UIBinder lo propaga como evento.
+            // Aquí lo interceptamos mediante delegación directa en document.
+            document.addEventListener('click', (ev) => {
+                const btn = ev.target.closest('[data-action="Orbit4VenturesSubmit"]');
+                if (!btn) return;
+                ev.stopPropagation();
+                // 1. Abrir Orbit-3 (mismo mecanismo que REQUEST ACCESS)
+                document.dispatchEvent(new CustomEvent('Skeleton:Action:AuthToggle', { bubbles: true }));
+                // 2. Presetear formulario en modo signup + perfil Fundador
+                document.dispatchEvent(new CustomEvent('Skeleton:Form:PresetSignup', {
+                    detail: { profile: 'fundador' },
+                    bubbles: true,
+                }));
+            }, true); // capture=true — antes de que UIBinder consuma el click
+
+            // ── Intelligence CTA → signup Agente ─────────────────────────────
+            document.addEventListener('click', (ev) => {
+                const btn = ev.target.closest('[data-action="OrbitIntelligenceSubmit"]');
+                if (!btn) return;
+                ev.stopPropagation();
+                document.dispatchEvent(new CustomEvent('Skeleton:Action:AuthToggle', { bubbles: true }));
+                document.dispatchEvent(new CustomEvent('Skeleton:Form:PresetSignup', {
+                    detail: { profile: 'agente' },
+                    bubbles: true,
+                }));
+            }, true);
+
+            // ── H-05a/b · OpenPage modal handler ─────────────────────────────
+            const MODALS = { faq: 'modal-faq', contact: 'modal-contact' };
+
+            function openModal(page) {
+                const id = MODALS[page];
+                if (!id) return;
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeModal(page) {
+                const id = MODALS[page];
+                if (!id) return;
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Delegación en UIBinder via data-action="OpenPage"
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-action="OpenPage"]');
+                if (btn) {
+                    e.preventDefault();
+                    openModal(btn.dataset.page);
+                    return;
+                }
+                // Cierre por botón .modal-close
+                const closeBtn = e.target.closest('.modal-close');
+                if (closeBtn) {
+                    closeModal(closeBtn.dataset.modal);
+                    return;
+                }
+                // Cierre por clic en backdrop (el overlay mismo, no el panel interior)
+                for (const [page, id] of Object.entries(MODALS)) {
+                    const overlay = document.getElementById(id);
+                    if (overlay && !overlay.classList.contains('hidden') && e.target === overlay) {
+                        closeModal(page);
+                    }
+                }
+            });
+
+            // Cierre por Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                for (const page of Object.keys(MODALS)) {
+                    const el = document.getElementById(MODALS[page]);
+                    if (el && !el.classList.contains('hidden')) closeModal(page);
                 }
             });
         });
 
-        // ── AIMON dialog — subscripción a bus Órbita-2 ───────────────────
-        const dialogContent = document.getElementById('aimon-dialog-content');
-
-        const AIMON_MESSAGES = {
-            'ma-real-estate':       'Dominio activo: <strong>M&A Real Estate</strong>. Mandatos con exposición a RWA inmobiliario en jurisdicciones EU/CH. Due diligence multi-capa disponible.',
-            'commodities-trade':    'Dominio activo: <strong>Commodities Trade Finance</strong>. Oportunidades de off-take en materias primas estratégicas. Estructuras STAK y SPV disponibles.',
-            'soluciones-financieras':'Dominio activo: <strong>Soluciones Financieras</strong>. Instrumentación de deuda privada y capital institucional. Clearance KYC-L2 recomendado.',
-            'aip-ventures':         'Dominio activo: <strong>AIP Ventures</strong>. Presentaciones de proyectos en fase de screening. Acceso a pipeline de equity early-stage.',
-        };
-
-        function updateAimonDialog(message) {
-            if (!dialogContent) return;
-            dialogContent.innerHTML = `<p class="text-[10px] font-mono text-[#D7DEE7] leading-relaxed">${message}</p>`;
-        }
-
-        document.addEventListener('Skeleton:Action:DomainFocus', (e) => {
-            const domain = e.detail?.id || e.detail?.domain;
-            const msg = AIMON_MESSAGES[domain];
-            if (msg) updateAimonDialog(msg);
-        });
-
-        document.addEventListener('Skeleton:Action:CategorySelected', (e) => {
-            const cat = e.detail?.categoryId || e.detail?.category;
-            updateAimonDialog(`Categoría seleccionada: <strong>${cat || '—'}</strong>. Analizando mandatos disponibles en pipeline…`);
-        });
-
-        document.addEventListener('Skeleton:Action:MandateSelected', (e) => {
-            const id  = e.detail?.mandateId || e.detail?.id || '—';
-            const ttl = e.detail?.title || '';
-            updateAimonDialog(`Mandato activo: <strong>${id}</strong>${ttl ? ' — ' + ttl : ''}. Iniciando análisis contextual fiduciario…`);
-        });
-
-        document.addEventListener('Skeleton:Action:BackToPortfolio', () => {
-            if (dialogContent) dialogContent.innerHTML = '<p class="text-[10px] font-mono text-[#6E7B8B] italic leading-relaxed">Sin mandato activo. Selecciona una categoría o mandato en Órbita-2 para análisis contextual predictivo.</p>';
-        });
-
-        // ── [VENTURES-CTA] Orbit4VenturesSubmit — HALLAZGO-01/02 ─────
-        // El botón "PRESENTAR PROYECTO" en aip-ventures/code.html tiene
-        // data-action="Orbit4VenturesSubmit". UIBinder lo propaga como evento.
-        // Aquí lo interceptamos mediante delegación directa en document.
-        document.addEventListener('click', (ev) => {
-            const btn = ev.target.closest('[data-action="Orbit4VenturesSubmit"]');
-            if (!btn) return;
-            ev.stopPropagation();
-            // 1. Abrir Orbit-3 (mismo mecanismo que REQUEST ACCESS)
-            document.dispatchEvent(new CustomEvent('Skeleton:Action:AuthToggle', { bubbles: true }));
-            // 2. Presetear formulario en modo signup + perfil Fundador
-            document.dispatchEvent(new CustomEvent('Skeleton:Form:PresetSignup', {
-                detail: { profile: 'fundador' },
-                bubbles: true,
-            }));
-        }, true); // capture=true — antes de que UIBinder consuma el click
-
-        // ── Intelligence CTA → signup Agente ─────────────────────────────
-        document.addEventListener('click', (ev) => {
-            const btn = ev.target.closest('[data-action="OrbitIntelligenceSubmit"]');
-            if (!btn) return;
-            ev.stopPropagation();
-            document.dispatchEvent(new CustomEvent('Skeleton:Action:AuthToggle', { bubbles: true }));
-            document.dispatchEvent(new CustomEvent('Skeleton:Form:PresetSignup', {
-                detail: { profile: 'agente' },
-                bubbles: true,
-            }));
-        }, true);
-
-        // ── H-05a/b · OpenPage modal handler ─────────────────────────────
-        const MODALS = { faq: 'modal-faq', contact: 'modal-contact' };
-
-        function openModal(page) {
-            const id = MODALS[page];
-            if (!id) return;
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeModal(page) {
-            const id = MODALS[page];
-            if (!id) return;
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-        }
-
-        // Delegación en UIBinder via data-action="OpenPage"
-        document.addEventListener('click', (e) => {
-            const btn = e.target.closest('[data-action="OpenPage"]');
-            if (btn) {
-                e.preventDefault();
-                openModal(btn.dataset.page);
-                return;
-            }
-            // Cierre por botón .modal-close
-            const closeBtn = e.target.closest('.modal-close');
-            if (closeBtn) {
-                closeModal(closeBtn.dataset.modal);
-                return;
-            }
-            // Cierre por clic en backdrop (el overlay mismo, no el panel interior)
-            for (const [page, id] of Object.entries(MODALS)) {
-                const overlay = document.getElementById(id);
-                if (overlay && !overlay.classList.contains('hidden') && e.target === overlay) {
-                    closeModal(page);
+        // ── SEC-VEC-03 · 2026-06-05 — Contact links hydration from i18n dictionary ──
+        // Endpoints extirpados del DOM estático (R4/R5). Se inyectan en runtime.
+        // Fuente: B_SEC_contact_modal_diff.md (Bulldozer · despachos_04.1.1)
+        document.addEventListener('Skeleton:DictionaryReady', () => {
+            const i18n = window.Skeleton?.i18n;
+            if (!i18n) return;
+            document.querySelectorAll('[data-contact-link]').forEach(el => {
+                const key = el.dataset.contactLink;
+                const href = i18n.t(`contact.links.${key}`);
+                if (href && href !== '—') {
+                    el.setAttribute('href', href);
                 }
-            }
+            });
         });
-
-        // Cierre por Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key !== 'Escape') return;
-            for (const page of Object.keys(MODALS)) {
-                const el = document.getElementById(MODALS[page]);
-                if (el && !el.classList.contains('hidden')) closeModal(page);
-            }
-        });
-    });
-
-    // ── SEC-VEC-03 · 2026-06-05 — Contact links hydration from i18n dictionary ──
-    // Endpoints extirpados del DOM estático (R4/R5). Se inyectan en runtime.
-    // Fuente: B_SEC_contact_modal_diff.md (Bulldozer · despachos_04.1.1)
-    document.addEventListener('Skeleton:DictionaryReady', () => {
-        const i18n = window.Skeleton?.i18n;
-        if (!i18n) return;
-        document.querySelectorAll('[data-contact-link]').forEach(el => {
-            const key = el.dataset.contactLink;
-            const href = i18n.t(`contact.links.${key}`);
-            if (href && href !== '—') {
-                el.setAttribute('href', href);
-            }
-        });
-    });
     </script>
 </body>
 

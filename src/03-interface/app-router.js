@@ -21,10 +21,10 @@ import { ComponentRegistry } from './register-components.js';
  */
 const FSM_VIEW_MAP = Object.freeze({
     'BOOT_SEQUENCE':             null,                    // Arranque — sin vista
-    'ORBIT_1_GUEST':             null,                    // v1.2.1 gestiona el login
+    'ORBIT_1_GUEST':             'aip-legacy-landing',    // ✅ Fachada Adapter (DES-11.01)
     'ORBIT_2_GATEKEEPER':        null,                    // Transitorio — servidor valida
     'ORBIT_3_LEGAL_ATTESTATION': 'aip-legal-attestation', // ✅ Forja 5 — operativo
-    'ORBIT_3_CRM_ACTIVE':        null,                    // v1.2.1 gestiona el CRM → Forja 9+
+    'ORBIT_3_CRM_ACTIVE':        'aip-legacy-crm',        // ✅ Fachada Adapter (DES-11.01)
     'ACCESS_BLOCKED':            null,                    // Forja futura
 });
 

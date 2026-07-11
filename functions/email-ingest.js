@@ -24,11 +24,12 @@ const extractEmail = (fromField) => {
 
 exports.emailWebhook = onRequest({ maxInstances: 5 }, async (req, res) => {
     if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
-    
-    const providedKey = (req.headers['x-webhook-key'] || '').trim();
-    const envKey = (process.env.SENDGRID_WEBHOOK_KEY || '').trim();
-    
-    if (providedKey !== envKey) {
+
+    // [SECURITY-01] Validación segura de clave compartida (anti-timing attacks)
+    const providedKey = Buffer.from((req.headers['x-webhook-key'] || '').trim(), 'utf-8');
+    const envKey = Buffer.from((process.env.SENDGRID_WEBHOOK_KEY || '').trim(), 'utf-8');
+
+    if (providedKey.length === 0 || providedKey.length !== envKey.length || !crypto.timingSafeEqual(providedKey, envKey)) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
 

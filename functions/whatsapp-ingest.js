@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const db = getFirestore();
 const META_VERIFY_TOKEN = process.env.META_WEBHOOK_VERIFY_TOKEN;
 const META_ACCESS_TOKEN = process.env.META_WHATSAPP_ACCESS_TOKEN;
+const META_APP_SECRET = process.env.META_APP_SECRET;
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024;
 const ALLOWED_MIMETYPES = new Set([
     'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -31,6 +32,24 @@ exports.whatsappWebhook = onRequest({ maxInstances: 5 }, async (req, res) => {
         return res.status(403).send('Forbidden');
     }
     if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
+
+    // [SECURITY-01] Validación estricta de firma Meta (X-Hub-Signature-256)
+    const signature = req.headers['x-hub-signature-256'];
+    if (!signature || !META_APP_SECRET) {
+        return res.status(401).send('Unauthorized: Missing signature or app secret');
+    }
+
+    const expectedSignature = 'sha256=' +
+        crypto.createHmac('sha256', META_APP_SECRET)
+              .update(req.rawBody || JSON.stringify(req.body))
+              .digest('hex');
+
+    const signatureBuffer = Buffer.from(signature);
+    const expectedBuffer = Buffer.from(expectedSignature);
+    if (signatureBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {
+        return res.status(401).send('Unauthorized: Invalid signature');
+    }
+
     res.status(200).send('OK');
     
     try {

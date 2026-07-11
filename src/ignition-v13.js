@@ -110,6 +110,16 @@ ComponentRegistry.registerLazy(
     () => import('./gadgets/aip-uploader.js')
 );
 
+ComponentRegistry.registerLazy(
+    'aip-legacy-landing',
+    () => import('./03-interface/components/aip-legacy-landing.js')
+);
+
+ComponentRegistry.registerLazy(
+    'aip-legacy-crm',
+    () => import('./03-interface/components/aip-legacy-crm.js')
+);
+
 // ─── EXIT COOLDOWN — timestamp de la última salida del CRM (BUG-VAL-EXIT-01) ─────────────
 //
 // El mock session de AIPHandler re-dispara Skeleton:Gatekeeper:AccessGranted
@@ -634,31 +644,17 @@ ComponentRegistry.registerLazy(
 //
 // Idempotente — seguro ante llamadas múltiples por rutas A+C en paralelo.
 
-function _restoreLanding() {
-    // ── EXIT: reload limpio ────────────────────────────────────────────────────
-    //
-    // DIAGNÓSTICO (Rondas 3 y 4): la inversión manual de mutaciones DOM de
-    // AIPHandler (FROZEN v18.7) es estructuralmente incompleta — AIPHandler es
-    // una caja negra que toca clases, estilos inline, aria-attrs y estado interno
-    // que no tenemos mapeado. Cada ronda de validación expone una mutación nueva.
-    //
-    // SOLUCIÓN FIDUCIARIA: location.reload() garantiza:
-    //   · DOM virgen — cero arrastre de estado AIPHandler
-    //   · FSM v1.3 arranca fresco en ORBIT_1_GUEST
-    //   · Bridges re-inicializan limpios
-    //   · Cero posibilidad de estado Frankenstein
-    //
-    // El cooldown guard (_lastExitTimestamp) se resetea con el módulo en el
-    // nuevo load — no hay riesgo de doble-esclusa porque AIPHandler también
-    // arranca fresco y no re-dispara AccessGranted sin interacción del usuario.
-    //
-    // [FORJA-9+] Si en el futuro se necesita SPA-exit sin reload, implementar
-    // AIPHandler.resetToLanding() y llamarlo aquí. Por ahora, reload es correcto.
+// ─── Helper: Restaurar DOM v1.2.1 ─────────────────────────────────────────────────────────
+//
+// Invierte lo que AIPHandler._showLegalAttestation() hizo al recibir AccessGranted.
+// A partir de DES-11.01 (Fachada), ya NO se utiliza location.reload(). El AppRouter
+// desmontará <aip-legacy-crm> (ejecutando su disconnectedCallback que limpia el DOM)
+// y montará <aip-legacy-landing> (que restaura la landing) — ver [G-22], CCD-P66
+// (Alternativa C confirmada 2026-07-11). El reload anterior existía porque la
+// inversión manual de mutaciones de AIPHandler era incompleta (Rondas 3-4); la
+// Fachada reemplaza esa inversión manual por ciclo de vida de Web Component.
 
-    // [DBG-BUG-VAL-EXIT-01] CAUSA RAÍZ: onAuthStateChanged re-dispara AccessGranted
-    // en el nuevo load si la sesión Firebase no fue cerrada antes del reload.
-    // El cooldown guard (_lastExitTimestamp) se resetea con el módulo → siempre bypaseado.
-    // Solución: signOut() limpia la sesión Firebase → onAuthStateChanged(null) post-reload.
-    console.log('[Bridge v1.3] EXIT → signOut() + location.reload() — landing virgen.');
-    signOut(getAuth()).finally(() => location.reload());
+function _restoreLanding() {
+    console.log('[Bridge v1.3] EXIT → signOut() — restauración delegada a Fachada (sin reload).');
+    signOut(getAuth());
 }

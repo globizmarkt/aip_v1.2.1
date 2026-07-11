@@ -23,6 +23,7 @@ const { onCall, HttpsError } = require('firebase-functions/v2/https');
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const { getAuth } = require('firebase-admin/auth');
+const { encryptData, decryptData } = require('./crypto-utils.js');
 
 initializeApp();
 const db = getFirestore();
@@ -95,7 +96,9 @@ const ACTIONS = {
                 user_agent:   optionalString(payload.user_agent, 'user_agent'),
             };
         },
-        build(uid, p) {
+        // [SEC-FUNC-03] async: personal_data se cifra (AES-256-GCM, Secret Manager)
+        // antes de escribirse en Firestore -- ver crypto-utils.js.
+        async build(uid, p) {
             return {
                 userPatch: {
                     kyc_status:       'KYC_SUBMITTED',
@@ -111,7 +114,7 @@ const ACTIONS = {
                         back_url:      p.back_url,
                         submitted_at:  FieldValue.serverTimestamp(),
                         legal_nature:  p.legal_nature,
-                        personal_data: p.personal_data, // NOTE: cifrar PII en producciÃ³n (heredado del cÃ³digo cliente)
+                        personal_data: await encryptData(p.personal_data), // [SEC-FUNC-03] cifrado AES-256-GCM
                     },
                 },
                 auditEvent: {
@@ -135,7 +138,9 @@ const ACTIONS = {
                 user_agent:   optionalString(payload.user_agent, 'user_agent'),
             };
         },
-        build(uid, p) {
+        // [SEC-FUNC-03] async: kyb_data se cifra (AES-256-GCM, Secret Manager)
+        // antes de escribirse en Firestore -- ver crypto-utils.js.
+        async build(uid, p) {
             return {
                 userPatch: {
                     kyb_status: 'KYB_SUBMITTED',
@@ -146,7 +151,7 @@ const ACTIONS = {
                     data: {
                         uid,
                         company_name: p.company_name,
-                        kyb_data:     p.kyb_data,
+                        kyb_data:     await encryptData(p.kyb_data), // [SEC-FUNC-03] cifrado AES-256-GCM
                         submitted_at: FieldValue.serverTimestamp(),
                     },
                 },
@@ -381,7 +386,7 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
     const limitRef = await assertNotRateLimited(uid, action);
 
     const validated = await Promise.resolve(handler.validate(payload ?? {}, uid));
-    const built = handler.build(uid, validated);
+    const built = await Promise.resolve(handler.build(uid, validated));
     const { userPatch, submission, auditEvent, __setClaims } = built;
 
     // [S2] Acciones admin pueden escribir sobre un targetUid distinto al caller.
@@ -421,6 +426,50 @@ exports.executeUserAction = onCall({ minInstances: 1 }, async (request) => {
 
     await batch.commit();
     return { ok: true };
+});
+
+// [SEC-FUNC-03] Descifrado de PII — exclusivo server-side, roles elevados.
+// El descifrado NO ocurre en el cliente ni pasa por executeUserAction (ese
+// dispatcher solo devuelve { ok: true }, no datos). Función propia onCall,
+// mismo patrón de guard de rol que setIntegrityScore/aprobación KYC (users/{uid}.rol).
+exports.decryptKycData = onCall({ minInstances: 0 }, async (request) => {
+    const callerUid = request.auth?.uid;
+    if (!callerUid) {
+        throw new HttpsError('unauthenticated', 'Requiere usuario autenticado');
+    }
+
+    const callerSnap = await db.doc(`users/${callerUid}`).get();
+    const callerRole = callerSnap.data()?.rol;
+    if (!['superadmin', 'partner', 'desk_manager'].includes(callerRole)) {
+        throw new HttpsError('permission-denied', 'Rol insuficiente para descifrar datos PII.');
+    }
+
+    const targetUid = request.data?.targetUid;
+    if (!targetUid || typeof targetUid !== 'string') {
+        throw new HttpsError('invalid-argument', 'targetUid requerido');
+    }
+
+    const [kycDoc, kybDoc] = await Promise.all([
+        db.collection('kyc_submissions').doc(targetUid).get(),
+        db.collection('kyc_kyb_submissions').doc(targetUid).get(),
+    ]);
+
+    const response = { uid: targetUid };
+
+    if (kycDoc.exists && kycDoc.data().personal_data?.ciphertext) {
+        response.personal_data = await decryptData(kycDoc.data().personal_data);
+    }
+    if (kybDoc.exists && kybDoc.data().kyb_data?.ciphertext) {
+        response.kyb_data = await decryptData(kybDoc.data().kyb_data);
+    }
+
+    await db.collection(`audit_log/${targetUid}/events`).add({
+        action: 'DECRYPT_PII',
+        caller_uid: callerUid,
+        timestamp: FieldValue.serverTimestamp(),
+    });
+
+    return response;
 });
 
 // [SEC-05-TEMP] seedMandatePilot â€” ELIMINADO 2026-06-25
@@ -559,3 +608,6 @@ exports.emailWebhook = require('./email-ingest').emailWebhook;
 // [BHUB-INGESTA] Exportacion de webhooks multicanal
 exports.emailWebhook = require('./email-ingest').emailWebhook;
 exports.whatsappWebhook = require('./whatsapp-ingest').whatsappWebhook;
+
+// [BHUB-DIGEST-01] Digest diario 8:00 (AS-5, despacho .17) — registro de wiring
+exports.dailyDigest = require('./daily-digest').dailyDigest;
